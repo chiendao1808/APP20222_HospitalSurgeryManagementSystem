@@ -1,0 +1,30 @@
+#Cấu hình server
+server:
+  port: 8082
+
+# Cấu hình datasource
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://ep-broad-cloud-455155.ap-southeast-1.aws.neon.tech:5432/app20222?currentSchema=app20222_db
+    username: app20222_admin
+    password: 5SrcvlD4CLFJ
+    hikari:
+      schema: app20222_db
+  jpa:
+    hibernate:
+        useNewIdGeneratorMappings: false
+        ddlAuto: none
+    properties:
+      hibernate:
+        show_sql: false
+        use_sql_comment: true
+        format_sql: true
+
+# Cấu hình Json Web Token
+jwt:
+  secretKey: APP2022@Ksu295JdkjK
+  accessTokenExpiredMs: 10000
+  refreshTokenExpiredMs: 10000000
+
+
