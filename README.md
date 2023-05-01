@@ -7,6 +7,6 @@
 * Tran Dinh Huynh
 * Hoang Dinh Duc
 ## Project Techniques:
-* Backend: Java + Spring Boot
-* Frontend: JavaFX + SceneBuilder
+* Backend: Java (JDK 11) + Spring Boot
+* Frontend: JavaFX + SceneBuilder (Gluonq Ver)
 * Database: PostgreSQL (Neon AWS Server)
