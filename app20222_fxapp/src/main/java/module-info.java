@@ -15,10 +15,16 @@ module com.app20222.app20222_fxapp {
         requires org.apache.commons.codec;
 
 
-        // Http request
+        // Http request + json proccess
         requires java.net.http;
         requires org.apache.httpcomponents.httpcore;
         requires org.apache.httpcomponents.httpclient;
+        requires okhttp3;
+        requires json.path;
+        requires org.json;
+        requires com.google.common;
+        requires com.google.api.client;
+
 
         // FX Extended Module
         requires org.controlsfx.controls;
@@ -36,4 +42,5 @@ module com.app20222.app20222_fxapp {
     exports com.app20222.app20222_fxapp.dto.responses;
 
     opens com.app20222.app20222_fxapp.app_controllers to javafx.fxml;
+    exports com.app20222.app20222_fxapp.dto.responses.users;
 }

@@ -1,4 +1,38 @@
 package com.app20222.app20222_backend.enums.users;
 
-public class IdentityTypeEnum {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+import java.util.Objects;
+
+@AllArgsConstructor
+@Getter
+public enum IdentityTypeEnum {
+
+    ID_CARD(0, "Chứng minh thư nhân dân"),
+    CITIZEN_ID_CARD(1, "Căn cước công dân"),
+    PASSPORT(2, "Hộ chiếu");
+
+
+    private final Integer value;
+    private final String type;
+
+    /**
+     * @param value : int type
+     * @return : enum type
+     */
+    public static IdentityTypeEnum valueOf(Integer value) {
+        if (Objects.isNull(value)) return null;
+        switch (value) {
+            case 0:
+                return ID_CARD;
+            case 1:
+                return CITIZEN_ID_CARD;
+            case 2:
+                return PASSPORT;
+            default:
+                return null;
+        }
+    }
+
 }

@@ -11,4 +11,6 @@ public class ApiConstants {
     public static final String API_LOCAL_IP = "127.0.0.1:8082";
 
     public static final String DEFAULT_API_PATH = "/app20222/api";
+
+    public static final String PUBLIC_API = "/public";
 }
