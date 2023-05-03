@@ -24,7 +24,7 @@ public class MainController {
         try{
             String apiPath = APIDetails.HELLO.getRequestPath() + APIDetails.HELLO.getDetailPath();
             String uri = ApiUtils.buildURI(apiPath, new HashMap<>());
-            List<BaseResponse> lstResponse = HttpUtils.doRequest(uri, HttpMethods.GET, new TypeReference<>(){}, new Object());
+            List<BaseResponse> lstResponse = HttpUtils.doRequest(uri, HttpMethods.GET, new TypeReference<>(){}, new Object(), new HashMap<>());
             message = Objects.requireNonNull(lstResponse).stream().map(BaseResponse::getMessage).collect(Collectors.toList()).toString();
         } catch (Exception exception){
             exception.printStackTrace();

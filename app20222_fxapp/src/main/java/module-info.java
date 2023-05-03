@@ -24,6 +24,7 @@ module com.app20222.app20222_fxapp {
         requires org.json;
         requires com.google.common;
         requires com.google.api.client;
+        requires org.apache.httpcomponents.httpmime;
 
 
         // FX Extended Module
