@@ -37,11 +37,23 @@ module com.app20222.app20222_fxapp {
     
     opens com.app20222.app20222_fxapp to javafx.fxml;
 
-    // export modules
+    // export package
     exports com.app20222.app20222_fxapp;
-    exports com.app20222.app20222_fxapp.app_controllers;
     exports com.app20222.app20222_fxapp.dto.responses;
-
-    opens com.app20222.app20222_fxapp.app_controllers to javafx.fxml;
     exports com.app20222.app20222_fxapp.dto.responses.users;
+
+    // export view controller
+
+    /**
+     * Main View
+     */
+    exports com.app20222.app20222_fxapp.app_controllers.main_view;
+    opens com.app20222.app20222_fxapp.app_controllers.main_view to javafx.fxml;
+
+    /**
+     * Login View
+     */
+    exports com.app20222.app20222_fxapp.app_controllers.login_view;
+    opens com.app20222.app20222_fxapp.app_controllers.login_view to javafx.fxml;
+
 }

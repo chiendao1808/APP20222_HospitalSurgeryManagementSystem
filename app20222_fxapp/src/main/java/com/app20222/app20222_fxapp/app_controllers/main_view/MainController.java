@@ -1,4 +1,4 @@
-package com.app20222.app20222_fxapp.app_controllers;
+package com.app20222.app20222_fxapp.app_controllers.main_view;
 
 import com.app20222.app20222_fxapp.dto.responses.BaseResponse;
 import com.app20222.app20222_fxapp.enums.apis.APIDetails;
