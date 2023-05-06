@@ -21,11 +21,7 @@ import java.net.http.HttpResponse;
 import java.nio.channels.Channels;
 import java.nio.channels.Pipe;
 import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class HttpUtils {
 
@@ -38,7 +34,11 @@ public class HttpUtils {
         HttpResponse<String> response;
         ObjectMapper mapper = new ObjectMapper();
         JSONObject jsonBody = new JSONObject(reqBody);
-        String[] reqHeaders = buildHeaders(headers);
+        String[] builtHeaders = buildHeaders(headers);
+        List<String> reqHeaders = List.of(HttpHeaders.CONTENT_TYPE, "application/json");
+        if (builtHeaders.length > 0)
+            reqHeaders.addAll(Arrays.asList(builtHeaders));
+
         boolean isContainResBody = !Objects.isNull(type);
         try {
             switch (method) {
@@ -46,8 +46,7 @@ public class HttpUtils {
                     request = HttpRequest.newBuilder()
                             .uri(URI.create(uri))
                             .GET()
-                            .header(HttpHeaders.ACCEPT, "application/json")
-                            .headers(reqHeaders)
+                            .headers(reqHeaders.toArray(String[]::new))
                             .timeout(Duration.ofMillis(10000)) // 10s time-out
                             .build();
                     response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -56,8 +55,7 @@ public class HttpUtils {
                     request = HttpRequest.newBuilder()
                             .uri(URI.create(uri))
                             .POST(HttpRequest.BodyPublishers.ofString(jsonBody.toString()))
-                            .header(HttpHeaders.CONTENT_TYPE, "application/json")
-                            .headers(reqHeaders)
+                            .headers(reqHeaders.toArray(String[]::new))
                             .timeout(Duration.ofMillis(10000)) // 10s time-out
                             .build();
                     response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -66,8 +64,7 @@ public class HttpUtils {
                     request = HttpRequest.newBuilder()
                             .uri(URI.create(uri))
                             .PUT(HttpRequest.BodyPublishers.ofString(jsonBody.toString()))
-                            .header(HttpHeaders.CONTENT_TYPE, "application/json")
-                            .headers(reqHeaders)
+                            .headers(reqHeaders.toArray(String[]::new))
                             .timeout(Duration.ofMillis(10000)) // 10s time-out
                             .build();
                     response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -86,7 +83,8 @@ public class HttpUtils {
      */
     public static BaseResponse doUploadFile(String uri, File file, Map<String, String> headers){
         ObjectMapper mapper = new ObjectMapper();
-        String[] reqHeaders = buildHeaders(headers);
+        String[] builtHeaders = buildHeaders(headers);
+        List<String> reqHeaders = List.of(HttpHeaders.CONTENT_TYPE, "multipart/form-data");
         try {
             // Build Multipart entity
             HttpClient client = HttpClient.newHttpClient();
@@ -109,7 +107,7 @@ public class HttpUtils {
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(uri))
                     .header(HttpHeaders.CONTENT_TYPE, httpEntity.getContentType().getValue())
-                    .headers(reqHeaders)
+                    .headers(reqHeaders.toArray(String[]::new))
                     .POST(HttpRequest.BodyPublishers.ofInputStream(() -> Channels.newInputStream(pipe.source())))
                     .timeout(Duration.ofMillis(10000)) // 10s  time-out
                     .build();
@@ -117,7 +115,7 @@ public class HttpUtils {
             return mapper.readValue(response.body(), BaseResponse.class);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return new BaseResponse(204, "Upload file fail!", LocalDateTime.now());
+            return new BaseResponse(204, "Upload file fail!", new Date());
         }
     }
 

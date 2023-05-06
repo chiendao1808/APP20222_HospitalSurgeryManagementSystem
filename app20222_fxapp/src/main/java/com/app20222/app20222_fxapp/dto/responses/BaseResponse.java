@@ -17,5 +17,5 @@ public class BaseResponse {
 
     String message;
 
-    LocalDateTime timestamp;
+    Date timestamp;
 }
