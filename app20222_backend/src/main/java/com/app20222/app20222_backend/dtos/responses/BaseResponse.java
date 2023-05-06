@@ -4,6 +4,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Builder
@@ -16,11 +17,11 @@ public class BaseResponse {
 
     String message;
 
-    LocalDateTime timestamp;
+    Date timestamp;
 
     public BaseResponse(Integer code, String message) {
         this.code = code;
         this.message = message;
-        this.timestamp = LocalDateTime.now();
+        this.timestamp = new Date();
     }
 }
