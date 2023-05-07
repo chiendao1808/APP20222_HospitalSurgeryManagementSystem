@@ -1,0 +1,28 @@
+.left-menu{
+    -fx-background-color: linear-gradient(to bottom right, rgba(44,90,85,0.7), rgb(44,61,124));
+}
+.user-img{
+    -fx-border-radius: 50%;
+}
+ .nav-btn{
+     -fx-background-color: transparent;
+     -fx-cursor:hand;
+     -fx-text-fill:#fff;
+     -fx-font-size:14px;
+     -fx-alignment: CENTER_LEFT;
+     -fx-graphic-text-gap: 10px;
+     -fx-padding: 0px 10px;
+
+ }
+.nav-btn:hover {
+    -fx-background-color: rgb(3,49,98);
+}
+.signout {
+    -fx-background-color: #ae2d3c;
+    -fx-background-radius: 15px;
+    -fx-cursor: hand;
+}
+.signout:hover{
+    -fx-background-color: #a43d2d;
+
+}

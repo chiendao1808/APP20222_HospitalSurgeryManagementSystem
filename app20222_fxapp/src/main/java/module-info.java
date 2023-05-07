@@ -48,13 +48,13 @@ module com.app20222.app20222_fxapp {
     /**
      * Main View
      */
-    exports com.app20222.app20222_fxapp.app_controllers.main_view;
     opens com.app20222.app20222_fxapp.app_controllers.main_view to javafx.fxml;
+    exports com.app20222.app20222_fxapp.app_controllers.main_view;
 
     /**
      * Login View
      */
-    exports com.app20222.app20222_fxapp.app_controllers.login_view;
     opens com.app20222.app20222_fxapp.app_controllers.login_view to javafx.fxml;
+    exports com.app20222.app20222_fxapp.app_controllers.login_view;
 
 }
