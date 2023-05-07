@@ -8,6 +8,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.api.client.http.HttpMethods;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+
+import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -21,12 +23,13 @@ public class MainController {
     @FXML
     protected void onHelloButtonClick() {
         String message = "";
-        try{
+        try {
             String apiPath = APIDetails.HELLO.getRequestPath() + APIDetails.HELLO.getDetailPath();
             String uri = ApiUtils.buildURI(apiPath, new HashMap<>());
-            List<BaseResponse> lstResponse = HttpUtils.doRequest(uri, HttpMethods.GET, new TypeReference<>(){}, new Object(), new HashMap<>());
+            HttpResponse response = HttpUtils.doRequest(uri, HttpMethods.GET, new Object(), new HashMap<>());
+            List<BaseResponse> lstResponse = HttpUtils.mappingResponseBody(response, new TypeReference<List<BaseResponse>>() {});
             message = Objects.requireNonNull(lstResponse).stream().map(BaseResponse::getMessage).collect(Collectors.toList()).toString();
-        } catch (Exception exception){
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
         welcomeText.setText(message);

@@ -1,12 +1,15 @@
 package com.app20222.app20222_fxapp.utils.httpUtils;
 
 
+import com.app20222.app20222_fxapp.constants.apis.ApiConstants;
+import com.app20222.app20222_fxapp.context.AppContext;
 import com.app20222.app20222_fxapp.dto.responses.BaseResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.http.HttpMethods;
 import com.google.common.net.HttpHeaders;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpStatus;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -25,21 +28,18 @@ import java.util.*;
 
 public class HttpUtils {
 
+    public static Set<Integer> lstSuccessStatusCode = Set.of(HttpStatus.SC_OK, HttpStatus.SC_CREATED);
+
     /**
-     * Execute a HTTP Request with JSON Payload in both request and response
+     * Execute an HTTP Request with JSON Payload in both request and response
      */
-    public static <T> T doRequest(String uri, String method, TypeReference<T> type, Object reqBody, Map<String, String> headers) {
+    public static HttpResponse doRequest(String uri, String method, Object reqBody, Map<String, String> headers) {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request;
         HttpResponse<String> response;
-        ObjectMapper mapper = new ObjectMapper();
         JSONObject jsonBody = new JSONObject(reqBody);
-        String[] builtHeaders = buildHeaders(headers);
-        List<String> reqHeaders = List.of(HttpHeaders.CONTENT_TYPE, "application/json");
-        if (builtHeaders.length > 0)
-            reqHeaders.addAll(Arrays.asList(builtHeaders));
-
-        boolean isContainResBody = !Objects.isNull(type);
+        List<String> reqHeaders = buildHeaders(headers, uri);
+        reqHeaders.addAll(List.of(HttpHeaders.CONTENT_TYPE, "application/json"));
         try {
             switch (method) {
                 case HttpMethods.GET:
@@ -50,7 +50,7 @@ public class HttpUtils {
                             .timeout(Duration.ofMillis(10000)) // 10s time-out
                             .build();
                     response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                    return mapper.readValue(response.body(), type);
+                    return response;
                 case HttpMethods.POST:
                     request = HttpRequest.newBuilder()
                             .uri(URI.create(uri))
@@ -59,7 +59,7 @@ public class HttpUtils {
                             .timeout(Duration.ofMillis(10000)) // 10s time-out
                             .build();
                     response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                    return isContainResBody ? mapper.readValue(response.body(), type) : null;
+                    return response;
                 case HttpMethods.PUT:
                     request = HttpRequest.newBuilder()
                             .uri(URI.create(uri))
@@ -68,7 +68,7 @@ public class HttpUtils {
                             .timeout(Duration.ofMillis(10000)) // 10s time-out
                             .build();
                     response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                    return isContainResBody ? mapper.readValue(response.body(), type) : null;
+                    return response;
                 default:
                     return null;
             }
@@ -78,13 +78,28 @@ public class HttpUtils {
         return null;
     }
 
+
+    /**
+     * Mapping response body if required
+     */
+    public static <T> T mappingResponseBody(HttpResponse<String> response, TypeReference<T> type){
+        try{
+            ObjectMapper mapper = new ObjectMapper();
+            return Objects.nonNull(response) ? mapper.readValue(response.body(), type) : null;
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+
     /**
      * Execute a request upload file
      */
     public static BaseResponse doUploadFile(String uri, File file, Map<String, String> headers){
         ObjectMapper mapper = new ObjectMapper();
-        String[] builtHeaders = buildHeaders(headers);
-        List<String> reqHeaders = List.of(HttpHeaders.CONTENT_TYPE, "multipart/form-data");
+        List<String> reqHeaders = buildHeaders(headers, uri);
+        reqHeaders.addAll(List.of(HttpHeaders.CONTENT_TYPE, "multipart/form-data"));
         try {
             // Build Multipart entity
             HttpClient client = HttpClient.newHttpClient();
@@ -122,13 +137,19 @@ public class HttpUtils {
     /**
      * Build headers for java 11 http request
      */
-    public static String[] buildHeaders(Map<String, String> headers) {
+    public static List<String> buildHeaders(Map<String, String> headers, String uri) {
         List<String> lstKeyAndValue = new ArrayList<>();
         headers.forEach((key, value) -> {
             lstKeyAndValue.add(key);
             lstKeyAndValue.add(value);
         });
-        return lstKeyAndValue.toArray(String[]::new);
+        // Add Authorization header if is auth api
+        if(!(uri.contains("/auth") || uri.contains("/public/")))
+        {
+            lstKeyAndValue.add(HttpHeaders.AUTHORIZATION);
+            lstKeyAndValue.add(ApiConstants.AUTH_SCHEME + " " + AppContext.ACCESS_TOKEN);
+        }
+        return lstKeyAndValue;
     }
 
 }

@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.*;
 
 @Component
@@ -38,8 +36,6 @@ public class JwtUtils {
     public String generateJwt(User user){
         Map<String, Object> claims = new LinkedHashMap<>();
         claims.put("username", user.getUsername());
-        claims.put("userId", user.getId());
-        claims.put("generatedTimeMs", System.currentTimeMillis());
         return Jwts.builder().setSubject(user.getUsername())
                 .addClaims(claims)
                 .setIssuedAt(DateUtils.getCurrentDateTime())
@@ -65,7 +61,7 @@ public class JwtUtils {
     }
 
     /**
-     * Get user name from jwt
+     * Get username from jwt
      * @param jwt : token
      * @return : username
      */
@@ -81,22 +77,6 @@ public class JwtUtils {
     }
 
     /**
-     * Get user id from jwt
-     * @param jwt : token
-     * @return : id
-     */
-    public Long getUserIdFromJwt(String jwt){
-        try{
-            Claims claims = getClaims(jwt);
-            return claims.get("userId", Long.class);
-        }catch (Exception ex){
-            log.error("Get userid frm jwt error");
-            ex.printStackTrace();
-            return null;
-        }
-    }
-
-    /**
      * Valid whether
      * @param jwt : token
      * @return : valid : true - not valid : false
@@ -105,7 +85,7 @@ public class JwtUtils {
         try{
             Claims claims = getClaims(jwt);
             Date now = DateUtils.getCurrentDateTime();
-            return !Objects.nonNull(claims) && !claims.getExpiration().after(now);
+            return Objects.nonNull(claims) && claims.getExpiration().after(now);
         }catch (Exception exception)
         {
             log.error("Check jwt expired error");
