@@ -36,7 +36,7 @@ public class User extends BaseEntity {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "birt_date")
+    @Column(name = "birth_date")
     private Date birtDate;
 
     @Column(name = "phone_number")

@@ -25,8 +25,8 @@ spring:
 
 # Cấu hình Json Web Token
 jwt:
-  secretKey: APP2022@Ksu295JdkjK
-  accessTokenExpiredMs: 10000L
-  refreshTokenExpiredMs: 1000000L
+  secretKey: APP2022Ksu295JdkjKHJJHW2349gfbnaf23cheh34HIMAde24
+  accessTokenExpiredMs: 100000000
+  refreshTokenExpiredMs: 1000000000
 
 
