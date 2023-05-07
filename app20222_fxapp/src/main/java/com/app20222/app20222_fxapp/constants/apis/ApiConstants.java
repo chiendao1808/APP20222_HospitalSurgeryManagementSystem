@@ -14,4 +14,7 @@ public class ApiConstants {
 
     public static final String DEFAULT_API_PATH = "/app20222/api";
 
+    public static final String AUTH_SCHEME = "Bearer";
+
+
 }

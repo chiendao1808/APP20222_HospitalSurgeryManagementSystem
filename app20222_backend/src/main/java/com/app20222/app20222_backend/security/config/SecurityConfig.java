@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.configs;
+package com.app20222.app20222_backend.security.config;
 
 import com.app20222.app20222_backend.security.constants.SecurityConstants;
 import com.app20222.app20222_backend.security.ex_handlers.AccessDeniedHandler;

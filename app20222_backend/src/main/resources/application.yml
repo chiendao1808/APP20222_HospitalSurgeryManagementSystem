@@ -27,6 +27,6 @@ spring:
 jwt:
   secretKey: APP2022Ksu295JdkjKHJJHW2349gfbnaf23cheh34HIMAde24
   accessTokenExpiredMs: 100000000
-  refreshTokenExpiredMs: 1000000000
+  refreshTokenExpiredMs: 10000000000
 
 

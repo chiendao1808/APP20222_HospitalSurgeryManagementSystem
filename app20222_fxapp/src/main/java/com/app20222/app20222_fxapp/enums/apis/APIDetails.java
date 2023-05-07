@@ -9,6 +9,9 @@ public enum APIDetails {
 
     HELLO("HELLO", "", "/hello", "GET"),
 
+    // Auth APIs
+    AUTH_LOGIN("AUTH_LOGIN", "/auth", "/login", "POST"),
+
     // User's APIs
     USER_GET_LIST("USER_GET_LIST", "/users", "", "GET");
 

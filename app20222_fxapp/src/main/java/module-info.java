@@ -4,7 +4,7 @@ module com.app20222.app20222_fxapp {
     requires javafx.fxml;
     requires javafx.web;
 
-        // Object JSON Mapper
+        // Common utils
         requires com.fasterxml.jackson.core;
         requires com.fasterxml.jackson.databind;
         requires com.fasterxml.jackson.annotation;
@@ -13,6 +13,7 @@ module com.app20222.app20222_fxapp {
         requires lombok.mapstruct;
         requires org.apache.commons.io;
         requires org.apache.commons.codec;
+        requires java.validation;
 
 
         // Http request + json proccess

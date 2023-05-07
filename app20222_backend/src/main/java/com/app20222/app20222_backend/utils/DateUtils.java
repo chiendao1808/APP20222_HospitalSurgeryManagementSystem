@@ -38,8 +38,8 @@ public class DateUtils {
     public static final String FORMAT_DATE_YYYY_MM_DD_2= "YYYY/MM/dd";
 
     /**
-     * Get current time
-     * @return
+     * Get current time with time zone
+     * @return : current date
      */
     public static Date getCurrentDateTime(){
         Calendar calendar = Calendar.getInstance();
