@@ -3,6 +3,9 @@ package com.app20222.app20222_backend.utils;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.ZoneId;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class DateUtils {
 
@@ -33,4 +36,16 @@ public class DateUtils {
     public static final int DATE_OF_WEEK = 7;
     public static final String FORMAT_DATE_MM_YYYY= "MM/uuuu";
     public static final String FORMAT_DATE_YYYY_MM_DD_2= "YYYY/MM/dd";
+
+    /**
+     * Get current time
+     * @return
+     */
+    public static Date getCurrentDateTime(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.setTimeZone(TimeZone.getTimeZone(TIME_ZONE));
+        return calendar.getTime();
+    }
+
 }
