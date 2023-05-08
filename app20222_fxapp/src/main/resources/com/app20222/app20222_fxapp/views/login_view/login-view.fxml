@@ -16,14 +16,14 @@
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <AnchorPane layoutX="8.0" layoutY="6.0" prefHeight="610.0" prefWidth="388.0" styleClass="white-bg" stylesheets="@../Styles/login.css">
+            <AnchorPane layoutX="8.0" layoutY="6.0" prefHeight="610.0" prefWidth="388.0" styleClass="white-bg" stylesheets="@login.css">
                <children>
                   <ImageView fitHeight="150.0" fitWidth="260.0" layoutX="119.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../Image/logo.png" />
+                        <Image url="@img/logo.png" />
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" layoutX="7.0" layoutY="196.0" prefHeight="18.0" prefWidth="379.0" styleClass="label-header" stylesheets="@../Styles/login.css" text="Đăng Nhập" textFill="#0639c4cc">
+                  <Label alignment="CENTER" layoutX="7.0" layoutY="196.0" prefHeight="18.0" prefWidth="379.0" styleClass="label-header" stylesheets="@login.css" text="Đăng Nhập" textFill="#0639c4cc">
                      <font>
                         <Font size="28.0" />
                      </font>
@@ -33,18 +33,18 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="122.0" layoutY="288.0" prefHeight="34.0" prefWidth="239.0" promptText="Username" styleClass="textField" stylesheets="@../Styles/login.css" />
+                  <TextField layoutX="122.0" layoutY="288.0" prefHeight="34.0" prefWidth="239.0" promptText="Username" styleClass="textField" stylesheets="@login.css" />
                   <Label alignment="CENTER" layoutX="7.0" layoutY="349.0" prefHeight="18.0" prefWidth="111.0" text="Mật khẩu">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <PasswordField layoutX="122.0" layoutY="345.0" prefHeight="34.0" prefWidth="239.0" promptText="Password" styleClass="textField" stylesheets="@../Styles/login.css" />
-                  <TextField layoutX="121.0" layoutY="345.0" prefHeight="34.0" prefWidth="239.0" promptText="Password" styleClass="textfield" stylesheets="@../../../../../../../../../../JavaFx/LoginPage/src/main/resources/com/example/loginpage/Styles/login.css" visible="false" />
+                  <PasswordField layoutX="122.0" layoutY="345.0" prefHeight="34.0" prefWidth="239.0" promptText="Password" styleClass="textField" stylesheets="@login.css" />
+                  <TextField layoutX="121.0" layoutY="345.0" prefHeight="34.0" prefWidth="239.0" promptText="Password" styleClass="textfield" stylesheets="@login.css" visible="false" />
                   <CheckBox layoutX="122.0" layoutY="397.0" mnemonicParsing="false" text="Hiển thị mật khẩu" />
-                  <Button layoutX="25.0" layoutY="453.0" mnemonicParsing="false" onAction="#switchToSceneMain" prefHeight="34.0" prefWidth="334.0" styleClass="btn" stylesheets="@../Styles/login.css" text="Đăng nhập" textFill="#ebeded">
+                  <Button layoutX="25.0" layoutY="453.0" mnemonicParsing="false" onAction="#switchToSceneMain" prefHeight="34.0" prefWidth="334.0" styleClass="btn" stylesheets="@login.css" text="Đăng nhập" textFill="#ebeded">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="Segoe UI Bold" size="16.0" />
                      </font>
                   </Button>
                   <Line endX="227.60000610351562" layoutX="130.0" layoutY="526.0" startX="-104.4000015258789" stroke="#e1d6d6" />
@@ -53,37 +53,37 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Button layoutX="189.0" layoutY="543.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="160.0" styleClass="btn" stylesheets="@../Styles/login.css" text="Đăng ký" textFill="WHITE">
+                  <Button layoutX="189.0" layoutY="543.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="160.0" styleClass="btn" stylesheets="@login.css" text="Đăng ký" textFill="WHITE">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="1.0" layoutY="8.0" prefHeight="610.0" prefWidth="395.0" styleClass="white-bg" stylesheets="@../../../../../../../../../../JavaFx/LoginPage/src/main/resources/com/example/loginpage/Styles/login.css" visible="false">
+            <AnchorPane layoutX="1.0" layoutY="8.0" prefHeight="610.0" prefWidth="395.0" styleClass="white-bg" stylesheets="@login.css" visible="false">
                <children>
                   <ImageView fitHeight="150.0" fitWidth="260.0" layoutX="119.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../../../../../JavaFx/LoginPage/src/main/resources/com/example/loginpage/medical-logo.png" />
+<!--                        <Image url="@../../../../../../../../../../JavaFx/LoginPage/src/main/resources/com/example/loginpage/medical-logo.png" />-->
                      </image>
                   </ImageView>
-                  <Label alignment="CENTER" layoutX="1.0" layoutY="186.0" prefHeight="18.0" prefWidth="379.0" styleClass="label-header" stylesheets="@../../../../../../../../../../JavaFx/LoginPage/src/main/resources/com/example/loginpage/Styles/login.css" text="Đăng Ký" textFill="#0639c4cc">
+                  <Label alignment="CENTER" layoutX="1.0" layoutY="186.0" prefHeight="18.0" prefWidth="379.0" styleClass="label-header" stylesheets="@login.css" text="Đăng Ký" textFill="#0639c4cc">
                      <font>
                         <Font size="28.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="27.0" layoutY="310.0" prefHeight="34.0" prefWidth="334.0" promptText="Username" styleClass="textField" stylesheets="@../../../../../../../../../../JavaFx/LoginPage/src/main/resources/com/example/loginpage/Styles/login.css" />
-                  <PasswordField layoutX="27.0" layoutY="379.0" prefHeight="34.0" prefWidth="334.0" promptText="Password" styleClass="textField" stylesheets="@../../../../../../../../../../JavaFx/LoginPage/src/main/resources/com/example/loginpage/Styles/login.css" />
-                  <TextField layoutX="121.0" layoutY="345.0" prefHeight="34.0" prefWidth="239.0" promptText="Password" styleClass="textfield" stylesheets="@../../../../../../../../../../JavaFx/LoginPage/src/main/resources/com/example/loginpage/Styles/login.css" visible="false" />
-                  <Button layoutX="26.0" layoutY="507.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="334.0" styleClass="btn" stylesheets="@../../../../../../../../../../JavaFx/LoginPage/src/main/resources/com/example/loginpage/Styles/login.css" text="Đăng Ký" textFill="#ebeded">
+                  <TextField layoutX="27.0" layoutY="310.0" prefHeight="34.0" prefWidth="334.0" promptText="Username" styleClass="textField" stylesheets="@login.css" />
+                  <PasswordField layoutX="27.0" layoutY="379.0" prefHeight="34.0" prefWidth="334.0" promptText="Password" styleClass="textField" stylesheets="@login.css" />
+                  <TextField layoutX="121.0" layoutY="345.0" prefHeight="34.0" prefWidth="239.0" promptText="Password" styleClass="textfield" stylesheets="@login.css" visible="false" />
+                  <Button layoutX="26.0" layoutY="507.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="334.0" styleClass="btn" stylesheets="@login.css" text="Đăng Ký" textFill="#ebeded">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Button>
                   <Line endX="227.60000610351562" layoutX="130.0" layoutY="561.0" startX="-104.4000015258789" stroke="#e1d6d6" />
-                  <PasswordField layoutX="27.0" layoutY="450.0" prefHeight="34.0" prefWidth="334.0" promptText="Confirm Password" styleClass="textField" stylesheets="@../../../../../../../../../../JavaFx/LoginPage/src/main/resources/com/example/loginpage/Styles/login.css" />
-                  <TextField layoutX="121.0" layoutY="409.0" prefHeight="34.0" prefWidth="239.0" promptText="Password" styleClass="textfield" stylesheets="@../../../../../../../../../../JavaFx/LoginPage/src/main/resources/com/example/loginpage/Styles/login.css" visible="false" />
-                  <TextField layoutX="26.0" layoutY="246.0" prefHeight="34.0" prefWidth="334.0" promptText="Email" styleClass="textField" stylesheets="@../../../../../../../../../../JavaFx/LoginPage/src/main/resources/com/example/loginpage/Styles/login.css" />
+                  <PasswordField layoutX="27.0" layoutY="450.0" prefHeight="34.0" prefWidth="334.0" promptText="Confirm Password" styleClass="textField" stylesheets="@login.css" />
+                  <TextField layoutX="121.0" layoutY="409.0" prefHeight="34.0" prefWidth="239.0" promptText="Password" styleClass="textfield" stylesheets="@login.css" visible="false" />
+                  <TextField layoutX="26.0" layoutY="246.0" prefHeight="34.0" prefWidth="334.0" promptText="Email" styleClass="textField" stylesheets="@login.css" />
                   <Label layoutX="25.0" layoutY="287.0" prefHeight="20.0" prefWidth="333.0" text="Tài Khoản">
                      <font>
                         <Font size="14.0" />
@@ -104,7 +104,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Button layoutX="26.0" layoutY="561.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="334.0" styleClass="btn" stylesheets="@../../../../../../../../../../JavaFx/LoginPage/src/main/resources/com/example/loginpage/Styles/login.css" text="Đăng nhập" textFill="#ebeded">
+                  <Button layoutX="26.0" layoutY="561.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="334.0" styleClass="btn" stylesheets="@login.css" text="Đăng nhập" textFill="#ebeded">
                      <font>
                         <Font size="14.0" />
                      </font>
