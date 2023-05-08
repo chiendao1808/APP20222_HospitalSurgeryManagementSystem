@@ -46,9 +46,10 @@ COMMENT ON COLUMN "app20222_db"."users"."department_id" IS 'Id của khoa/bộ p
 -- Init dữ liệu --
 INSERT INTO "app20222_db".users (identification_number, identity_type, code, first_name, last_name, username, password,
                                  created_at, created_by)
-VALUES ('00293849828', 1, 'ADMIN_SUPER1', 'Admin', 'Super', 'admin', 'admin', now(), 1);
+VALUES ('00293849828', 1, 'ADMIN_SUPER1', 'Admin', 'Super', 'admin', '$2a$12$4FTmJ2x/BfKIN9as9ivNKuo8CJZd4jtk0UDEijm7OYqrusJN251du', now(), 1);
+-- username = admin, password = admin --
 
-
+-- ======================================================================== --
 -- Bảng department --
 DROP TABLE IF EXISTS "app20222_db"."department";
 CREATE TABLE IF NOT EXISTS "app20222_db"."department"
@@ -65,11 +66,13 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."department"
 COMMENT ON TABLE "app20222_db"."department" IS 'Bảng chứa thông tin khoa/bộ phận của NV bệnh viện/ Bác sĩ';
 COMMENT ON COLUMN "app20222_db"."department"."id" IS 'Id của khoa/bộ phận';
 COMMENT ON COLUMN "app20222_db"."department"."code" IS 'Mã của khoa/bộ phận';
+COMMENT ON COLUMN "app20222_db"."department"."logo_id" IS 'Id file logo khoa/bộ phận';
 COMMENT ON COLUMN "app20222_db"."department"."name" IS 'Tên của khoa/bộ phận';
 COMMENT ON COLUMN "app20222_db"."department"."address" IS 'Địa chỉ của khoa/bộ phận';
 COMMENT ON COLUMN "app20222_db"."department"."phone_number" IS 'Số điện thoại liên hệ của khoa/bộ phận';
 COMMENT ON COLUMN "app20222_db"."department"."description" IS 'Thông tin mô tả khoa/bộ phận';
 
+-- ======================================================================== --
 -- Bảng patient --
 DROP TABLE IF EXISTS "app20222_db"."patient";
 CREATE TABLE IF NOT EXISTS "app20222_db"."patient"
@@ -92,7 +95,7 @@ COMMENT ON TABLE "app20222_db"."patient" IS 'Bảng chứa thông tin định da
 COMMENT ON COLUMN "app20222_db"."patient"."id" IS 'Id của bệnh nhân';
 COMMENT ON COLUMN "app20222_db"."patient"."identification_number" IS 'Số chứng thực cá nhân của bệnh nhân';
 COMMENT ON COLUMN "app20222_db"."patient"."identity_type" IS 'Loại giấy tờ chứng thực (0: CMTND, 1: CCCD, 2: Hộ chiếu)';
-COMMENT ON COLUMN "app20222_db"."patient"."portrait_img_id" IS 'Ảnh chân dung bệnh nhân';
+COMMENT ON COLUMN "app20222_db"."patient"."portrait_img_id" IS 'Id file ảnh chân dung bệnh nhân';
 COMMENT ON COLUMN "app20222_db"."patient"."code" IS 'Mã bệnh nhân';
 COMMENT ON COLUMN "app20222_db"."patient"."first_name" IS 'Tên bệnh nhân';
 COMMENT ON COLUMN "app20222_db"."patient"."last_name" IS 'Họ và tên đệm bệnh nhân';
@@ -102,6 +105,24 @@ COMMENT ON COLUMN "app20222_db"."patient"."phone_number" IS 'Số điện thoạ
 COMMENT ON COLUMN "app20222_db"."patient"."email" IS 'Email bệnh nhân';
 COMMENT ON COLUMN "app20222_db"."patient"."user_id" IS 'Id tài khoản của bệnh nhân (nếu có)';
 
+-- ======================================================================== --
+-- Bảng medical_record --
+DROP TABLE IF EXISTS "app20222_db"."medical_record";
+CREATE TABLE IF NOT EXISTS "app20222_db"."medical_record"(
+    id bigserial not null unique,
+    patient_id int8 not null,
+    summary text,
+    created_by int8 not null,
+    created_at timestamp not null,
+    primary key (id)
+);
+COMMENT ON COLUMN "app20222_db"."medical_record"."id" IS 'Id bản ghi hồ sơ bệnh án';
+COMMENT ON COLUMN "app20222_db"."medical_record"."patient_id" IS 'Id bệnh nhân';
+COMMENT ON COLUMN "app20222_db"."medical_record"."summary" IS 'Kết luận tổng quát';
+COMMENT ON COLUMN "app20222_db"."medical_record"."created_by" IS 'Id người lập/tạo bản ghi hồ sơ bệnh án';
+COMMENT ON COLUMN "app20222_db"."medical_record"."created_at" IS 'Thời gian tạo/lập bản ghi hồ sơ bệnh án';
+
+-- ======================================================================== --
 -- Bảng surgery --
 DROP TABLE IF EXISTS "app20222_db"."surgery";
 CREATE TABLE IF NOT EXISTS "app20222_db"."surgery"
@@ -144,7 +165,9 @@ COMMENT ON COLUMN "app20222_db"."surgery"."result" IS 'Kết quả thực hiện
 COMMENT ON COLUMN "app20222_db"."surgery"."patient_id" IS 'Id bệnh nhân được phẫu thuật';
 COMMENT ON COLUMN "app20222_db"."surgery"."surgery_room_id" IS 'Id phòng thực hiện phẫu thuật';
 COMMENT ON COLUMN "app20222_db"."surgery"."status" IS 'Trạng thái ca phẫu thuật (0 : Chờ thực hiện, 1 : Đang được thực hiện , 2 : Đã thực hiện)';
+COMMENT ON COLUMN "app20222_db"."surgery"."lst_file_id" IS 'Danh sách id các file tài liệu phẫu thuật';
 
+-- ======================================================================== --
 -- Bảng disease_group --
 DROP TABLE IF EXISTS "app20222_db"."disease_group";
 CREATE TABLE IF NOT EXISTS "app20222_db"."disease_group"
@@ -160,6 +183,7 @@ COMMENT ON COLUMN "app20222_db"."disease_group"."id" IS 'Id nhóm bệnh';
 COMMENT ON COLUMN "app20222_db"."disease_group"."name" IS 'Tên nhóm bệnh';
 COMMENT ON COLUMN "app20222_db"."disease_group"."code" IS 'Mã nhóm bệnh';
 
+-- ======================================================================== --
 -- Bảng surgery_room --
 DROP TABLE IF EXISTS "app20222_db"."surgery_room";
 CREATE TABLE IF NOT EXISTS "app20222_db"."surgery_room"
@@ -178,7 +202,7 @@ COMMENT ON COLUMN "app20222_db"."surgery_room"."address" IS 'Địa chỉ phòng
 COMMENT ON COLUMN "app20222_db"."surgery_room"."description" IS 'Mô tả thông tin phòng phẫu thuật';
 COMMENT ON COLUMN "app20222_db"."surgery_room"."current_available" IS 'Trạng thái phòng phẫu thuật hiện tại (Sẵn sàng/Đang được sử dụng)';
 
-
+-- ======================================================================== --
 -- Bảng file_attach --
 DROP TABLE IF EXISTS "app20222_db"."file_attach";
 CREATE TABLE IF NOT EXISTS "app20222_db"."file_attach"
@@ -204,6 +228,19 @@ COMMENT ON COLUMN "app20222_db"."file_attach"."id" IS 'Loại kho lưu trữ fil
 COMMENT ON COLUMN "app20222_db"."file_attach"."location" IS 'Đường dẫn đến địa chỉ lưu trữ file';
 COMMENT ON COLUMN "app20222_db"."file_attach"."created_by" IS 'Người tải lên file';
 COMMENT ON COLUMN "app20222_db"."file_attach"."created_at" IS 'Thời gian tải lên file';
+
+-- ======================================================================== --
+-- Bảng role --
+DROP TABLE IF EXISTS "app20222_db"."role";
+CREATE TABLE IF NOT EXISTS "app20222_db"."role"(
+    id bigserial not null unique,
+    code varchar(30) not null unique,
+    name text not null,
+    primary key (id)
+);
+COMMENT ON COLUMN "app20222_db"."role"."id" IS 'Id vai trò';
+COMMENT ON COLUMN "app20222_db"."role"."code" IS 'Mã code vai trò';
+COMMENT ON COLUMN "app20222_db"."role"."name" IS 'Tên của vai trò';
 
 
 
