@@ -11,13 +11,13 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/17.0.7" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane prefHeight="600.0" prefWidth="1100.0">
          <children>
             <BorderPane layoutY="8.0" prefHeight="600.0" prefWidth="1100.0" AnchorPane.bottomAnchor="-8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0">
                <left>
-                  <AnchorPane prefHeight="200.0" prefWidth="250.0" styleClass="left-menu" stylesheets="@../Styles/Main.css" BorderPane.alignment="CENTER">
+                  <AnchorPane prefHeight="200.0" prefWidth="250.0" styleClass="left-menu" stylesheets="@main.css" BorderPane.alignment="CENTER">
                      <children>
                         <AnchorPane layoutX="-1.0" layoutY="-8.0" prefHeight="554.4" prefWidth="250.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="-8.0">
                            <children>
@@ -30,37 +30,37 @@
                               <Line endX="109.40000915527344" layoutX="125.0" layoutY="132.0" startX="-102.59999084472656" />
                               <AnchorPane layoutX="2.0" layoutY="142.0" prefHeight="410.0" prefWidth="250.0">
                                  <children>
-                                    <Button alignment="BOTTOM_LEFT" layoutX="18.0" layoutY="24.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="218.0" styleClass="nav-btn" stylesheets="@../Styles/Main.css" text="Dasboard">
+                                    <Button alignment="BOTTOM_LEFT" layoutX="18.0" layoutY="24.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="218.0" styleClass="nav-btn" stylesheets="@main.css" text="Dasboard">
                                        <graphic>
                                           <FontAwesomeIconView fill="#faf5f5" glyphName="DASHBOARD" selectionFill="#f4f4f4" size="1.8em" />
                                        </graphic>
                                     </Button>
-                                    <Button alignment="BOTTOM_LEFT" layoutX="18.0" layoutY="62.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="218.0" styleClass="nav-btn" stylesheets="@../Styles/Main.css" text="Bệnh nhân">
+                                    <Button alignment="BOTTOM_LEFT" layoutX="18.0" layoutY="62.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="218.0" styleClass="nav-btn" stylesheets="@main.css" text="Bệnh nhân">
                                        <graphic>
                                           <FontAwesomeIconView fill="WHITE" size="1.8em" />
                                        </graphic>
                                     </Button>
-                                    <Button layoutX="18.0" layoutY="100.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="218.0" styleClass="nav-btn" stylesheets="@../Styles/Main.css" text="Bệnh án">
+                                    <Button layoutX="18.0" layoutY="100.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="218.0" styleClass="nav-btn" stylesheets="@main.css" text="Bệnh án">
                                        <graphic>
                                           <FontAwesomeIconView fill="WHITE" glyphName="FOLDER" size="1.8em" text="" />
                                        </graphic>
                                     </Button>
-                                    <Button layoutX="18.0" layoutY="138.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="218.0" styleClass="nav-btn" stylesheets="@../Styles/Main.css" text="Bác sỹ">
+                                    <Button layoutX="18.0" layoutY="138.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="218.0" styleClass="nav-btn" stylesheets="@main.css" text="Bác sỹ">
                                        <graphic>
                                           <FontAwesomeIconView fill="WHITE" size="1.8em" />
                                        </graphic>
                                     </Button>
-                                    <Button layoutX="18.0" layoutY="176.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="218.0" styleClass="nav-btn" stylesheets="@../Styles/Main.css" text="Ca phẩu thuật">
+                                    <Button layoutX="18.0" layoutY="176.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="218.0" styleClass="nav-btn" stylesheets="@main.css" text="Ca phẩu thuật">
                                        <graphic>
                                           <FontAwesomeIconView fill="#fafafa" size="1.8em" />
                                        </graphic>
                                     </Button>
-                                    <Button layoutX="18.0" layoutY="214.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="218.0" styleClass="nav-btn" stylesheets="@../Styles/Main.css" text="Lịch mổ">
+                                    <Button layoutX="18.0" layoutY="214.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="218.0" styleClass="nav-btn" stylesheets="@main.css" text="Lịch mổ">
                                        <graphic>
                                           <FontAwesomeIconView fill="WHITE" size="1.8em" />
                                        </graphic>
                                     </Button>
-                                    <Button layoutX="18.0" layoutY="358.0" mnemonicParsing="false" styleClass="signout" stylesheets="@../Styles/Main.css" text="Đăng xuất" textFill="WHITE">
+                                    <Button layoutX="18.0" layoutY="358.0" mnemonicParsing="false" styleClass="signout" stylesheets="@main.css" text="Đăng xuất" textFill="WHITE">
                                        <graphic>
                                           <FontAwesomeIconView fill="#f4f1f1" glyphName="SIGN_OUT" size="1.8em" />
                                        </graphic>
@@ -72,13 +72,13 @@
                      </children></AnchorPane>
                </left>
                <top>
-                  <AnchorPane prefHeight="45.0" prefWidth="200.0" styleClass="white-bg" stylesheets="@../Styles/login.css" BorderPane.alignment="CENTER">
+                  <AnchorPane prefHeight="45.0" prefWidth="200.0" styleClass="white-bg" stylesheets="@../login_view/login.css" BorderPane.alignment="CENTER">
                      <children>
                         <AnchorPane prefHeight="45.0" prefWidth="250.0">
                            <children>
                               <ImageView fitHeight="35.0" fitWidth="200.0" layoutX="14.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../Image/hospital.png" />
+                                    <Image url="@../login_view/img/hospital.png" />
                                  </image>
                               </ImageView>
                               <Label layoutX="55.0" layoutY="14.0" text="SURGICAL MANAGEMENT" />
