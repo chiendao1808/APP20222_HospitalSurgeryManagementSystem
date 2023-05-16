@@ -37,7 +37,7 @@ public class HttpUtils {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request;
         HttpResponse<String> response;
-        JSONObject jsonBody = new JSONObject(reqBody);
+        ObjectMapper mapper = new ObjectMapper();
         List<String> reqHeaders = buildHeaders(headers, uri);
         reqHeaders.addAll(List.of(HttpHeaders.CONTENT_TYPE, "application/json"));
         try {
@@ -54,7 +54,7 @@ public class HttpUtils {
                 case HttpMethods.POST:
                     request = HttpRequest.newBuilder()
                             .uri(URI.create(uri))
-                            .POST(HttpRequest.BodyPublishers.ofString(jsonBody.toString()))
+                            .POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(reqBody)))
                             .headers(reqHeaders.toArray(String[]::new))
                             .timeout(Duration.ofMillis(10000)) // 10s time-out
                             .build();
@@ -63,7 +63,7 @@ public class HttpUtils {
                 case HttpMethods.PUT:
                     request = HttpRequest.newBuilder()
                             .uri(URI.create(uri))
-                            .PUT(HttpRequest.BodyPublishers.ofString(jsonBody.toString()))
+                            .PUT(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(reqBody)))
                             .headers(reqHeaders.toArray(String[]::new))
                             .timeout(Duration.ofMillis(10000)) // 10s time-out
                             .build();
