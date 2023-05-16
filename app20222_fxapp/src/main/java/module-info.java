@@ -40,8 +40,10 @@ module com.app20222.app20222_fxapp {
 
     // export package
     exports com.app20222.app20222_fxapp;
+    exports com.app20222.app20222_fxapp.dto.requests.auth;
     exports com.app20222.app20222_fxapp.dto.responses;
     exports com.app20222.app20222_fxapp.dto.responses.users;
+    exports com.app20222.app20222_fxapp.dto.responses.auth;
 
     // export view controller
 

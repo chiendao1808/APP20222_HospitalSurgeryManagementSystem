@@ -2,10 +2,7 @@ package com.app20222.app20222_fxapp.dto.responses.auth;
 
 import com.app20222.app20222_fxapp.utils.DateUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.util.Date;
@@ -13,6 +10,7 @@ import java.util.Date;
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LoginResponse {
 
