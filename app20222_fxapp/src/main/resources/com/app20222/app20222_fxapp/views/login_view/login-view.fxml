@@ -33,16 +33,16 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <TextField layoutX="122.0" layoutY="288.0" prefHeight="34.0" prefWidth="239.0" promptText="Username" styleClass="textField" stylesheets="@login.css" />
+                  <TextField fx:id="username" layoutX="122.0" layoutY="288.0" prefHeight="34.0" prefWidth="239.0" promptText="Username" styleClass="textField" stylesheets="@login.css" />
                   <Label alignment="CENTER" layoutX="7.0" layoutY="349.0" prefHeight="18.0" prefWidth="111.0" text="Mật khẩu">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <PasswordField layoutX="122.0" layoutY="345.0" prefHeight="34.0" prefWidth="239.0" promptText="Password" styleClass="textField" stylesheets="@login.css" />
+                  <PasswordField fx:id="password" layoutX="122.0" layoutY="345.0" prefHeight="34.0" prefWidth="239.0" promptText="Password" styleClass="textField" stylesheets="@login.css" />
                   <TextField layoutX="121.0" layoutY="345.0" prefHeight="34.0" prefWidth="239.0" promptText="Password" styleClass="textfield" stylesheets="@login.css" visible="false" />
                   <CheckBox layoutX="122.0" layoutY="397.0" mnemonicParsing="false" text="Hiển thị mật khẩu" />
-                  <Button layoutX="25.0" layoutY="453.0" mnemonicParsing="false" onAction="#switchToSceneMain" prefHeight="34.0" prefWidth="334.0" styleClass="btn" stylesheets="@login.css" text="Đăng nhập" textFill="#ebeded">
+                  <Button fx:id="loginBtn" layoutX="25.0" layoutY="453.0" mnemonicParsing="false" onAction="#switchToSceneMain" prefHeight="34.0" prefWidth="334.0" styleClass="btn" stylesheets="@login.css" text="Đăng nhập" textFill="#ebeded">
                      <font>
                         <Font name="Segoe UI Bold" size="16.0" />
                      </font>

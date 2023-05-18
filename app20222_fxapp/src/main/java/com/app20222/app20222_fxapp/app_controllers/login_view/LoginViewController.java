@@ -10,11 +10,15 @@ import com.app20222.app20222_fxapp.utils.httpUtils.HttpUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.api.client.http.HttpMethods;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -25,16 +29,49 @@ public class LoginViewController {
     private Stage stage;
     private Scene scene;
     private Parent root;
+    @FXML
+    private TextField username;
+
+    @FXML
+    private PasswordField password;
+
+    @FXML
+    private Button loginBtn;
 
     public void switchToSceneMain(ActionEvent event) throws IOException {
-        login("admin", "admin");
-        root = FXMLLoader.load(MainApplication.class.getResource("views/main_view/main-view.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setTitle("Hospital-Systems");
-        stage.setScene(scene);
-        stage.centerOnScreen();
-        stage.show();
+        Alert alert;
+        if(username.getText().isEmpty() || password.getText().isEmpty()){
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Thông báo");
+            alert.setHeaderText(null);
+            alert.setContentText("Nhập đẩy đủ các trường");
+            alert.showAndWait();
+        } else {
+            int check =  login(username.getText(), password.getText());
+            if(check == 200) {
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Thông báo");
+                alert.setHeaderText(null);
+                alert.setContentText("Đăng nhập thành công");
+                alert.showAndWait();
+                loginBtn.getScene().getWindow().hide();
+                root = FXMLLoader.load(MainApplication.class.getResource("views/main_view/main-view.fxml"));
+                stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+                scene = new Scene(root);
+                stage.setTitle("Hospital-Systems");
+                stage.setScene(scene);
+                stage.centerOnScreen();
+                stage.show();
+            } else {
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Thông báo");
+                alert.setHeaderText(null);
+                alert.setContentText("Sai tài khoản hoặc mật khẩu");
+                alert.showAndWait();
+            }
+        }
+
+
     }
 
     /**
@@ -53,9 +90,9 @@ public class LoginViewController {
           }
       }catch (Exception exception){
           exception.printStackTrace();
-          return null;
+          return -1;
       }
-      return null;
+      return -1;
     }
 
 }
