@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/auth")
@@ -41,6 +42,9 @@ public class AuthController {
     private JwtUtils jwtUtils;
 
 
+    /**
+     * Login API -> JWT Token
+     */
     @PostMapping("/login")
     @Operation(summary = "Login vào hệ thống")
     public ResponseEntity<?> login(@RequestBody @Validated LoginRequest loginInfo, HttpServletRequest request) {
@@ -59,6 +63,7 @@ public class AuthController {
                 .issuedAt(new Date())
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
+                .roles(userDetails.getRoles().stream().map(role -> role.getName()).collect(Collectors.toSet()))
                 .build());
     }
 }

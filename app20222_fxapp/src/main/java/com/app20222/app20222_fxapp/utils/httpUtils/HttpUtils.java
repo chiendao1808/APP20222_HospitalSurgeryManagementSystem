@@ -2,7 +2,7 @@ package com.app20222.app20222_fxapp.utils.httpUtils;
 
 
 import com.app20222.app20222_fxapp.constants.apis.ApiConstants;
-import com.app20222.app20222_fxapp.context.AppContext;
+import com.app20222.app20222_fxapp.context.ApplicationContext;
 import com.app20222.app20222_fxapp.dto.responses.BaseResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,7 +13,6 @@ import org.apache.http.HttpStatus;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.json.JSONObject;
 
 
 import java.io.*;
@@ -28,7 +27,6 @@ import java.util.*;
 
 public class HttpUtils {
 
-    public static Set<Integer> lstSuccessStatusCode = Set.of(HttpStatus.SC_OK, HttpStatus.SC_CREATED);
 
     /**
      * Execute an HTTP Request with JSON Payload in both request and response
@@ -44,30 +42,30 @@ public class HttpUtils {
             switch (method) {
                 case HttpMethods.GET:
                     request = HttpRequest.newBuilder()
-                            .uri(URI.create(uri))
-                            .GET()
-                            .headers(reqHeaders.toArray(String[]::new))
-                            .timeout(Duration.ofMillis(10000)) // 10s time-out
-                            .build();
-                    response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                        .uri(URI.create(uri))
+                        .GET()
+                        .headers(reqHeaders.toArray(String[]::new))
+                        .timeout(Duration.ofMillis(10000)) // 10s time-out
+                        .build();
+                    response = client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenApply(applyResponse -> applyResponse).get();
                     return response;
                 case HttpMethods.POST:
                     request = HttpRequest.newBuilder()
-                            .uri(URI.create(uri))
-                            .POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(reqBody)))
-                            .headers(reqHeaders.toArray(String[]::new))
-                            .timeout(Duration.ofMillis(10000)) // 10s time-out
-                            .build();
-                    response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                        .uri(URI.create(uri))
+                        .POST(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(reqBody)))
+                        .headers(reqHeaders.toArray(String[]::new))
+                        .timeout(Duration.ofMillis(10000)) // 10s time-out
+                        .build();
+                    response = client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenApply(applyResponse -> applyResponse).get();
                     return response;
                 case HttpMethods.PUT:
                     request = HttpRequest.newBuilder()
-                            .uri(URI.create(uri))
-                            .PUT(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(reqBody)))
-                            .headers(reqHeaders.toArray(String[]::new))
-                            .timeout(Duration.ofMillis(10000)) // 10s time-out
-                            .build();
-                    response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                        .uri(URI.create(uri))
+                        .PUT(HttpRequest.BodyPublishers.ofString(mapper.writeValueAsString(reqBody)))
+                        .headers(reqHeaders.toArray(String[]::new))
+                        .timeout(Duration.ofMillis(10000)) // 10s time-out
+                        .build();
+                    response = client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenApply(applyResponse -> applyResponse).get();
                     return response;
                 default:
                     return null;
@@ -82,11 +80,11 @@ public class HttpUtils {
     /**
      * Mapping response body if required
      */
-    public static <T> T mappingResponseBody(HttpResponse<String> response, TypeReference<T> type){
-        try{
+    public static <T> T mappingResponseBody(HttpResponse<String> response, TypeReference<T> type) {
+        try {
             ObjectMapper mapper = new ObjectMapper();
             return Objects.nonNull(response) ? mapper.readValue(response.body(), type) : null;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return null;
@@ -96,7 +94,7 @@ public class HttpUtils {
     /**
      * Execute a request upload file
      */
-    public static BaseResponse doUploadFile(String uri, File file, Map<String, String> headers){
+    public static BaseResponse doUploadFile(String uri, File file, Map<String, String> headers) {
         ObjectMapper mapper = new ObjectMapper();
         List<String> reqHeaders = buildHeaders(headers, uri);
         reqHeaders.addAll(List.of(HttpHeaders.CONTENT_TYPE, "multipart/form-data"));
@@ -104,9 +102,9 @@ public class HttpUtils {
             // Build Multipart entity
             HttpClient client = HttpClient.newHttpClient();
             HttpEntity httpEntity = MultipartEntityBuilder.create()
-                    .addBinaryBody("uploaded_file", file, ContentType.MULTIPART_FORM_DATA, file.getName())
-                    .setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
-                    .build();
+                .addBinaryBody("uploaded_file", file, ContentType.MULTIPART_FORM_DATA, file.getName())
+                .setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
+                .build();
             // Write file using a pipeline stream to avoided overflow
             Pipe pipe = Pipe.open(); // Open a pipeline stream
             // Use new thread to avoid deadlock when write data
@@ -120,13 +118,14 @@ public class HttpUtils {
             }).start();
             // Create a http request
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(uri))
-                    .header(HttpHeaders.CONTENT_TYPE, httpEntity.getContentType().getValue())
-                    .headers(reqHeaders.toArray(String[]::new))
-                    .POST(HttpRequest.BodyPublishers.ofInputStream(() -> Channels.newInputStream(pipe.source())))
-                    .timeout(Duration.ofMillis(10000)) // 10s  time-out
-                    .build();
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                .uri(URI.create(uri))
+                .header(HttpHeaders.CONTENT_TYPE, httpEntity.getContentType().getValue())
+                .headers(reqHeaders.toArray(String[]::new))
+                .POST(HttpRequest.BodyPublishers.ofInputStream(() -> Channels.newInputStream(pipe.source())))
+                .timeout(Duration.ofMillis(10000)) // 10s  time-out
+                .build();
+            HttpResponse<String> response = client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                .thenApply(applyResponse -> applyResponse).get();
             return mapper.readValue(response.body(), BaseResponse.class);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -144,10 +143,9 @@ public class HttpUtils {
             lstKeyAndValue.add(value);
         });
         // Add Authorization header if is auth api
-        if(!(uri.contains("/auth") || uri.contains("/public/")))
-        {
+        if (!(uri.contains("/auth") || uri.contains("/public/"))) {
             lstKeyAndValue.add(HttpHeaders.AUTHORIZATION);
-            lstKeyAndValue.add(ApiConstants.AUTH_SCHEME + " " + AppContext.ACCESS_TOKEN);
+            lstKeyAndValue.add(ApiConstants.AUTH_SCHEME + " " + ApplicationContext.ACCESS_TOKEN);
         }
         return lstKeyAndValue;
     }

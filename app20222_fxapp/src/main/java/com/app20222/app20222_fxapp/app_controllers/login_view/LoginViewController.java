@@ -1,7 +1,7 @@
 package com.app20222.app20222_fxapp.app_controllers.login_view;
 
 import com.app20222.app20222_fxapp.MainApplication;
-import com.app20222.app20222_fxapp.context.AppContext;
+import com.app20222.app20222_fxapp.context.ApplicationContext;
 import com.app20222.app20222_fxapp.dto.requests.auth.LoginRequest;
 import com.app20222.app20222_fxapp.dto.responses.auth.LoginResponse;
 import com.app20222.app20222_fxapp.enums.apis.APIDetails;
@@ -9,6 +9,7 @@ import com.app20222.app20222_fxapp.utils.apiUtils.ApiUtils;
 import com.app20222.app20222_fxapp.utils.httpUtils.HttpUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.api.client.http.HttpMethods;
+import com.google.api.client.http.HttpStatusCodes;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,6 +25,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.http.HttpResponse;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class LoginViewController {
     private Stage stage;
@@ -44,15 +46,15 @@ public class LoginViewController {
             alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Thông báo");
             alert.setHeaderText(null);
-            alert.setContentText("Nhập đẩy đủ các trường");
+            alert.setContentText("Vui lòng nhập đầy đủ tài khoản và mật khẩu!");
             alert.showAndWait();
         } else {
-            int check =  login(username.getText(), password.getText());
-            if(check == 200) {
+            Integer check =  login(username.getText(), password.getText());
+            if(Objects.equals(check, HttpStatusCodes.STATUS_CODE_OK)) {
                 alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Thông báo");
                 alert.setHeaderText(null);
-                alert.setContentText("Đăng nhập thành công");
+                alert.setContentText("Đăng nhập thành công !");
                 alert.showAndWait();
                 loginBtn.getScene().getWindow().hide();
                 root = FXMLLoader.load(MainApplication.class.getResource("views/main_view/main-view.fxml"));
@@ -65,8 +67,9 @@ public class LoginViewController {
             } else {
                 alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Thông báo");
+                alert.setAlertType(Alert.AlertType.WARNING);
                 alert.setHeaderText(null);
-                alert.setContentText("Sai tài khoản hoặc mật khẩu");
+                alert.setContentText("Sai tài khoản hoặc mật khẩu!");
                 alert.showAndWait();
             }
         }
@@ -83,9 +86,14 @@ public class LoginViewController {
           String uri = ApiUtils.buildURI(apiPath, new HashMap<>());
           HttpResponse response = HttpUtils.doRequest(uri, HttpMethods.POST, new LoginRequest(username, password), new HashMap<>());
           // Check login response
-          if(response.statusCode() == 200 || response.statusCode() == 201){
+          if(Objects.equals(response.statusCode(), HttpStatusCodes.STATUS_CODE_OK)
+                  || Objects.equals(response.statusCode(), HttpStatusCodes.STATUS_CODE_ACCEPTED)){
               LoginResponse loginResponse = HttpUtils.mappingResponseBody(response, new TypeReference<LoginResponse>(){});
-              AppContext.ACCESS_TOKEN = loginResponse.getAccessToken();
+              // Set authentication info in application context
+              ApplicationContext.ACCESS_TOKEN = loginResponse.getAccessToken();
+              ApplicationContext.REFRESH_TOKEN = loginResponse.getRefreshToken();
+              ApplicationContext.roles = loginResponse.getRoles();
+              System.out.println(ApplicationContext.roles);
               return response.statusCode();
           }
       }catch (Exception exception){

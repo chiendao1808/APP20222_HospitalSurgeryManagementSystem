@@ -1,12 +1,16 @@
 package com.app20222.app20222_backend.entities.users;
 
 import com.app20222.app20222_backend.entities.base.BaseEntity;
+import com.app20222.app20222_backend.entities.department.Department;
+import com.app20222.app20222_backend.entities.role.Role;
 import com.sun.istack.NotNull;
 import lombok.*;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Builder
@@ -28,7 +32,7 @@ public class User extends BaseEntity {
     private String identificationNumber;
 
     @Column(name = "identity_type", nullable = false)
-    private Integer indentityType;
+    private Integer identityType;
 
     @Column(name = "first_name")
     private String firstName;
@@ -53,4 +57,20 @@ public class User extends BaseEntity {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name = "avatar_path")
+    private String avatarPath;
+
+    @Column(name = "title")
+    private String title;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id", insertable = false, updatable = false)
+    private Department department;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    Set<Role> roles = new HashSet<>();
 }
