@@ -78,11 +78,11 @@ DROP TABLE IF EXISTS "app20222_db"."department";
 CREATE TABLE IF NOT EXISTS "app20222_db"."department"
 (
     id           bigserial    not null unique,
-    code         varchar(10)  not null unique,
+    code         varchar(50)  not null unique,
     logo_path    text,
     name         varchar(100) not null,
-    address      text         not null,
-    phone_number varchar(11)  not null,
+    address      text         ,
+    phone_number varchar(11)  ,
     description  text,
     primary key (id)
 );
@@ -94,6 +94,8 @@ COMMENT ON COLUMN "app20222_db"."department"."name" IS 'Tên của khoa/bộ ph�
 COMMENT ON COLUMN "app20222_db"."department"."address" IS 'Địa chỉ của khoa/bộ phận';
 COMMENT ON COLUMN "app20222_db"."department"."phone_number" IS 'Số điện thoại liên hệ của khoa/bộ phận';
 COMMENT ON COLUMN "app20222_db"."department"."description" IS 'Thông tin mô tả khoa/bộ phận';
+-- Init department data --
+INSERT INTO "app20222_db"."department" (code, name, address, phone_number) VALUES ('DIRECTOR_COMMITTEE', 'Ban giám đốc', 'Phòng 301 - Tòa hành chính', '0438686868');
 
 -- ======================================================================== --
 -- Bảng patient --
@@ -264,13 +266,20 @@ COMMENT ON COLUMN "app20222_db"."role"."code" IS 'Mã code vai trò';
 COMMENT ON COLUMN "app20222_db"."role"."name" IS 'Tên của vai trò';
 -- init default role data --
 DELETE FROM "app20222_db"."role" WHERE is_default = true;
-INSERT INTO "app20222_db"."role" VALUES (1, 'ROLE_SUPER_ADMIN', 'SUPER_ADMIN', 'Admin tổng', true),
-                                        (2, 'ROLE_HOSPITAL_ADMIN', 'SUPER_ADMIN', 'Admin bệnh viện', true),
-                                        (3, 'ROLE_HOSPITAL_MANAGER', 'HOSPITAL_MANAGER', 'Quản lý tổng bệnh viện', true),
-                                        (4, 'ROLE_DEPARTMENT_ADMIN', 'ADMIN_DEPARTMENT', 'Admin khoa/bộ phận', true),
-                                        (5, 'ROLE_DEPARTMENT_MANAGER', 'SUPER_ADMIN', 'Admin tổng', true),
-                                        (6, 'ROLE_DOCTOR', 'DOCTOR', 'Bác sĩ', true),
-                                        (7, 'ROLE_NURSE', 'NURSE', 'Y tá', true);
+INSERT INTO "app20222_db"."role" (code, name, displayed_name, is_default) VALUES
+                                     ('ROLE_SUPER_ADMIN', 'SUPER_ADMIN', 'Admin tổng', true),
+
+                                     ('ROLE_HOSPITAL_ADMIN', 'HOSPITAL_ADMIN', 'Admin bệnh viện', true),
+
+                                     ('ROLE_HOSPITAL_MANAGER', 'HOSPITAL_MANAGER', 'Quản lý tổng bệnh viện', true),
+
+                                     ('ROLE_DEPARTMENT_ADMIN', 'DEPARTMENT_ADMIN', 'Admin khoa/bộ phận', true),
+
+                                     ('ROLE_DEPARTMENT_MANAGER', 'DEPARTMENT_MANAGER', 'Quản lý khoa/bộ phận', true),
+
+                                     ('ROLE_DOCTOR', 'DOCTOR', 'Bác sĩ', true),
+
+                                     ('ROLE_NURSE', 'NURSE', 'Y tá', true);
 -- ========================================== --
 
 -- Bảng users_roles --
@@ -282,6 +291,7 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."users_roles"(
 );
 COMMENT ON COLUMN "app20222_db"."users_roles"."user_id" IS 'Id của người dùng';
 COMMENT ON COLUMN "app20222_db"."users_roles"."role_id" IS 'Id của vai trò';
+INSERT INTO "app20222_db"."users_roles" (user_id, role_id) VALUES (1,1); -- Init super admin role --
 
 -- Bảng users_surgeries ---
 DROP TABLE IF EXISTS "app20222_db"."users_surgeries";

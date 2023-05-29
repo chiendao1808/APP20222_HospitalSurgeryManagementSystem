@@ -15,6 +15,8 @@ public interface IGetListUser {
 
     String getIdentityType();
 
+    String getTitle();
+
     String getAddress();
 
     @JsonFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_SLASH, timezone = DateUtils.TIME_ZONE)
