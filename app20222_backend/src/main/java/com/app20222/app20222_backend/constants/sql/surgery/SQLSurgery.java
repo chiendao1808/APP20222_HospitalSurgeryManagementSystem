@@ -15,4 +15,19 @@ public class SQLSurgery {
             "   DISTINCT surgery.id  \n" +
             "FROM {h-schema}surgery \n" +
             "   JOIN {h-schema}users_surgeries uSurgery ON uSurgery.surgery_id = surgery.id AND uSurgery.user_id = :userId \n";
+
+    public static final String GET_OVERLAP_SURGERY =
+        "SELECT DISTINCT " +
+            "     surgery.id AS surgeryId, \n" +
+            "     surgery.surgery_room_id AS surgeryRoomId, \n" +
+            "     surgery.patient_id AS patientId, \n" +
+            "     '{' || STRING.AGG(uSurgery.surgery_id::::TEXT, ',') || '}' AS lstAssigneeId \n" +
+            "FROM {h-schema}surgery \n" +
+            "   JOIN {h-schema}users_surgeries uSurgery \n" +
+            "WHERE " +
+            "      surgery.status IN (0,1) AND \n" +
+            "      ( \n" +
+            "           (:startedTime BETWEEN surgery.started_at AND surgery.estimated_end_at) \n" +
+            "            OR (:estimatedEndTime BETWEEN surgery.started_at AND surgery.estimated_end_at)  \n" +
+            "      )";
 }

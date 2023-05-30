@@ -5,6 +5,7 @@ import java.time.Duration;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 import java.util.TimeZone;
 
 public class DateUtils {
@@ -45,6 +46,38 @@ public class DateUtils {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.setTimeZone(TimeZone.getTimeZone(TIME_ZONE));
+        return calendar.getTime();
+    }
+
+
+    /**
+     * Calculate a time interval type : "NOW", "YEAR", "MONTH", "DATE" - interval is negative if minus
+     */
+    public static Date calculateDateByInterval(Integer interval, String intervalType){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        if (interval == 0 || Objects.equals(intervalType, "NOW")) {
+            return calendar.getTime();
+        }
+        switch (intervalType) {
+            case "MINUTE":
+                calendar.add(Calendar.MINUTE, interval);
+                break;
+            case "HOUR":
+                calendar.add(Calendar.HOUR, interval);
+                break;
+            case "MONTH":
+                calendar.add(Calendar.MONTH, interval);
+                break;
+            case "DATE":
+                calendar.add(Calendar.DATE, interval);
+                break;
+            case "YEAR":
+                calendar.add(Calendar.YEAR, interval);
+                break;
+            default:
+                break;
+        }
         return calendar.getTime();
     }
 
