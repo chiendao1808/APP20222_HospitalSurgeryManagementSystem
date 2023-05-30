@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -33,21 +34,31 @@ public class Surgery extends BaseEntity {
     @Column(name = "type")
     private Integer type;
 
+    @Column(name = "disease_group_id", nullable = false)
+    private Long diseaseGroupId;
+
     @Column(name = "started_at", nullable = false)
-    private LocalDateTime startedAt;
+    private Date startedAt;
 
     @Column(name = "estimated_end_at")
-    private LocalDateTime estimatedEndAt;
+    private Date estimatedEndAt;
 
     @Column(name = "end_at")
-    private LocalDateTime endAt;
+    private Date endAt;
+
+    @Column(name = "patient_id", nullable = false)
+    private Long patientId;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id")
+    @JoinColumn(name = "patient_id", updatable = false, insertable = false)
     private Patient patient;
 
+
+    @Column(name = "surgery_room_id")
+    private Long surgeryRoomId;
+
     @ManyToOne
-    @JoinColumn(name = "surgery_room_id")
+    @JoinColumn(name = "surgery_room_id", updatable = false, insertable = false)
     private SurgeryRoom surgeryRoom;
 
 
