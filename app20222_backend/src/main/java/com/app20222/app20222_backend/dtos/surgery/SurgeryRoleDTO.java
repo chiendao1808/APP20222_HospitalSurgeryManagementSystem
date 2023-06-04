@@ -16,5 +16,7 @@ public class SurgeryRoleDTO {
 
     Long assigneeId;
 
+    String assigneeName;
+
     Integer surgeryRoleType;
 }

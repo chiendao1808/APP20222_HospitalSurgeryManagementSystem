@@ -6,7 +6,7 @@
 * Nguyen Van Truong
 * Tran Dinh Huynh
 * Hoang Dinh Duc
-## Project Techniques:
+## Project Technologies:
 * Backend: Java (JDK 11) + Spring Boot
 * Frontend: JavaFX + SceneBuilder (Gluonq Ver)
 * Database: PostgreSQL (Neon AWS Server)

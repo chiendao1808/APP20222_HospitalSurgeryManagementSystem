@@ -15,16 +15,20 @@ import com.app20222.app20222_backend.constants.message.error_field.ErrorKey;
 import com.app20222.app20222_backend.constants.message.message_const.MessageConst;
 import com.app20222.app20222_backend.constants.message.message_const.MessageConst.Resources;
 import com.app20222.app20222_backend.dtos.surgery.IGetDetailSurgery;
+import com.app20222.app20222_backend.dtos.surgery.IGetSurgeryAssignment;
 import com.app20222.app20222_backend.dtos.surgery.SurgeryCreateDTO;
+import com.app20222.app20222_backend.dtos.surgery.SurgeryDetailDTO;
 import com.app20222.app20222_backend.dtos.surgery.SurgeryRoleDTO;
 import com.app20222.app20222_backend.dtos.surgery.SurgeryUpdateDTO;
 import com.app20222.app20222_backend.dtos.surgery.IGetListSurgery;
 import com.app20222.app20222_backend.dtos.surgery.IGetOverlapSurgery;
+import com.app20222.app20222_backend.entities.file_attach.FileAttach;
 import com.app20222.app20222_backend.entities.surgery.Surgery;
 import com.app20222.app20222_backend.entities.surgery.UserSurgery;
 import com.app20222.app20222_backend.enums.permission.BasePermissionEnum;
 import com.app20222.app20222_backend.enums.surgery.SurgeryStatusEnum;
 import com.app20222.app20222_backend.exceptions.exception_factory.ExceptionFactory;
+import com.app20222.app20222_backend.repositories.file_attach.FileAttachRepository;
 import com.app20222.app20222_backend.repositories.surgery.SurgeryRepository;
 import com.app20222.app20222_backend.repositories.surgery.UserSurgeryRepository;
 import com.app20222.app20222_backend.services.permission.PermissionService;
@@ -43,6 +47,8 @@ public class SurgeryServiceImpl implements SurgeryService {
 
     private final PermissionService permissionService;
 
+    private final FileAttachRepository fileAttachRepository;
+
     public static final String OVERLAP_ASSIGNEE = "Trùng Bác sĩ/ y tá phẫu thuật";
 
     public static final String OVERLAP_SURGERY_ROOM = "Trùng phòng phẫu thuật";
@@ -50,11 +56,12 @@ public class SurgeryServiceImpl implements SurgeryService {
     public static final String OVERLAP_PATIENT = "Trùng bệnh nhân";
 
     public SurgeryServiceImpl(SurgeryRepository surgeryRepository, UserSurgeryRepository userSurgeryRepository, ExceptionFactory exceptionFactory,
-        PermissionService permissionService){
+        PermissionService permissionService, FileAttachRepository fileAttachRepository){
         this.surgeryRepository = surgeryRepository;
         this.userSurgeryRepository = userSurgeryRepository;
         this.exceptionFactory = exceptionFactory;
         this.permissionService = permissionService;
+        this.fileAttachRepository = fileAttachRepository;
     }
 
     @Transactional
@@ -80,12 +87,8 @@ public class SurgeryServiceImpl implements SurgeryService {
     @Transactional
     @Override
     public void updateSurgery(Long surgeryId, SurgeryUpdateDTO updateDTO) {
-        //Check tồn tại surgery
-        Surgery surgery = surgeryRepository.findById(surgeryId)
-            .orElseThrow(() -> exceptionFactory.resourceNotFoundException(ErrorKey.Surgery.NOT_FOUND_ERROR_CODE, MessageConst.RESOURCE_NOT_FOUND,
-                Resources.SURGERY, ErrorKey.Surgery.ID, String.valueOf(surgeryId)));
-        // Check quyền chỉnh sửa surgery của user đăng nhập
-        permissionService.hasSurgeryPermission(surgery, BasePermissionEnum.EDIT);
+        // Check tồn tại surgery và  quyền chỉnh sửa surgery của user đăng nhập
+        Surgery surgery = permissionService.hasSurgeryPermission(surgeryId, BasePermissionEnum.EDIT);
         // Validate overlapped
         Set<Long> lstAssigneeId = updateDTO.getLstAssignment().stream().map(SurgeryRoleDTO::getAssigneeId).collect(Collectors.toSet());
         validateSurgeryOverlap(updateDTO.getStartedAt(), updateDTO.getEstimatedEndAt(), lstAssigneeId, updateDTO.getSurgeryRoomId(), null, surgeryId);
@@ -113,12 +116,36 @@ public class SurgeryServiceImpl implements SurgeryService {
     }
 
     @Override
-    public IGetDetailSurgery getDetailSurgery(Long surgeryId) {
+    public SurgeryDetailDTO getDetailSurgery(Long surgeryId) {
         //Check tồn tại surgery
-        surgeryRepository.findById(surgeryId)
-            .orElseThrow(() -> exceptionFactory.resourceNotFoundException(ErrorKey.Surgery.NOT_FOUND_ERROR_CODE, MessageConst.RESOURCE_NOT_FOUND,
-                Resources.SURGERY, ErrorKey.Surgery.ID, String.valueOf(surgeryId)));
-        return null;
+        permissionService.hasSurgeryPermission(surgeryId, BasePermissionEnum.VIEW);
+
+        // Lấy thông tin chung của ca phẫu thuật
+        IGetDetailSurgery iGetDetailSurgery = surgeryRepository.getDetailSurgery(surgeryId);
+        // Lấy danh sách file attached
+        Set<FileAttach> lstFileAttach = fileAttachRepository.findAllByIdIn(StringUtils.convertStrLongArrayToSetLong(iGetDetailSurgery.getLstFileAttachId()));
+
+        // Lấy danh sách assignment ca phẫu thuật
+        List<IGetSurgeryAssignment> lstAssignments = surgeryRepository.getSurgeryAssignment(surgeryId);
+
+        return new SurgeryDetailDTO(iGetDetailSurgery, lstFileAttach, lstAssignments);
+    }
+
+    @Transactional
+    @Override
+    public void deleteSurgery(Long surgeryId) {
+        // Check tồn tại surgery và  quyền chỉnh sửa surgery của user đăng nhập
+        permissionService.hasSurgeryPermission(surgeryId, BasePermissionEnum.DELETE);
+
+        // Xóa các assignments của ca phẫu thuật (users_surgeries)
+        userSurgeryRepository.deleteAllBySurgeryId(surgeryId);
+
+        // xóa các file attach gắn với ca phẫu thuật (surgeries_files)
+        surgeryRepository.deleteSurgeryFileBySurgeryId(surgeryId);
+
+        // Xóa ca phẫu thuật
+        surgeryRepository.deleteById(surgeryId);
+
     }
 
     /**

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.app20222.app20222_backend.dtos.surgery.IGetDetailSurgery;
 import com.app20222.app20222_backend.dtos.surgery.SurgeryCreateDTO;
+import com.app20222.app20222_backend.dtos.surgery.SurgeryDetailDTO;
 import com.app20222.app20222_backend.dtos.surgery.SurgeryUpdateDTO;
 import com.app20222.app20222_backend.dtos.surgery.IGetListSurgery;
 import com.app20222.app20222_backend.enums.surgery.SurgeryStatusEnum;
@@ -63,12 +64,22 @@ public class SurgeryController {
         @DateTimeFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_HH_MM)
         @RequestParam(name = "estimatedEndAt", required = false, defaultValue = "01/01/1970 00:00") Date estimatedEndAt
     ) {
-        return surgeryService.getListSurgery(surgeryId, surgeryName, patientId, surgeryRoomId, diseaseGroupId, status, startedAt, estimatedEndAt);
+        return surgeryService.getListSurgery(surgeryId, surgeryName, patientId, surgeryRoomId, diseaseGroupId, status, startedAt,
+            estimatedEndAt);
     }
 
     @GetMapping("/get-details/{id}")
-    public IGetDetailSurgery getDetailSurgery(@PathVariable(name = "id") Long id){
+    @Operation(description = "Xem thông tin chi tiết ca phẫu thuật ")
+    public SurgeryDetailDTO getDetailSurgery(@PathVariable(name = "id") Long id){
         return surgeryService.getDetailSurgery(id);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @Operation(description = "Xóa ca phẫu thuật")
+    public void deleteSurgery(@PathVariable(name = "id") Long id){
+        log.info("======= Started deleteSurgery ========");
+        surgeryService.deleteSurgery(id);
+        log.info("======= End deleteSurgery ========");
     }
 
 

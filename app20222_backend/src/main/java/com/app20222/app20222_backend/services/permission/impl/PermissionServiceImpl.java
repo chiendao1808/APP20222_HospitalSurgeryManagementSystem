@@ -128,7 +128,11 @@ public class PermissionServiceImpl implements PermissionService {
      * Check quyền của user đăng nhập với một surgery bất kỳ -> chi tiết surgery
      */
     @Override
-    public void hasSurgeryPermission(Surgery surgery, BasePermissionEnum permission) {
+    public Surgery hasSurgeryPermission(Long surgeryId, BasePermissionEnum permission) {
+        // Check exists
+        Surgery surgery = surgeryRepository.findById(surgeryId)
+            .orElseThrow(() -> exceptionFactory.resourceNotFoundException(ErrorKey.Surgery.NOT_FOUND_ERROR_CODE, MessageConst.RESOURCE_NOT_FOUND,
+                Resources.SURGERY, ErrorKey.Surgery.ID, String.valueOf(surgeryId)));
         // Check surgery permission
         Set<Long> lstViewableSurgeryIds = getLstViewableSurgeryId();
         List<String> roles = AuthUtils.getCurrentUserRoles() != null ? AuthUtils.getCurrentUserRoles() : new ArrayList<>();
@@ -148,5 +152,6 @@ public class PermissionServiceImpl implements PermissionService {
         if(!hasPermission){
             throw exceptionFactory.permissionDeniedException(ErrorKey.Surgery.PERMISSION_DENIED_ERROR_CODE, Resources.SURGERY, MessageConst.PERMISSIONS_DENIED);
         }
+        return surgery;
     }
 }

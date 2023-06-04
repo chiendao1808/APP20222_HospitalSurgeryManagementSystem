@@ -64,4 +64,63 @@ public class SQLSurgery {
             "     (:startedAt = CAST('1970-01-01 00:00' AS TIMESTAMP) OR :startedAt >= CAST(surgery.started_at AS TIMESTAMP)) AND \n" +
             "     (:estimatedEndAt = CAST('1970-01-01 00:00' AS TIMESTAMP) OR :estimatedEndAt <= CAST(surgery.estimated_end_at AS TIMESTAMP)) ";
 
+    public static final String GET_DETAILS_SURGERY =
+        "WITH surgeryFileCTE AS ( \n" +
+            "SELECT \n" +
+            "   surgeryFiles.surgery_id AS surgeryId, \n" +
+            "   '{' || STRING_AGG(surgeryFiles.file_id::::TEXT, ',') || '}' AS lstFileAttachId \n " +
+            "   FROM {h-schema}surgeries_files AS surgeryFiles \n" +
+            "   GROUP BY surgeryFiles.surgery_id " +
+            ") \n"+
+        "SELECT \n" +
+            "     surgery.id AS id, \n" +
+            "     surgery.name AS name, \n" +
+            "     surgery.description AS description, \n" +
+            "     diseaseGroup.name AS diseaseGroupName, \n" +
+            "     '' AS type, \n" +
+            "     CONCAT_WS(' ', patient.last_name, patient.first_name), \n" +
+            "     sRoom.name AS surgeryRoomName, \n" +
+            "     CASE \n" +
+            "           WHEN surgery.status = 0 THEN 'Chờ thực hiện' \n" +
+            "           WHEN surgery.status = 1 THEN 'Đang được thực hiện' \n" +
+            "           WHEN surgery.status = 2 THEN 'Đã được thực hiện' \n" +
+            "           WHEN surgery.status = 3 THEN 'Đã hủy' \n" +
+            "           ELSE '' \n" +
+            "     END AS status, \n" +
+            "     surgery.started_at AS startedAt, \n" +
+            "     surgery.estimated_end_at AS estimatedEndAt, \n" +
+            "     surgery.end_at AS endAt, \n" +
+            "     surgery.result AS result, \n" +
+            "     surgery.created_at AS createdAt, \n" +
+            "     CONCAT_WS('-', CONCAT_WS(' ', usrCreated.last_name, usrCreated.first_name), usrCreated.email) AS createdBy, \n" +
+            "     surgeryFileCTE.lstFileAttachId AS lstFileAttachId \n " +
+            "FROM {h-schema}surgery \n" +
+            "   LEFT JOIN {h-schema}patient ON patient.id = surgery.patient_id \n" +
+            "   LEFT JOIN {h-schema}surgery_room AS sRoom ON sRoom.id = surgery.surgery_room_id \n" +
+            "   LEFT JOIN {h-schema}disease_group AS diseaseGroup ON diseaseGroup.id = surgery.disease_group_id \n" +
+            "   LEFT JOIN {h-schema}users usrCreated ON usrCreated.id = surgery.created_by \n" +
+            "   LEFT JOIN {h-schema}department ON department.id = usrCreated.id \n" +
+            "   LEFT JOIN surgeryFileCTE ON surgeryFileCTE.surgeryId = surgery.id \n" +
+            "WHERE surgery.id = :surgeryId \n";
+
+    public static final String GET_SURGERY_ASSIGNMENTS =
+        "SELECT \n" +
+            "     ursSurgery.user_id AS assigneeId, \n" +
+            "     CONCAT_WS(' ', users.last_name, users.first_name) AS assigneeName, \n" +
+            "     users.code AS assigneeCode, \n" +
+            "     CASE \n" +
+            "           WHEN ursSurgery.surgery_role_type = 0 THEN 'Bác sĩ phẫu thuật chính' \n" +
+            "           WHEN ursSurgery.surgery_role_type = 1 THEN 'Bác sĩ gây mê' \n" +
+            "           WHEN ursSurgery.surgery_role_type = 2 THEN 'Bác sĩ phẫu thuật hộ trợ' \n" +
+            "           WHEN ursSurgery.surgery_role_type = 3 THEN 'Y tá hỗ trợ' \n" +
+            "           WHEN ursSurgery.surgery_role_type = 4 THEN 'BNhân viên ghi tài liệu' \n" +
+            "           ELSE '' \n" +
+            "     END AS surgeryRole \n" +
+            "FROM {h-schema}users_surgeries AS ursSurgery \n" +
+            "   LEFT JOIN {h-schema}users ON users.id = ursSurgery.user_id \n" +
+            "WHERE ursSurgery.surgery_id = :surgeryId \n";
+
+    public static final String DELETE_ALL_SURGERY_FILE_ATTACHED_BY_SURGERY_ID =
+        "DELETE FROM {h-schema}surgeries_files WHERE surgery_id = :surgeryId ";
+
 }
