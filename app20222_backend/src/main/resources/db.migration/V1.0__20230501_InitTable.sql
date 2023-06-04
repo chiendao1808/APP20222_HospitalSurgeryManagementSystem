@@ -185,7 +185,7 @@ COMMENT ON COLUMN "app20222_db"."surgery"."end_at" IS 'Thời gian kết thúc p
 COMMENT ON COLUMN "app20222_db"."surgery"."result" IS 'Kết quả thực hiện phẫu thuật';
 COMMENT ON COLUMN "app20222_db"."surgery"."patient_id" IS 'Id bệnh nhân được phẫu thuật';
 COMMENT ON COLUMN "app20222_db"."surgery"."surgery_room_id" IS 'Id phòng thực hiện phẫu thuật';
-COMMENT ON COLUMN "app20222_db"."surgery"."status" IS 'Trạng thái ca phẫu thuật (0 : Chờ thực hiện, 1 : Đang được thực hiện , 2 : Đã thực hiện)';
+COMMENT ON COLUMN "app20222_db"."surgery"."status" IS 'Trạng thái ca phẫu thuật (0 : Chờ thực hiện, 1 : Đang được thực hiện , 2 : Đã thực hiện, 3 : Đã hủy)';
 COMMENT ON COLUMN "app20222_db"."surgery"."lst_file_id" IS 'Danh sách id các file tài liệu phẫu thuật';
 
 -- ======================================================================== --

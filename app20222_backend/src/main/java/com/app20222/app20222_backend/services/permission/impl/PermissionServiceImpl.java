@@ -6,10 +6,14 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import org.springframework.stereotype.Service;
+import com.app20222.app20222_backend.constants.message.error_field.ErrorKey;
+import com.app20222.app20222_backend.constants.message.message_const.MessageConst;
+import com.app20222.app20222_backend.constants.message.message_const.MessageConst.Resources;
 import com.app20222.app20222_backend.entities.surgery.Surgery;
 import com.app20222.app20222_backend.entities.users.User;
 import com.app20222.app20222_backend.enums.permission.BasePermissionEnum;
 import com.app20222.app20222_backend.enums.role.RoleEnum;
+import com.app20222.app20222_backend.exceptions.exception_factory.ExceptionFactory;
 import com.app20222.app20222_backend.repositories.department.DepartmentRepository;
 import com.app20222.app20222_backend.repositories.surgery.SurgeryRepository;
 import com.app20222.app20222_backend.repositories.users.UserRepository;
@@ -28,15 +32,18 @@ public class PermissionServiceImpl implements PermissionService {
 
     private final SurgeryRepository surgeryRepository;
 
+    private final ExceptionFactory exceptionFactory;
+
 
     /**
      * CDI : Constructor Dependency Injection
      */
     public PermissionServiceImpl(DepartmentRepository departmentRepository,
-        UserRepository userRepository, SurgeryRepository surgeryRepository){
+        UserRepository userRepository, SurgeryRepository surgeryRepository, ExceptionFactory exceptionFactory){
         this.departmentRepository = departmentRepository;
         this.userRepository = userRepository;
         this.surgeryRepository = surgeryRepository;
+        this.exceptionFactory = exceptionFactory;
     }
 
 
@@ -110,7 +117,7 @@ public class PermissionServiceImpl implements PermissionService {
             lstViewableSurgeryId.addAll(
                 surgeryRepository.findViewableSurgeryIdsByDepartment(AuthUtils.getCurrentUserId(), AuthUtils.getCurrentUserDepartmentId()));
         }
-        // Nếu role là doctor hoặc nurse -> chỉ xem những surgery được assigne
+        // Nếu role là doctor hoặc nurse -> chỉ xem những surgery được assign
         if (roles.contains(RoleEnum.DOCTOR.getRoleCode()) || roles.contains(RoleEnum.NURSE.getRoleCode())) {
             lstViewableSurgeryId.addAll(surgeryRepository.findViewableSurgeryIdsByUser(AuthUtils.getCurrentUserId()));
         }
@@ -121,15 +128,14 @@ public class PermissionServiceImpl implements PermissionService {
      * Check quyền của user đăng nhập với một surgery bất kỳ -> chi tiết surgery
      */
     @Override
-    public Boolean hasSurgeryPermission(Long surgeryId, BasePermissionEnum permission) {
-        Surgery surgery = surgeryRepository.findById(surgeryId).orElse(null);
-        if(surgery == null) return false;
+    public void hasSurgeryPermission(Surgery surgery, BasePermissionEnum permission) {
+        // Check surgery permission
         Set<Long> lstViewableSurgeryIds = getLstViewableSurgeryId();
         List<String> roles = AuthUtils.getCurrentUserRoles() != null ? AuthUtils.getCurrentUserRoles() : new ArrayList<>();
         boolean hasPermission = false;
         switch (permission){
             case VIEW:
-                hasPermission = lstViewableSurgeryIds.contains(surgeryId);
+                hasPermission = lstViewableSurgeryIds.contains(surgery.getId());
                 break;
             case EDIT:
             case DELETE:
@@ -139,6 +145,8 @@ public class PermissionServiceImpl implements PermissionService {
                     || Objects.equals(surgery.getCreatedBy(), AuthUtils.getCurrentUserId());
                 break;
         }
-        return hasPermission;
+        if(!hasPermission){
+            throw exceptionFactory.permissionDeniedException(ErrorKey.Surgery.PERMISSION_DENIED_ERROR_CODE, Resources.SURGERY, MessageConst.PERMISSIONS_DENIED);
+        }
     }
 }

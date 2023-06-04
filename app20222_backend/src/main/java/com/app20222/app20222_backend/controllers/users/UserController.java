@@ -1,6 +1,6 @@
 package com.app20222.app20222_backend.controllers.users;
 
-import com.app20222.app20222_backend.dtos.responses.users.IGetListUser;
+import com.app20222.app20222_backend.dtos.users.IGetListUser;
 import com.app20222.app20222_backend.services.users.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

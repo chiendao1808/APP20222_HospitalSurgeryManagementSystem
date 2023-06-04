@@ -6,9 +6,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class ExceptionResponse {
+
+    private String code;
 
     private Integer status;
 
@@ -18,7 +19,16 @@ public class ExceptionResponse {
 
     private LocalDateTime timestamp = LocalDateTime.now();
 
-    public ExceptionResponse(Integer status, String message, LocalDateTime timestamp) {
+    public ExceptionResponse(String code,Integer status, String message, String fieldError, LocalDateTime timestamp) {
+        this.code = code;
+        this.status = status;
+        this.message = message;
+        this.fieldError = fieldError;
+        this.timestamp = timestamp;
+    }
+
+    public ExceptionResponse(String code, Integer status, String message, LocalDateTime timestamp) {
+        this.code = code;
         this.status = status;
         this.message = message;
         this.timestamp = timestamp;

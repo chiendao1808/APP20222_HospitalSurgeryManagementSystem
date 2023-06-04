@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.dtos.responses.users;
+package com.app20222.app20222_backend.dtos.users;
 
 import com.app20222.app20222_backend.utils.DateUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
