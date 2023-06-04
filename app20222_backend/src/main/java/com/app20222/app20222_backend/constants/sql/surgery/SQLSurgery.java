@@ -30,4 +30,38 @@ public class SQLSurgery {
             "           (:startedTime BETWEEN surgery.started_at AND surgery.estimated_end_at) \n" +
             "            OR (:estimatedEndTime BETWEEN surgery.started_at AND surgery.estimated_end_at)  \n" +
             "      )";
+
+    public static final String GET_LIST_SURGERY =
+        "SELECT  \n" +
+            "     surgery.id AS id, \n" +
+            "     surgery.name AS name, \n" +
+            "     diseaseGroup.name AS diseaseGroupName, \n" +
+            "     '' AS type, \n" +
+            "     CONCAT_WS(' ', patient.last_name, patient.first_name), \n" +
+            "     sRoom.name AS surgeryRoomName, \n" +
+            "     CASE \n" +
+            "           WHEN surgery.status = 0 THEN 'Chờ thực hiện' \n" +
+            "           WHEN surgery.status = 1 THEN 'Đang được thực hiện' \n" +
+            "           WHEN surgery.status = 2 THEN 'Đã được thực hiện' \n" +
+            "           WHEN surgery.status = 3 THEN 'Đã hủy' \n" +
+            "           ELSE '' \n" +
+            "     END AS status, \n" +
+            "     surgery.started_at AS startedAt, \n" +
+            "     surgery.estimated_end_at AS estimatedEndAt, \n" +
+            "     surgery.end_at AS endAt, \n" +
+            "     surgery.result AS result \n" +
+            "FROM {h-schema}surgery \n" +
+            "   LEFT JOIN {h-schema}patient ON patient.id = surgery.patient_id \n" +
+            "   LEFT JOIN {h-schema}surgery_room AS sRoom ON sRoom.id = surgery.surgery_room_id \n" +
+            "   LEFT JOIN {h-schema}disease_group AS diseaseGroup ON diseaseGroup.id = surgery.disease_group_id \n" +
+            "WHERE \n" +
+            "     (surgery.id IN (:lstViewableSurgeryId)) AND \n" +
+            "     (:surgeryName = '' OR surgery.name ILIKE '%' || :surgeryName || '%') AND \n" +
+            "     (:patientId = -1 OR :patientId = surgery.patient_id) AND \n" +
+            "     (:diseaseGroupId = -1 OR :diseaseGroupId = surgery.disease_group_id) AND \n" +
+            "     (:surgeryRoomId = -1 OR :surgeryRoomId = surgery.surgery_room_id) AND \n" +
+            "     (:status = -1 OR :status = surgery.status) AND \n " +
+            "     (:startedAt = CAST('1970-01-01 00:00' AS TIMESTAMP) OR :startedAt >= CAST(surgery.started_at AS TIMESTAMP)) AND \n" +
+            "     (:estimatedEndAt = CAST('1970-01-01 00:00' AS TIMESTAMP) OR :estimatedEndAt <= CAST(surgery.estimated_end_at AS TIMESTAMP)) ";
+
 }

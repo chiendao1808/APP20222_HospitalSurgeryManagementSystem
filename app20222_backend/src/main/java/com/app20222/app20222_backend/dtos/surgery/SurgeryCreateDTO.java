@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.dtos.requests.surgery;
+package com.app20222.app20222_backend.dtos.surgery;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,6 +29,7 @@ public class SurgeryCreateDTO {
     @NotNull
     Long diseaseGroupId;
 
+    @NotNull
     Integer type;
 
     @NotNull
@@ -41,6 +42,7 @@ public class SurgeryCreateDTO {
     Date startedAt;
 
     @NotNull
+    @JsonFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_HH_MM, timezone = DateUtils.TIME_ZONE)
     Date estimatedEndAt;
 
     Long surgeryRoomId;

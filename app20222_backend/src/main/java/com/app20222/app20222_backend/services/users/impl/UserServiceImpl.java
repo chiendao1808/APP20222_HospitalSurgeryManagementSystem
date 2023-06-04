@@ -1,6 +1,6 @@
 package com.app20222.app20222_backend.services.users.impl;
 
-import com.app20222.app20222_backend.dtos.responses.users.IGetListUser;
+import com.app20222.app20222_backend.dtos.users.IGetListUser;
 import com.app20222.app20222_backend.repositories.users.UserRepository;
 import com.app20222.app20222_backend.services.permission.PermissionService;
 import com.app20222.app20222_backend.services.users.UserService;

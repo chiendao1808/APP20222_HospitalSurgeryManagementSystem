@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.dtos.requests.surgery;
+package com.app20222.app20222_backend.dtos.surgery;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
