@@ -20,7 +20,8 @@ public enum APIDetails {
     SURGERY_GET_LIST("SURGERY_GET_LIST", "/surgery","/get-list", "GET"),
     SURGERY_CREATE("SURGERY_CREATE", "/surgery","", "POST"),
     SURGERY_UPDATE("SURGERY_UPDATE", "/surgery","/update", "PUT"),
-    SURGERY_DETAILS("SURGERY_DETAILS", "/surgery", "/get-details", "GET");
+    SURGERY_DETAILS("SURGERY_DETAILS", "/surgery", "/get-details", "GET"),
+    SURGERY_DELETE("SURGERY_DELETE", "/surgery", "/delete", "DELETE"),;
 
     private final String code;
     private final String requestPath;

@@ -3,8 +3,8 @@ package com.app20222.app20222_backend.services.surgery;
 import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
-import com.app20222.app20222_backend.dtos.surgery.IGetDetailSurgery;
 import com.app20222.app20222_backend.dtos.surgery.SurgeryCreateDTO;
+import com.app20222.app20222_backend.dtos.surgery.SurgeryDetailDTO;
 import com.app20222.app20222_backend.dtos.surgery.SurgeryUpdateDTO;
 import com.app20222.app20222_backend.dtos.surgery.IGetListSurgery;
 import com.app20222.app20222_backend.enums.surgery.SurgeryStatusEnum;
@@ -28,5 +28,11 @@ public interface SurgeryService {
     /**
      * Lấy thông tin chi tiết ca phẫu thuật
      */
-    IGetDetailSurgery getDetailSurgery(Long surgeryId);
+    SurgeryDetailDTO getDetailSurgery(Long surgeryId);
+
+
+    /**
+     * Xóa ca phẫu thuật
+     */
+    void deleteSurgery(Long surgeryId);
 }

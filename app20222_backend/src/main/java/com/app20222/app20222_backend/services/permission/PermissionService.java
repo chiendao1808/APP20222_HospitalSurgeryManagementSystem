@@ -15,6 +15,6 @@ public interface PermissionService {
 
     Set<Long> getLstViewableSurgeryId();
 
-    void hasSurgeryPermission(Surgery surgery, BasePermissionEnum permission);
+    Surgery hasSurgeryPermission(Long surgeryId, BasePermissionEnum permission);
 
 }

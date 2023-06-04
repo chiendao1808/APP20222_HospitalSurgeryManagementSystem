@@ -44,14 +44,4 @@ public class FileAttach {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-    @ManyToMany(mappedBy = "lstFileAttached")
-    private Collection<MedicalRecord> medicalRecords;
-
-    public Collection<MedicalRecord> getMedicalRecords() {
-        return medicalRecords;
-    }
-
-    public void setMedicalRecords(Collection<MedicalRecord> medicalRecords) {
-        this.medicalRecords = medicalRecords;
-    }
 }
