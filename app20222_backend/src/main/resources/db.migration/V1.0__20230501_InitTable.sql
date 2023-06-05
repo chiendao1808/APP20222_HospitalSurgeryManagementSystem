@@ -328,6 +328,32 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."surgeries_files"(
 COMMENT ON COLUMN "app20222_db"."surgeries_files"."surgery_id" IS 'Id bản ghi ca phẫu thuật';
 COMMENT ON COLUMN "app20222_db"."surgeries_files"."file_id" IS 'Id file';
 
+-- Bảng mail --
+DROP TABLE IF EXISTS "app20222_db"."mail";
+CREATE TABLE IF NOT EXISTS "app20222_db"."mail"(
+    id bigserial not null unique,
+    code varchar(30) not null unique,
+    lst_to_address text,
+    from_address text not null,
+    subject text not null,
+    content text not null,
+    status int4 not null,
+    is_has_attachments bool not null,
+    sent_time timestamp not null,
+    primary key (id)
+);
+COMMENT ON COLUMN "app20222_db"."mail"."id" IS 'Id bản ghi lịch sử gửi mail';
+COMMENT ON COLUMN "app20222_db"."mail"."code" IS 'Mã code của email lưu trong hệ thống (phục vụ cho việc gửi lại nếu cần)';
+COMMENT ON COLUMN "app20222_db"."mail"."lst_to_address" IS 'Danh sách địa chỉ email được gửi';
+COMMENT ON COLUMN "app20222_db"."mail"."subject" IS 'Tiêu đề gửi mail';
+COMMENT ON COLUMN "app20222_db"."mail"."from_address" IS 'Địa chỉ gửi';
+COMMENT ON COLUMN "app20222_db"."mail"."content" IS 'Nội dung email';
+COMMENT ON COLUMN "app20222_db"."mail"."is_has_attachments" IS 'Có/Không file đính kèm';
+COMMENT ON COLUMN "app20222_db"."mail"."status" IS 'Trạng thái email (0: Chờ gửi, 1: Đã gửi, 2: Gửi thành công, 3 : Gửi thất bại)';
+COMMENT ON COLUMN "app20222_db"."mail"."sent_time" IS 'Thời gian gửi';
+
+
+
 
 
 

@@ -31,6 +31,7 @@ import com.app20222.app20222_backend.exceptions.exception_factory.ExceptionFacto
 import com.app20222.app20222_backend.repositories.file_attach.FileAttachRepository;
 import com.app20222.app20222_backend.repositories.surgery.SurgeryRepository;
 import com.app20222.app20222_backend.repositories.surgery.UserSurgeryRepository;
+import com.app20222.app20222_backend.services.mail.MailService;
 import com.app20222.app20222_backend.services.permission.PermissionService;
 import com.app20222.app20222_backend.services.surgery.SurgeryService;
 import com.app20222.app20222_backend.utils.StringUtils;
@@ -49,19 +50,23 @@ public class SurgeryServiceImpl implements SurgeryService {
 
     private final FileAttachRepository fileAttachRepository;
 
-    public static final String OVERLAP_ASSIGNEE = "Trùng Bác sĩ/ y tá phẫu thuật";
+    private final MailService mailService;
 
-    public static final String OVERLAP_SURGERY_ROOM = "Trùng phòng phẫu thuật";
 
-    public static final String OVERLAP_PATIENT = "Trùng bệnh nhân";
+    public static final String OVERLAP_ASSIGNEE = "assignee_id";
+
+    public static final String OVERLAP_SURGERY_ROOM = "surgery_room_id";
+
+    public static final String OVERLAP_PATIENT = "patient_id";
 
     public SurgeryServiceImpl(SurgeryRepository surgeryRepository, UserSurgeryRepository userSurgeryRepository, ExceptionFactory exceptionFactory,
-        PermissionService permissionService, FileAttachRepository fileAttachRepository){
+        PermissionService permissionService, FileAttachRepository fileAttachRepository, MailService mailService){
         this.surgeryRepository = surgeryRepository;
         this.userSurgeryRepository = userSurgeryRepository;
         this.exceptionFactory = exceptionFactory;
         this.permissionService = permissionService;
         this.fileAttachRepository = fileAttachRepository;
+        this.mailService = mailService;
     }
 
     @Transactional
@@ -82,6 +87,7 @@ public class SurgeryServiceImpl implements SurgeryService {
             item -> UserSurgery.builder().userId(item.getAssigneeId()).surgeryId(newSurgeryId).surgeryRoleType(item.getSurgeryRoleType())
                 .build()).collect(Collectors.toList());
         userSurgeryRepository.saveAll(lstUserSurgery);
+        // TODO : Gửi mail
     }
 
     @Transactional
@@ -103,6 +109,7 @@ public class SurgeryServiceImpl implements SurgeryService {
             item -> UserSurgery.builder().userId(item.getAssigneeId()).surgeryId(surgeryId).surgeryRoleType(item.getSurgeryRoleType())
                 .build()).collect(Collectors.toList());
         userSurgeryRepository.saveAll(lstUserSurgery);
+        // TODO : Gửi mail
     }
 
     @Override
@@ -145,6 +152,8 @@ public class SurgeryServiceImpl implements SurgeryService {
 
         // Xóa ca phẫu thuật
         surgeryRepository.deleteById(surgeryId);
+
+        // TODO: Gửi mail
 
     }
 
