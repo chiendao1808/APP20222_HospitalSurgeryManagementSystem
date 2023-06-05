@@ -43,7 +43,8 @@ spring:
         smtp:
           auth: true
           starttls:
-            enable: true;
+            enable: true
+            required: true
 #            Cấu hình nếu sử dụng SSL
 #          socketFactory:
 #            port: 465
