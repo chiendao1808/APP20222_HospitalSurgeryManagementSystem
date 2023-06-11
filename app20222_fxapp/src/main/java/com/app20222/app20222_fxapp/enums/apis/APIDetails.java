@@ -21,7 +21,13 @@ public enum APIDetails {
     SURGERY_CREATE("SURGERY_CREATE", "/surgery","", "POST"),
     SURGERY_UPDATE("SURGERY_UPDATE", "/surgery","/update", "PUT"),
     SURGERY_DETAILS("SURGERY_DETAILS", "/surgery", "/get-details", "GET"),
-    SURGERY_DELETE("SURGERY_DELETE", "/surgery", "/delete", "DELETE"),;
+    SURGERY_DELETE("SURGERY_DELETE", "/surgery", "/delete", "DELETE"),
+
+    // Patient's APIs
+    PATIENT_GET_LIST("PATIENT_GET_LIST","/patient", "/get-list", "GET"),
+    PATIENT_GET_DETAILS("PATIENT_GET_DETAIL","/patient", "/get-detail", "GET"),
+    PATIENT_CREATE("PATIENT_CREATE", "/patient", "/", "POST"),
+    PATIENT_UPDATE("PATIENT_UPDATE", "/patient", "/", "PUT");
 
     private final String code;
     private final String requestPath;

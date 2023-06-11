@@ -9,6 +9,7 @@ import java.util.Objects;
 @Getter
 public enum IdentityTypeEnum {
 
+    ALL(-1, "Tất cả"),
     ID_CARD(0, "Chứng minh thư nhân dân"),
     CITIZEN_ID_CARD(1, "Căn cước công dân"),
     PASSPORT(2, "Hộ chiếu");

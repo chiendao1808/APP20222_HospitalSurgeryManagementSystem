@@ -1,20 +1,24 @@
 package com.app20222.app20222_backend.services.permission.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import com.app20222.app20222_backend.constants.message.error_field.ErrorKey;
 import com.app20222.app20222_backend.constants.message.message_const.MessageConst;
 import com.app20222.app20222_backend.constants.message.message_const.MessageConst.Resources;
+import com.app20222.app20222_backend.entities.patient.Patient;
 import com.app20222.app20222_backend.entities.surgery.Surgery;
 import com.app20222.app20222_backend.entities.users.User;
 import com.app20222.app20222_backend.enums.permission.BasePermissionEnum;
 import com.app20222.app20222_backend.enums.role.RoleEnum;
 import com.app20222.app20222_backend.exceptions.exception_factory.ExceptionFactory;
 import com.app20222.app20222_backend.repositories.department.DepartmentRepository;
+import com.app20222.app20222_backend.repositories.patient.PatientRepository;
 import com.app20222.app20222_backend.repositories.surgery.SurgeryRepository;
 import com.app20222.app20222_backend.repositories.users.UserRepository;
 import com.app20222.app20222_backend.services.permission.PermissionService;
@@ -34,16 +38,20 @@ public class PermissionServiceImpl implements PermissionService {
 
     private final ExceptionFactory exceptionFactory;
 
+    private final PatientRepository patientRepository;
+
 
     /**
      * CDI : Constructor Dependency Injection
      */
     public PermissionServiceImpl(DepartmentRepository departmentRepository,
-        UserRepository userRepository, SurgeryRepository surgeryRepository, ExceptionFactory exceptionFactory){
+        UserRepository userRepository, SurgeryRepository surgeryRepository, ExceptionFactory exceptionFactory,
+        PatientRepository patientRepository){
         this.departmentRepository = departmentRepository;
         this.userRepository = userRepository;
         this.surgeryRepository = surgeryRepository;
         this.exceptionFactory = exceptionFactory;
+        this.patientRepository = patientRepository;
     }
 
 
@@ -153,5 +161,39 @@ public class PermissionServiceImpl implements PermissionService {
             throw exceptionFactory.permissionDeniedException(ErrorKey.Surgery.PERMISSION_DENIED_ERROR_CODE, Resources.SURGERY, MessageConst.PERMISSIONS_DENIED);
         }
         return surgery;
+    }
+
+    @Override
+    public Patient hasPatientPermission(Long patientId, BasePermissionEnum permission) {
+        // check patient exists
+        Patient patient = patientRepository.findById(patientId).orElseThrow(
+            () -> exceptionFactory.resourceNotFoundException(ErrorKey.Patient.NOT_FOUND_ERROR_CODE, MessageConst.RESOURCE_NOT_FOUND,
+                Resources.PATIENT, ErrorKey.Patient.ID, String.valueOf(patientId)));
+        List<String> roles =
+            Objects.nonNull(AuthUtils.getCurrentUserId()) && Objects.nonNull(AuthUtils.getCurrentUserRoles()) ? AuthUtils.getCurrentUserRoles()
+                : new ArrayList<>();
+        // Danh sách các role có quyền chỉnh sửa và xóa hồ sơ bệnh nhân
+        List<String> lstEditableRole = Arrays.asList(RoleEnum.DEPARTMENT_ADMIN.getRoleCode(), RoleEnum.DEPARTMENT_MANAGER.getRoleCode(),
+            RoleEnum.HOSPITAL_ADMIN.getRoleCode(), RoleEnum.HOSPITAL_MANAGER.getRoleName());
+        boolean hasPermission = false;
+        switch (permission) {
+            case VIEW:
+                hasPermission = true;
+                break;
+            case EDIT:
+            case DELETE:
+                if (CollectionUtils.containsAny(roles, lstEditableRole)) {
+                    hasPermission = true;
+                }
+                break;
+            default:
+                break;
+        }
+        // check permission if false then throw permission denied exception
+        if (!hasPermission) {
+            throw exceptionFactory.permissionDeniedException(ErrorKey.Patient.PERMISSION_DENIED_ERROR_CODE, Resources.PATIENT,
+                MessageConst.PERMISSIONS_DENIED);
+        }
+        return patient;
     }
 }

@@ -113,6 +113,10 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."patient"
     address               text,
     phone_number          varchar(11),
     email                 varchar(50),
+    created_by            int8        not null,
+    created_at            timestamp   not null,
+    modified_by           int8,
+    modified_at timestamp,
     primary key (id)
 );
 COMMENT ON TABLE "app20222_db"."patient" IS 'Bảng chứa thông tin định danh và các thông tin chung của bệnh nhân';
@@ -127,6 +131,10 @@ COMMENT ON COLUMN "app20222_db"."patient"."birth_date" IS 'Ngày sinh bệnh nh�
 COMMENT ON COLUMN "app20222_db"."patient"."address" IS 'Địa chỉ bệnh nhân';
 COMMENT ON COLUMN "app20222_db"."patient"."phone_number" IS 'Số điện thoại liên hệ bệnh nhân';
 COMMENT ON COLUMN "app20222_db"."patient"."email" IS 'Email bệnh nhân';
+COMMENT ON COLUMN "app20222_db"."patient"."created_by" IS 'Id người tạo bệnh nhân';
+COMMENT ON COLUMN "app20222_db"."patient"."created_at" IS 'Thời gian tạo';
+COMMENT ON COLUMN "app20222_db"."patient"."modified_by" IS 'Id người cập nhật';
+COMMENT ON COLUMN "app20222_db"."patient"."modified_at" IS 'Thời gian cập nhật';
 
 -- ======================================================================== --
 -- Bảng medical_record --
