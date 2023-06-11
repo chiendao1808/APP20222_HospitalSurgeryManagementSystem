@@ -7,13 +7,14 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import com.app20222.app20222_backend.entities.base.BaseEntity;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Table(name = "patient")
-public class Patient {
+public class Patient extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

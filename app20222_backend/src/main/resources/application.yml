@@ -21,7 +21,7 @@ spring:
         ddlAuto: none
     properties:
       hibernate:
-        show_sql: false
+        show_sql: true
         use_sql_comment: true
         format_sql: true
   #Cấu hình servlet : upload multipart file
