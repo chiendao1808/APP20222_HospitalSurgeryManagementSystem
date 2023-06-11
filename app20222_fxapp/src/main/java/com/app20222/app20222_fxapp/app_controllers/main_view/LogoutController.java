@@ -1,31 +1,36 @@
 package com.app20222.app20222_fxapp.app_controllers.main_view;
 
 import com.app20222.app20222_fxapp.MainApplication;
+import com.app20222.app20222_fxapp.context.ApplicationContext;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.util.Objects;
 
 
 public class LogoutController {
-    private Button logout_btn;
-    LogoutController(){}
-    public Button getLogout_btn() {
-        return logout_btn;
-    }
-    public void setLogout_btn(Button logout_btn) {
-        this.logout_btn = logout_btn;
+
+    private Button logoutBtn;
+
+    LogoutController() {
     }
 
-    public void logout(ActionEvent event ) {
+    public Button getLogoutBtn() {
+        return logoutBtn;
+    }
+
+    public void setLogoutBtn(Button logout_btn) {
+        this.logoutBtn = logout_btn;
+    }
+
+    public void logout(ActionEvent event) {
         try {
-            if (event.getSource() == logout_btn) {
+            if (event.getSource() == logoutBtn) {
                 // TO SWAP FROM DASHBOARD TO LOGIN FORM
                 Parent root = FXMLLoader.load(Objects.requireNonNull(MainApplication.class.getResource("views/login_view/login-view.fxml")));
                 Image icon = new Image(Objects.requireNonNull(MainApplication.class.getResource("views/login_view/img/logo.png")).openStream());
@@ -36,7 +41,11 @@ public class LogoutController {
                 stage.setScene(scene);
                 stage.show();
 
-                logout_btn.getScene().getWindow().hide();
+                logoutBtn.getScene().getWindow().hide();
+
+                // Clear token in context
+                ApplicationContext.ACCESS_TOKEN = "";
+                ApplicationContext.REFRESH_TOKEN = "";
 
             }
         } catch (Exception e) {

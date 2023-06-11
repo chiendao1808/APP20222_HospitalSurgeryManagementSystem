@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 
 
 public class MainController {
+
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -37,28 +38,29 @@ public class MainController {
     private Label welcomeText;
 
     @FXML
-    private Button arrow_btn;
+    private Button arrowBtn;
 
     @FXML
-    private Button logout_btn;
+    private Button logoutBtn;
 
     @FXML
-    private Button logout_btn1;
+    private Button logoutBtn1;
 
     @FXML
-    private AnchorPane headerLeft_form;
+    private AnchorPane headerLeftForm;
 
     @FXML
-    private AnchorPane headerLeft_form1;
+    private AnchorPane headerLeftForm1;
 
     @FXML
-    private AnchorPane nav_form;
+    private AnchorPane navForm;
 
     @FXML
-    private AnchorPane nav_form1;
+    private AnchorPane navForm1;
 
     @FXML
-    private AnchorPane mainCenter_form;
+    private AnchorPane mainCenterForm;
+
     @FXML
     protected void onHelloButtonClick() {
         String message = "";
@@ -66,7 +68,8 @@ public class MainController {
             String apiPath = APIDetails.HELLO.getRequestPath() + APIDetails.HELLO.getDetailPath();
             String uri = ApiUtils.buildURI(apiPath, new HashMap<>());
             HttpResponse response = HttpUtils.doRequest(uri, HttpMethods.GET, new Object(), new HashMap<>());
-            List<BaseResponse> lstResponse = HttpUtils.mappingResponseBody(response, new TypeReference<List<BaseResponse>>() {});
+            List<BaseResponse> lstResponse = HttpUtils.mappingResponseBody(response, new TypeReference<List<BaseResponse>>() {
+            });
             message = Objects.requireNonNull(lstResponse).stream().map(BaseResponse::getMessage).collect(Collectors.toList()).toString();
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -77,34 +80,34 @@ public class MainController {
     @FXML
     public void sliderArrow() {
 
-        TranslateTransition slide = new TranslateTransition(Duration.seconds(.5),nav_form);
-        TranslateTransition slideNav = new TranslateTransition(Duration.seconds(.5),nav_form1);
-        TranslateTransition slide1 = new TranslateTransition(Duration.seconds(.5),mainCenter_form);
-        TranslateTransition slideHeader = new TranslateTransition(Duration.seconds(.5),headerLeft_form);
-        TranslateTransition slideHeader1 = new TranslateTransition(Duration.seconds(.5),headerLeft_form1);
-        TranslateTransition slideButton = new TranslateTransition(Duration.seconds(.5), arrow_btn);
+        TranslateTransition slide = new TranslateTransition(Duration.seconds(.5), navForm);
+        TranslateTransition slideNav = new TranslateTransition(Duration.seconds(.5), navForm1);
+        TranslateTransition slide1 = new TranslateTransition(Duration.seconds(.5), mainCenterForm);
+        TranslateTransition slideHeader = new TranslateTransition(Duration.seconds(.5), headerLeftForm);
+        TranslateTransition slideHeader1 = new TranslateTransition(Duration.seconds(.5), headerLeftForm1);
+        TranslateTransition slideButton = new TranslateTransition(Duration.seconds(.5), arrowBtn);
 
-        System.out.println(nav_form.getTranslateX());
-        if (nav_form.getTranslateX() == 0) {
+        System.out.println(navForm.getTranslateX());
+        if (navForm.getTranslateX() == 0) {
             // Close the left pane
             slide.setToX(-260);
             slideHeader.setToX(-250);
             slide1.setToX(-250 + 90);
             slideButton.setToX(-250 + 90);
-            headerLeft_form.setVisible(false);
-            headerLeft_form1.setVisible(true);
-            nav_form.setVisible(false);
-            nav_form1.setVisible(true);
+            headerLeftForm.setVisible(false);
+            headerLeftForm1.setVisible(true);
+            navForm.setVisible(false);
+            navForm1.setVisible(true);
         } else {
             // Open the left pane
             slide.setToX(0);
             slide1.setToX(0);
             slideHeader.setToX(0);
             slideButton.setToX(0);
-            headerLeft_form1.setVisible(false);
-            headerLeft_form.setVisible(true);
-            nav_form.setVisible(true);
-            nav_form1.setVisible(false);
+            headerLeftForm1.setVisible(false);
+            headerLeftForm.setVisible(true);
+            navForm.setVisible(true);
+            navForm1.setVisible(false);
         }
         slide.play();
         slide1.play();
@@ -113,17 +116,19 @@ public class MainController {
         slideHeader1.play();
         slideNav.play();
     }
+
     @FXML
     public void logout(ActionEvent event) {
         LogoutController logoutController = new LogoutController();
-        logoutController.setLogout_btn(logout_btn);
+        logoutController.setLogoutBtn(logoutBtn);
         logoutController.logout(event);
     }
+
     //  Khi co lại nav_left
     @FXML
     public void logout1(ActionEvent event) {
         LogoutController logoutController = new LogoutController();
-        logoutController.setLogout_btn(logout_btn1);
+        logoutController.setLogoutBtn(logoutBtn1);
         logoutController.logout(event);
     }
 }

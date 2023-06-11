@@ -24,7 +24,7 @@ public class SQLPatient {
             "WHERE \n" +
             "      (-1 = :patientId OR patient.id = :patientId) AND \n" +
             "      ('' = :code OR patient.code ILIKE '%' || :code || '%') AND \n" +
-            "      ('' = :identityType OR patient.identity_type = :identityType) AND \n" +
+            "      (-1 = :identityType OR patient.identity_type = :identityType) AND \n" +
             "      ('' = :identificationNum OR patient.identification_number ILIKE '%' || :identificationNum || '%') AND \n" +
             "      ('' = :name OR CONCAT_WS(' ', patient.last_name, patient.first_name) ILIKE '%' || :name || '%') AND \n" +
             "      ('' = :phoneNumber OR patient.phone_number ILIKE '%' || :phoneNumber || '%') AND \n" +
