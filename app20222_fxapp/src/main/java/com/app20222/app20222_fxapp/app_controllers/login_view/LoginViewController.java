@@ -16,10 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -38,8 +35,18 @@ public class LoginViewController {
     private PasswordField password;
 
     @FXML
+    private TextField plainPassword;
+
+    @FXML
+    private CheckBox passwordVisibilityCheckbox;
+
+    @FXML
     private Button loginBtn;
 
+
+    /**
+     * Hàm sử lý khi login vào màn home
+     */
     public void switchToSceneMain(ActionEvent event) throws IOException {
         Alert alert;
         if(username.getText().isEmpty() || password.getText().isEmpty()){
@@ -56,8 +63,9 @@ public class LoginViewController {
                 alert.setHeaderText(null);
                 alert.setContentText("Đăng nhập thành công !");
                 alert.showAndWait();
+                //   Ẩn màn login
                 loginBtn.getScene().getWindow().hide();
-                root = FXMLLoader.load(MainApplication.class.getResource("views/main_view/main-view.fxml"));
+                root = FXMLLoader.load(Objects.requireNonNull(MainApplication.class.getResource("views/main_view/main-view.fxml")));
                 stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                 scene = new Scene(root);
                 stage.setTitle("Hospital-Systems");
@@ -74,6 +82,23 @@ public class LoginViewController {
             }
         }
 
+
+    }
+
+    /**
+     * Hàm sử lý ẩn hiện mật khẩu
+     */
+    @FXML
+    public void togglePasswordVisibility(ActionEvent event) {
+            if (passwordVisibilityCheckbox.isSelected()) {
+                password.setVisible(false);
+                plainPassword.setVisible(true);
+                plainPassword.setText(password.getText());
+            } else {
+                password.setVisible(true);
+                plainPassword.setVisible(false);
+                password.setText(plainPassword.getText());
+            }
 
     }
 

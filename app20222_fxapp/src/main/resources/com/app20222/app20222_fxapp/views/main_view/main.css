@@ -17,6 +17,23 @@
 .nav-btn:hover {
     -fx-background-color: rgb(3,49,98);
 }
+.nav-item {
+    -fx-background-color: #6571B0;
+    -fx-background-radius: 15px;
+    -fx-cursor: hand;
+}
+.nav-item:hover{
+    -fx-background-color: rgba(101,113,176,0.6);
+}
+.arrow-btn{
+    -fx-background-color: white;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+}
+.arrow-btn:hover{
+    -fx-background-color: rgba(255,255,255,0.6);
+}
+
 .signout {
     -fx-background-color: #ae2d3c;
     -fx-background-radius: 15px;
@@ -24,5 +41,4 @@
 }
 .signout:hover{
     -fx-background-color: #a43d2d;
-
 }

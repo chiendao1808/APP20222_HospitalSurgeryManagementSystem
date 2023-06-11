@@ -40,8 +40,8 @@
                      </font>
                   </Label>
                   <PasswordField fx:id="password" layoutX="122.0" layoutY="345.0" prefHeight="34.0" prefWidth="239.0" promptText="Password" styleClass="textField" stylesheets="@login.css" />
-                  <TextField layoutX="121.0" layoutY="345.0" prefHeight="34.0" prefWidth="239.0" promptText="Password" styleClass="textfield" stylesheets="@login.css" visible="false" />
-                  <CheckBox layoutX="122.0" layoutY="397.0" mnemonicParsing="false" text="Hiển thị mật khẩu" />
+                  <TextField fx:id="plainPassword" layoutX="121.0" layoutY="345.0" prefHeight="34.0" prefWidth="239.0" promptText="Password" styleClass="textfield" stylesheets="@login.css" visible="false" />
+                  <CheckBox fx:id="passwordVisibilityCheckbox" layoutX="122.0" layoutY="397.0" mnemonicParsing="false" onAction="#togglePasswordVisibility" text="Hiển thị mật khẩu" />
                   <Button fx:id="loginBtn" layoutX="25.0" layoutY="453.0" mnemonicParsing="false" onAction="#switchToSceneMain" prefHeight="34.0" prefWidth="334.0" styleClass="btn" stylesheets="@login.css" text="Đăng nhập" textFill="#ebeded">
                      <font>
                         <Font name="Segoe UI Bold" size="16.0" />
