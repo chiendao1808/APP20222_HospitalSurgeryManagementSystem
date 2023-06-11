@@ -19,7 +19,7 @@
                <left>
                   <AnchorPane prefHeight="200.0" prefWidth="250.0" BorderPane.alignment="CENTER">
                      <children>
-                        <AnchorPane fx:id="nav_form" layoutX="-1.0" layoutY="-8.0" prefHeight="554.4" prefWidth="250.0" styleClass="left-menu" stylesheets="@main.css" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="-8.0">
+                        <AnchorPane fx:id="navForm" layoutX="-1.0" layoutY="-8.0" prefHeight="554.4" prefWidth="250.0" styleClass="left-menu" stylesheets="@main.css" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="-8.0">
                            <children>
                               <FontAwesomeIconView fill="WHITE" glyphName="USER_MD" layoutX="91.0" layoutY="76.0" size="6em" text="" />
                               <Label layoutX="86.0" layoutY="86.0" text="ADMIN" textFill="WHITE">
@@ -60,7 +60,7 @@
                                           <FontAwesomeIconView fill="WHITE" size="1.8em" />
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="logout_btn" layoutX="18.0" layoutY="358.0" mnemonicParsing="false" onAction="#logout" styleClass="signout" stylesheets="@main.css" text="Đăng xuất" textFill="WHITE">
+                                    <Button fx:id="logoutBtn" layoutX="18.0" layoutY="358.0" mnemonicParsing="false" onAction="#logout" styleClass="signout" stylesheets="@main.css" text="Đăng xuất" textFill="WHITE">
                                        <graphic>
                                           <FontAwesomeIconView fill="#f4f1f1" glyphName="SIGN_OUT" size="1.8em" />
                                        </graphic>
@@ -69,7 +69,7 @@
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane fx:id="nav_form1" layoutX="14.0" layoutY="60.0" prefHeight="200.0" prefWidth="75.0" styleClass="left-menu" stylesheets="@main.css" visible="false" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane fx:id="navForm1" layoutX="14.0" layoutY="60.0" prefHeight="200.0" prefWidth="75.0" styleClass="left-menu" stylesheets="@main.css" visible="false" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
                               <Button layoutX="8.0" layoutY="96.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="60.0" styleClass="nav-item" stylesheets="@main.css" textAlignment="CENTER" textFill="WHITE">
                                  <graphic>
@@ -99,7 +99,7 @@
                                     <FontAwesomeIconView fill="#fafafa" size="1.8em" />
                                  </graphic>
                               </Button>
-                              <Button fx:id="logout_btn1" layoutX="8.0" layoutY="465.0" mnemonicParsing="false" onAction="#logout1" prefHeight="37.0" prefWidth="60.0" styleClass="signout" stylesheets="@main.css" textFill="WHITE">
+                              <Button fx:id="logoutBtn1" layoutX="8.0" layoutY="465.0" mnemonicParsing="false" onAction="#logout1" prefHeight="37.0" prefWidth="60.0" styleClass="signout" stylesheets="@main.css" textFill="WHITE">
                                  <graphic>
                                     <FontAwesomeIconView fill="#f4f1f1" glyphName="SIGN_OUT" size="1.8em" />
                                  </graphic>
@@ -116,7 +116,7 @@
                <top>
                   <AnchorPane prefHeight="45.0" prefWidth="200.0" styleClass="white-bg" stylesheets="@../login_view/login.css" BorderPane.alignment="CENTER">
                      <children>
-                        <AnchorPane fx:id="headerLeft_form" prefHeight="45.0" prefWidth="250.0">
+                        <AnchorPane fx:id="headerLeftForm" prefHeight="45.0" prefWidth="250.0">
                            <children>
                               <ImageView fitHeight="35.0" fitWidth="200.0" layoutX="14.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -129,12 +129,12 @@
                                  </font></Label>
                            </children>
                         </AnchorPane>
-                        <Button fx:id="arrow_btn" layoutX="258.0" layoutY="9.0" mnemonicParsing="false" onAction="#sliderArrow" styleClass="arrow-btn" stylesheets="@main.css">
+                        <Button fx:id="arrowBtn" layoutX="258.0" layoutY="9.0" mnemonicParsing="false" onAction="#sliderArrow" styleClass="arrow-btn" stylesheets="@main.css">
                            <graphic>
                               <FontAwesomeIconView glyphName="BARS" size="20" text="" />
                            </graphic>
                         </Button>
-                        <AnchorPane fx:id="headerLeft_form1" layoutX="10.0" layoutY="10.0" prefHeight="46.0" prefWidth="48.0" visible="false">
+                        <AnchorPane fx:id="headerLeftForm1" layoutX="10.0" layoutY="10.0" prefHeight="46.0" prefWidth="48.0" visible="false">
                            <children>
                               <ImageView fitHeight="44.0" fitWidth="70.0" layoutY="-8.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
