@@ -39,5 +39,23 @@ public class ErrorKey {
 
     }
 
+    public static class User {
+        //error code
+        public static final String NOT_FOUND_ERROR_CODE = "user.error.not_found";
+        public static final String EXISTED_ERROR_CODE = "user.error.existed";
+
+        public static final String DUPLICATED_ERROR_CODE = "user.error.duplicated";
+
+        public static final String PERMISSION_DENIED_ERROR_CODE = "user.error.permission_denied";
+
+        // error key
+
+        public static final String ID = "id";
+
+        public static final String IDENTIFICATION_NUMBER = "identification_number";
+
+        public static final String CODE = "code";
+    }
+
 
 }

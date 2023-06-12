@@ -14,7 +14,7 @@ public interface PatientService {
 
     void createPatient(PatientCreateDTO createDTO);
 
-    void updatePatient(PatientUpdateDTO updateDTO);
+    void updatePatient(Long id, PatientUpdateDTO updateDTO);
 
     List<IGetListPatient> getListPatient(Long patientId, String code, IdentityTypeEnum identityType, String identificationNum, String name,
         String phoneNumber, String email);
