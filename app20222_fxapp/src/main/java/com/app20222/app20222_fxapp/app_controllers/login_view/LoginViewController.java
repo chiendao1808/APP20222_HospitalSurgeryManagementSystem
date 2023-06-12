@@ -64,6 +64,7 @@ public class LoginViewController {
                 alert.setHeaderText(null);
                 alert.setContentText("Đăng nhập thành công !");
                 alert.showAndWait();
+                System.out.println("hello");
                 //   Ẩn màn login
                 loginBtn.getScene().getWindow().hide();
                 root = FXMLLoader.load(Objects.requireNonNull(MainApplication.class.getResource("views/main_view/main-view.fxml")));
