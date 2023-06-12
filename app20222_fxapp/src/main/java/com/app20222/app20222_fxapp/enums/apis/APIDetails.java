@@ -14,6 +14,9 @@ public enum APIDetails {
 
     // User's APIs
     USER_GET_LIST("USER_GET_LIST", "/users", "", "GET"),
+    USER_CREATE("USER_CREATE", "/users", "", "POST"),
+    USER_UPDATE("USER_UPDATE", "/users", "", "PUT"),
+    USER_GET_DETAIL("USER_GET_DETAIL", "/users", "/get-detail", "GET"),
 
 
     // Surgery's APIs

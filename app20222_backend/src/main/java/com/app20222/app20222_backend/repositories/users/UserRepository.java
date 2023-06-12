@@ -1,6 +1,7 @@
 package com.app20222.app20222_backend.repositories.users;
 
 import com.app20222.app20222_backend.constants.sql.users.SQLUser;
+import com.app20222.app20222_backend.dtos.users.IGetDetailUser;
 import com.app20222.app20222_backend.dtos.users.IGetListUser;
 import com.app20222.app20222_backend.entities.users.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,4 +23,15 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query(value = "SELECT user.id FROM User user WHERE user.departmentId = :departmentId")
     Set<Long> findAllByDepartmentId(Long departmentId);
+
+    @Query(nativeQuery = true, value = SQLUser.GET_DETAIL_USER)
+    IGetDetailUser getDetailUser(Long userId);
+
+    Boolean existsByUsername(String username);
+
+    Integer countByUsername(String username);
+
+    Boolean existsByCode(String code);
+
+    Boolean existsByIdNotAndIdentityTypeAndIdentificationNumber(Long id, Integer identityType, String identificationNumber);
 }

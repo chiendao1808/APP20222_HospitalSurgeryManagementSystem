@@ -79,10 +79,13 @@ public class PermissionServiceImpl implements PermissionService {
      * Check các quyền của user đăng nhập với một user bất kỳ -> chi tiết
      */
     @Override
-    public Boolean hasUserPermission(Long userId, BasePermissionEnum permission) {
+    public User hasUserPermission(Long userId, BasePermissionEnum permission) {
         // check user exists
         User user = userRepository.findById(userId).orElse(null);
-        if(user == null) return false;
+        if (user == null) {
+            throw exceptionFactory.resourceNotFoundException(ErrorKey.User.NOT_FOUND_ERROR_CODE, MessageConst.RESOURCE_NOT_FOUND, Resources.USER,
+                ErrorKey.User.ID, String.valueOf(userId));
+        }
         Set<Long> lstViewableDepartmentId = getLstViewableDepartmentId();
         List<String> currentUsersRoles = AuthUtils.getCurrentUserRoles() != null ? AuthUtils.getCurrentUserRoles() : new ArrayList<>();
         Long currentUserId = AuthUtils.getCurrentUserId();
@@ -102,7 +105,11 @@ public class PermissionServiceImpl implements PermissionService {
             default:
                 break;
         }
-        return hasPermission;
+        if (!hasPermission) {
+            throw exceptionFactory.permissionDeniedException(ErrorKey.User.PERMISSION_DENIED_ERROR_CODE, Resources.USER,
+                MessageConst.PERMISSIONS_DENIED);
+        }
+        return user;
     }
 
     /*

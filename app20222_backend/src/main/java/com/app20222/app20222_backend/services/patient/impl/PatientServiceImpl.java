@@ -57,6 +57,7 @@ public class PatientServiceImpl implements PatientService {
         // Create new patient
         Patient newPatient = new com.app20222.app20222_backend.entities.patient.Patient();
         BeanUtils.copyProperties(createDTO, newPatient);
+        newPatient.setIdentityType(createDTO.getIdentityType().getValue());
         newPatient.setCode(generatePatientCode());
         newPatient.setCreatedBy(AuthUtils.getCurrentUserId());
         newPatient.setCreatedAt(new Date());
@@ -79,12 +80,12 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
-    public void updatePatient(PatientUpdateDTO updateDTO) {
-        Patient patient = permissionService.hasPatientPermission(updateDTO.getPatientId(), BasePermissionEnum.EDIT);
+    public void updatePatient(Long id, PatientUpdateDTO updateDTO) {
+        Patient patient = permissionService.hasPatientPermission(id, BasePermissionEnum.EDIT);
 
-        // check duplicated identification number and identification type
-        if (patientRepository.existsByIdNotAndIdentityTypeAndIdentificationNumber(updateDTO.getPatientId(),
-            updateDTO.getIdentityType().getValue(), updateDTO.getIdentificationNumber())) {
+        // check duplicated identification number and identity type
+        if (patientRepository.existsByIdNotAndIdentityTypeAndIdentificationNumber(id, updateDTO.getIdentityType().getValue(),
+            updateDTO.getIdentificationNumber())) {
             throw exceptionFactory.resourceExistedException(DUPLICATED_ERROR_CODE, Resources.PATIENT, MessageConst.RESOURCE_DUPLICATED,
                 ErrorKey.Patient.IDENTIFICATION_NUMBER, updateDTO.getIdentificationNumber());
         }

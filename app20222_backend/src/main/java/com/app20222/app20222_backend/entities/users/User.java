@@ -3,13 +3,11 @@ package com.app20222.app20222_backend.entities.users;
 import com.app20222.app20222_backend.entities.base.BaseEntity;
 import com.app20222.app20222_backend.entities.department.Department;
 import com.app20222.app20222_backend.entities.role.Role;
-import com.sun.istack.NotNull;
 import lombok.*;
-import org.springframework.lang.NonNull;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -76,4 +74,17 @@ public class User extends BaseEntity {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     Set<Role> roles = new HashSet<>();
+
+
+    /**
+     * Get fullname of user
+     */
+    public String getFullName(){
+       String fullName = "";
+       if(Objects.nonNull(this.lastName))
+           fullName += this.lastName + " ";
+       if(Objects.nonNull(this.firstName))
+           fullName += this.firstName;
+       return fullName;
+    }
 }

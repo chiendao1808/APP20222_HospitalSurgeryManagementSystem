@@ -56,8 +56,9 @@ public class PatientController {
 
     @PutMapping
     @Operation(description = "Cập nhật thông tin bệnh nhân")
-    public void updatePatient(@RequestBody @Validated PatientUpdateDTO updateDTO) {
-        patientService.updatePatient(updateDTO);
+    public void updatePatient(@RequestParam(name = "id") Long id,
+        @RequestBody @Validated PatientUpdateDTO updateDTO) {
+        patientService.updatePatient(id, updateDTO);
     }
 
 }
