@@ -126,8 +126,8 @@ public class UserServiceImpl implements UserService {
         StringBuilder usernameBuilder = new StringBuilder();
         String fullName = user.getFullName();
         String[] fullNameArr = fullName.split(" ");
-        if(fullNameArr.length != 0){
-            usernameBuilder.append(StringUtils.convertVietnameseToEng(fullNameArr[0]));
+        if(fullNameArr.length > 0){
+            usernameBuilder.append(StringUtils.convertVietnameseToEng(fullNameArr[0]).toLowerCase());
             for(int index = 1; index < fullNameArr.length; index++){
                 usernameBuilder.append(StringUtils.convertVietnameseToEng(fullNameArr[index]).toLowerCase().charAt(0));
             }
