@@ -202,8 +202,9 @@ DROP TABLE IF EXISTS "app20222_db"."disease_group";
 CREATE TABLE IF NOT EXISTS "app20222_db"."disease_group"
 (
     id   int8 not null unique,
-    name varchar(100),
-    code varchar(10),
+    name varchar(100) not null ,
+    code varchar(10) not null ,
+    department_id int8 not null,
     primary key (id)
 );
 
@@ -211,6 +212,7 @@ COMMENT ON TABLE "app20222_db"."disease_group" IS 'Bảng lưu thông tin nhóm 
 COMMENT ON COLUMN "app20222_db"."disease_group"."id" IS 'Id nhóm bệnh';
 COMMENT ON COLUMN "app20222_db"."disease_group"."name" IS 'Tên nhóm bệnh';
 COMMENT ON COLUMN "app20222_db"."disease_group"."code" IS 'Mã nhóm bệnh';
+COMMENT ON COLUMN "app20222_db"."disease_group"."department_id" IS 'Id khoa phụ trách';
 
 -- ======================================================================== --
 -- Bảng surgery_room --
