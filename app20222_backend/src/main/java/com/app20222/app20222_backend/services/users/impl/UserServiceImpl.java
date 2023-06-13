@@ -12,6 +12,7 @@ import com.app20222.app20222_backend.entities.users.User;
 import com.app20222.app20222_backend.entities.users.UserRole;
 import com.app20222.app20222_backend.enums.permission.BasePermissionEnum;
 import com.app20222.app20222_backend.exceptions.exception_factory.ExceptionFactory;
+import com.app20222.app20222_backend.repositories.department.DepartmentRepository;
 import com.app20222.app20222_backend.repositories.users.UserRepository;
 import com.app20222.app20222_backend.repositories.users.UserRoleRepository;
 import com.app20222.app20222_backend.services.permission.PermissionService;
@@ -45,13 +46,16 @@ public class UserServiceImpl implements UserService {
 
     private final ExceptionFactory exceptionFactory;
 
+    private final DepartmentRepository departmentRepository;
+
     public UserServiceImpl(UserRepository userRepository, PermissionService permissionService, PasswordEncoder passwordEncoder,
-        UserRoleRepository userRoleRepository, ExceptionFactory exceptionFactory){
+        UserRoleRepository userRoleRepository, ExceptionFactory exceptionFactory, DepartmentRepository departmentRepository){
         this.userRepository = userRepository;
         this.permissionService = permissionService;
         this.passwordEncoder = passwordEncoder;
         this.userRoleRepository = userRoleRepository;
         this.exceptionFactory = exceptionFactory;
+        this.departmentRepository = departmentRepository;
     }
 
     @Override
@@ -64,6 +68,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(UserCreateDTO createDTO) {
+        // Check department exist
+        if(!departmentRepository.existsById(createDTO.getDepartmentId()))
+            throw exceptionFactory.resourceNotFoundException(ErrorKey.Department.NOT_FOUND_ERROR_CODE, MessageConst.RESOURCE_NOT_FOUND,
+                Resources.DEPARTMENT, ErrorKey.Department.ID, String.valueOf(createDTO.getDepartmentId()));
+        // Create new user
         User user = new User();
         BeanUtils.copyProperties(createDTO, user);
         user.setCode(generateUserCode());

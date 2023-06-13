@@ -11,4 +11,6 @@ public interface DepartmentRepository extends JpaRepository<Department, Long> {
 
     @Query(value = "SELECT department.id FROM Department department")
     Set<Long> getAllDepartmentId();
+
+    Boolean existsByCode(String code);
 }
