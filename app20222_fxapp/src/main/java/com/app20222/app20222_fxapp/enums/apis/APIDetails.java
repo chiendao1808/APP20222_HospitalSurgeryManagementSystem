@@ -18,6 +18,10 @@ public enum APIDetails {
     USER_UPDATE("USER_UPDATE", "/users", "", "PUT"),
     USER_GET_DETAIL("USER_GET_DETAIL", "/users", "/get-detail", "GET"),
 
+    // Department's
+    DEPARTMENT_CREATE("DEPARTMENT_CREATE", "/department", "", "POST"),
+    DEPARTMENT_UPDATE("DEPARTMENT_UPDATE", "/department", "", "PUT"),
+
 
     // Surgery's APIs
     SURGERY_GET_LIST("SURGERY_GET_LIST", "/surgery","/get-list", "GET"),
@@ -26,11 +30,17 @@ public enum APIDetails {
     SURGERY_DETAILS("SURGERY_DETAILS", "/surgery", "/get-details", "GET"),
     SURGERY_DELETE("SURGERY_DELETE", "/surgery", "/delete", "DELETE"),
 
+    // Surgery Room's APIs
+    SURGERY_ROOM_GET_LIST("SURGERY_ROOM_GET_LIST", "/surgery-room","/get-list", "GET"),
+    SURGERY_ROOM_CREATE("SURGERY_ROOM_CREATE", "/surgery-room","/", "POST"),
+    SURGERY_ROOM_UPDATE("SURGERY_ROOM_CREATE", "/surgery-room","/", "PUT"),
+
     // Patient's APIs
     PATIENT_GET_LIST("PATIENT_GET_LIST","/patient", "/get-list", "GET"),
     PATIENT_GET_DETAILS("PATIENT_GET_DETAIL","/patient", "/get-detail", "GET"),
     PATIENT_CREATE("PATIENT_CREATE", "/patient", "/", "POST"),
     PATIENT_UPDATE("PATIENT_UPDATE", "/patient", "/", "PUT");
+
 
     private final String code;
     private final String requestPath;

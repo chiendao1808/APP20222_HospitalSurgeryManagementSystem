@@ -14,7 +14,8 @@ public enum RoleEnum {
     DEPARTMENT_ADMIN(4L, "ROLE_DEPARTMENT_ADMIN", "DEPARTMENT_ADMIN"),
     DEPARTMENT_MANAGER(5L, "ROLE_DEPARTMENT_MANAGER", "DEPARTMENT_MANAGER"),
     DOCTOR(6L, "ROLE_DOCTOR", "DOCTOR"),
-    NURSE(7L, "ROLE_NURSE", "NURSE");
+    NURSE(7L, "ROLE_NURSE", "NURSE"),
+    STAFF(8L, "ROLE_STAFF", "STAFF");
 
     private final Long id;
     private final String roleCode;
