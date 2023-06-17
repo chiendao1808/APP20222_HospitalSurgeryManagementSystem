@@ -10,6 +10,8 @@ public class MessageConst {
         public static final String USER = "User";
 
         public static final String DEPARTMENT = "Department";
+
+        public static final String SURGERY_ROOM = "SurgeryRoom";
     }
 
     public static final String RESOURCE_NOT_FOUND = "not found";

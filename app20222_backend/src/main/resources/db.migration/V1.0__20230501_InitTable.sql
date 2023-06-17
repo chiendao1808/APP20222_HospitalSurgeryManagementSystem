@@ -47,7 +47,8 @@ COMMENT ON COLUMN "app20222_db"."users"."department_id" IS 'Id của khoa/bộ p
 -- Init dữ liệu --
 INSERT INTO "app20222_db".users (identification_number, identity_type, code, first_name, last_name, username, password,
                                  created_at, created_by)
-VALUES ('00293849828', 1, 'ADMIN_SUPER1', 'Admin', 'Super', 'admin', '$2a$12$4FTmJ2x/BfKIN9as9ivNKuo8CJZd4jtk0UDEijm7OYqrusJN251du', now(), 1);
+VALUES ('00293849828', 1, 'ADMIN_SUPER1', 'Admin', 'Super', 'admin', '$2a$12$4FTmJ2x/BfKIN9as9ivNKuo8CJZd4jtk0UDEijm7OYqrusJN251du', now(), 1),
+('001984890999', 1, 'ADMIN_HOSPITAL1', 'Admin', 'Hospital', 'admin_hospital_1', '$2a$12$4FTmJ2x/BfKIN9as9ivNKuo8CJZd4jtk0UDEijm7OYqrusJN251du', now(), 1);
 -- username = admin, password = admin --
 
 -- ======================================================================== --
@@ -224,6 +225,11 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."surgery_room"
     address           text,
     description       text,
     current_available boolean,
+    on_service_at     date,
+    created_at       timestamp not null,
+    created_by       int8      not null,
+    modified_at      timestamp,
+    modified_by      int8,
     primary key (id)
 );
 COMMENT ON TABLE "app20222_db"."surgery_room" IS 'Bảng lưu thông tin phòng phẫu thuật';
@@ -232,6 +238,7 @@ COMMENT ON COLUMN "app20222_db"."surgery_room"."name" IS 'Tên phòng phẫu thu
 COMMENT ON COLUMN "app20222_db"."surgery_room"."address" IS 'Địa chỉ phòng phẫu thuật';
 COMMENT ON COLUMN "app20222_db"."surgery_room"."description" IS 'Mô tả thông tin phòng phẫu thuật';
 COMMENT ON COLUMN "app20222_db"."surgery_room"."current_available" IS 'Trạng thái phòng phẫu thuật hiện tại (Sẵn sàng/Đang được sử dụng)';
+COMMENT ON COLUMN "app20222_db"."surgery_room"."on_service_at" IS 'Thời gian đưa vào sử dụng';
 
 -- ======================================================================== --
 -- Bảng file_attach --
@@ -289,7 +296,9 @@ INSERT INTO "app20222_db"."role" (code, name, displayed_name, is_default) VALUES
 
                                      ('ROLE_DOCTOR', 'DOCTOR', 'Bác sĩ', true),
 
-                                     ('ROLE_NURSE', 'NURSE', 'Y tá', true);
+                                     ('ROLE_NURSE', 'NURSE', 'Y tá', true),
+
+                                     ('ROLE_STAFF', 'STAFF', 'Nhân viên', true);
 -- ========================================== --
 
 -- Bảng users_roles --
@@ -302,6 +311,7 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."users_roles"(
 COMMENT ON COLUMN "app20222_db"."users_roles"."user_id" IS 'Id của người dùng';
 COMMENT ON COLUMN "app20222_db"."users_roles"."role_id" IS 'Id của vai trò';
 INSERT INTO "app20222_db"."users_roles" (user_id, role_id) VALUES (1,1); -- Init super admin role --
+INSERT INTO "app20222_db"."users_roles" (user_id, role_id) VALUES (2,2); -- Init hospital_admin
 
 -- Bảng users_surgeries ---
 DROP TABLE IF EXISTS "app20222_db"."users_surgeries";
@@ -352,6 +362,7 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."mail"(
     sent_time timestamp not null,
     primary key (id)
 );
+COMMENT ON TABLE "app20222_db"."mail" IS 'Bảng lưu lịch sử gửi mail hệ thống';
 COMMENT ON COLUMN "app20222_db"."mail"."id" IS 'Id bản ghi lịch sử gửi mail';
 COMMENT ON COLUMN "app20222_db"."mail"."code" IS 'Mã code của email lưu trong hệ thống (phục vụ cho việc gửi lại nếu cần)';
 COMMENT ON COLUMN "app20222_db"."mail"."lst_to_address" IS 'Danh sách địa chỉ email được gửi';
@@ -361,6 +372,24 @@ COMMENT ON COLUMN "app20222_db"."mail"."content" IS 'Nội dung email';
 COMMENT ON COLUMN "app20222_db"."mail"."is_has_attachments" IS 'Có/Không file đính kèm';
 COMMENT ON COLUMN "app20222_db"."mail"."status" IS 'Trạng thái email (0: Chờ gửi, 1: Đã gửi, 2: Gửi thành công, 3 : Gửi thất bại)';
 COMMENT ON COLUMN "app20222_db"."mail"."sent_time" IS 'Thời gian gửi';
+
+-- Bảng feature --
+DROP TABLE IF EXISTS "app20222_db"."features";
+CREATE TABLE IF NOT EXISTS "app20222_db"."features"(
+                                                   id bigserial not null unique,
+                                                   code varchar(30) not null unique,
+                                                   parent_code varchar(30) not null,
+                                                   name varchar(255) not null,
+                                                   primary key (id)
+);
+COMMENT ON TABLE "app20222_db"."features" IS 'Bảng lưu các tính năng của hệ thống';
+COMMENT ON COLUMN "app20222_db"."features"."id" IS 'Id bản ghi tính năng';
+COMMENT ON COLUMN "app20222_db"."features"."code" IS 'Mã code của tính năng';
+COMMENT ON COLUMN "app20222_db"."features"."name" IS 'Tên tính năng';
+COMMENT ON COLUMN "app20222_db"."features"."parent_code" IS 'Mã code của tính năng lớn';
+-- Init dữ liệu --
+
+
 
 
 

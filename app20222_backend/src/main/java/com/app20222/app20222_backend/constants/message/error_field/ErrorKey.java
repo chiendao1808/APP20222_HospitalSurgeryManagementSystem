@@ -73,5 +73,20 @@ public class ErrorKey {
         public static final String CODE = "code";
     }
 
+    public static class SurgeryRoom {
+        //error code
+        public static final String NOT_FOUND_ERROR_CODE = "surgery_room.error.not_found";
+        public static final String EXISTED_ERROR_CODE = "surgery_room.error.existed";
+
+        public static final String DUPLICATED_ERROR_CODE = "surgery_room.error.duplicated";
+
+        public static final String PERMISSION_DENIED_ERROR_CODE = "surgery_room.error.permission_denied";
+
+        // error key
+        public static final String ID = "id";
+
+        public static final String CODE = "code";
+    }
+
 
 }
