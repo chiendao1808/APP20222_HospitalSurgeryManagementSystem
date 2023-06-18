@@ -1,0 +1,75 @@
+#Cấu hình server
+server:
+  port: 8082
+  servlet:
+    context-path: /app20222/api
+
+# Cấu hình spring
+spring:
+  #Cấu hình datasource local
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/app20222
+    username: app20222_admin
+    password: 5SrcvlD4CLFJ
+    hikari:
+      schema: app20222_db
+  #Cấu hình Spring Data JPA
+  jpa:
+    hibernate:
+      useNewIdGeneratorMappings: false
+      ddlAuto: none
+    properties:
+      hibernate:
+        show_sql: true
+        use_sql_comment: true
+        format_sql: true
+  #Cấu hình servlet : upload multipart file
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+  #Cấu hình server gửi mail
+  mail:
+    protocol: smtp
+    host: smtp.gmail.com
+    port: 587
+    username: app20222mailsv@gmail.com
+    password: jfdzigexvxbhcwoi
+    account-password: App20222@mail
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+#            Cấu hình nếu sử dụng SSL
+#          socketFactory:
+#            port: 465
+#            class: javax.net.ssl.SSLSocketFactory
+
+# Cấu hình Json Web Token
+jwt:
+  secretKey: APP2022Ksu295JdkjKHJJHW2349gfbnaf23cheh34HIMAde24
+  accessTokenExpiredMs: 100000000
+  refreshTokenExpiredMs: 10000000000
+
+# Cấu hình Server Cloudinary
+cloudinary:
+  cloud:
+    name: app20222-cloudinary
+    api-key: 262418987222994
+    api-secret: RpT-xRSXwTpwcR9hCyy8CWTLqLs
+
+# Cấu hình file storage
+app:
+  file-storage:
+    location-path: /resources/upload/files/
+    resource-path: /resources/upload/files/**
+
+
+
+
+

@@ -12,6 +12,8 @@ public class MessageConst {
         public static final String DEPARTMENT = "Department";
 
         public static final String SURGERY_ROOM = "SurgeryRoom";
+
+        public static final String FILES = "Files";
     }
 
     public static final String RESOURCE_NOT_FOUND = "not found";
@@ -22,6 +24,8 @@ public class MessageConst {
     public static final String RESOURCE_DUPLICATED = "duplicated";
 
     public static final String PERMISSIONS_DENIED = "permission denied";
+
+    public static final String UPLOAD_FAILED = "upload failed";
 
 
 }

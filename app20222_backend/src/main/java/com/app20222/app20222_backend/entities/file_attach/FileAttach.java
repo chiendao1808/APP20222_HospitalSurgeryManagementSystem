@@ -1,17 +1,17 @@
 package com.app20222.app20222_backend.entities.file_attach;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import com.app20222.app20222_backend.entities.medical_record.MedicalRecord;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "file_attach")
 public class FileAttach {
@@ -33,8 +33,8 @@ public class FileAttach {
     @Column(name = "size")
     private Long size;
 
-    @Column(name = "store_type")
-    private Integer storeType;
+    @Column(name = "stored_type")
+    private Integer storedType;
 
     @Column(name = "location")
     private String location;

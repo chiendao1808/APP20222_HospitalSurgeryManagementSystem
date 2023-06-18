@@ -259,10 +259,10 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."file_attach"
 COMMENT ON TABLE "app20222_db"."file_attach" IS 'Bảng lưu thông tin file tải lên';
 COMMENT ON COLUMN "app20222_db"."file_attach"."id" IS 'Id file đính kèm';
 COMMENT ON COLUMN "app20222_db"."file_attach"."name" IS 'Tên file đính kèm';
-COMMENT ON COLUMN "app20222_db"."file_attach"."type" IS 'Loại file đính kèm (0: File avatar/ảnh chân dung, 1: File ảnh chụp/scan tài liệu, 2: File tài liệu văn bản)';
+COMMENT ON COLUMN "app20222_db"."file_attach"."type" IS 'Loại file đính kèm (0: File avatar/ảnh chân dung, 2: File tài liệu văn bản)';
 COMMENT ON COLUMN "app20222_db"."file_attach"."file_ext" IS 'Định dạng file';
 COMMENT ON COLUMN "app20222_db"."file_attach"."size" IS 'Kích thước file (byte)';
-COMMENT ON COLUMN "app20222_db"."file_attach"."id" IS 'Loại kho lưu trữ file (0: Lưu tại server, 1: Lưu tại cloud server bên thứ 3)';
+COMMENT ON COLUMN "app20222_db"."file_attach"."stored_type" IS 'Loại kho lưu trữ file (0: Lưu tại server, 1: Lưu tại cloud server bên thứ 3)';
 COMMENT ON COLUMN "app20222_db"."file_attach"."location" IS 'Đường dẫn đến địa chỉ lưu trữ file';
 COMMENT ON COLUMN "app20222_db"."file_attach"."created_by" IS 'Người tải lên file';
 COMMENT ON COLUMN "app20222_db"."file_attach"."created_at" IS 'Thời gian tải lên file';
@@ -375,12 +375,13 @@ COMMENT ON COLUMN "app20222_db"."mail"."sent_time" IS 'Thời gian gửi';
 
 -- Bảng feature --
 DROP TABLE IF EXISTS "app20222_db"."features";
-CREATE TABLE IF NOT EXISTS "app20222_db"."features"(
-                                                   id bigserial not null unique,
-                                                   code varchar(30) not null unique,
-                                                   parent_code varchar(30) not null,
-                                                   name varchar(255) not null,
-                                                   primary key (id)
+CREATE TABLE IF NOT EXISTS "app20222_db"."features"
+(
+    id          bigserial    not null unique,
+    code        varchar(30)  not null unique,
+    parent_code varchar(30)  not null,
+    name        varchar(255) not null,
+    primary key (id)
 );
 COMMENT ON TABLE "app20222_db"."features" IS 'Bảng lưu các tính năng của hệ thống';
 COMMENT ON COLUMN "app20222_db"."features"."id" IS 'Id bản ghi tính năng';
