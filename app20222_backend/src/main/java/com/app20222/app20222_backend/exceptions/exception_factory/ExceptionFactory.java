@@ -32,4 +32,8 @@ public class ExceptionFactory {
         builder.append(resource).append(" ").append(messageConst);
         return new BadRequestException(code, builder.toString(), errorField, values);
     }
+
+    public BadRequestException fileUploadException(String code, String resource, String message){
+        return new BadRequestException(code, resource, message);
+    }
 }

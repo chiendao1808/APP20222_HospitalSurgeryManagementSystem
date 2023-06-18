@@ -88,5 +88,20 @@ public class ErrorKey {
         public static final String CODE = "code";
     }
 
+    public static class FileAttach {
+        //error code
+        public static final String UPLOAD_ERROR_CODE = "file_attach.error.upload";
+        public static final String NOT_FOUND_ERROR_CODE = "file_attach.error.not_found";
+
+        public static final String EXISTED_ERROR_CODE = "file_attach.error.existed";
+
+        public static final String DUPLICATED_ERROR_CODE = "file_attach.error.duplicated";
+
+        public static final String PERMISSION_DENIED_ERROR_CODE = "file_attach.error.permission_denied";
+
+        // error key
+        public static final String ID = "id";
+    }
+
 
 }
