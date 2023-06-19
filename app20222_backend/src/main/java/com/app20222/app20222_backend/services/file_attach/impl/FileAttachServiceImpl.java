@@ -29,11 +29,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FileAttachServiceImpl implements FileAttachService {
 
-    private final String IMAGES_RESOURCE_DIR = "resources/upload/files/images/";
+    private final String IMAGES_RESOURCE_DIR = "/resources/upload/files/images/";
 
     public static final String IMAGES_STORED_LOCATION = "upload/files/images/";
 
-    private final String DOCUMENTS_RESOURCE_DIR = "resources/upload/files/docs/";
+    private final String DOCUMENTS_RESOURCE_DIR = "/resources/upload/files/docs/";
 
     public static final String DOCUMENTS_STORED_LOCATION = "upload/files/docs/";
 

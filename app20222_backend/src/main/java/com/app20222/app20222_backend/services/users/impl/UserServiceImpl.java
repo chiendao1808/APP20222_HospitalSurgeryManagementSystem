@@ -8,11 +8,13 @@ import com.app20222.app20222_backend.dtos.users.IGetListUser;
 import com.app20222.app20222_backend.dtos.users.UserCreateDTO;
 import com.app20222.app20222_backend.dtos.users.UserDetailDTO;
 import com.app20222.app20222_backend.dtos.users.UserUpdateDTO;
+import com.app20222.app20222_backend.entities.features.Feature;
 import com.app20222.app20222_backend.entities.users.User;
 import com.app20222.app20222_backend.entities.users.UserRole;
 import com.app20222.app20222_backend.enums.permission.BasePermissionEnum;
 import com.app20222.app20222_backend.exceptions.exception_factory.ExceptionFactory;
 import com.app20222.app20222_backend.repositories.department.DepartmentRepository;
+import com.app20222.app20222_backend.repositories.feature.FeatureRepository;
 import com.app20222.app20222_backend.repositories.users.UserRepository;
 import com.app20222.app20222_backend.repositories.users.UserRoleRepository;
 import com.app20222.app20222_backend.services.permission.PermissionService;
@@ -25,8 +27,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -48,14 +52,18 @@ public class UserServiceImpl implements UserService {
 
     private final DepartmentRepository departmentRepository;
 
+    private final FeatureRepository featureRepository;
+
     public UserServiceImpl(UserRepository userRepository, PermissionService permissionService, PasswordEncoder passwordEncoder,
-        UserRoleRepository userRoleRepository, ExceptionFactory exceptionFactory, DepartmentRepository departmentRepository){
+        UserRoleRepository userRoleRepository, ExceptionFactory exceptionFactory, DepartmentRepository departmentRepository,
+        FeatureRepository featureRepository){
         this.userRepository = userRepository;
         this.permissionService = permissionService;
         this.passwordEncoder = passwordEncoder;
         this.userRoleRepository = userRoleRepository;
         this.exceptionFactory = exceptionFactory;
         this.departmentRepository = departmentRepository;
+        this.featureRepository = featureRepository;
     }
 
     @Override
@@ -113,6 +121,16 @@ public class UserServiceImpl implements UserService {
         permissionService.hasUserPermission(userId, BasePermissionEnum.VIEW);
         IGetDetailUser iGetDetailUser = userRepository.getDetailUser(userId);
         return new UserDetailDTO(iGetDetailUser);
+    }
+
+    @Override
+    public Set<String> getLstUserFeaturesByRoles(Set<String> roles) {
+        List<Feature> lstFeatures = featureRepository.findAll();
+        if (Objects.isNull(roles) || roles.isEmpty()) {
+            return Collections.emptySet();
+        }
+        String lstRoles = roles.toString().replace("[", "{").replace("]", "}");
+        return featureRepository.getLstUserFeaturesByRole(lstRoles);
     }
 
     /**

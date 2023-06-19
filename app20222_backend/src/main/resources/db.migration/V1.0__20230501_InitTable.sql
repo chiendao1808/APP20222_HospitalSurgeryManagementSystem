@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."users"
     phone_number          varchar(11),
     email                 varchar(50) unique,
     username              varchar(50) unique not null,
-    password              varchar(100)        not null,
+    password              varchar(100)       not null,
     created_at            timestamp          not null,
     created_by            int8               not null,
     modified_at           timestamp,
@@ -48,19 +48,21 @@ COMMENT ON COLUMN "app20222_db"."users"."department_id" IS 'Id của khoa/bộ p
 INSERT INTO "app20222_db".users (identification_number, identity_type, code, first_name, last_name, username, password,
                                  created_at, created_by)
 VALUES ('00293849828', 1, 'ADMIN_SUPER1', 'Admin', 'Super', 'admin', '$2a$12$4FTmJ2x/BfKIN9as9ivNKuo8CJZd4jtk0UDEijm7OYqrusJN251du', now(), 1),
-('001984890999', 1, 'ADMIN_HOSPITAL1', 'Admin', 'Hospital', 'admin_hospital_1', '$2a$12$4FTmJ2x/BfKIN9as9ivNKuo8CJZd4jtk0UDEijm7OYqrusJN251du', now(), 1);
+       ('001984890999', 1, 'ADMIN_HOSPITAL1', 'Admin', 'Hospital', 'admin_hospital_1',
+        '$2a$12$4FTmJ2x/BfKIN9as9ivNKuo8CJZd4jtk0UDEijm7OYqrusJN251du', now(), 1);
 -- username = admin, password = admin --
 
 -- ======================================================================== --
 -- Bảng auth_info --
 DROP TABLE IF EXISTS "app20222_db"."auth_info";
-CREATE TABLE IF NOT EXISTS "app20222_db"."auth_info" (
-    id bigserial not null unique,
-    user_id int8 not null unique ,
-    token text not null,
-    status int2 not null ,
-    ip_address varchar(32),
-    created_at timestamp not null ,
+CREATE TABLE IF NOT EXISTS "app20222_db"."auth_info"
+(
+    id          bigserial not null unique,
+    user_id     int8      not null unique,
+    token       text      not null,
+    status      int2      not null,
+    ip_address  varchar(32),
+    created_at  timestamp not null,
     modified_at timestamp,
     primary key (id)
 );
@@ -82,8 +84,8 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."department"
     code         varchar(50)  not null unique,
     logo_path    text,
     name         varchar(100) not null,
-    address      text         ,
-    phone_number varchar(11)  ,
+    address      text,
+    phone_number varchar(11),
     description  text,
     primary key (id)
 );
@@ -96,7 +98,8 @@ COMMENT ON COLUMN "app20222_db"."department"."address" IS 'Địa chỉ của kh
 COMMENT ON COLUMN "app20222_db"."department"."phone_number" IS 'Số điện thoại liên hệ của khoa/bộ phận';
 COMMENT ON COLUMN "app20222_db"."department"."description" IS 'Thông tin mô tả khoa/bộ phận';
 -- Init department data --
-INSERT INTO "app20222_db"."department" (code, name, address, phone_number) VALUES ('DIRECTOR_COMMITTEE', 'Ban giám đốc', 'Phòng 301 - Tòa hành chính', '0438686868');
+INSERT INTO "app20222_db"."department" (code, name, address, phone_number)
+VALUES ('DIRECTOR_COMMITTEE', 'Ban giám đốc', 'Phòng 301 - Tòa hành chính', '0438686868');
 
 -- ======================================================================== --
 -- Bảng patient --
@@ -117,7 +120,7 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."patient"
     created_by            int8        not null,
     created_at            timestamp   not null,
     modified_by           int8,
-    modified_at timestamp,
+    modified_at           timestamp,
     primary key (id)
 );
 COMMENT ON TABLE "app20222_db"."patient" IS 'Bảng chứa thông tin định danh và các thông tin chung của bệnh nhân';
@@ -140,11 +143,12 @@ COMMENT ON COLUMN "app20222_db"."patient"."modified_at" IS 'Thời gian cập nh
 -- ======================================================================== --
 -- Bảng medical_record --
 DROP TABLE IF EXISTS "app20222_db"."medical_record";
-CREATE TABLE IF NOT EXISTS "app20222_db"."medical_record"(
-    id bigserial not null unique,
-    patient_id int8 not null,
-    summary text,
-    created_by int8 not null,
+CREATE TABLE IF NOT EXISTS "app20222_db"."medical_record"
+(
+    id         bigserial not null unique,
+    patient_id int8      not null,
+    summary    text,
+    created_by int8      not null,
     created_at timestamp not null,
     primary key (id)
 );
@@ -202,10 +206,10 @@ COMMENT ON COLUMN "app20222_db"."surgery"."lst_file_id" IS 'Danh sách id các f
 DROP TABLE IF EXISTS "app20222_db"."disease_group";
 CREATE TABLE IF NOT EXISTS "app20222_db"."disease_group"
 (
-    id   int8 not null unique,
-    name varchar(100) not null ,
-    code varchar(10) not null ,
-    department_id int8 not null,
+    id            int8         not null unique,
+    name          varchar(100) not null,
+    code          varchar(10)  not null,
+    department_id int8         not null,
     primary key (id)
 );
 
@@ -226,10 +230,10 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."surgery_room"
     description       text,
     current_available boolean,
     on_service_at     date,
-    created_at       timestamp not null,
-    created_by       int8      not null,
-    modified_at      timestamp,
-    modified_by      int8,
+    created_at        timestamp   not null,
+    created_by        int8        not null,
+    modified_at       timestamp,
+    modified_by       int8,
     primary key (id)
 );
 COMMENT ON TABLE "app20222_db"."surgery_room" IS 'Bảng lưu thông tin phòng phẫu thuật';
@@ -270,57 +274,67 @@ COMMENT ON COLUMN "app20222_db"."file_attach"."created_at" IS 'Thời gian tải
 -- ======================================================================== --
 -- Bảng role --
 DROP TABLE IF EXISTS "app20222_db"."role";
-CREATE TABLE IF NOT EXISTS "app20222_db"."role"(
-    id bigserial not null unique,
-    code varchar(30) not null unique,
-    name text not null,
-    displayed_name text not null,
-    is_default boolean not null,
+CREATE TABLE IF NOT EXISTS "app20222_db"."role"
+(
+    id             bigserial   not null unique,
+    code           varchar(30) not null unique,
+    name           text        not null,
+    displayed_name text        not null,
+    is_default     boolean     not null,
     primary key (id)
 );
 COMMENT ON COLUMN "app20222_db"."role"."id" IS 'Id vai trò';
 COMMENT ON COLUMN "app20222_db"."role"."code" IS 'Mã code vai trò';
 COMMENT ON COLUMN "app20222_db"."role"."name" IS 'Tên của vai trò';
+COMMENT ON COLUMN "app20222_db"."role"."displayed_name" IS 'Tên hiển thị của vai trò';
+COMMENT ON COLUMN "app20222_db"."role"."is_default" IS 'Cờ kiểm tra vai trò mặc định của hệ thống';
 -- init default role data --
-DELETE FROM "app20222_db"."role" WHERE is_default = true;
-INSERT INTO "app20222_db"."role" (code, name, displayed_name, is_default) VALUES
-                                     ('ROLE_SUPER_ADMIN', 'SUPER_ADMIN', 'Admin tổng', true),
+DELETE
+FROM "app20222_db"."role"
+WHERE is_default = true;
+INSERT INTO "app20222_db"."role" (code, name, displayed_name, is_default)
+VALUES ('ROLE_SUPER_ADMIN', 'SUPER_ADMIN', 'Admin tổng', true),
 
-                                     ('ROLE_HOSPITAL_ADMIN', 'HOSPITAL_ADMIN', 'Admin bệnh viện', true),
+       ('ROLE_HOSPITAL_ADMIN', 'HOSPITAL_ADMIN', 'Admin bệnh viện', true),
 
-                                     ('ROLE_HOSPITAL_MANAGER', 'HOSPITAL_MANAGER', 'Quản lý tổng bệnh viện', true),
+       ('ROLE_HOSPITAL_MANAGER', 'HOSPITAL_MANAGER', 'Quản lý tổng bệnh viện', true),
 
-                                     ('ROLE_DEPARTMENT_ADMIN', 'DEPARTMENT_ADMIN', 'Admin khoa/bộ phận', true),
+       ('ROLE_DEPARTMENT_ADMIN', 'DEPARTMENT_ADMIN', 'Admin khoa/bộ phận', true),
 
-                                     ('ROLE_DEPARTMENT_MANAGER', 'DEPARTMENT_MANAGER', 'Quản lý khoa/bộ phận', true),
+       ('ROLE_DEPARTMENT_MANAGER', 'DEPARTMENT_MANAGER', 'Quản lý khoa/bộ phận', true),
 
-                                     ('ROLE_DOCTOR', 'DOCTOR', 'Bác sĩ', true),
+       ('ROLE_DOCTOR', 'DOCTOR', 'Bác sĩ', true),
 
-                                     ('ROLE_NURSE', 'NURSE', 'Y tá', true),
+       ('ROLE_NURSE', 'NURSE', 'Y tá', true),
 
-                                     ('ROLE_STAFF', 'STAFF', 'Nhân viên', true);
+       ('ROLE_STAFF', 'STAFF', 'Nhân viên', true);
 -- ========================================== --
 
 -- Bảng users_roles --
 DROP TABLE IF EXISTS "app20222_db"."users_roles";
-CREATE TABLE IF NOT EXISTS "app20222_db"."users_roles"(
+CREATE TABLE IF NOT EXISTS "app20222_db"."users_roles"
+(
     user_id int8 not null,
     role_id int8 not null,
     primary key (user_id, role_id)
 );
 COMMENT ON COLUMN "app20222_db"."users_roles"."user_id" IS 'Id của người dùng';
 COMMENT ON COLUMN "app20222_db"."users_roles"."role_id" IS 'Id của vai trò';
-INSERT INTO "app20222_db"."users_roles" (user_id, role_id) VALUES (1,1); -- Init super admin role --
-INSERT INTO "app20222_db"."users_roles" (user_id, role_id) VALUES (2,2); -- Init hospital_admin
+INSERT INTO "app20222_db"."users_roles" (user_id, role_id)
+VALUES (1, 1); -- Init super admin role --
+INSERT INTO "app20222_db"."users_roles" (user_id, role_id)
+VALUES (2, 2);
+-- Init hospital_admin
 
 -- Bảng users_surgeries ---
 DROP TABLE IF EXISTS "app20222_db"."users_surgeries";
-CREATE TABLE IF NOT EXISTS "app20222_db"."users_surgeries"(
-      id bigserial not null unique,
-      user_id int8 not null,
-      surgery_id int8 not null,
-      surgery_role_type int4 not null,
-      primary key (user_id, surgery_id)
+CREATE TABLE IF NOT EXISTS "app20222_db"."users_surgeries"
+(
+    id                bigserial not null unique,
+    user_id           int8      not null,
+    surgery_id        int8      not null,
+    surgery_role_type int4      not null,
+    primary key (user_id, surgery_id)
 );
 COMMENT ON COLUMN "app20222_db"."users_surgeries"."id" IS 'Id row';
 COMMENT ON COLUMN "app20222_db"."users_surgeries"."user_id" IS 'Id của người dùng';
@@ -329,10 +343,11 @@ COMMENT ON COLUMN "app20222_db"."users_surgeries"."surgery_role_type" IS 'Loại
 
 -- Bảng medical_records_files --
 DROP TABLE IF EXISTS "app20222_db"."medical_records_files";
-CREATE TABLE IF NOT EXISTS "app20222_db"."medical_records_files"(
-      medical_record_id int8 not null,
-      file_id int8 not null,
-      primary key (medical_record_id, file_id)
+CREATE TABLE IF NOT EXISTS "app20222_db"."medical_records_files"
+(
+    medical_record_id int8 not null,
+    file_id           int8 not null,
+    primary key (medical_record_id, file_id)
 );
 COMMENT ON COLUMN "app20222_db"."medical_records_files"."medical_record_id" IS 'Id bản ghi hồ sơ bệnh án';
 COMMENT ON COLUMN "app20222_db"."medical_records_files"."file_id" IS 'Id file';
@@ -340,26 +355,28 @@ COMMENT ON COLUMN "app20222_db"."medical_records_files"."file_id" IS 'Id file';
 -- Bảng surgeries_files --
 -- Bảng medical_records_files --
 DROP TABLE IF EXISTS "app20222_db"."surgeries_files";
-CREATE TABLE IF NOT EXISTS "app20222_db"."surgeries_files"(
-        surgery_id int8 not null,
-        file_id int8 not null,
-        primary key (surgery_id, file_id)
+CREATE TABLE IF NOT EXISTS "app20222_db"."surgeries_files"
+(
+    surgery_id int8 not null,
+    file_id    int8 not null,
+    primary key (surgery_id, file_id)
 );
 COMMENT ON COLUMN "app20222_db"."surgeries_files"."surgery_id" IS 'Id bản ghi ca phẫu thuật';
 COMMENT ON COLUMN "app20222_db"."surgeries_files"."file_id" IS 'Id file';
 
 -- Bảng mail --
 DROP TABLE IF EXISTS "app20222_db"."mail";
-CREATE TABLE IF NOT EXISTS "app20222_db"."mail"(
-    id bigserial not null unique,
-    code varchar(30) not null unique,
-    lst_to_address text,
-    from_address text not null,
-    subject text not null,
-    content text not null,
-    status int4 not null,
-    is_has_attachments bool not null,
-    sent_time timestamp not null,
+CREATE TABLE IF NOT EXISTS "app20222_db"."mail"
+(
+    id                 bigserial   not null unique,
+    code               varchar(30) not null unique,
+    lst_to_address     text,
+    from_address       text        not null,
+    subject            text        not null,
+    content            text        not null,
+    status             int4        not null,
+    is_has_attachments bool        not null,
+    sent_time          timestamp   not null,
     primary key (id)
 );
 COMMENT ON TABLE "app20222_db"."mail" IS 'Bảng lưu lịch sử gửi mail hệ thống';
@@ -377,18 +394,112 @@ COMMENT ON COLUMN "app20222_db"."mail"."sent_time" IS 'Thời gian gửi';
 DROP TABLE IF EXISTS "app20222_db"."features";
 CREATE TABLE IF NOT EXISTS "app20222_db"."features"
 (
-    id          bigserial    not null unique,
-    code        varchar(30)  not null unique,
-    parent_code varchar(30)  not null,
-    name        varchar(255) not null,
+    id              bigserial    not null unique,
+    code            varchar(30)  not null unique,
+    parent_id       int8         not null,
+    parent_code     varchar(30)  not null,
+    name            varchar(255) not null,
+    lst_usable_role text[] default '{}',
     primary key (id)
 );
 COMMENT ON TABLE "app20222_db"."features" IS 'Bảng lưu các tính năng của hệ thống';
 COMMENT ON COLUMN "app20222_db"."features"."id" IS 'Id bản ghi tính năng';
 COMMENT ON COLUMN "app20222_db"."features"."code" IS 'Mã code của tính năng';
 COMMENT ON COLUMN "app20222_db"."features"."name" IS 'Tên tính năng';
+COMMENT ON COLUMN "app20222_db"."features"."parent_id" IS 'Id của tính năng lớn';
 COMMENT ON COLUMN "app20222_db"."features"."parent_code" IS 'Mã code của tính năng lớn';
+COMMENT ON COLUMN "app20222_db"."features"."lst_usable_role" IS 'Danh sách các role code được sử dụng tính năng';
 -- Init dữ liệu --
+-- Init dữ liệu tính năng lớn --
+INSERT INTO "app20222_db"."features" (code, parent_code, parent_id, name, lst_usable_role)
+VALUES ('SYSTEM', 'NONE', -1, 'Hệ thống quản lý phẫu thuật trong bệnh viện',
+        '{ROLE_SUPER_ADMIN,ROLE_HOSPITAL_ADMIN,ROLE_HOSPITAL_MANAGER,ROLE_DEPARTMENT_ADMIN,ROLE_DEPARTMENT_MANAGER,ROLE_DOCTOR,ROLE_NURSE,ROLE_STAFF}');
+INSERT INTO "app20222_db"."features" (code, parent_code, parent_id, name, lst_usable_role) VALUES
+       ('USER_MANAGEMENT', 'SYSTEM', (SELECT id FROM "app20222_db"."features" WHERE code = 'SYSTEM' ORDER BY id DESC LIMIT 1),
+        'Quản lý người dùng',
+        '{ROLE_SUPER_ADMIN,ROLE_HOSPITAL_ADMIN,ROLE_HOSPITAL_MANAGER,ROLE_DEPARTMENT_ADMIN,ROLE_DEPARTMENT_MANAGER,ROLE_DOCTOR,ROLE_NURSE,ROLE_STAFF}'),
+       ('PATIENT_MANAGEMENT', 'SYSTEM', (SELECT id FROM "app20222_db"."features" WHERE code = 'SYSTEM' ORDER BY id DESC LIMIT 1),
+        'Quản lý bệnh nhân',
+        '{ROLE_SUPER_ADMIN,ROLE_HOSPITAL_ADMIN,ROLE_HOSPITAL_MANAGER,ROLE_DEPARTMENT_ADMIN,ROLE_DEPARTMENT_MANAGER,ROLE_DOCTOR,ROLE_NURSE,ROLE_STAFF}'),
+       ('MEDICAL_RECORD_MANAGEMENT', 'SYSTEM', (SELECT id FROM "app20222_db"."features" WHERE code = 'SYSTEM' ORDER BY id DESC LIMIT 1),
+        'Quản lý hồ sơ bệnh án',
+        '{ROLE_SUPER_ADMIN,ROLE_HOSPITAL_ADMIN,ROLE_HOSPITAL_MANAGER,ROLE_DEPARTMENT_ADMIN,ROLE_DEPARTMENT_MANAGER,ROLE_DOCTOR,ROLE_NURSE,ROLE_STAFF}'),
+       ('SURGERY_MANAGEMENT', 'SYSTEM', (SELECT id FROM "app20222_db"."features" WHERE code = 'SYSTEM' ORDER BY id DESC LIMIT 1),
+        'Quản lý ca phẫu thuật',
+        '{ROLE_SUPER_ADMIN,ROLE_HOSPITAL_ADMIN,ROLE_HOSPITAL_MANAGER,ROLE_DEPARTMENT_ADMIN,ROLE_DEPARTMENT_MANAGER,ROLE_DOCTOR,ROLE_NURSE,ROLE_STAFF}'),
+       ('SURGERY_ROOM_MANAGEMENT', 'SYSTEM', (SELECT id FROM "app20222_db"."features" WHERE code = 'SYSTEM' ORDER BY id DESC LIMIT 1),
+        'Quản lý phòng phẫu thuật',
+        '{ROLE_SUPER_ADMIN,ROLE_HOSPITAL_ADMIN,ROLE_HOSPITAL_MANAGER}');
+-- Init dữ liệu các tính năng trong --
+-- Chức năng quản lý người dùng --
+INSERT INTO "app20222_db"."features" (code, parent_code, parent_id, name, lst_usable_role)
+VALUES ('USER_CREATE', 'USER_MANAGEMENT', (SELECT id FROM "app20222_db"."features" WHERE code = 'USER_MANAGEMENT' ORDER BY id DESC LIMIT 1),
+        'Tạo người dùng',
+        '{ROLE_SUPER_ADMIN,ROLE_HOSPITAL_ADMIN,ROLE_HOSPITAL_MANAGER,ROLE_DEPARTMENT_ADMIN,ROLE_DEPARTMENT_MANAGER}'),
+       ('USER_DETAILS', 'USER_MANAGEMENT', (SELECT id FROM "app20222_db"."features" WHERE code = 'USER_MANAGEMENT' ORDER BY id DESC LIMIT 1),
+        'Xem chi tiết người dùng',
+        '{ROLE_SUPER_ADMIN,ROLE_HOSPITAL_ADMIN,ROLE_HOSPITAL_MANAGER,ROLE_DEPARTMENT_ADMIN,ROLE_DEPARTMENT_MANAGER,ROLE_DOCTOR,ROLE_NURSE,ROLE_STAFF}'),
+       ('USER_UPDATE', 'USER_MANAGEMENT', (SELECT id FROM "app20222_db"."features" WHERE code = 'USER_MANAGEMENT' ORDER BY id DESC LIMIT 1),
+        'Cập nhật thông tin người dùng',
+        '{ROLE_SUPER_ADMIN,ROLE_HOSPITAL_ADMIN,ROLE_HOSPITAL_MANAGER,ROLE_DEPARTMENT_ADMIN,ROLE_DEPARTMENT_MANAGER,ROLE_DOCTOR,ROLE_NURSE,ROLE_STAFF}'),
+       ('USER_SEARCH', 'USER_MANAGEMENT', (SELECT id FROM "app20222_db"."features" WHERE code = 'USER_MANAGEMENT' ORDER BY id DESC LIMIT 1),
+        'Tìm kiếm người dùng',
+        '{ROLE_SUPER_ADMIN,ROLE_HOSPITAL_ADMIN,ROLE_HOSPITAL_MANAGER,ROLE_DEPARTMENT_ADMIN,ROLE_DEPARTMENT_MANAGER,ROLE_DOCTOR,ROLE_NURSE,ROLE_STAFF}');
+
+-- Chức năng quản lý bệnh nhân --
+INSERT INTO "app20222_db"."features" (code, parent_code, parent_id, name, lst_usable_role)
+VALUES ('PATIENT_CREATE', 'PATIENT_MANAGEMENT',
+        (SELECT id FROM "app20222_db"."features" WHERE code = 'PATIENT_MANAGEMENT' ORDER BY id DESC LIMIT 1), 'Tạo hồ sơ bệnh nhân',
+        '{ROLE_SUPER_ADMIN,ROLE_HOSPITAL_ADMIN,ROLE_HOSPITAL_MANAGER,ROLE_DEPARTMENT_ADMIN,ROLE_DEPARTMENT_MANAGER,ROLE_DOCTOR,ROLE_NURSE,ROLE_STAFF}'),
+       ('PATIENT_SEARCH', 'PATIENT_MANAGEMENT',
+        (SELECT id FROM "app20222_db"."features" WHERE code = 'PATIENT_MANAGEMENT' ORDER BY id DESC LIMIT 1), 'Tìm kiếm bệnh nhân',
+        '{ROLE_SUPER_ADMIN,ROLE_HOSPITAL_ADMIN,ROLE_HOSPITAL_MANAGER,ROLE_DEPARTMENT_ADMIN,ROLE_DEPARTMENT_MANAGER,ROLE_DOCTOR,ROLE_NURSE,ROLE_STAFF}'),
+       ('PATIENT_DETAILS', 'PATIENT_MANAGEMENT',
+        (SELECT id FROM "app20222_db"."features" WHERE code = 'PATIENT_MANAGEMENT' ORDER BY id DESC LIMIT 1), 'Xem thông tin chi tiết bệnh nhân',
+        '{ROLE_SUPER_ADMIN,ROLE_HOSPITAL_ADMIN,ROLE_HOSPITAL_MANAGER,ROLE_DEPARTMENT_ADMIN,ROLE_DEPARTMENT_MANAGER,ROLE_DOCTOR,ROLE_NURSE,ROLE_STAFF}'),
+       ('PATIENT_UPDATE', 'PATIENT_MANAGEMENT',
+        (SELECT id FROM "app20222_db"."features" WHERE code = 'PATIENT_MANAGEMENT' ORDER BY id DESC LIMIT 1), 'Cập nhật hồ sơ bệnh nhân',
+        '{ROLE_SUPER_ADMIN,ROLE_HOSPITAL_ADMIN,ROLE_HOSPITAL_MANAGER,ROLE_DEPARTMENT_ADMIN,ROLE_DEPARTMENT_MANAGER,ROLE_DOCTOR,ROLE_NURSE,ROLE_STAFF}');
+
+-- Chức năng quản lý hồ sơ bệnh án --
+INSERT INTO "app20222_db"."features" (code, parent_code, parent_id, name, lst_usable_role)
+VALUES ('MEDICAL_RECORD_CREATE', 'MEDICAL_RECORD_MANAGEMENT',
+        (SELECT id FROM "app20222_db"."features" WHERE code = 'MEDICAL_RECORD_MANAGEMENT' ORDER BY id DESC LIMIT 1), 'Tạo hồ sơ bệnh án',
+        '{ROLE_SUPER_ADMIN,ROLE_HOSPITAL_ADMIN,ROLE_HOSPITAL_MANAGER,ROLE_DEPARTMENT_ADMIN,ROLE_DEPARTMENT_MANAGER,ROLE_DOCTOR,ROLE_NURSE,ROLE_STAFF}'),
+       ('MEDICAL_RECORD_SEARCH', 'MEDICAL_RECORD_MANAGEMENT',
+        (SELECT id FROM "app20222_db"."features" WHERE code = 'MEDICAL_RECORD_MANAGEMENT' ORDER BY id DESC LIMIT 1), 'Tìm kiếm hồ sơ bệnh án',
+        '{ROLE_SUPER_ADMIN,ROLE_HOSPITAL_ADMIN,ROLE_HOSPITAL_MANAGER,ROLE_DEPARTMENT_ADMIN,ROLE_DEPARTMENT_MANAGER,ROLE_DOCTOR,ROLE_NURSE,ROLE_STAFF}'),
+       ('MEDICAL_RECORD_UPDATE', 'MEDICAL_RECORD_MANAGEMENT',
+        (SELECT id FROM "app20222_db"."features" WHERE code = 'MEDICAL_RECORD_MANAGEMENT' ORDER BY id DESC LIMIT 1), 'Cập nhật hồ sơ bệnh án',
+        '{ROLE_SUPER_ADMIN,ROLE_HOSPITAL_ADMIN,ROLE_HOSPITAL_MANAGER,ROLE_DEPARTMENT_ADMIN,ROLE_DEPARTMENT_MANAGER,ROLE_DOCTOR,ROLE_NURSE,ROLE_STAFF}');
+
+-- Chức năng quản lý ca phẫu thuật --
+INSERT INTO "app20222_db"."features" (code, parent_code, parent_id, name, lst_usable_role)
+VALUES ('SURGERY_CREATE', 'SURGERY_MANAGEMENT',
+        (SELECT id FROM "app20222_db"."features" WHERE code = 'SURGERY_MANAGEMENT' ORDER BY id DESC LIMIT 1), 'Tạo ca phẫu thuật',
+        '{ROLE_SUPER_ADMIN,ROLE_HOSPITAL_ADMIN,ROLE_HOSPITAL_MANAGER,ROLE_DEPARTMENT_ADMIN,ROLE_DEPARTMENT_MANAGER}'),
+       ('SURGERY_SEARCH', 'SURGERY_MANAGEMENT',
+        (SELECT id FROM "app20222_db"."features" WHERE code = 'SURGERY_MANAGEMENT' ORDER BY id DESC LIMIT 1), 'Tìm kiếm ca phẫu thuật',
+        '{ROLE_SUPER_ADMIN,ROLE_HOSPITAL_ADMIN,ROLE_HOSPITAL_MANAGER,ROLE_DEPARTMENT_ADMIN,ROLE_DEPARTMENT_MANAGER,ROLE_DOCTOR,ROLE_NURSE,ROLE_STAFF}'),
+       ('SURGERY_DETAILS', 'SURGERY_MANAGEMENT',
+        (SELECT id FROM "app20222_db"."features" WHERE code = 'SURGERY_MANAGEMENT' ORDER BY id DESC LIMIT 1), 'Xem chi tiết ca phẫu thuật',
+        '{ROLE_SUPER_ADMIN,ROLE_HOSPITAL_ADMIN,ROLE_HOSPITAL_MANAGER,ROLE_DEPARTMENT_ADMIN,ROLE_DEPARTMENT_MANAGER,ROLE_DOCTOR,ROLE_NURSE,ROLE_STAFF}'),
+       ('SURGERY_UPDATE', 'SURGERY_MANAGEMENT',
+        (SELECT id FROM "app20222_db"."features" WHERE code = 'SURGERY_MANAGEMENT' ORDER BY id DESC LIMIT 1), 'Cập nhật ca phẫu thuật',
+        '{ROLE_SUPER_ADMIN,ROLE_HOSPITAL_ADMIN,ROLE_HOSPITAL_MANAGER,ROLE_DEPARTMENT_ADMIN,ROLE_DEPARTMENT_MANAGER}');
+
+-- Chức năng quản lý phòng phẫu thuật --
+INSERT INTO "app20222_db"."features" (code, parent_code, parent_id, name, lst_usable_role)
+VALUES ('SURGERY_ROOM_CREATE', 'SURGERY_ROOM_MANAGEMENT',
+        (SELECT id FROM "app20222_db"."features" WHERE code = 'SURGERY_ROOM_MANAGEMENT' ORDER BY id DESC LIMIT 1), 'Tạo phòng phẫu thuật',
+        '{ROLE_SUPER_ADMIN,ROLE_HOSPITAL_ADMIN,ROLE_HOSPITAL_MANAGER}'),
+       ('SURGERY_ROOM_SEARCH', 'SURGERY_ROOM_MANAGEMENT',
+        (SELECT id FROM "app20222_db"."features" WHERE code = 'SURGERY_ROOM_MANAGEMENT' ORDER BY id DESC LIMIT 1), 'Tìm kiếm phòng phẫu thuật',
+        '{ROLE_SUPER_ADMIN,ROLE_HOSPITAL_ADMIN,ROLE_HOSPITAL_MANAGER,ROLE_DEPARTMENT_ADMIN,ROLE_DEPARTMENT_MANAGER,ROLE_DOCTOR,ROLE_NURSE,ROLE_STAFF}'),
+       ('SURGERY_ROOM_UPDATE', 'SURGERY_ROOM_MANAGEMENT',
+        (SELECT id FROM "app20222_db"."features" WHERE code = 'SURGERY_ROOM_MANAGEMENT' ORDER BY id DESC LIMIT 1), 'Cập nhật phòng phẫu thuật',
+        '{ROLE_SUPER_ADMIN,ROLE_HOSPITAL_ADMIN,ROLE_HOSPITAL_MANAGER,ROLE_DEPARTMENT_ADMIN,ROLE_DEPARTMENT_MANAGER}');
+
 
 
 

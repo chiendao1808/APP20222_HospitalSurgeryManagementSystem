@@ -49,4 +49,10 @@ public class SQLUser {
                 "     LEFT JOIN {h-schema}department ON users.department_id = department.id \n" +
                 "WHERE \n" +
                 "      users.id = :userId ";
+
+        public static final String GET_LIST_USER_FEATURES_BY_ROLES =
+            "SELECT code \n" +
+                "FROM {h-schema}features\n" +
+                "WHERE \n" +
+                "    (:roles)::::text[] && lst_usable_role ";
 }
