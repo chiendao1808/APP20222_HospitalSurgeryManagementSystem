@@ -8,6 +8,7 @@ import com.app20222.app20222_backend.dtos.users.UserUpdateDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public interface UserService {
@@ -31,4 +32,9 @@ public interface UserService {
      * Lấy thông tin chi tiết của người dùng
      */
     UserDetailDTO getDetailUser(Long userId);
+
+    /**
+     * Lấy danh sách các chức năng theo role
+     */
+    Set<String> getLstUserFeaturesByRoles(Set<String> roles);
 }

@@ -2,8 +2,11 @@ package com.app20222.app20222_backend.controllers.auth;
 
 import com.app20222.app20222_backend.dtos.requests.login.LoginRequest;
 import com.app20222.app20222_backend.dtos.responses.login.LoginResponse;
+import com.app20222.app20222_backend.entities.role.Role;
+import com.app20222.app20222_backend.repositories.feature.FeatureRepository;
 import com.app20222.app20222_backend.security.jwt.JwtUtils;
 import com.app20222.app20222_backend.security.models.CustomUserDetails;
+import com.app20222.app20222_backend.services.users.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -34,6 +38,9 @@ public class AuthController {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -59,11 +66,14 @@ public class AuthController {
         final String refreshToken = jwtUtils.generateRefreshToken(userDetails.getUser());
         if (Objects.isNull(accessToken) || Objects.isNull(refreshToken))
             throw new BadCredentialsException("Generate tokens error");
+        Set<String> roles = userDetails.getRoles().stream().map(Role::getCode).collect(Collectors.toSet());
+        Set<String> features = userService.getLstUserFeaturesByRoles(roles);
         return ResponseEntity.ok(LoginResponse.builder()
                 .issuedAt(new Date())
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .roles(userDetails.getRoles().stream().map(role -> role.getName()).collect(Collectors.toSet()))
+                .roles(roles)
+                .features(features)
                 .build());
     }
 }
