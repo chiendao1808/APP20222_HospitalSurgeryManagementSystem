@@ -24,4 +24,6 @@ public class LoginResponse {
     Date issuedAt;
 
     Set<String> roles = new HashSet<>();
+
+    Set<String> features = new HashSet<>();
 }
