@@ -42,3 +42,60 @@
 .signout:hover{
     -fx-background-color: #a43d2d;
 }
+.white-color{
+    -fx-background-color: white;
+}
+.border{
+-fx-border-color: #cccc;
+-fx-border-width: 2px;
+-fx-border-radius: 5px;
+-fx-background-color: transparent;
+}
+.shadow {
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.9), 6, 0, 0, 0)
+}
+.textField{
+    -fx-border-color: #cccc;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+    -fx-background-color: transparent;
+}
+.textField:focused{
+    -fx-border-color: linear-gradient(to bottom right, #16a47c, #2a827b);
+    -fx-border-width: .8px;
+}
+.btn{
+    -fx-background-color:  #2C3D94;
+    -fx-text-fill: #fff;
+    -fx-font-size: 14px;
+    -fx-font-family: Arial;
+    -fx-border-radius:9px;
+
+}
+.btn:hover{
+    -fx-background-color: linear-gradient(to bottom right, #2C3D94, #2C3d64);
+}
+.table-view{
+    -fx-background-color: transparent;
+    -fx-padding: 0px;
+    -fx-border-color:linear-gradient(to bottom right, #2C3D94, #633364);
+    -fx-border-width: 2px;
+    -fx-border-radius:9px;
+}
+.table-view .table-column{
+    -fx-alignment: CENTER;
+}
+.table-view .column-header-background {
+    -fx-background-color: #CCCCCC;
+    -fx-background-radius: 8px 8px Opx Opx;
+    -fx-background-insets: 0 0 0 0;
+}
+.table-view .column-header, .filter{
+    -fx-background-color: transparent;
+    -fx-side: 40px;
+    -fx-border-width: 2px;
+}
+.table-view .column-header .label{
+    -fx-text-fill: black;
+    -fx-font-family: "Helvetica Neue",Helvetica,Arial;
+}

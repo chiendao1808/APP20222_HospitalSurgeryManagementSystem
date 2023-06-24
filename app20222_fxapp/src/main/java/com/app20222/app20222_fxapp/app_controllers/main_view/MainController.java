@@ -57,10 +57,24 @@ public class MainController {
 
     @FXML
     private AnchorPane navForm1;
-
     @FXML
     private AnchorPane mainCenterForm;
-
+    @FXML
+    private AnchorPane patient;
+    @FXML
+    private AnchorPane medicalRecord;
+    @FXML
+    private AnchorPane doctors;
+    @FXML
+    private AnchorPane surgery;
+    @FXML
+    private Button tabPatient;
+    @FXML
+    private Button tabMedicalRecord;
+    @FXML
+    private Button tabDoctor;
+    @FXML
+    private Button tabSurgery;
     @FXML
     protected void onHelloButtonClick() {
         String message = "";
@@ -131,4 +145,38 @@ public class MainController {
         logoutController.setLogoutBtn(logoutBtn1);
         logoutController.logout(event);
     }
+
+
+    @FXML
+    private void switchTab(ActionEvent event) {
+        Button selectedButton = (Button) event.getSource();
+        if (selectedButton == tabPatient) {
+            switchToTab(tabPatient, patient);
+        } else if (selectedButton == tabMedicalRecord) {
+            switchToTab(tabMedicalRecord, medicalRecord);
+        } else if (selectedButton == tabDoctor) {
+            switchToTab(tabDoctor, doctors);
+        } else if (selectedButton == tabSurgery) {
+            switchToTab(tabSurgery, surgery);
+        }
+    }
+
+    private void switchToTab(Button selectedButton, AnchorPane selectedPane) {
+        patient.setVisible(selectedPane == patient);
+        medicalRecord.setVisible(selectedPane == medicalRecord);
+        doctors.setVisible(selectedPane == doctors);
+        surgery.setVisible(selectedPane == surgery);
+
+        // Reset the background for all tabs
+        tabPatient.setStyle("-fx-background-color: transparent");
+        tabMedicalRecord.setStyle("-fx-background-color: transparent");
+        tabDoctor.setStyle("-fx-background-color: transparent");
+        tabSurgery.setStyle("-fx-background-color: transparent");
+
+        // Set the background for the selected tab
+        selectedButton.setStyle("-fx-background-color: #2C3D94");
+        selectedButton.requestFocus();
+    }
+
+
 }
