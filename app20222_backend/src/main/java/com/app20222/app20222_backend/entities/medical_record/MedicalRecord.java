@@ -1,5 +1,6 @@
 package com.app20222.app20222_backend.entities.medical_record;
 
+import com.app20222.app20222_backend.entities.base.BaseEntity;
 import com.app20222.app20222_backend.entities.file_attach.FileAttach;
 import com.app20222.app20222_backend.entities.patient.Patient;
 import com.app20222.app20222_backend.entities.users.User;
@@ -15,27 +16,23 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "medical_recored")
-public class MedicalRecord {
+@Table(name = "medical_record")
+public class MedicalRecord extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "patient_id")
+    @Column(name = "patient_id", nullable = false)
+    private Long patientId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "patient_id", insertable = false, updatable = false)
     private Patient patient;
 
     @Column(name = "summary")
     private String summary;
-
-    @ManyToOne
-    @JoinColumn(name = "created_by")
-    private User createdBy;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "medical_records_files",
