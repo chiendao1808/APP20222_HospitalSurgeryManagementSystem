@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."users"
     email                 varchar(50) unique,
     username              varchar(50) unique not null,
     password              varchar(100)       not null,
+    status                int4 not null default 0,
     created_at            timestamp          not null,
     created_by            int8               not null,
     modified_at           timestamp,
@@ -38,6 +39,7 @@ COMMENT ON COLUMN "app20222_db"."users"."phone_number" IS 'Số điện thoại 
 COMMENT ON COLUMN "app20222_db"."users"."email" IS 'Email của người dùng';
 COMMENT ON COLUMN "app20222_db"."users"."username" IS 'Username đăng nhập';
 COMMENT ON COLUMN "app20222_db"."users"."password" IS 'Password đăng nhập';
+COMMENT ON COLUMN "app20222_db"."users"."status" IS 'Trạng thái hoạt động của người dùng (0: Đang hoạt động, 1: Tạm dừng hoạt động, 2: Tắt hoạt động)';
 COMMENT ON COLUMN "app20222_db"."users"."created_at" IS 'Thời gian tài khoản người dùng được tạo';
 COMMENT ON COLUMN "app20222_db"."users"."created_by" IS 'Người thực hiện tạo tài khoản';
 COMMENT ON COLUMN "app20222_db"."users"."modified_at" IS 'Thời gian cập nhật tài khoản lần cuối';
@@ -46,10 +48,10 @@ COMMENT ON COLUMN "app20222_db"."users"."department_id" IS 'Id của khoa/bộ p
 
 -- Init dữ liệu --
 INSERT INTO "app20222_db".users (identification_number, identity_type, code, first_name, last_name, username, password,
-                                 created_at, created_by)
-VALUES ('00293849828', 1, 'ADMIN_SUPER1', 'Admin', 'Super', 'admin', '$2a$12$4FTmJ2x/BfKIN9as9ivNKuo8CJZd4jtk0UDEijm7OYqrusJN251du', now(), 1),
+                                 created_at, created_by, status)
+VALUES ('00293849828', 1, 'ADMIN_SUPER1', 'Admin', 'Super', 'admin', '$2a$12$4FTmJ2x/BfKIN9as9ivNKuo8CJZd4jtk0UDEijm7OYqrusJN251du', now(), 1, 0),
        ('001984890999', 1, 'ADMIN_HOSPITAL1', 'Admin', 'Hospital', 'admin_hospital_1',
-        '$2a$12$4FTmJ2x/BfKIN9as9ivNKuo8CJZd4jtk0UDEijm7OYqrusJN251du', now(), 1);
+        '$2a$12$4FTmJ2x/BfKIN9as9ivNKuo8CJZd4jtk0UDEijm7OYqrusJN251du', now(), 1, 0);
 -- username = admin, password = admin --
 
 -- ======================================================================== --
@@ -150,6 +152,8 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."medical_record"
     summary    text,
     created_by int8      not null,
     created_at timestamp not null,
+    modified_by int8,
+    modified_at timestamp,
     primary key (id)
 );
 COMMENT ON COLUMN "app20222_db"."medical_record"."id" IS 'Id bản ghi hồ sơ bệnh án';
@@ -157,6 +161,8 @@ COMMENT ON COLUMN "app20222_db"."medical_record"."patient_id" IS 'Id bệnh nhâ
 COMMENT ON COLUMN "app20222_db"."medical_record"."summary" IS 'Kết luận tổng quát';
 COMMENT ON COLUMN "app20222_db"."medical_record"."created_by" IS 'Id người lập/tạo bản ghi hồ sơ bệnh án';
 COMMENT ON COLUMN "app20222_db"."medical_record"."created_at" IS 'Thời gian tạo/lập bản ghi hồ sơ bệnh án';
+COMMENT ON COLUMN "app20222_db"."medical_record"."modified_by" IS 'Id người cập nhật bản ghi hồ sơ bệnh án';
+COMMENT ON COLUMN "app20222_db"."medical_record"."modified_at" IS 'Thời gian cập nhật bản ghi hồ sơ bệnh án';
 
 -- ======================================================================== --
 -- Bảng surgery --

@@ -1,6 +1,5 @@
 package com.app20222.app20222_backend.services.users;
 
-import com.app20222.app20222_backend.dtos.users.IGetDetailUser;
 import com.app20222.app20222_backend.dtos.users.IGetListUser;
 import com.app20222.app20222_backend.dtos.users.UserCreateDTO;
 import com.app20222.app20222_backend.dtos.users.UserDetailDTO;

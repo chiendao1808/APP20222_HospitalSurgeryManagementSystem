@@ -8,7 +8,6 @@ import com.app20222.app20222_backend.dtos.users.IGetListUser;
 import com.app20222.app20222_backend.dtos.users.UserCreateDTO;
 import com.app20222.app20222_backend.dtos.users.UserDetailDTO;
 import com.app20222.app20222_backend.dtos.users.UserUpdateDTO;
-import com.app20222.app20222_backend.entities.features.Feature;
 import com.app20222.app20222_backend.entities.users.User;
 import com.app20222.app20222_backend.entities.users.UserRole;
 import com.app20222.app20222_backend.enums.permission.BasePermissionEnum;
@@ -125,7 +124,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Set<String> getLstUserFeaturesByRoles(Set<String> roles) {
-        List<Feature> lstFeatures = featureRepository.findAll();
         if (Objects.isNull(roles) || roles.isEmpty()) {
             return Collections.emptySet();
         }

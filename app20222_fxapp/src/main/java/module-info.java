@@ -21,7 +21,6 @@ module com.app20222.app20222_fxapp {
         requires org.apache.httpcomponents.httpcore;
         requires org.apache.httpcomponents.httpclient;
         requires okhttp3;
-        requires json.path;
         requires org.json;
         requires com.google.common;
         requires com.google.api.client;

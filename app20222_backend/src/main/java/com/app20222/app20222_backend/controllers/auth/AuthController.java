@@ -3,7 +3,6 @@ package com.app20222.app20222_backend.controllers.auth;
 import com.app20222.app20222_backend.dtos.requests.login.LoginRequest;
 import com.app20222.app20222_backend.dtos.responses.login.LoginResponse;
 import com.app20222.app20222_backend.entities.role.Role;
-import com.app20222.app20222_backend.repositories.feature.FeatureRepository;
 import com.app20222.app20222_backend.security.jwt.JwtUtils;
 import com.app20222.app20222_backend.security.models.CustomUserDetails;
 import com.app20222.app20222_backend.services.users.UserService;
@@ -17,7 +16,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.util.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

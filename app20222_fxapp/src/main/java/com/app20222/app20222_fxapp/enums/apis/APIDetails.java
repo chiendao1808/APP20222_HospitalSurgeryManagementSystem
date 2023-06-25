@@ -39,7 +39,11 @@ public enum APIDetails {
     PATIENT_GET_LIST("PATIENT_GET_LIST","/patient", "/get-list", "GET"),
     PATIENT_GET_DETAILS("PATIENT_GET_DETAIL","/patient", "/get-detail", "GET"),
     PATIENT_CREATE("PATIENT_CREATE", "/patient", "/", "POST"),
-    PATIENT_UPDATE("PATIENT_UPDATE", "/patient", "/", "PUT");
+    PATIENT_UPDATE("PATIENT_UPDATE", "/patient", "/", "PUT"),
+
+    // Medical Record
+    MEDICAL_RECORD_CREATE("MEDICAL_RECORD_CREATE","/medical-record", "", "POST"),
+    MEDICAL_RECORD_GET_LIST("MEDICAL_RECORD_GET_LIST","/medical-record", "/get-list", "GET"),;
 
 
     private final String code;
