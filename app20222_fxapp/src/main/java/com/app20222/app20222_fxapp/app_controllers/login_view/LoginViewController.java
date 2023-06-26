@@ -117,9 +117,10 @@ public class LoginViewController {
                 LoginResponse loginResponse = HttpUtils.mappingResponseBody(response, new TypeReference<LoginResponse>() {
                 });
                 // Set authentication info in application context
-                ApplicationContext.ACCESS_TOKEN = loginResponse.getAccessToken();
-                ApplicationContext.REFRESH_TOKEN = loginResponse.getRefreshToken();
+                ApplicationContext.accessToken = loginResponse.getAccessToken();
+                ApplicationContext.refreshToken = loginResponse.getRefreshToken();
                 ApplicationContext.roles = loginResponse.getRoles();
+                ApplicationContext.features = loginResponse.getFeatures();
                 System.out.println(ApplicationContext.roles);
                 return response.statusCode();
             }
