@@ -2,7 +2,7 @@ package com.app20222.app20222_backend.services.file_attach;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import com.app20222.app20222_backend.dtos.FileUploadResDTO;
+import com.app20222.app20222_backend.dtos.file_attach.FileUploadResDTO;
 import com.app20222.app20222_backend.enums.file_attach.FileTypeEnum;
 
 @Service

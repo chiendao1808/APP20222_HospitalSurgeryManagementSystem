@@ -43,7 +43,9 @@ public enum APIDetails {
 
     // Medical Record
     MEDICAL_RECORD_CREATE("MEDICAL_RECORD_CREATE","/medical-record", "", "POST"),
-    MEDICAL_RECORD_GET_LIST("MEDICAL_RECORD_GET_LIST","/medical-record", "/get-list", "GET"),;
+    MEDICAL_RECORD_GET_LIST("MEDICAL_RECORD_GET_LIST","/medical-record", "/get-list", "GET"),
+    MEDICAL_RECORD_GET_DETAILS("MEDICAL_RECORD_GET_DETAIL","/medical-record", "/get-detail", "GET"),
+    MEDICAL_RECORD_UPDATE("MEDICAL_RECORD_UPDATE", "/medical-record", "/", "PUT");
 
 
     private final String code;

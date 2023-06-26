@@ -13,7 +13,7 @@ import com.app20222.app20222_backend.constants.SystemConstants;
 import com.app20222.app20222_backend.constants.message.error_field.ErrorKey;
 import com.app20222.app20222_backend.constants.message.message_const.MessageConst;
 import com.app20222.app20222_backend.constants.message.message_const.MessageConst.Resources;
-import com.app20222.app20222_backend.dtos.FileUploadResDTO;
+import com.app20222.app20222_backend.dtos.file_attach.FileUploadResDTO;
 import com.app20222.app20222_backend.entities.file_attach.FileAttach;
 import com.app20222.app20222_backend.enums.file_attach.FileStoredTypeEnum;
 import com.app20222.app20222_backend.enums.file_attach.FileTypeEnum;

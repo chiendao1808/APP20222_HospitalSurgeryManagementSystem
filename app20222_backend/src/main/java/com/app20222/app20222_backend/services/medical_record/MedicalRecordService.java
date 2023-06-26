@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import com.app20222.app20222_backend.dtos.medical_record.IGetListMedicalRecord;
 import com.app20222.app20222_backend.dtos.medical_record.MedicalRecordCreateDTO;
+import com.app20222.app20222_backend.dtos.medical_record.MedicalRecordDetailDTO;
+import com.app20222.app20222_backend.dtos.medical_record.MedicalRecordUpdateDTO;
 import com.app20222.app20222_backend.enums.users.IdentityTypeEnum;
 
 @Service
@@ -20,5 +22,15 @@ public interface MedicalRecordService {
      */
     List<IGetListMedicalRecord> getListMedicalRecords(Long patientId, String patientName, String patientCode, String phoneNumber,
         IdentityTypeEnum idType, String idNumber, String email, Date startDate, Date endDate);
+
+    /**
+     * Lấy thông tin  chi tiết về bản ghi hồ sơ bệnh án
+     */
+    MedicalRecordDetailDTO getMedicalRecordDetail(Long medicalRecordId);
+
+    /**
+     * Cập nhật bản ghi hồ sơ bệnh án
+     */
+    void updateMedicalRecord(Long medRecordId, MedicalRecordUpdateDTO updateDTO);
 
 }
