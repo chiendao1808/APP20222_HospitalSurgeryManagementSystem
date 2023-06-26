@@ -103,5 +103,19 @@ public class ErrorKey {
         public static final String ID = "id";
     }
 
+    public static class MedicalRecord {
+        //error code
+        public static final String NOT_FOUND_ERROR_CODE = "medical.record.error.not_found";
+
+        public static final String EXISTED_ERROR_CODE = "medical.record.error.existed";
+
+        public static final String DUPLICATED_ERROR_CODE = "medical.record.error.duplicated";
+
+        public static final String PERMISSION_DENIED_ERROR_CODE = "medical.record.error.permission_denied";
+
+        // error key
+        public static final String ID = "id";
+    }
+
 
 }
