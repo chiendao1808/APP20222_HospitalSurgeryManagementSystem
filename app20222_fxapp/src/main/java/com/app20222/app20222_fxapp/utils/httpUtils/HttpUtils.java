@@ -145,7 +145,7 @@ public class HttpUtils {
         // Add Authorization header if is auth api
         if (!(uri.contains("/auth") || uri.contains("/public/"))) {
             lstKeyAndValue.add(HttpHeaders.AUTHORIZATION);
-            lstKeyAndValue.add(ApiConstants.AUTH_SCHEME + " " + ApplicationContext.ACCESS_TOKEN);
+            lstKeyAndValue.add(ApiConstants.AUTH_SCHEME + " " + ApplicationContext.accessToken);
         }
         return lstKeyAndValue;
     }
