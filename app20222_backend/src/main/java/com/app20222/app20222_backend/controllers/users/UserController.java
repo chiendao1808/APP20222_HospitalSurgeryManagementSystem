@@ -4,9 +4,11 @@ import com.app20222.app20222_backend.dtos.users.IGetListUser;
 import com.app20222.app20222_backend.dtos.users.UserCreateDTO;
 import com.app20222.app20222_backend.dtos.users.UserDetailDTO;
 import com.app20222.app20222_backend.dtos.users.UserUpdateDTO;
+import com.app20222.app20222_backend.enums.users.UserStatusEnum;
 import com.app20222.app20222_backend.services.users.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +24,7 @@ import java.util.List;
 @RestController
 @Tag(name = "User Controllers")
 @RequestMapping("/users")
+@Slf4j
 public class UserController {
 
     @Autowired
@@ -51,10 +54,18 @@ public class UserController {
         userService.updateUser(id, updateDTO);
     }
 
-    @GetMapping("get-detail")
+    @GetMapping("/get-detail")
     @Operation(description = "Lấy thông tin chi tiết người dùng")
     public UserDetailDTO getDetailUser(@RequestParam(name = "id") Long id) {
         return userService.getDetailUser(id);
+    }
+
+    @PutMapping("/switch-status")
+    @Operation(description = "Chuyển trạng thái hoạt động của người dùng")
+    public void switchUserStatus(@RequestParam(name = "id") Long userId, @RequestParam(name = "status") UserStatusEnum status) {
+        log.info("========= started switchUserStatus ==========");
+        userService.switchUserStatus(userId, status);
+        log.info("========= end switchUserStatus ==========");
     }
 
 }

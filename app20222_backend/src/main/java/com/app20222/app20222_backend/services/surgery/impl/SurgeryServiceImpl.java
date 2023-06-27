@@ -87,7 +87,7 @@ public class SurgeryServiceImpl implements SurgeryService {
             item -> UserSurgery.builder().userId(item.getAssigneeId()).surgeryId(newSurgeryId).surgeryRoleType(item.getSurgeryRoleType())
                 .build()).collect(Collectors.toList());
         userSurgeryRepository.saveAll(lstUserSurgery);
-        // TODO : Gửi mail
+        // TODO : Gửi mail (đợi template)
     }
 
     @Transactional
@@ -109,7 +109,7 @@ public class SurgeryServiceImpl implements SurgeryService {
             item -> UserSurgery.builder().userId(item.getAssigneeId()).surgeryId(surgeryId).surgeryRoleType(item.getSurgeryRoleType())
                 .build()).collect(Collectors.toList());
         userSurgeryRepository.saveAll(lstUserSurgery);
-        // TODO : Gửi mail
+        // TODO : Gửi mail (đợi template)
     }
 
     @Override
@@ -153,8 +153,13 @@ public class SurgeryServiceImpl implements SurgeryService {
         // Xóa ca phẫu thuật
         surgeryRepository.deleteById(surgeryId);
 
-        // TODO: Gửi mail
+        // TODO: Gửi mail (đợi template)
 
+    }
+
+    @Override
+    public void switchSurgeryStatus(Long surgeryId, SurgeryStatusEnum status) {
+        surgeryRepository.changeSurgeryStatus(surgeryId, status.getValue());
     }
 
     /**

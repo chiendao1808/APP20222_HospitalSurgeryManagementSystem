@@ -4,6 +4,7 @@ import com.app20222.app20222_backend.dtos.users.IGetListUser;
 import com.app20222.app20222_backend.dtos.users.UserCreateDTO;
 import com.app20222.app20222_backend.dtos.users.UserDetailDTO;
 import com.app20222.app20222_backend.dtos.users.UserUpdateDTO;
+import com.app20222.app20222_backend.enums.users.UserStatusEnum;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,4 +37,10 @@ public interface UserService {
      * Lấy danh sách các chức năng theo role
      */
     Set<String> getLstUserFeaturesByRoles(Set<String> roles);
+
+
+    /**
+     * Chuyển trạng thái hoạt động của người dùng
+     */
+    void switchUserStatus(Long userId, UserStatusEnum status);
 }

@@ -61,20 +61,20 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."auth_info"
 (
     id          bigserial not null unique,
     user_id     int8      not null unique,
-    token       text      not null,
+    token       text      not null unique,
     status      int2      not null,
     ip_address  varchar(32),
     created_at  timestamp not null,
-    modified_at timestamp,
+    last_login_at timestamp not null,
     primary key (id)
 );
 COMMENT ON COLUMN "app20222_db"."auth_info"."id" IS 'Id bản ghi lưu token';
 COMMENT ON COLUMN "app20222_db"."auth_info"."user_id" IS 'Id user';
-COMMENT ON COLUMN "app20222_db"."auth_info"."status" IS 'Trạng thái token';
+COMMENT ON COLUMN "app20222_db"."auth_info"."status" IS 'Trạng thái token (0 : INVALID, 1: VALID)';
 COMMENT ON COLUMN "app20222_db"."auth_info"."token" IS 'Token đăng nhập hiện tại';
 COMMENT ON COLUMN "app20222_db"."auth_info"."created_at" IS 'Thời gian tạo';
+COMMENT ON COLUMN "app20222_db"."auth_info"."last_login_at" IS 'Thời gian đăng nhập sử dụng token hiện tại lần cuối';
 COMMENT ON COLUMN "app20222_db"."auth_info"."ip_address" IS 'Địa chỉ ip đăng nhập';
-COMMENT ON COLUMN "app20222_db"."auth_info"."modified_at" IS 'Thời gian cập nhật mới nhất';
 
 
 -- ================================================================--

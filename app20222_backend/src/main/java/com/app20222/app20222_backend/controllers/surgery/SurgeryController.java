@@ -41,9 +41,9 @@ public class SurgeryController {
         log.info("======= End createSurgery ========");
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping
     @Operation(description = "Cập nhật thông tin ca phẫu thuật")
-    public void updateSurgery(@PathVariable(name = "id") Long surgeryId,
+    public void updateSurgery(@RequestParam(name = "id") Long surgeryId,
         @RequestBody SurgeryUpdateDTO dto) {
         log.info("======= Started updateSurgery ========");
         surgeryService.updateSurgery(surgeryId, dto);
@@ -82,5 +82,11 @@ public class SurgeryController {
         log.info("======= End deleteSurgery ========");
     }
 
-
+    @PutMapping("/switch-status")
+    @Operation(description = "Chuyển trạng thái ca phẫu thuật")
+    public void switchSurgeryStatus(@RequestParam(name = "id") Long surgeryId, @RequestParam(name = "status") SurgeryStatusEnum status){
+        log.info("======= Started switchSurgeryStatus ========");
+        surgeryService.switchSurgeryStatus(surgeryId, status);
+        log.info("======= End switchSurgeryStatus ========");
+    }
 }

@@ -114,14 +114,12 @@ public class LoginViewController {
             // Check login response
             if (Objects.equals(response.statusCode(), HttpStatusCodes.STATUS_CODE_OK)
                 || Objects.equals(response.statusCode(), HttpStatusCodes.STATUS_CODE_ACCEPTED)) {
-                LoginResponse loginResponse = HttpUtils.mappingResponseBody(response, new TypeReference<LoginResponse>() {
-                });
+                LoginResponse loginResponse = HttpUtils.mappingResponseBody(response, new TypeReference<LoginResponse>() {});
                 // Set authentication info in application context
                 ApplicationContext.accessToken = loginResponse.getAccessToken();
                 ApplicationContext.refreshToken = loginResponse.getRefreshToken();
                 ApplicationContext.roles = loginResponse.getRoles();
                 ApplicationContext.features = loginResponse.getFeatures();
-                System.out.println(ApplicationContext.roles);
                 return response.statusCode();
             }
         } catch (Exception exception) {

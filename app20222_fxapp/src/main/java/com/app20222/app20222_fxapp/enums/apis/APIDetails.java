@@ -17,6 +17,7 @@ public enum APIDetails {
     USER_CREATE("USER_CREATE", "/users", "", "POST"),
     USER_UPDATE("USER_UPDATE", "/users", "", "PUT"),
     USER_GET_DETAIL("USER_GET_DETAIL", "/users", "/get-detail", "GET"),
+    USER_SWITCH_STATUS("USER_SWITCH_STATUS", "/users", "/switch-status", "PUT"),
 
     // Department's
     DEPARTMENT_CREATE("DEPARTMENT_CREATE", "/department", "", "POST"),
@@ -26,9 +27,10 @@ public enum APIDetails {
     // Surgery's APIs
     SURGERY_GET_LIST("SURGERY_GET_LIST", "/surgery","/get-list", "GET"),
     SURGERY_CREATE("SURGERY_CREATE", "/surgery","", "POST"),
-    SURGERY_UPDATE("SURGERY_UPDATE", "/surgery","/update", "PUT"),
+    SURGERY_UPDATE("SURGERY_UPDATE", "/surgery","", "PUT"),
     SURGERY_DETAILS("SURGERY_DETAILS", "/surgery", "/get-details", "GET"),
     SURGERY_DELETE("SURGERY_DELETE", "/surgery", "/delete", "DELETE"),
+    SURGERY_SWITCH_STATUS("SURGERY_SWITCH_STATUS", "/surgery", "/switch-status", "PUT"),
 
     // Surgery Room's APIs
     SURGERY_ROOM_GET_LIST("SURGERY_ROOM_GET_LIST", "/surgery-room","/get-list", "GET"),

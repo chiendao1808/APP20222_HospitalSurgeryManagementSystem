@@ -2,8 +2,10 @@ package com.app20222.app20222_backend.utils.auth;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletRequest;
 import com.app20222.app20222_backend.entities.role.Role;
 import com.app20222.app20222_backend.entities.users.User;
 import com.app20222.app20222_backend.enums.role.RoleEnum;
@@ -12,9 +14,25 @@ import com.app20222.app20222_backend.security.models.CustomUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 @Slf4j
 public class AuthUtils {
+
+
+    private static final String[] HEADERS_TO_TRY = {
+        "X-Forwarded-For",
+        "Proxy-Client-IP",
+        "WL-Proxy-Client-IP",
+        "HTTP_X_FORWARDED_FOR",
+        "HTTP_X_FORWARDED",
+        "HTTP_X_CLUSTER_CLIENT_IP",
+        "HTTP_CLIENT_IP",
+        "HTTP_FORWARDED_FOR",
+        "HTTP_FORWARDED",
+        "HTTP_VIA",
+        "REMOTE_ADDR"
+    };
 
     /**
      * Get current user id
@@ -23,8 +41,8 @@ public class AuthUtils {
      */
     public static Long getCurrentUserId() {
         try {
-            CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            return userDetails.getUserId();
+            User currentUser = getCurrentUser();
+            return Objects.nonNull(currentUser) ? currentUser.getId() : null;
         } catch (Exception ex) {
             log.error("Get current user id error");
             return null;
@@ -122,6 +140,19 @@ public class AuthUtils {
             log.error("get role level hospital error");
             return false;
         }
+    }
+
+    /**
+     * Get client's request ip address
+     */
+    public static String getIpAddress(HttpServletRequest request){
+        for(String header : HEADERS_TO_TRY){
+            String ipAddress = request.getHeader(header);
+            if(Objects.nonNull(ipAddress) && StringUtils.hasText(ipAddress) && !"unknown".equalsIgnoreCase(ipAddress)){
+                return ipAddress;
+            }
+        }
+        return request.getRemoteAddr();
     }
 
 }
