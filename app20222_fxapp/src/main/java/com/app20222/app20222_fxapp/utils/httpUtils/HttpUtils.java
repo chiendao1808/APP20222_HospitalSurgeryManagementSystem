@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.http.HttpMethods;
 import com.google.common.net.HttpHeaders;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpStatus;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
@@ -24,6 +23,7 @@ import java.nio.channels.Channels;
 import java.nio.channels.Pipe;
 import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 public class HttpUtils {
 
@@ -31,10 +31,10 @@ public class HttpUtils {
     /**
      * Execute an HTTP Request with JSON Payload in both request and response
      */
-    public static HttpResponse doRequest(String uri, String method, Object reqBody, Map<String, String> headers) {
+    public static HttpResponse<String> doRequest(String uri, String method, Object reqBody, Map<String, String> headers) {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request;
-        HttpResponse<String> response;
+        CompletableFuture<HttpResponse<String>> response;
         ObjectMapper mapper = new ObjectMapper();
         List<String> reqHeaders = buildHeaders(headers, uri);
         reqHeaders.addAll(List.of(HttpHeaders.CONTENT_TYPE, "application/json"));
@@ -47,8 +47,8 @@ public class HttpUtils {
                         .headers(reqHeaders.toArray(String[]::new))
                         .timeout(Duration.ofMillis(10000)) // 10s time-out
                         .build();
-                    response = client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenApply(applyResponse -> applyResponse).get();
-                    return response;
+                    response = client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+                    return response.join();
                 case HttpMethods.POST:
                     request = HttpRequest.newBuilder()
                         .uri(URI.create(uri))
@@ -56,8 +56,8 @@ public class HttpUtils {
                         .headers(reqHeaders.toArray(String[]::new))
                         .timeout(Duration.ofMillis(10000)) // 10s time-out
                         .build();
-                    response = client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenApply(applyResponse -> applyResponse).get();
-                    return response;
+                    response = client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+                    return response.join();
                 case HttpMethods.PUT:
                     request = HttpRequest.newBuilder()
                         .uri(URI.create(uri))
@@ -65,8 +65,8 @@ public class HttpUtils {
                         .headers(reqHeaders.toArray(String[]::new))
                         .timeout(Duration.ofMillis(10000)) // 10s time-out
                         .build();
-                    response = client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenApply(applyResponse -> applyResponse).get();
-                    return response;
+                    response = client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+                    return response.join();
                 default:
                     return null;
             }
@@ -124,8 +124,7 @@ public class HttpUtils {
                 .POST(HttpRequest.BodyPublishers.ofInputStream(() -> Channels.newInputStream(pipe.source())))
                 .timeout(Duration.ofMillis(10000)) // 10s  time-out
                 .build();
-            HttpResponse<String> response = client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                .thenApply(applyResponse -> applyResponse).get();
+            HttpResponse<String> response = client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).join();
             return mapper.readValue(response.body(), BaseResponse.class);
         } catch (Exception ex) {
             ex.printStackTrace();

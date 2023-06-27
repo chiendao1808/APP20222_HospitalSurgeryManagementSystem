@@ -45,4 +45,9 @@ public interface SurgeryRepository extends JpaRepository<Surgery, Long> {
     @Query(nativeQuery = true, value = SQLSurgery.DELETE_ALL_SURGERY_FILE_ATTACHED_BY_SURGERY_ID)
     void deleteSurgeryFileBySurgeryId(Long surgeryId);
 
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE Surgery surgery SET surgery.status = :status WHERE surgery.id = :surgeryId")
+    Integer changeSurgeryStatus(Long surgeryId, Integer status);
+
 }

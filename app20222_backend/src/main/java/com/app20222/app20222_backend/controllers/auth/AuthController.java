@@ -2,10 +2,13 @@ package com.app20222.app20222_backend.controllers.auth;
 
 import com.app20222.app20222_backend.dtos.requests.login.LoginRequest;
 import com.app20222.app20222_backend.dtos.responses.login.LoginResponse;
+import com.app20222.app20222_backend.entities.auth.AuthInfo;
 import com.app20222.app20222_backend.entities.role.Role;
 import com.app20222.app20222_backend.security.jwt.JwtUtils;
 import com.app20222.app20222_backend.security.models.CustomUserDetails;
+import com.app20222.app20222_backend.services.auth.AuthInfoService;
 import com.app20222.app20222_backend.services.users.UserService;
+import com.app20222.app20222_backend.utils.auth.AuthUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +18,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,10 +35,6 @@ import java.util.stream.Collectors;
 @Slf4j
 public class AuthController {
 
-
-    @Autowired
-    private UserDetailsService userDetailsService;
-
     @Autowired
     private UserService userService;
 
@@ -45,6 +43,9 @@ public class AuthController {
 
     @Autowired
     private JwtUtils jwtUtils;
+
+    @Autowired
+    private AuthInfoService authInfoService;
 
 
     /**
@@ -59,9 +60,14 @@ public class AuthController {
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         if (userDetails == null)
             throw new BadCredentialsException("Username/Password is incorrect");
-        // Generate access and refresh tokens
-        final String accessToken = jwtUtils.generateJwt(userDetails.getUser());
-        final String refreshToken = jwtUtils.generateRefreshToken(userDetails.getUser());
+        // Init request values
+        String accessToken = jwtUtils.generateJwt(userDetails.getUser());
+        String refreshToken = jwtUtils.generateRefreshToken(userDetails.getUser());// current not use
+        String ipAddress = AuthUtils.getIpAddress(request);
+
+        // update auth info in db
+        authInfoService.saveAuthInfo(userDetails.getUserId(), accessToken, ipAddress);
+
         if (Objects.isNull(accessToken) || Objects.isNull(refreshToken))
             throw new BadCredentialsException("Generate tokens error");
         Set<String> roles = userDetails.getRoles().stream().map(Role::getCode).collect(Collectors.toSet());

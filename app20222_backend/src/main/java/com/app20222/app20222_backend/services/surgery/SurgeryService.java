@@ -35,4 +35,9 @@ public interface SurgeryService {
      * Xóa ca phẫu thuật
      */
     void deleteSurgery(Long surgeryId);
+
+    /**
+     * Chuyển trạng thái ca phẫu thuật
+     */
+    void switchSurgeryStatus(Long surgeryId, SurgeryStatusEnum status);
 }

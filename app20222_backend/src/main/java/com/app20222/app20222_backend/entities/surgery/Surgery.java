@@ -61,6 +61,9 @@ public class Surgery extends BaseEntity {
     @JoinColumn(name = "surgery_room_id", updatable = false, insertable = false)
     private SurgeryRoom surgeryRoom;
 
+    @Column(name = "status")
+    private Integer status;
+
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "surgeries_files",

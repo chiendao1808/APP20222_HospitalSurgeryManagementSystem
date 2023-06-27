@@ -11,6 +11,7 @@ import com.app20222.app20222_backend.dtos.users.UserUpdateDTO;
 import com.app20222.app20222_backend.entities.users.User;
 import com.app20222.app20222_backend.entities.users.UserRole;
 import com.app20222.app20222_backend.enums.permission.BasePermissionEnum;
+import com.app20222.app20222_backend.enums.users.UserStatusEnum;
 import com.app20222.app20222_backend.exceptions.exception_factory.ExceptionFactory;
 import com.app20222.app20222_backend.repositories.department.DepartmentRepository;
 import com.app20222.app20222_backend.repositories.feature.FeatureRepository;
@@ -120,6 +121,11 @@ public class UserServiceImpl implements UserService {
         permissionService.hasUserPermission(userId, BasePermissionEnum.VIEW);
         IGetDetailUser iGetDetailUser = userRepository.getDetailUser(userId);
         return new UserDetailDTO(iGetDetailUser);
+    }
+
+    @Override
+    public void switchUserStatus(Long userId, UserStatusEnum status) {
+        userRepository.switchUserStatus(userId, status.getStatus());
     }
 
     @Override
