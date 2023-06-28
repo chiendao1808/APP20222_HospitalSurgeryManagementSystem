@@ -4,9 +4,11 @@ package com.app20222.app20222_fxapp.utils.httpUtils;
 import com.app20222.app20222_fxapp.constants.apis.ApiConstants;
 import com.app20222.app20222_fxapp.context.ApplicationContext;
 import com.app20222.app20222_fxapp.dto.responses.BaseResponse;
+import com.app20222.app20222_fxapp.dto.responses.exception.ExceptionResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.http.HttpMethods;
+import com.google.api.client.http.HttpStatusCodes;
 import com.google.common.net.HttpHeaders;
 import org.apache.http.HttpEntity;
 import org.apache.http.entity.ContentType;
@@ -26,6 +28,8 @@ import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
 public class HttpUtils {
+
+    public static ObjectMapper mapper = new ObjectMapper();
 
 
     /**
@@ -82,7 +86,6 @@ public class HttpUtils {
      */
     public static <T> T mappingResponseBody(HttpResponse<String> response, TypeReference<T> type) {
         try {
-            ObjectMapper mapper = new ObjectMapper();
             return Objects.nonNull(response) ? mapper.readValue(response.body(), type) : null;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -95,7 +98,6 @@ public class HttpUtils {
      * Execute a request upload file
      */
     public static BaseResponse doUploadFile(String uri, File file, Map<String, String> headers) {
-        ObjectMapper mapper = new ObjectMapper();
         List<String> reqHeaders = buildHeaders(headers, uri);
         reqHeaders.addAll(List.of(HttpHeaders.CONTENT_TYPE, "multipart/form-data"));
         try {
@@ -147,6 +149,30 @@ public class HttpUtils {
             lstKeyAndValue.add(ApiConstants.AUTH_SCHEME + " " + ApplicationContext.accessToken);
         }
         return lstKeyAndValue;
+    }
+
+    /**
+     * Handle response
+     */
+    public static <T> Object handleResponse(HttpResponse<String> response, T resDTO, Class<T> clazz, ExceptionResponse exResponse){
+        boolean success = false;
+        try{
+            if(Objects.isNull(response)) return null;
+            switch (response.statusCode()){
+                case HttpStatusCodes.STATUS_CODE_OK:
+                case HttpStatusCodes.STATUS_CODE_ACCEPTED:
+                    resDTO = mapper.readValue(response.body(), clazz);
+                    success = true;
+                    break;
+                default:
+                    exResponse = mapper.readValue(response.body(), ExceptionResponse.class);
+                    break;
+            }
+            return success ? resDTO : exResponse;
+        }catch (Exception exception){
+            exception.printStackTrace();
+            return false;
+        }
     }
 
 }

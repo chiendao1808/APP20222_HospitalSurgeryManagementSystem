@@ -123,4 +123,13 @@ public class SQLSurgery {
     public static final String DELETE_ALL_SURGERY_FILE_ATTACHED_BY_SURGERY_ID =
         "DELETE FROM {h-schema}surgeries_files WHERE surgery_id = :surgeryId ";
 
+    public static final String GET_LIST_SURGERY_FILE =
+        "SELECT \n" +
+            "     file.id AS fileId, \n" +
+            "     file.name AS fileName, \n" +
+            "     file.location AS location \n" +
+            "FROM {h-schema}surgeries_files AS surFile \n" +
+            "   JOIN {h-schema}file_attach AS file ON file.id = surFile.file_id \n" +
+            "WHERE surFile.surgery_id = :surgeryId ";
+
 }

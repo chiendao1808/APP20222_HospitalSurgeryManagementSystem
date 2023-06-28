@@ -171,6 +171,7 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."surgery"
 (
     id               bigserial not null unique,
     name             varchar(100),
+    code             varchar(20),
     description      text,
     disease_group_id int8,
     type             int4,
@@ -190,6 +191,7 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."surgery"
 );
 COMMENT ON TABLE "app20222_db"."surgery" IS 'Bảng lưu thông tin các ca phẫu thuật';
 COMMENT ON COLUMN "app20222_db"."surgery"."id" IS 'Id của ca phẫu thuật';
+COMMENT ON COLUMN "app20222_db"."surgery"."code" IS 'Mã số ca phẫu thuật';
 COMMENT ON COLUMN "app20222_db"."surgery"."name" IS 'Tên ca phẫu thuật';
 COMMENT ON COLUMN "app20222_db"."surgery"."description" IS 'Mô tả ca phẫu thuật';
 COMMENT ON COLUMN "app20222_db"."surgery"."disease_group_id" IS 'Nhóm bệnh';
@@ -232,6 +234,7 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."surgery_room"
 (
     id                bigserial   not null unique,
     name              varchar(50) not null,
+    code              varchar(10) not null unique,
     address           text,
     description       text,
     current_available boolean,
@@ -244,6 +247,7 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."surgery_room"
 );
 COMMENT ON TABLE "app20222_db"."surgery_room" IS 'Bảng lưu thông tin phòng phẫu thuật';
 COMMENT ON COLUMN "app20222_db"."surgery_room"."id" IS 'Id phòng phẫu thuật';
+COMMENT ON COLUMN "app20222_db"."surgery_room"."code" IS 'Mã số phòng phẫu thuật';
 COMMENT ON COLUMN "app20222_db"."surgery_room"."name" IS 'Tên phòng phẫu thuật';
 COMMENT ON COLUMN "app20222_db"."surgery_room"."address" IS 'Địa chỉ phòng phẫu thuật';
 COMMENT ON COLUMN "app20222_db"."surgery_room"."description" IS 'Mô tả thông tin phòng phẫu thuật';

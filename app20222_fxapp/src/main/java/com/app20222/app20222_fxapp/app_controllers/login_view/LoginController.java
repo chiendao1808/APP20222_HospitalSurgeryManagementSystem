@@ -4,10 +4,10 @@ import com.app20222.app20222_fxapp.MainApplication;
 import com.app20222.app20222_fxapp.context.ApplicationContext;
 import com.app20222.app20222_fxapp.dto.requests.auth.LoginRequest;
 import com.app20222.app20222_fxapp.dto.responses.auth.LoginResponse;
+import com.app20222.app20222_fxapp.dto.responses.exception.ExceptionResponse;
 import com.app20222.app20222_fxapp.enums.apis.APIDetails;
 import com.app20222.app20222_fxapp.utils.apiUtils.ApiUtils;
 import com.app20222.app20222_fxapp.utils.httpUtils.HttpUtils;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.http.HttpStatusCodes;
 import javafx.event.ActionEvent;
@@ -24,7 +24,7 @@ import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class LoginViewController {
+public class LoginController {
 
     private Stage stage;
     private Scene scene;
@@ -110,16 +110,21 @@ public class LoginViewController {
         try {
             String apiPath = APIDetails.AUTH_LOGIN.getRequestPath() + APIDetails.AUTH_LOGIN.getDetailPath();
             String uri = ApiUtils.buildURI(apiPath, new HashMap<>());
-            HttpResponse response = HttpUtils.doRequest(uri, HttpMethods.POST, new LoginRequest(username, password), new HashMap<>());
+            HttpResponse<String> response = HttpUtils.doRequest(uri, HttpMethods.POST, new LoginRequest(username, password), new HashMap<>());
             // Check login response
-            if (Objects.equals(response.statusCode(), HttpStatusCodes.STATUS_CODE_OK)
-                || Objects.equals(response.statusCode(), HttpStatusCodes.STATUS_CODE_ACCEPTED)) {
-                LoginResponse loginResponse = HttpUtils.mappingResponseBody(response, new TypeReference<LoginResponse>() {});
-                // Set authentication info in application context
-                ApplicationContext.accessToken = loginResponse.getAccessToken();
-                ApplicationContext.refreshToken = loginResponse.getRefreshToken();
-                ApplicationContext.roles = loginResponse.getRoles();
-                ApplicationContext.features = loginResponse.getFeatures();
+            // Logic xử lý response
+            LoginResponse loginResponse = null;
+            ExceptionResponse exceptionResponse = null;
+            Object res = HttpUtils.handleResponse(response, loginResponse, LoginResponse.class, exceptionResponse);
+            if (Objects.nonNull(response) && Objects.nonNull(res)) {
+                if (res instanceof LoginResponse) {
+                    loginResponse = (LoginResponse) res;
+                    // Set authentication info in application context
+                    ApplicationContext.accessToken = loginResponse.getAccessToken();
+                    ApplicationContext.refreshToken = loginResponse.getRefreshToken();
+                    ApplicationContext.roles = loginResponse.getRoles();
+                    ApplicationContext.features = loginResponse.getFeatures();
+                }
                 return response.statusCode();
             }
         } catch (Exception exception) {

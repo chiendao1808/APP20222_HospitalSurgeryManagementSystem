@@ -4,7 +4,7 @@ public interface IGetSurgeryAssignment {
 
     Long getAssigneeId();
 
-    String assigneeCode();
+    String getAssigneeCode();
 
     String getAssigneeName();
 

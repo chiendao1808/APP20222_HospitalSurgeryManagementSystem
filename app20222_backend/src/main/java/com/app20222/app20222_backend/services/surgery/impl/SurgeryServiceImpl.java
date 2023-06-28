@@ -14,6 +14,7 @@ import org.springframework.util.ObjectUtils;
 import com.app20222.app20222_backend.constants.message.error_field.ErrorKey;
 import com.app20222.app20222_backend.constants.message.message_const.MessageConst;
 import com.app20222.app20222_backend.constants.message.message_const.MessageConst.Resources;
+import com.app20222.app20222_backend.dtos.file_attach.IGetFileAttach;
 import com.app20222.app20222_backend.dtos.surgery.IGetDetailSurgery;
 import com.app20222.app20222_backend.dtos.surgery.IGetSurgeryAssignment;
 import com.app20222.app20222_backend.dtos.surgery.SurgeryCreateDTO;
@@ -22,13 +23,13 @@ import com.app20222.app20222_backend.dtos.surgery.SurgeryRoleDTO;
 import com.app20222.app20222_backend.dtos.surgery.SurgeryUpdateDTO;
 import com.app20222.app20222_backend.dtos.surgery.IGetListSurgery;
 import com.app20222.app20222_backend.dtos.surgery.IGetOverlapSurgery;
-import com.app20222.app20222_backend.entities.file_attach.FileAttach;
 import com.app20222.app20222_backend.entities.surgery.Surgery;
 import com.app20222.app20222_backend.entities.surgery.UserSurgery;
 import com.app20222.app20222_backend.enums.permission.BasePermissionEnum;
 import com.app20222.app20222_backend.enums.surgery.SurgeryStatusEnum;
 import com.app20222.app20222_backend.exceptions.exception_factory.ExceptionFactory;
 import com.app20222.app20222_backend.repositories.file_attach.FileAttachRepository;
+import com.app20222.app20222_backend.repositories.file_attach.SurgeryFileRepository;
 import com.app20222.app20222_backend.repositories.surgery.SurgeryRepository;
 import com.app20222.app20222_backend.repositories.surgery.UserSurgeryRepository;
 import com.app20222.app20222_backend.services.mail.MailService;
@@ -50,6 +51,8 @@ public class SurgeryServiceImpl implements SurgeryService {
 
     private final FileAttachRepository fileAttachRepository;
 
+    private final SurgeryFileRepository surgeryFileRepository;
+
     private final MailService mailService;
 
 
@@ -60,12 +63,13 @@ public class SurgeryServiceImpl implements SurgeryService {
     public static final String OVERLAP_PATIENT = "patient_id";
 
     public SurgeryServiceImpl(SurgeryRepository surgeryRepository, UserSurgeryRepository userSurgeryRepository, ExceptionFactory exceptionFactory,
-        PermissionService permissionService, FileAttachRepository fileAttachRepository, MailService mailService){
+        PermissionService permissionService, FileAttachRepository fileAttachRepository, SurgeryFileRepository surgeryFileRepository, MailService mailService){
         this.surgeryRepository = surgeryRepository;
         this.userSurgeryRepository = userSurgeryRepository;
         this.exceptionFactory = exceptionFactory;
         this.permissionService = permissionService;
         this.fileAttachRepository = fileAttachRepository;
+        this.surgeryFileRepository = surgeryFileRepository;
         this.mailService = mailService;
     }
 
@@ -130,7 +134,7 @@ public class SurgeryServiceImpl implements SurgeryService {
         // Lấy thông tin chung của ca phẫu thuật
         IGetDetailSurgery iGetDetailSurgery = surgeryRepository.getDetailSurgery(surgeryId);
         // Lấy danh sách file attached
-        Set<FileAttach> lstFileAttach = fileAttachRepository.findAllByIdIn(StringUtils.convertStrLongArrayToSetLong(iGetDetailSurgery.getLstFileAttachId()));
+        List<IGetFileAttach> lstFileAttach = surgeryFileRepository.getListFileAttach(surgeryId);
 
         // Lấy danh sách assignment ca phẫu thuật
         List<IGetSurgeryAssignment> lstAssignments = surgeryRepository.getSurgeryAssignment(surgeryId);
