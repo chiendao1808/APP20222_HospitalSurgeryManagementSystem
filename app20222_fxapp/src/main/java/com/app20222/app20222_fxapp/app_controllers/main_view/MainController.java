@@ -70,15 +70,16 @@ public class MainController {
     private Button tabDoctor;
     @FXML
     private Button tabSurgery;
+
+
     @FXML
     protected void onHelloButtonClick() {
         String message = "";
         try {
             String apiPath = APIDetails.HELLO.getRequestPath() + APIDetails.HELLO.getDetailPath();
             String uri = ApiUtils.buildURI(apiPath, new HashMap<>());
-            HttpResponse response = HttpUtils.doRequest(uri, HttpMethods.GET, new Object(), new HashMap<>());
-            List<BaseResponse> lstResponse = HttpUtils.mappingResponseBody(response, new TypeReference<List<BaseResponse>>() {
-            });
+            HttpResponse<String> response = HttpUtils.doRequest(uri, HttpMethods.GET, new Object(), new HashMap<>());
+            List<BaseResponse> lstResponse = HttpUtils.mappingResponseBody(response, new TypeReference<>() {});
             message = Objects.requireNonNull(lstResponse).stream().map(BaseResponse::getMessage).collect(Collectors.toList()).toString();
         } catch (Exception exception) {
             exception.printStackTrace();

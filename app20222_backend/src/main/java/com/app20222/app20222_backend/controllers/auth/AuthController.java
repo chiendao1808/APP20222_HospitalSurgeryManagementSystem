@@ -2,7 +2,6 @@ package com.app20222.app20222_backend.controllers.auth;
 
 import com.app20222.app20222_backend.dtos.requests.login.LoginRequest;
 import com.app20222.app20222_backend.dtos.responses.login.LoginResponse;
-import com.app20222.app20222_backend.entities.auth.AuthInfo;
 import com.app20222.app20222_backend.entities.role.Role;
 import com.app20222.app20222_backend.security.jwt.JwtUtils;
 import com.app20222.app20222_backend.security.models.CustomUserDetails;

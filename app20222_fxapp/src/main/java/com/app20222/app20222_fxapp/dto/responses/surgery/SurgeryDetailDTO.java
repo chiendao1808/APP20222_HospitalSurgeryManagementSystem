@@ -1,14 +1,10 @@
-package com.app20222.app20222_backend.dtos.surgery;
+package com.app20222.app20222_fxapp.dto.responses.surgery;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import org.springframework.beans.BeanUtils;
-import com.app20222.app20222_backend.dtos.file_attach.IGetFileAttach;
-import com.app20222.app20222_backend.entities.file_attach.FileAttach;
-import com.app20222.app20222_backend.utils.DateUtils;
+import com.app20222.app20222_fxapp.dto.file_attach.FileAttachDTO;
+import com.app20222.app20222_fxapp.utils.DateUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -58,15 +54,9 @@ public class SurgeryDetailDTO {
 
     String createdBy;
 
-    List<IGetFileAttach> lstFileAttach= new ArrayList<>();
+    List<FileAttachDTO> lstFileAttach = new ArrayList<>();
 
-    List<IGetSurgeryAssignment> lstAssignment = new ArrayList<>();
+    List<SurgeryAssignmentDTO> lstAssignment = new ArrayList<>();
 
-
-    public SurgeryDetailDTO(IGetDetailSurgery iGetDetailSurgery, List<IGetFileAttach> lstFileAttach, List<IGetSurgeryAssignment> lstAssignment){
-        BeanUtils.copyProperties(iGetDetailSurgery, this);
-        this.lstFileAttach = lstFileAttach;
-        this.lstAssignment = lstAssignment;
-    }
 
 }
