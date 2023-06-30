@@ -21,6 +21,7 @@ public class MainApplication extends Application {
         stage.setTitle("Hệ thống quản lý phẫu thuật");
         stage.setScene(scene);
         stage.centerOnScreen();
+        stage.setResizable(false);
         stage.show();
     }
 

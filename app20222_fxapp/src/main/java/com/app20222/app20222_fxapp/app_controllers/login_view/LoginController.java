@@ -71,6 +71,7 @@ public class LoginController {
                 scene = new Scene(root);
                 stage.setTitle("Hospital-Systems");
                 stage.setScene(scene);
+                stage.setResizable(false);
                 stage.centerOnScreen();
                 stage.show();
             } else {

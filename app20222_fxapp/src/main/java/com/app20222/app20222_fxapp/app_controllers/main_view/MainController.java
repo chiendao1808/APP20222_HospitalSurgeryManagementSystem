@@ -29,8 +29,6 @@ public class MainController {
     private Stage stage;
     private Scene scene;
     private Parent root;
-    @FXML
-    private Label welcomeText;
 
     @FXML
     private Button arrowBtn;
@@ -54,6 +52,9 @@ public class MainController {
     private AnchorPane navForm1;
     @FXML
     private AnchorPane mainCenterForm;
+
+    //  Tab dùng để chuyển giữa các màn
+    // Pane
     @FXML
     private AnchorPane patient;
     @FXML
@@ -63,30 +64,27 @@ public class MainController {
     @FXML
     private AnchorPane surgery;
     @FXML
+    private AnchorPane surgeryRoom;
+    @FXML
+    private AnchorPane department;
+    // Tab
+    @FXML
     private Button tabPatient;
     @FXML
     private Button tabMedicalRecord;
     @FXML
     private Button tabDoctor;
     @FXML
+    private Button tabSurgeryRoom;
+    @FXML
+    private Button tabDepartment;
+    @FXML
     private Button tabSurgery;
 
+    // TabController
+    private TabController tabController = new TabController();
 
-    @FXML
-    protected void onHelloButtonClick() {
-        String message = "";
-        try {
-            String apiPath = APIDetails.HELLO.getRequestPath() + APIDetails.HELLO.getDetailPath();
-            String uri = ApiUtils.buildURI(apiPath, new HashMap<>());
-            HttpResponse<String> response = HttpUtils.doRequest(uri, HttpMethods.GET, new Object(), new HashMap<>());
-            List<BaseResponse> lstResponse = HttpUtils.mappingResponseBody(response, new TypeReference<>() {});
-            message = Objects.requireNonNull(lstResponse).stream().map(BaseResponse::getMessage).collect(Collectors.toList()).toString();
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
-        welcomeText.setText(message);
-    }
-
+    // Xử lý khi click icon thu nhỏ múc leftMenu
     @FXML
     public void sliderArrow() {
 
@@ -142,36 +140,23 @@ public class MainController {
         logoutController.logout(event);
     }
 
-
+    // CHuyển giữa các màn
     @FXML
     private void switchTab(ActionEvent event) {
-        Button selectedButton = (Button) event.getSource();
-        if (selectedButton == tabPatient) {
-            switchToTab(tabPatient, patient);
-        } else if (selectedButton == tabMedicalRecord) {
-            switchToTab(tabMedicalRecord, medicalRecord);
-        } else if (selectedButton == tabDoctor) {
-            switchToTab(tabDoctor, doctors);
-        } else if (selectedButton == tabSurgery) {
-            switchToTab(tabSurgery, surgery);
-        }
-    }
-
-    private void switchToTab(Button selectedButton, AnchorPane selectedPane) {
-        patient.setVisible(selectedPane == patient);
-        medicalRecord.setVisible(selectedPane == medicalRecord);
-        doctors.setVisible(selectedPane == doctors);
-        surgery.setVisible(selectedPane == surgery);
-
-        // Reset the background for all tabs
-        tabPatient.setStyle("-fx-background-color: transparent");
-        tabMedicalRecord.setStyle("-fx-background-color: transparent");
-        tabDoctor.setStyle("-fx-background-color: transparent");
-        tabSurgery.setStyle("-fx-background-color: transparent");
-
-        // Set the background for the selected tab
-        selectedButton.setStyle("-fx-background-color: #2C3D94");
-        selectedButton.requestFocus();
+        tabController = new TabController(
+                patient,
+                medicalRecord,
+                doctors,
+                surgery,
+                surgeryRoom,
+                department,
+                tabPatient,
+                tabMedicalRecord,
+                tabDoctor,
+                tabSurgeryRoom,
+                tabDepartment,
+                tabSurgery);
+        tabController.switchTab(event);
     }
 
 
