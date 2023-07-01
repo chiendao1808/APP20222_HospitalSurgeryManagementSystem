@@ -1,15 +1,14 @@
 package com.app20222.app20222_backend.entities.surgery;
 
 import com.app20222.app20222_backend.entities.base.BaseEntity;
-import com.app20222.app20222_backend.entities.file_attach.FileAttach;
+import com.app20222.app20222_backend.entities.fileAttach.FileAttach;
 import com.app20222.app20222_backend.entities.patient.Patient;
-import com.app20222.app20222_backend.entities.surgery_room.SurgeryRoom;
+import com.app20222.app20222_backend.entities.surgeryRoom.SurgeryRoom;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 

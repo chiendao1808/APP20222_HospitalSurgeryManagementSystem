@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.constants.sql.medical_record;
+package com.app20222.app20222_backend.constants.sql.medicalRecord;
 
 public class SQLMedicalRecord {
 

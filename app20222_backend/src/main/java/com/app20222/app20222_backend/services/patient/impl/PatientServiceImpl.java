@@ -1,7 +1,7 @@
 package com.app20222.app20222_backend.services.patient.impl;
 
-import static com.app20222.app20222_backend.constants.message.error_field.ErrorKey.Patient.DUPLICATED_ERROR_CODE;
-import static com.app20222.app20222_backend.constants.message.error_field.ErrorKey.Patient.EXISTED_ERROR_CODE;
+import static com.app20222.app20222_backend.constants.message.errorKey.ErrorKey.Patient.DUPLICATED_ERROR_CODE;
+import static com.app20222.app20222_backend.constants.message.errorKey.ErrorKey.Patient.EXISTED_ERROR_CODE;
 
 import java.util.Date;
 import java.util.List;
@@ -9,9 +9,9 @@ import java.util.Objects;
 import java.util.Random;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import com.app20222.app20222_backend.constants.message.error_field.ErrorKey;
-import com.app20222.app20222_backend.constants.message.message_const.MessageConst;
-import com.app20222.app20222_backend.constants.message.message_const.MessageConst.Resources;
+import com.app20222.app20222_backend.constants.message.errorKey.ErrorKey;
+import com.app20222.app20222_backend.constants.message.messageConst.MessageConst;
+import com.app20222.app20222_backend.constants.message.messageConst.MessageConst.Resources;
 import com.app20222.app20222_backend.dtos.patient.IGetDetailPatient;
 import com.app20222.app20222_backend.dtos.patient.IGetListPatient;
 import com.app20222.app20222_backend.dtos.patient.PatientCreateDTO;
@@ -19,7 +19,7 @@ import com.app20222.app20222_backend.dtos.patient.PatientUpdateDTO;
 import com.app20222.app20222_backend.entities.patient.Patient;
 import com.app20222.app20222_backend.enums.permission.BasePermissionEnum;
 import com.app20222.app20222_backend.enums.users.IdentityTypeEnum;
-import com.app20222.app20222_backend.exceptions.exception_factory.ExceptionFactory;
+import com.app20222.app20222_backend.exceptions.exceptionFactory.ExceptionFactory;
 import com.app20222.app20222_backend.repositories.patient.PatientRepository;
 import com.app20222.app20222_backend.services.patient.PatientService;
 import com.app20222.app20222_backend.services.permission.PermissionService;

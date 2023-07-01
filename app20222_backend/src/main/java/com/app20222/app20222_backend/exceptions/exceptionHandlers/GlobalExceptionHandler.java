@@ -1,13 +1,11 @@
-package com.app20222.app20222_backend.exceptions.ex_handlers;
+package com.app20222.app20222_backend.exceptions.exceptionHandlers;
 
-import java.time.LocalDateTime;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import com.app20222.app20222_backend.constants.message.error_field.ErrorKey;
-import com.app20222.app20222_backend.constants.message.error_field.ErrorKey.User;
+import com.app20222.app20222_backend.constants.message.errorKey.ErrorKey.User;
 import com.app20222.app20222_backend.exceptions.BadRequestException;
 import com.app20222.app20222_backend.exceptions.ExceptionResponse;
 import com.app20222.app20222_backend.exceptions.PermissionDeniedException;

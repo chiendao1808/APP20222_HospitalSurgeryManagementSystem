@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import com.app20222.app20222_backend.dtos.file_attach.FileUploadResDTO;
+import com.app20222.app20222_backend.dtos.fileAttach.FileUploadResDTO;
 import com.app20222.app20222_backend.enums.file_attach.FileTypeEnum;
 import com.app20222.app20222_backend.services.fileAttach.FileAttachService;
 import io.swagger.v3.oas.annotations.Operation;

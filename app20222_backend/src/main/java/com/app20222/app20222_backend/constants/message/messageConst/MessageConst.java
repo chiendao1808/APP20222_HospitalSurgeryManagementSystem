@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.constants.message.message_const;
+package com.app20222.app20222_backend.constants.message.messageConst;
 
 public class MessageConst {
 

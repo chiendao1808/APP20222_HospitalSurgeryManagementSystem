@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.dtos.file_attach;
+package com.app20222.app20222_backend.dtos.fileAttach;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

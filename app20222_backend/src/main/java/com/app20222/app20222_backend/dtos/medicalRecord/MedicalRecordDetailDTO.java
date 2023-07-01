@@ -1,8 +1,8 @@
-package com.app20222.app20222_backend.dtos.medical_record;
+package com.app20222.app20222_backend.dtos.medicalRecord;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.app20222.app20222_backend.dtos.file_attach.IGetFileAttach;
+import com.app20222.app20222_backend.dtos.fileAttach.IGetFileAttach;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -2,13 +2,13 @@ package com.app20222.app20222_backend.services.department.impl;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import com.app20222.app20222_backend.constants.message.error_field.ErrorKey;
-import com.app20222.app20222_backend.constants.message.message_const.MessageConst;
-import com.app20222.app20222_backend.constants.message.message_const.MessageConst.Resources;
+import com.app20222.app20222_backend.constants.message.errorKey.ErrorKey;
+import com.app20222.app20222_backend.constants.message.messageConst.MessageConst;
+import com.app20222.app20222_backend.constants.message.messageConst.MessageConst.Resources;
 import com.app20222.app20222_backend.dtos.department.DepartmentCreateDTO;
 import com.app20222.app20222_backend.dtos.department.DepartmentUpdateDTO;
 import com.app20222.app20222_backend.entities.department.Department;
-import com.app20222.app20222_backend.exceptions.exception_factory.ExceptionFactory;
+import com.app20222.app20222_backend.exceptions.exceptionFactory.ExceptionFactory;
 import com.app20222.app20222_backend.repositories.department.DepartmentRepository;
 import com.app20222.app20222_backend.services.department.DepartmentService;
 import lombok.extern.slf4j.Slf4j;
