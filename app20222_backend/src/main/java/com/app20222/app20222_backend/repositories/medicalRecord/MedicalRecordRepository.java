@@ -1,16 +1,15 @@
-package com.app20222.app20222_backend.repositories.medical_record;
+package com.app20222.app20222_backend.repositories.medicalRecord;
 
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import com.app20222.app20222_backend.constants.sql.medical_record.SQLMedicalRecord;
-import com.app20222.app20222_backend.dtos.file_attach.IGetFileAttach;
-import com.app20222.app20222_backend.dtos.medical_record.IGetDetailMedicalRecord;
-import com.app20222.app20222_backend.dtos.medical_record.IGetListMedicalRecord;
-import com.app20222.app20222_backend.entities.medical_record.MedicalRecord;
-import com.app20222.app20222_backend.enums.users.IdentityTypeEnum;
+import com.app20222.app20222_backend.constants.sql.medicalRecord.SQLMedicalRecord;
+import com.app20222.app20222_backend.dtos.fileAttach.IGetFileAttach;
+import com.app20222.app20222_backend.dtos.medicalRecord.IGetDetailMedicalRecord;
+import com.app20222.app20222_backend.dtos.medicalRecord.IGetListMedicalRecord;
+import com.app20222.app20222_backend.entities.medicalRecord.MedicalRecord;
 
 @Repository
 public interface MedicalRecordRepository extends JpaRepository<MedicalRecord, Long> {

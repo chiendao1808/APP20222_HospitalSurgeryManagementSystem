@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.exceptions.exception_factory;
+package com.app20222.app20222_backend.exceptions.exceptionFactory;
 
 import org.springframework.stereotype.Component;
 import com.app20222.app20222_backend.exceptions.BadRequestException;

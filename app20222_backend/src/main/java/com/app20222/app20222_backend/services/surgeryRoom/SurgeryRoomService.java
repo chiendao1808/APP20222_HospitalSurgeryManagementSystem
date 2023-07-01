@@ -2,9 +2,9 @@ package com.app20222.app20222_backend.services.surgeryRoom;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
-import com.app20222.app20222_backend.dtos.surgery_room.IGetListSurgeryRoom;
-import com.app20222.app20222_backend.dtos.surgery_room.SurgeryRoomCreateDTO;
-import com.app20222.app20222_backend.dtos.surgery_room.SurgeryRoomUpdateDTO;
+import com.app20222.app20222_backend.dtos.surgeryRoom.IGetListSurgeryRoom;
+import com.app20222.app20222_backend.dtos.surgeryRoom.SurgeryRoomCreateDTO;
+import com.app20222.app20222_backend.dtos.surgeryRoom.SurgeryRoomUpdateDTO;
 
 @Service
 public interface SurgeryRoomService {

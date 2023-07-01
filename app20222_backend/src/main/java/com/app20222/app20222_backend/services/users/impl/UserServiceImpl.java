@@ -1,8 +1,8 @@
 package com.app20222.app20222_backend.services.users.impl;
 
-import com.app20222.app20222_backend.constants.message.error_field.ErrorKey;
-import com.app20222.app20222_backend.constants.message.message_const.MessageConst;
-import com.app20222.app20222_backend.constants.message.message_const.MessageConst.Resources;
+import com.app20222.app20222_backend.constants.message.errorKey.ErrorKey;
+import com.app20222.app20222_backend.constants.message.messageConst.MessageConst;
+import com.app20222.app20222_backend.constants.message.messageConst.MessageConst.Resources;
 import com.app20222.app20222_backend.dtos.users.IGetDetailUser;
 import com.app20222.app20222_backend.dtos.users.IGetListUser;
 import com.app20222.app20222_backend.dtos.users.UserCreateDTO;
@@ -12,7 +12,7 @@ import com.app20222.app20222_backend.entities.users.User;
 import com.app20222.app20222_backend.entities.users.UserRole;
 import com.app20222.app20222_backend.enums.permission.BasePermissionEnum;
 import com.app20222.app20222_backend.enums.users.UserStatusEnum;
-import com.app20222.app20222_backend.exceptions.exception_factory.ExceptionFactory;
+import com.app20222.app20222_backend.exceptions.exceptionFactory.ExceptionFactory;
 import com.app20222.app20222_backend.repositories.department.DepartmentRepository;
 import com.app20222.app20222_backend.repositories.feature.FeatureRepository;
 import com.app20222.app20222_backend.repositories.users.UserRepository;

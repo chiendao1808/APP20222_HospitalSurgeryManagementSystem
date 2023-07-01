@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.constants.message.error_field;
+package com.app20222.app20222_backend.constants.message.errorKey;
 
 public class ErrorKey {
 

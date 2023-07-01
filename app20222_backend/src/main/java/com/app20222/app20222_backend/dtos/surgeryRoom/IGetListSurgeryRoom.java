@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.dtos.surgery_room;
+package com.app20222.app20222_backend.dtos.surgeryRoom;
 
 import java.util.Date;
 import com.app20222.app20222_backend.utils.DateUtils;

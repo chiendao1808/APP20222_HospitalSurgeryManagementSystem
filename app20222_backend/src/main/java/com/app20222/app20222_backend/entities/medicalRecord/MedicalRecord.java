@@ -1,15 +1,13 @@
-package com.app20222.app20222_backend.entities.medical_record;
+package com.app20222.app20222_backend.entities.medicalRecord;
 
 import com.app20222.app20222_backend.entities.base.BaseEntity;
-import com.app20222.app20222_backend.entities.file_attach.FileAttach;
+import com.app20222.app20222_backend.entities.fileAttach.FileAttach;
 import com.app20222.app20222_backend.entities.patient.Patient;
-import com.app20222.app20222_backend.entities.users.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data

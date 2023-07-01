@@ -3,10 +3,10 @@ package com.app20222.app20222_backend.services.medicalRecord;
 import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
-import com.app20222.app20222_backend.dtos.medical_record.IGetListMedicalRecord;
-import com.app20222.app20222_backend.dtos.medical_record.MedicalRecordCreateDTO;
-import com.app20222.app20222_backend.dtos.medical_record.MedicalRecordDetailDTO;
-import com.app20222.app20222_backend.dtos.medical_record.MedicalRecordUpdateDTO;
+import com.app20222.app20222_backend.dtos.medicalRecord.IGetListMedicalRecord;
+import com.app20222.app20222_backend.dtos.medicalRecord.MedicalRecordCreateDTO;
+import com.app20222.app20222_backend.dtos.medicalRecord.MedicalRecordDetailDTO;
+import com.app20222.app20222_backend.dtos.medicalRecord.MedicalRecordUpdateDTO;
 import com.app20222.app20222_backend.enums.users.IdentityTypeEnum;
 
 @Service

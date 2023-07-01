@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.dtos.medical_record;
+package com.app20222.app20222_backend.dtos.medicalRecord;
 
 import java.util.Date;
 import com.app20222.app20222_backend.utils.DateUtils;

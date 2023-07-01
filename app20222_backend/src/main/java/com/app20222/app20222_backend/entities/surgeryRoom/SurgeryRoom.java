@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.entities.surgery_room;
+package com.app20222.app20222_backend.entities.surgeryRoom;
 
 import java.util.Date;
 import lombok.AllArgsConstructor;

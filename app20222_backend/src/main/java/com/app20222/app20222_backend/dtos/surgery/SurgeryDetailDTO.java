@@ -2,12 +2,9 @@ package com.app20222.app20222_backend.dtos.surgery;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import org.springframework.beans.BeanUtils;
-import com.app20222.app20222_backend.dtos.file_attach.IGetFileAttach;
-import com.app20222.app20222_backend.entities.file_attach.FileAttach;
+import com.app20222.app20222_backend.dtos.fileAttach.IGetFileAttach;
 import com.app20222.app20222_backend.utils.DateUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
