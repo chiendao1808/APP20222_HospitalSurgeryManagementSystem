@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.constants.sql.surgery_room;
+package com.app20222.app20222_backend.constants.sql.surgeryRoom;
 
 public class SQLSurgeryRoom {
 

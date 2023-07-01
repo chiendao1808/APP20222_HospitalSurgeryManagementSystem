@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.entities.file_attach;
+package com.app20222.app20222_backend.entities.fileAttach;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

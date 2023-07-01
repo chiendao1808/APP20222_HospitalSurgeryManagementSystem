@@ -1,6 +1,5 @@
-package com.app20222.app20222_backend.services.surgery_room.impl;
+package com.app20222.app20222_backend.services.surgeryRoom.impl;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.BeanUtils;
@@ -16,9 +15,8 @@ import com.app20222.app20222_backend.enums.role.RoleLevelEnum;
 import com.app20222.app20222_backend.exceptions.exception_factory.ExceptionFactory;
 import com.app20222.app20222_backend.repositories.surgery_room.SurgeryRoomRepository;
 import com.app20222.app20222_backend.services.permission.PermissionService;
-import com.app20222.app20222_backend.services.surgery_room.SurgeryRoomService;
+import com.app20222.app20222_backend.services.surgeryRoom.SurgeryRoomService;
 import com.app20222.app20222_backend.utils.auth.AuthUtils;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 @Service

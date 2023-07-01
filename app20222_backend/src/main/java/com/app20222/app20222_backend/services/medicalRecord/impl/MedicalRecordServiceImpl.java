@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.services.medical_record.impl;
+package com.app20222.app20222_backend.services.medicalRecord.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,7 +23,7 @@ import com.app20222.app20222_backend.enums.users.IdentityTypeEnum;
 import com.app20222.app20222_backend.exceptions.exception_factory.ExceptionFactory;
 import com.app20222.app20222_backend.repositories.file_attach.MedicalRecordFileRepository;
 import com.app20222.app20222_backend.repositories.medical_record.MedicalRecordRepository;
-import com.app20222.app20222_backend.services.medical_record.MedicalRecordService;
+import com.app20222.app20222_backend.services.medicalRecord.MedicalRecordService;
 import com.app20222.app20222_backend.utils.auth.AuthUtils;
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,8 +1,8 @@
 package com.app20222.app20222_backend.security.config;
 
 import com.app20222.app20222_backend.security.constants.SecurityConstants;
-import com.app20222.app20222_backend.security.ex_handlers.AccessDeniedHandler;
-import com.app20222.app20222_backend.security.ex_handlers.AuthEntryPoint;
+import com.app20222.app20222_backend.security.exceptionHandlers.AccessDeniedHandler;
+import com.app20222.app20222_backend.security.exceptionHandlers.AuthEntryPoint;
 import com.app20222.app20222_backend.security.filters.JwtAuthenticationFilter;
 import com.app20222.app20222_backend.security.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;

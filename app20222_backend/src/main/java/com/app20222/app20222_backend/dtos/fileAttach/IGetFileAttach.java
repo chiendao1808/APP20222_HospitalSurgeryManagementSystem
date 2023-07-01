@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.dtos.file_attach;
+package com.app20222.app20222_backend.dtos.fileAttach;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
