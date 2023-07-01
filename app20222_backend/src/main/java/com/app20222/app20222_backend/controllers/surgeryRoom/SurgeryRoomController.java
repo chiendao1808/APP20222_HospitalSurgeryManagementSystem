@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.app20222.app20222_backend.dtos.surgery_room.IGetListSurgeryRoom;
-import com.app20222.app20222_backend.dtos.surgery_room.SurgeryRoomCreateDTO;
-import com.app20222.app20222_backend.dtos.surgery_room.SurgeryRoomUpdateDTO;
-import com.app20222.app20222_backend.services.surgery_room.SurgeryRoomService;
+import com.app20222.app20222_backend.dtos.surgeryRoom.IGetListSurgeryRoom;
+import com.app20222.app20222_backend.dtos.surgeryRoom.SurgeryRoomCreateDTO;
+import com.app20222.app20222_backend.dtos.surgeryRoom.SurgeryRoomUpdateDTO;
+import com.app20222.app20222_backend.services.surgeryRoom.SurgeryRoomService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.entities.disease_group;
+package com.app20222.app20222_backend.entities.diseaseGroup;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

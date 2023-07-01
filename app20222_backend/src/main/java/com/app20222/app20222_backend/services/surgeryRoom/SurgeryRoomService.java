@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.services.surgery_room;
+package com.app20222.app20222_backend.services.surgeryRoom;
 
 import java.util.List;
 import org.springframework.stereotype.Service;

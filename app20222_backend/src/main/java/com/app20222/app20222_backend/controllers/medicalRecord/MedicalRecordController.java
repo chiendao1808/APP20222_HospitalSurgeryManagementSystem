@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.controllers.medical_record;
+package com.app20222.app20222_backend.controllers.medicalRecord;
 
 import java.util.Date;
 import java.util.List;
@@ -16,7 +16,7 @@ import com.app20222.app20222_backend.dtos.medical_record.MedicalRecordCreateDTO;
 import com.app20222.app20222_backend.dtos.medical_record.MedicalRecordDetailDTO;
 import com.app20222.app20222_backend.dtos.medical_record.MedicalRecordUpdateDTO;
 import com.app20222.app20222_backend.enums.users.IdentityTypeEnum;
-import com.app20222.app20222_backend.services.medical_record.MedicalRecordService;
+import com.app20222.app20222_backend.services.medicalRecord.MedicalRecordService;
 import com.app20222.app20222_backend.utils.DateUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;

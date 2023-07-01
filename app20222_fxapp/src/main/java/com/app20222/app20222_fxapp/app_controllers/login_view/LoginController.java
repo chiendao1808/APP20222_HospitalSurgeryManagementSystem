@@ -114,9 +114,9 @@ public class LoginController {
             HttpResponse<String> response = HttpUtils.doRequest(uri, HttpMethods.POST, new LoginRequest(username, password), new HashMap<>());
             // Check login response
             // Logic xử lý response
-            LoginResponse loginResponse = null;
+            LoginResponse loginResponse;
             ExceptionResponse exceptionResponse = null;
-            Object res = HttpUtils.handleResponse(response, loginResponse, LoginResponse.class, exceptionResponse);
+            Object res = HttpUtils.handleResponse(response, LoginResponse.class, exceptionResponse);
             if (Objects.nonNull(response) && Objects.nonNull(res)) {
                 if (res instanceof LoginResponse) {
                     loginResponse = (LoginResponse) res;

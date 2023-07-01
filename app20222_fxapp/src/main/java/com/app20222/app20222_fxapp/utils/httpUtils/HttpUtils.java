@@ -154,7 +154,8 @@ public class HttpUtils {
     /**
      * Handle response
      */
-    public static <T> Object handleResponse(HttpResponse<String> response, T resDTO, Class<T> clazz, ExceptionResponse exResponse){
+    public static <T> Object handleResponse(HttpResponse<String> response, Class<T> clazz, ExceptionResponse exResponse){
+        T resDTO = null;
         boolean success = false;
         try{
             if(Objects.isNull(response)) return null;

@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.services.medical_record;
+package com.app20222.app20222_backend.services.medicalRecord;
 
 import java.util.Date;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.security.ex_handlers;
+package com.app20222.app20222_backend.security.exceptionHandlers;
 
 import com.app20222.app20222_backend.dtos.responses.BaseResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;

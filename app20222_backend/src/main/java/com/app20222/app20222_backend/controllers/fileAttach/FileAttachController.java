@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.controllers.file_attach;
+package com.app20222.app20222_backend.controllers.fileAttach;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.app20222.app20222_backend.dtos.file_attach.FileUploadResDTO;
 import com.app20222.app20222_backend.enums.file_attach.FileTypeEnum;
-import com.app20222.app20222_backend.services.file_attach.FileAttachService;
+import com.app20222.app20222_backend.services.fileAttach.FileAttachService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 
