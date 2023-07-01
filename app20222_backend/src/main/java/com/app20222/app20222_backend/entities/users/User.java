@@ -40,7 +40,7 @@ public class User extends BaseEntity implements Serializable {
     private String lastName;
 
     @Column(name = "birth_date")
-    private Date birtDate;
+    private Date birthDate;
 
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -69,7 +69,7 @@ public class User extends BaseEntity implements Serializable {
     @Column(name = "department_id")
     private Long departmentId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "department_id", insertable = false, updatable = false)
     private Department department;
 

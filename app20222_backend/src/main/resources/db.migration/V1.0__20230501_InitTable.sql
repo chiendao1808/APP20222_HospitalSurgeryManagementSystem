@@ -116,6 +116,7 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."patient"
     first_name            varchar(50),
     last_name             varchar(50),
     birth_date            date,
+    health_insurance_num varchar(15) unique not null,
     address               text,
     phone_number          varchar(11),
     email                 varchar(50),
@@ -134,6 +135,7 @@ COMMENT ON COLUMN "app20222_db"."patient"."code" IS 'Mã bệnh nhân';
 COMMENT ON COLUMN "app20222_db"."patient"."first_name" IS 'Tên bệnh nhân';
 COMMENT ON COLUMN "app20222_db"."patient"."last_name" IS 'Họ và tên đệm bệnh nhân';
 COMMENT ON COLUMN "app20222_db"."patient"."birth_date" IS 'Ngày sinh bệnh nhân';
+COMMENT ON COLUMN "app20222_db"."patient"."health_insurance_num" IS 'Mã số bảo hiểm xã hội';
 COMMENT ON COLUMN "app20222_db"."patient"."address" IS 'Địa chỉ bệnh nhân';
 COMMENT ON COLUMN "app20222_db"."patient"."phone_number" IS 'Số điện thoại liên hệ bệnh nhân';
 COMMENT ON COLUMN "app20222_db"."patient"."email" IS 'Email bệnh nhân';
@@ -214,7 +216,7 @@ COMMENT ON COLUMN "app20222_db"."surgery"."lst_file_id" IS 'Danh sách id các f
 DROP TABLE IF EXISTS "app20222_db"."disease_group";
 CREATE TABLE IF NOT EXISTS "app20222_db"."disease_group"
 (
-    id            int8         not null unique,
+    id            bigserial         not null unique,
     name          varchar(100) not null,
     code          varchar(10)  not null,
     department_id int8         not null,
