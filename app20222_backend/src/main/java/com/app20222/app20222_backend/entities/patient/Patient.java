@@ -40,6 +40,10 @@ public class Patient extends BaseEntity {
     @Column(name = "last_name")
     private String lastName;
 
+    @Column(name = "health_insurance_num", unique = true, nullable = false)
+    @NotNull
+    private String healthInsuranceNumber;
+
     @Column(name = "birth_date")
     private Date birthDate;
 

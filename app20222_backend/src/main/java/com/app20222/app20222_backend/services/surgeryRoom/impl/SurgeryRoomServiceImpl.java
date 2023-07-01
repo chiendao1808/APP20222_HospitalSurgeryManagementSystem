@@ -36,7 +36,7 @@ public class SurgeryRoomServiceImpl implements SurgeryRoomService {
     @Override
     public void createSurgeryRoom(SurgeryRoomCreateDTO createDTO) {
         // Check create permission : admin/manager hospital
-        if (AuthUtils.isRoleLevel(RoleLevelEnum.HOSPITAL_MANAGER)) {
+        if (!AuthUtils.isRoleLevel(RoleLevelEnum.HOSPITAL_MANAGER)) {
             throw exceptionFactory.permissionDeniedException(ErrorKey.SurgeryRoom.PERMISSION_DENIED_ERROR_CODE, Resources.SURGERY_ROOM,
                 MessageConst.PERMISSIONS_DENIED);
         }
@@ -56,7 +56,7 @@ public class SurgeryRoomServiceImpl implements SurgeryRoomService {
     @Override
     public void updateSurgeryRoom(Long id, SurgeryRoomUpdateDTO updateDTO) {
         // Check update permission : admin/manager hospital
-        if (AuthUtils.isRoleLevel(RoleLevelEnum.HOSPITAL_MANAGER)) {
+        if (!AuthUtils.isRoleLevel(RoleLevelEnum.HOSPITAL_MANAGER)) {
             throw exceptionFactory.permissionDeniedException(ErrorKey.SurgeryRoom.PERMISSION_DENIED_ERROR_CODE, Resources.SURGERY_ROOM,
                 MessageConst.PERMISSIONS_DENIED);
         }

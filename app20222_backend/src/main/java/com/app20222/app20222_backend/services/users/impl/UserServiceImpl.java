@@ -87,6 +87,7 @@ public class UserServiceImpl implements UserService {
         user.setIdentityType(createDTO.getIdentityType().getValue());
         user.setCreatedBy(AuthUtils.getCurrentUserId());
         user.setCreatedAt(new Date());
+        user.setStatus(UserStatusEnum.ACTIVE.getStatus());
         generateUsernamePassword(user);
         Long userId = userRepository.save(user).getId();
 
@@ -143,9 +144,9 @@ public class UserServiceImpl implements UserService {
     private String generateUserCode(){
         String baseCode = "CBNV";
         Random random = new Random();
-        String generatedCode = baseCode + random.nextInt(900000) + 100000;
+        String generatedCode = baseCode + (random.nextInt(900000) + 100000);
         while (userRepository.existsByCode(generatedCode)){
-            generatedCode = baseCode + random.nextInt(900000) + 100000;
+            generatedCode = baseCode + (random.nextInt(900000) + 100000);
         }
         return generatedCode;
     }
