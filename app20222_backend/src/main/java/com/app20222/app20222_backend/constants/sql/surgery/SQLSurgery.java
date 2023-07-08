@@ -110,15 +110,12 @@ public class SQLSurgery {
             "     CONCAT_WS(' ', users.last_name, users.first_name) AS assigneeName, \n" +
             "     users.code AS assigneeCode, \n" +
             "     CASE \n" +
-            "           WHEN ursSurgery.surgery_role_type = 0 THEN 'Bác sĩ phẫu thuật chính' \n" +
-            "           WHEN ursSurgery.surgery_role_type = 1 THEN 'Bác sĩ gây mê' \n" +
-            "           WHEN ursSurgery.surgery_role_type = 2 THEN 'Bác sĩ phẫu thuật hộ trợ' \n" +
-            "           WHEN ursSurgery.surgery_role_type = 3 THEN 'Y tá hỗ trợ' \n" +
-            "           WHEN ursSurgery.surgery_role_type = 4 THEN 'BNhân viên ghi tài liệu' \n" +
+            "           WHEN sRoleType.type IS NOT NULL THEN sRoleType.name \n" +
             "           ELSE '' \n" +
             "     END AS surgeryRole \n" +
             "FROM {h-schema}users_surgeries AS ursSurgery \n" +
             "   LEFT JOIN {h-schema}users ON users.id = ursSurgery.user_id \n" +
+            "   LEFT JOIN {h-schema}surgery_role_type AS sRoleType ON sRoleType.type = ursSurgery.surgery_role_type \n" +
             "WHERE ursSurgery.surgery_id = :surgeryId \n";
 
     public static final String DELETE_ALL_SURGERY_FILE_ATTACHED_BY_SURGERY_ID =

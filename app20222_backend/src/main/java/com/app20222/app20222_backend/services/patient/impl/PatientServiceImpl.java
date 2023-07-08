@@ -97,12 +97,15 @@ public class PatientServiceImpl implements PatientService {
         patientRepository.save(patient);
     }
 
+    /**
+     * Auto generate patient's code
+     */
     private String generatePatientCode(){
         String baseCode = "BN";
         Random random = new Random();
-        String generatedCode = baseCode + random.nextInt(900000) + 100000;
+        String generatedCode = baseCode + (random.nextInt(900000) + 100000);
         while (patientRepository.existsByCode(generatedCode)){
-            generatedCode = baseCode + random.nextInt(900000) + 100000;
+            generatedCode = baseCode + (random.nextInt(900000) + 100000);
         }
         return generatedCode;
     }

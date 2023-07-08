@@ -31,13 +31,13 @@ public class PatientController {
     @GetMapping("/get-list")
     @Operation(description = "Lấy danh sách bệnh nhân trong hệ thống")
     public List<IGetListPatient> getListPatient(
-        @RequestParam(name = "patientId", required = false, defaultValue = "-1") Long patientId,
-        @RequestParam(name = "code", required = false, defaultValue = "") String code,
-        @RequestParam(name = "identityType", required = false, defaultValue = "ALL") IdentityTypeEnum identityType,
-        @RequestParam(name = "idNumber", required = false, defaultValue = "") String identificationNum,
-        @RequestParam(name = "name", required = false, defaultValue = "") String name,
-        @RequestParam(name = "phoneNumber", required = false, defaultValue = "") String phoneNumber,
-        @RequestParam(name = "email", required = false, defaultValue = "") String email) {
+            @RequestParam(name = "patientId", required = false, defaultValue = "-1") Long patientId,
+            @RequestParam(name = "code", required = false, defaultValue = "") String code,
+            @RequestParam(name = "identityType", required = false, defaultValue = "ALL") IdentityTypeEnum identityType,
+            @RequestParam(name = "idNumber", required = false, defaultValue = "") String identificationNum,
+            @RequestParam(name = "name", required = false, defaultValue = "") String name,
+            @RequestParam(name = "phoneNumber", required = false, defaultValue = "") String phoneNumber,
+            @RequestParam(name = "email", required = false, defaultValue = "") String email) {
         return patientService.getListPatient(patientId, code, identityType, identificationNum, name, phoneNumber, email);
     }
 

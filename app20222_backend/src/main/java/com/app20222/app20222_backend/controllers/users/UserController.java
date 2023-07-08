@@ -32,12 +32,13 @@ public class UserController {
 
     @GetMapping
     @Operation(summary = "Lấy danh sách users trong hệ thống")
-    public List<IGetListUser> getListUsers(@RequestParam(name = "code", required = false, defaultValue = "") String code,
-        @RequestParam(name = "name", required = false, defaultValue = "") String name,
-        @RequestParam(name = "email", required = false, defaultValue = "") String email,
-        @RequestParam(name = "phone", required = false, defaultValue = "") String phone,
-        @RequestParam(name = "departmentId", required = false, defaultValue = "-1") Long departmentId,
-        @RequestParam(name = "roleId", required = false, defaultValue = "-1") Long roleId) {
+    public List<IGetListUser> getListUsers(
+            @RequestParam(name = "code", required = false, defaultValue = "") String code,
+            @RequestParam(name = "name", required = false, defaultValue = "") String name,
+            @RequestParam(name = "email", required = false, defaultValue = "") String email,
+            @RequestParam(name = "phone", required = false, defaultValue = "") String phone,
+            @RequestParam(name = "departmentId", required = false, defaultValue = "-1") Long departmentId,
+            @RequestParam(name = "roleId", required = false, defaultValue = "-1") Long roleId) {
         return userService.getListUser(code, name, email, phone, departmentId, roleId);
     }
 

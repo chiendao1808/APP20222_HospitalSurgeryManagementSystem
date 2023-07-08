@@ -44,10 +44,10 @@ public class SurgeryRoomController {
     @GetMapping("/get-list")
     @Operation(description = "Lấy danh sách phòng phẫu thuật")
     public List<IGetListSurgeryRoom> getListSurgeryRoom(
-        @RequestParam(name = "id", required = false, defaultValue = "-1") Long id,
-        @RequestParam(name = "code", required = false, defaultValue = "") String code,
-        @RequestParam(name = "name", required = false, defaultValue = "") String name,
-        @RequestParam(name = "current_available", required = false, defaultValue = "true") Boolean currentAvailable
+            @RequestParam(name = "id", required = false, defaultValue = "-1") Long id,
+            @RequestParam(name = "code", required = false, defaultValue = "") String code,
+            @RequestParam(name = "name", required = false, defaultValue = "") String name,
+            @RequestParam(name = "current_available", required = false, defaultValue = "true") Boolean currentAvailable
     ) {
         return surgeryRoomService.getListSurgeryRoom(id, code, name, currentAvailable);
     }
