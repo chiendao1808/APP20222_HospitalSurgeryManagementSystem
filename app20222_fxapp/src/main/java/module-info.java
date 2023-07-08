@@ -43,6 +43,7 @@ module com.app20222.app20222_fxapp {
     exports com.app20222.app20222_fxapp.dto.responses;
     exports com.app20222.app20222_fxapp.dto.responses.users;
     exports com.app20222.app20222_fxapp.dto.responses.auth;
+    exports com.app20222.app20222_fxapp.dto.responses.exception;
 
     // export view controller
 

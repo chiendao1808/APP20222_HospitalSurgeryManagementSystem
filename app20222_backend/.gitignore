@@ -4,6 +4,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+# Ignore stored file in git
+**/src/main/resources/upload/files/
+
 ### STS ###
 .apt_generated
 .classpath

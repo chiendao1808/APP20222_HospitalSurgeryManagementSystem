@@ -39,19 +39,19 @@ public class MedicalRecordController {
     @GetMapping("/get-list")
     @Operation(description = "Lấy danh sách các bản ghi hồ sơ bệnh án theo lần khám")
     public List<IGetListMedicalRecord> getListMedicalRecords(
-        @RequestParam(name = "patientId", required = false, defaultValue = "-1") Long patientId,
-        @RequestParam(name = "patientName", required = false, defaultValue = "") String patientName,
-        @RequestParam(name = "patientCode", required = false, defaultValue = "") String patientCode,
-        @RequestParam(name = "phoneNumber", required = false, defaultValue = "") String phoneNumber,
-        @RequestParam(name = "idType", required = false, defaultValue = "ALL") IdentityTypeEnum identityType,
-        @RequestParam(name = "idNum", required = false, defaultValue = "") String identificationNum,
-        @RequestParam(name = "email", required = false, defaultValue = "") String email,
-        @DateTimeFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_SLASH)
-        @RequestParam(name = "startDate", required = false, defaultValue = "01/01/1970") Date startDate,
-        @DateTimeFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_SLASH)
-        @RequestParam(name = "startDate", required = false, defaultValue = "01/01/1970") Date endDate) {
+            @RequestParam(name = "patientId", required = false, defaultValue = "-1") Long patientId,
+            @RequestParam(name = "patientName", required = false, defaultValue = "") String patientName,
+            @RequestParam(name = "patientCode", required = false, defaultValue = "") String patientCode,
+            @RequestParam(name = "phoneNumber", required = false, defaultValue = "") String phoneNumber,
+            @RequestParam(name = "idType", required = false, defaultValue = "ALL") IdentityTypeEnum identityType,
+            @RequestParam(name = "idNum", required = false, defaultValue = "") String identificationNum,
+            @RequestParam(name = "email", required = false, defaultValue = "") String email,
+            @DateTimeFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_SLASH)
+            @RequestParam(name = "startDate", required = false, defaultValue = "01/01/1970") Date startDate,
+            @DateTimeFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_SLASH)
+            @RequestParam(name = "startDate", required = false, defaultValue = "01/01/1970") Date endDate) {
         return medicalRecordService.getListMedicalRecords(patientId, patientName, patientCode, phoneNumber, identityType, identificationNum,
-            email, startDate, endDate);
+                email, startDate, endDate);
     }
 
     @GetMapping("/get-detail")

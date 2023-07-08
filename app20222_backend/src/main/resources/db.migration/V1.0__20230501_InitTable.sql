@@ -348,10 +348,27 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."users_surgeries"
     surgery_role_type int4      not null,
     primary key (user_id, surgery_id)
 );
+COMMENT ON TABLE "app20222_db"."users_surgeries" IS 'Bảng map người dùng và ca phẫu thuật';
 COMMENT ON COLUMN "app20222_db"."users_surgeries"."id" IS 'Id row';
 COMMENT ON COLUMN "app20222_db"."users_surgeries"."user_id" IS 'Id của người dùng';
 COMMENT ON COLUMN "app20222_db"."users_surgeries"."surgery_id" IS 'Id của ca phẫu thuật';
 COMMENT ON COLUMN "app20222_db"."users_surgeries"."surgery_role_type" IS 'Loại vai trò trong ca phẫu thuật (0: Bác sĩ phẫu thuật chính, 1: Bác sĩ gây mê, 2: Bác sĩ hỗ trợ, 3: Y tá hỗ trợ, 4: Nhân viên ghi tài liệu)';
+
+-- Bảng sugery_role_type ---
+DROP TABLE IF EXISTS "app20222_db"."surgery_role_type";
+CREATE TABLE IF NOT EXISTS "app20222_db"."surgery_role_type"
+(
+    type int4 unique not null,
+    name varchar(100) not null,
+    primary key (type)
+);
+COMMENT ON TABLE "app20222_db"."surgery_role_type" IS 'Bảng các vai trò thực hiện trong ca phẫu thuật';
+COMMENT ON COLUMN "app20222_db"."surgery_role_type"."type" IS 'Mã loại vai trò trong ca phẫu thuật';
+COMMENT ON COLUMN "app20222_db"."surgery_role_type"."name" IS 'Tên loại vai trò trong ca phẫu thuật (0: Bác sĩ phẫu thuật chính, 1: Bác sĩ gây mê, 2: Bác sĩ hỗ trợ, 3: Y tá hỗ trợ, 4: Nhân viên ghi tài liệu)';
+-- INIT dữ liệu --
+INSERT INTO "app20222_db"."surgery_role_type"
+VALUES(0, 'Bác sĩ phẫu thuật chính'), (1, 'Bác sĩ gây mê'), (2, 'Bác sĩ phẫu thuật hộ trợ'), (3, 'Y tá hỗ trợ'),
+(4, 'Nhân viên ghi tài liệu');
 
 -- Bảng medical_records_files --
 DROP TABLE IF EXISTS "app20222_db"."medical_records_files";

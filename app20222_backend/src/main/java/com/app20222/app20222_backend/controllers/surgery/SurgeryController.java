@@ -53,19 +53,19 @@ public class SurgeryController {
     @GetMapping("/get-list")
     @Operation(description = "Lấy danh sách thông tin ca phẫu thuật")
     public List<IGetListSurgery> getListSurgery(
-        @RequestParam(name = "surgeryName", required = false, defaultValue = "") String surgeryName,
-        @RequestParam(name = "surgeryId", required = false, defaultValue = "-1") Long surgeryId,
-        @RequestParam(name = "patientId", required = false, defaultValue = "-1") Long patientId,
-        @RequestParam(name = "surgeryRoomId", required = false, defaultValue = "-1") Long surgeryRoomId,
-        @RequestParam(name = "diseaseGroupId", required = false, defaultValue = "-1") Long diseaseGroupId,
-        @RequestParam(name = "status", required = false, defaultValue = "ALL") SurgeryStatusEnum status,
-        @DateTimeFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_HH_MM)
-        @RequestParam(name = "startedAt", required = false, defaultValue = "01/01/1970 00:00") Date startedAt,
-        @DateTimeFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_HH_MM)
-        @RequestParam(name = "estimatedEndAt", required = false, defaultValue = "01/01/1970 00:00") Date estimatedEndAt
+            @RequestParam(name = "surgeryName", required = false, defaultValue = "") String surgeryName,
+            @RequestParam(name = "surgeryId", required = false, defaultValue = "-1") Long surgeryId,
+            @RequestParam(name = "patientId", required = false, defaultValue = "-1") Long patientId,
+            @RequestParam(name = "surgeryRoomId", required = false, defaultValue = "-1") Long surgeryRoomId,
+            @RequestParam(name = "diseaseGroupId", required = false, defaultValue = "-1") Long diseaseGroupId,
+            @RequestParam(name = "status", required = false, defaultValue = "ALL") SurgeryStatusEnum status,
+            @DateTimeFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_HH_MM)
+            @RequestParam(name = "startedAt", required = false, defaultValue = "01/01/1970 00:00") Date startedAt,
+            @DateTimeFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_HH_MM)
+            @RequestParam(name = "estimatedEndAt", required = false, defaultValue = "01/01/1970 00:00") Date estimatedEndAt
     ) {
         return surgeryService.getListSurgery(surgeryId, surgeryName, patientId, surgeryRoomId, diseaseGroupId, status, startedAt,
-            estimatedEndAt);
+                estimatedEndAt);
     }
 
     @GetMapping("/get-details/{id}")
