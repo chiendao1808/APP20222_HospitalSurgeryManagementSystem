@@ -21,8 +21,8 @@ public class ComboBoxServiceImpl implements ComboBoxService {
      ==== COMBO BOX USER ===
     */
     @Override
-    public List<ICommonIdCodeName> getComboBoxUser() {
-        return comboBoxRepository.getComboBoxUsers();
+    public List<ICommonIdCodeName> getComboBoxUser(String name) {
+        return comboBoxRepository.getComboBoxUsers(name);
     }
 
     /*
@@ -38,8 +38,8 @@ public class ComboBoxServiceImpl implements ComboBoxService {
     */
 
     @Override
-    public List<ICommonIdCodeName> getComboBoxDepartment() {
-        return comboBoxRepository.getComboBoxDepartment();
+    public List<ICommonIdCodeName> getComboBoxDepartment(String departmentName) {
+        return comboBoxRepository.getComboBoxDepartment(departmentName);
     }
 
     /*
@@ -47,8 +47,8 @@ public class ComboBoxServiceImpl implements ComboBoxService {
     */
 
     @Override
-    public List<ICommonIdCodeName> getComboBoxPatient() {
-        return comboBoxRepository.getComboBoxPatient();
+    public List<ICommonIdCodeName> getComboBoxPatient(String patientName) {
+        return comboBoxRepository.getComboBoxPatient(patientName);
     }
 
 
@@ -68,7 +68,7 @@ public class ComboBoxServiceImpl implements ComboBoxService {
     ==== COMBO BOX SURGERY ROOM =================================================================
     */
     @Override
-    public List<ICommonIdCodeName> getComboBoxSurgeryRoom() {
-        return comboBoxRepository.getComboBoxSurgeryRoom();
+    public List<ICommonIdCodeName> getComboBoxSurgeryRoom(String surgeryRoomName) {
+        return comboBoxRepository.getComboBoxSurgeryRoom(surgeryRoomName);
     }
 }

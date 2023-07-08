@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.utils.PermissionUtils;
+package com.app20222.app20222_backend.utils.permissionUtils;
 
 import java.util.List;
 import java.util.Objects;

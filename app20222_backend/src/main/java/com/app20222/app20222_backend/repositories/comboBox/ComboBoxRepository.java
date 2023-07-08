@@ -17,7 +17,7 @@ public interface ComboBoxRepository extends JpaRepository<User, Long> {
       ==== COMBO BOX USER ===
      */
     @Query(nativeQuery = true, value = SQLComboBox.GET_COMBO_BOX_USER)
-    List<ICommonIdCodeName> getComboBoxUsers();
+    List<ICommonIdCodeName> getComboBoxUsers(String name);
 
      /*
       ==== COMBO BOX ROLE ===
@@ -29,13 +29,13 @@ public interface ComboBoxRepository extends JpaRepository<User, Long> {
      ==== COMBO BOX PATIENT ====
      */
     @Query(nativeQuery = true, value = SQLComboBox.GET_COMBO_BOX_PATIENT)
-    List<ICommonIdCodeName> getComboBoxPatient();
+    List<ICommonIdCodeName> getComboBoxPatient(String patientName);
 
      /*
       ==== COMBO BOX DEPARTMENT ===
      */
     @Query(nativeQuery = true, value = SQLComboBox.GET_COMBO_BOX_DEPARTMENT)
-    List<ICommonIdCodeName> getComboBoxDepartment();
+    List<ICommonIdCodeName> getComboBoxDepartment(String departmentName);
 
     /*
       ==== COMBO BOX SURGERY ===
@@ -48,5 +48,5 @@ public interface ComboBoxRepository extends JpaRepository<User, Long> {
       ==== COMBO BOX SURGERY ROOM ===
      */
     @Query(nativeQuery = true, value = SQLComboBox.GET_COMBO_BOX_SURGERY_ROOM)
-    List<ICommonIdCodeName> getComboBoxSurgeryRoom();
+    List<ICommonIdCodeName> getComboBoxSurgeryRoom(String surgeryRoomName);
 }

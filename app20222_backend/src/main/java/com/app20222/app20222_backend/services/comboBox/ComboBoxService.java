@@ -12,7 +12,7 @@ public interface ComboBoxService {
      /*
       ==== COMBO BOX USER ===
      */
-    List<ICommonIdCodeName> getComboBoxUser();
+    List<ICommonIdCodeName> getComboBoxUser(String name);
 
      /*
       ==== COMBO BOX ROLE ====
@@ -22,12 +22,12 @@ public interface ComboBoxService {
      /*
      * ==== COMBO BOX PATIENT =====
      */
-    List<ICommonIdCodeName> getComboBoxPatient();
+    List<ICommonIdCodeName> getComboBoxPatient(String patientName);
 
      /*
       ==== COMBO BOX DEPARTMENT ===
      */
-    List<ICommonIdCodeName> getComboBoxDepartment();
+    List<ICommonIdCodeName> getComboBoxDepartment(String departmentName);
 
      /*
       ==== COMBO BOX SURGERY ===
@@ -37,6 +37,6 @@ public interface ComboBoxService {
      /*
       ==== COMBO BOX SURGERY ROOM ===
      */
-    List<ICommonIdCodeName> getComboBoxSurgeryRoom();
+    List<ICommonIdCodeName> getComboBoxSurgeryRoom(String surgeryRoomName);
 
 }

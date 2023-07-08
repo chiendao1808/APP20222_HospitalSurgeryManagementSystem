@@ -22,7 +22,7 @@ import com.app20222.app20222_backend.repositories.patient.PatientRepository;
 import com.app20222.app20222_backend.repositories.surgery.SurgeryRepository;
 import com.app20222.app20222_backend.repositories.users.UserRepository;
 import com.app20222.app20222_backend.services.permission.PermissionService;
-import com.app20222.app20222_backend.utils.PermissionUtils.PermissionUtils;
+import com.app20222.app20222_backend.utils.permissionUtils.PermissionUtils;
 import com.app20222.app20222_backend.utils.auth.AuthUtils;
 import lombok.extern.slf4j.Slf4j;
 
