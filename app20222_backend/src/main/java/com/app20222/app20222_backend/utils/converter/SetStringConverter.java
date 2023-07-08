@@ -1,9 +1,7 @@
-package com.app20222.app20222_backend.common.coverter;
+package com.app20222.app20222_backend.utils.converter;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;

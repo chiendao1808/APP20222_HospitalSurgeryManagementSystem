@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.common.coverter;
+package com.app20222.app20222_backend.utils.converter;
 
 import java.util.ArrayList;
 import java.util.Arrays;

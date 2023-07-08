@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,8 +26,8 @@ public class ComboBoxController {
    */
     @GetMapping("/users/get-lst-user-name-code")
     @Operation(description = "Lấy ComboBox user : id, name, code")
-    public List<ICommonIdCodeName> getComboBoxUser() {
-        return comboBoxService.getComboBoxUser();
+    public List<ICommonIdCodeName> getComboBoxUser(@RequestParam(value = "name", required = false, defaultValue = "") String name) {
+        return comboBoxService.getComboBoxUser(name);
     }
 
     /*
@@ -44,8 +45,9 @@ public class ComboBoxController {
 
     @GetMapping("/department/get-lst-department-name-code")
     @Operation(description = "Lấy ComboBox department : id, name, code")
-    public List<ICommonIdCodeName> getComboBoxDepartment() {
-        return comboBoxService.getComboBoxDepartment();
+    public List<ICommonIdCodeName> getComboBoxDepartment(
+        @RequestParam(name = "name", required = false, defaultValue = "") String departmentName) {
+        return comboBoxService.getComboBoxDepartment(departmentName);
     }
 
     /*
@@ -54,14 +56,14 @@ public class ComboBoxController {
 
     @GetMapping("/patient/get-lst-patient-name-code")
     @Operation(description = "Lấy ComboBox patient : id, name, code")
-    public List<ICommonIdCodeName> getComboBoxPatient() {
-        return comboBoxService.getComboBoxPatient();
+    public List<ICommonIdCodeName> getComboBoxPatient(@RequestParam(name = "name", required = false, defaultValue = "") String patientName) {
+        return comboBoxService.getComboBoxPatient(patientName);
     }
     
     /*
       ==== COMBO BOX SURGERY =================================================================
      */
-    
+
     @GetMapping("/surgery/get-lst-surgery-role-type")
     @Operation(description = "Lấy ComboBox surgery role type : type, name")
     public List<IComboBoxSurgeryRoleType> getListSurgeryRoleType() {
@@ -73,8 +75,8 @@ public class ComboBoxController {
     */
     @GetMapping("/surgery-room/get-surgery-room-name-code")
     @Operation(description = "Lấy ComboBox surgery room : id, name, code")
-    public List<ICommonIdCodeName> getComboBoxSurgeryRoom() {
-        return comboBoxService.getComboBoxSurgeryRoom();
+    public List<ICommonIdCodeName> getComboBoxSurgeryRoom(@RequestParam(name = "name", required = false, defaultValue = "") String surgeryRoomName) {
+        return comboBoxService.getComboBoxSurgeryRoom(surgeryRoomName);
     }
 
 }

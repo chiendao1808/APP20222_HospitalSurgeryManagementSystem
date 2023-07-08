@@ -10,7 +10,9 @@ public class SQLComboBox {
                     "     id AS id, \n" +
                     "     CONCAT_WS(' ', last_name, first_name) AS name, \n" +
                     "     code AS code \n" +
-                    "FROM {h-schema}users \n";
+                    "FROM {h-schema}users \n" +
+                    "WHERE \n" +
+                    "     :name = '' OR CONCAT_WS(' ', last_name, first_name) ILIKE '%' || :name || '%' ";
     /*
      ==== COMBO BOX ROLE =======
     */
@@ -29,7 +31,9 @@ public class SQLComboBox {
                     "      id AS id, \n" +
                     "      CONCAT_WS(' ', last_name, first_name) AS name, \n" +
                     "      code AS code \n" +
-                    "FROM {h-schema}patient \n";
+                    "FROM {h-schema}patient \n" +
+                    "WHERE \n" +
+                    "     :patientName = '' OR CONCAT_WS(' ', last_name, first_name) ILIKE '%' || :patientName || '%' ";
 
     /*
      ==== COMBO BOX DEPARTMENT ===
@@ -39,7 +43,9 @@ public class SQLComboBox {
                     "     id AS id, \n" +
                     "     name AS name, \n" +
                     "     code AS code \n" +
-                    "FROM {h-schema}department \n";
+                    "FROM {h-schema}department \n" +
+                    "WHERE \n" +
+                    "     :departmentName = '' OR name ILIKE '%' || :departmentName || '%' ";
 
     /*
      ==== COMBO BOX SURGERY ===
@@ -58,6 +64,8 @@ public class SQLComboBox {
                     "     id AS id, \n" +
                     "     name AS name, \n" +
                     "     code AS code \n" +
-                    "FROM {h-schema}surgery_room \n";
+                    "FROM {h-schema}surgery_room \n" +
+                    "WHERE \n" +
+                    "     :surgeryRoomName = '' OR name ILIKE '%' || :surgeryRoomName || '%' ";
 
 }
