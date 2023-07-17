@@ -1,30 +1,41 @@
 package com.app20222.app20222_fxapp.app_controllers.main_view;
 
+import com.app20222.app20222_fxapp.MainApplication;
+import com.app20222.app20222_fxapp.app_controllers.ShowScreen;
+import com.app20222.app20222_fxapp.app_controllers.patient_view.PatientController;
+import com.app20222.app20222_fxapp.app_controllers.surgery_view.SurgeryController;
 import com.app20222.app20222_fxapp.dto.responses.BaseResponse;
+import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListDTO;
+import com.app20222.app20222_fxapp.dto.responses.surgery.SurgeryGetListDTO;
 import com.app20222.app20222_fxapp.enums.apis.APIDetails;
 import com.app20222.app20222_fxapp.utils.apiUtils.ApiUtils;
 import com.app20222.app20222_fxapp.utils.httpUtils.HttpUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.api.client.http.HttpMethods;
 import javafx.animation.TranslateTransition;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.IOException;
+import java.net.URL;
 import java.net.http.HttpResponse;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
-public class MainController {
+public class MainController implements Initializable {
 
     private Stage stage;
     private Scene scene;
@@ -67,6 +78,8 @@ public class MainController {
     private AnchorPane surgeryRoom;
     @FXML
     private AnchorPane department;
+    @FXML
+    private AnchorPane userPane;
     // Tab
     @FXML
     private Button tabPatient;
@@ -80,21 +93,84 @@ public class MainController {
     private Button tabDepartment;
     @FXML
     private Button tabSurgery;
+    @FXML
+    private Button tabUser;
 
-    // TabController
+    // Bệnh nhân
+    @FXML
+    private Button createPatient;
+    @FXML
+    private TableView<PatientGetListDTO> patientTable;
+    @FXML
+    private TableColumn<PatientGetListDTO, String> patientActionColumn;
+
+    @FXML
+    private TableColumn<PatientGetListDTO, String> patientCodeColumn;
+
+    @FXML
+    private TableColumn<PatientGetListDTO, String> patientEmailColumn;
+
+    @FXML
+    private TableColumn<PatientGetListDTO, String> patientHealthInsuranceNumberColumn;
+
+    @FXML
+    private TableColumn<PatientGetListDTO, String> patientIBirthdayColumn;
+
+    @FXML
+    private TableColumn<PatientGetListDTO, String> patientINameColumn;
+    @FXML
+    private TableColumn<PatientGetListDTO, String> patientIFirstNameColumn;
+
+    @FXML
+    private TableColumn<PatientGetListDTO, String> patientILastNameColumn;
+
+    @FXML
+    private TableColumn<PatientGetListDTO, Long> patientIdColumn;
+
+    @FXML
+    private TableColumn<PatientGetListDTO, String> patientPhoneColumn;
+
+    //  Ca phẫu thuật
+    @FXML
+    private Button createSurgery;
+    @FXML
+    private TableView<SurgeryGetListDTO> surgeryTable;
+    @FXML
+    private ScrollPane surgeryTableView;
+    // column
+    @FXML
+    private TableColumn<SurgeryGetListDTO, ?> id;
+    @FXML
+    private TableColumn<SurgeryGetListDTO, ?> surgeryCodeColumn;
+    @FXML
+    private TableColumn<SurgeryGetListDTO, ?> surgeryNameColumn;
+    @FXML
+    private TableColumn<SurgeryGetListDTO, ?> surgeryPatientNameColumn;
+    @FXML
+    private TableColumn<SurgeryGetListDTO, ?> surgeryResultColumn;
+    @FXML
+    private TableColumn<SurgeryGetListDTO, ?> surgeryRoomColumn;
+    @FXML
+    private TableColumn<SurgeryGetListDTO, ?> surgeryStatusColumn;
+    @FXML
+    private TableColumn<SurgeryGetListDTO, ?> typeSurgeryColumn;
+
+    // controller
+    //TabController
     private TabController tabController = new TabController();
+    private PatientController patientController = new PatientController();
+    private SurgeryController surgeryController = new SurgeryController();
 
+    // Các hàm xử lý
     // Xử lý khi click icon thu nhỏ múc leftMenu
     @FXML
     public void sliderArrow() {
-
         TranslateTransition slide = new TranslateTransition(Duration.seconds(.5), navForm);
         TranslateTransition slideNav = new TranslateTransition(Duration.seconds(.5), navForm1);
         TranslateTransition slide1 = new TranslateTransition(Duration.seconds(.5), mainCenterForm);
         TranslateTransition slideHeader = new TranslateTransition(Duration.seconds(.5), headerLeftForm);
         TranslateTransition slideHeader1 = new TranslateTransition(Duration.seconds(.5), headerLeftForm1);
         TranslateTransition slideButton = new TranslateTransition(Duration.seconds(.5), arrowBtn);
-
         System.out.println(navForm.getTranslateX());
         if (navForm.getTranslateX() == 0) {
             // Close the left pane
@@ -150,14 +226,32 @@ public class MainController {
                 surgery,
                 surgeryRoom,
                 department,
+                userPane,
                 tabPatient,
                 tabMedicalRecord,
                 tabDoctor,
                 tabSurgeryRoom,
                 tabDepartment,
-                tabSurgery);
+                tabSurgery,
+                tabUser);
         tabController.switchTab(event);
     }
 
 
-}
+    // Hiển thị các modal: tạo, sửa, xem chi tiết
+    @FXML
+    private void showModal(ActionEvent event)  {
+        Button selectedButton = (Button) event.getSource();
+        if(selectedButton == createPatient){
+            patientController.showModal(event);
+        } else if(selectedButton == createSurgery){
+            surgeryController.showModal(event);
+        }
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        patientController = new PatientController( patientTable,patientCodeColumn,patientEmailColumn,patientHealthInsuranceNumberColumn,patientIBirthdayColumn,patientINameColumn,patientIFirstNameColumn,patientILastNameColumn,patientIdColumn,patientPhoneColumn,patientActionColumn);
+        patientController.initializeTable();
+    }
+}//

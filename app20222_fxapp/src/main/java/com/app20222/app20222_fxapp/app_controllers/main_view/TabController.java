@@ -13,12 +13,14 @@ public class TabController {
     private AnchorPane surgery;
     private AnchorPane surgeryRoom;
     private AnchorPane department;
+    private AnchorPane userPane;
     private Button tabPatient;
     private Button tabMedicalRecord;
     private Button tabDoctor;
     private Button tabSurgeryRoom;
     private Button tabDepartment;
     private Button tabSurgery;
+    private Button tabUser;
 
     public TabController(
             AnchorPane patient,
@@ -27,12 +29,14 @@ public class TabController {
             AnchorPane surgery,
             AnchorPane surgeryRoom,
             AnchorPane department,
+            AnchorPane userPane,
             Button tabPatient,
             Button tabMedicalRecord,
             Button tabDoctor,
             Button tabSurgeryRoom,
             Button tabDepartment,
-            Button tabSurgery) {
+            Button tabSurgery,
+    Button tabUser) {
         this.patient = patient;
         this.medicalRecord = medicalRecord;
         this.doctors = doctors;
@@ -45,6 +49,8 @@ public class TabController {
         this.tabSurgeryRoom = tabSurgeryRoom;
         this.tabDepartment = tabDepartment;
         this.tabSurgery = tabSurgery;
+        this.tabUser = tabUser;
+        this.userPane = userPane;
     }
     public  TabController () {}
     @FXML
@@ -62,6 +68,8 @@ public class TabController {
             switchToTab(tabSurgeryRoom, surgeryRoom);
         } else if (selectedButton == tabDepartment) {
             switchToTab(tabDepartment, department);
+        } else if (selectedButton == tabUser) {
+            switchToTab(tabUser, userPane);
         }
     }
 
@@ -73,6 +81,7 @@ public class TabController {
         surgery.setVisible(selectedPane == surgery);
         surgeryRoom.setVisible(selectedPane == surgeryRoom);
         department.setVisible(selectedPane == department);
+        userPane.setVisible(selectedPane == userPane);
         // Reset the background for all tabs
         tabPatient.setStyle("-fx-background-color: transparent");
         tabMedicalRecord.setStyle("-fx-background-color: transparent");
@@ -80,8 +89,14 @@ public class TabController {
         tabSurgery.setStyle("-fx-background-color: transparent");
         tabSurgeryRoom.setStyle("-fx-background-color: transparent");
         tabDepartment.setStyle("-fx-background-color: transparent");
+        tabUser.setStyle("-fx-background-color: transparent");
+        if(selectedButton == tabUser){
+            selectedButton.setStyle("-fx-background-color: transparent");
+        } else {
+            selectedButton.setStyle("-fx-background-color: #2C3D94");
+
+        }
         // Set the background for the selected tab
-        selectedButton.setStyle("-fx-background-color: #2C3D94");
         selectedButton.requestFocus();
     }
 

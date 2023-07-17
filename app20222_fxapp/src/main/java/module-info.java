@@ -34,7 +34,8 @@ module com.app20222.app20222_fxapp {
             requires org.kordamp.ikonli.javafx;
             requires org.kordamp.bootstrapfx.core;
             requires com.almasb.fxgl.all;
-    
+    requires de.jensd.fx.glyphs.fontawesome;
+
     opens com.app20222.app20222_fxapp to javafx.fxml;
 
     // export package
@@ -44,6 +45,7 @@ module com.app20222.app20222_fxapp {
     exports com.app20222.app20222_fxapp.dto.responses.users;
     exports com.app20222.app20222_fxapp.dto.responses.auth;
     exports com.app20222.app20222_fxapp.dto.responses.exception;
+    exports com.app20222.app20222_fxapp.dto.responses.patient;
 
     // export view controller
 
@@ -58,5 +60,16 @@ module com.app20222.app20222_fxapp {
      */
     opens com.app20222.app20222_fxapp.app_controllers.login_view to javafx.fxml;
     exports com.app20222.app20222_fxapp.app_controllers.login_view;
+
+    /**
+     * bệnh nhân
+     */
+    opens com.app20222.app20222_fxapp.app_controllers.patient_view to javafx.fxml;
+    exports com.app20222.app20222_fxapp.app_controllers.patient_view;
+    /**
+     * ca phâu thuật
+     */
+    opens com.app20222.app20222_fxapp.app_controllers.surgery_view to javafx.fxml;
+    exports com.app20222.app20222_fxapp.app_controllers.surgery_view;
 
 }

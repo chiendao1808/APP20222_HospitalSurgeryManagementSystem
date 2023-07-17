@@ -1,0 +1,13 @@
+.edit-button {
+    -fx-padding: 4px 8px;
+    -fx-background-color: transparent;
+    -fx-fill: #00E676;
+    -fx-cursor: hand;
+}
+
+.delete-button {
+    -fx-padding: 4px 8px;
+    -fx-background-color: transparent;
+    -fx-fill: #ff1744;
+    -fx-cursor: hand;
+}
