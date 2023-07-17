@@ -55,7 +55,12 @@ public enum APIDetails {
     GET_COMBO_BOX_DEPARTMENT("GET_COMBO_BOX_DEPARTMENT","/combo-box", "/department/get-lst-department-name-code", "GET"),
     GET_COMBO_BOX_PATIENT("GET_COMBO_BOX_PATIENT","/combo-box", "/patient/get-lst-patient-name-code", "GET"),
     GET_COMBO_BOX_SURGERY_ROLE_TYPE("GET_COMBO_BOX_SURGERY_ROLE_TYPE","/combo-box", "/surgery/get-lst-surgery-role-type", "GET"),
-    GET_COMBO_BOX_SURGERY_ROOM("GET_COMBO_BOX_SURGERY_ROOM","/combo-box", "/surgery-room/get-surgery-room-name-code", "GET");
+    GET_COMBO_BOX_SURGERY_ROOM("GET_COMBO_BOX_SURGERY_ROOM","/combo-box", "/surgery-room/get-surgery-room-name-code", "GET"),
+
+    // Statistics
+    STATISTICS_PREVIEW_NUMBER_SURGERY("STATISTICS_PREVIEW_NUMBER_SURGERY", "/statistics", "/preview-number-surgery", "GET"),
+    STATISTICS_PREVIEW_STATISTICS_MONTHLY("STATISTICS_PREVIEW_STATISTICS_MONTHLY", "/statistics", "/preview-statistics-monthly", "GET"),
+    STATISTICS_PREVIEW_LIST_SURGERY("STATISTICS_PREVIEW_LIST_SURGERY", "/statistics", "/preview-list-surgery", "GET");
 
 
     private final String code;
