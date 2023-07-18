@@ -32,17 +32,19 @@ public class StatisticServiceImpl implements StatisticsService {
 
     @Override
     public INumberSurgeryPreviewDTO getPreviewCurrentNumberSurgery() {
-        return statisticsRepository.getPreviewCurrentNumberSurgery();
+        Set<Long> lstViewableSurgeryId = permissionService.getLstViewableSurgeryId();
+        return statisticsRepository.getPreviewCurrentNumberSurgery(lstViewableSurgeryId);
     }
 
     @Override
     public List<MonthlySurgeryStatistics> getMonthSurgeryStatistics(Integer year) {
+        Set<Long> lstViewableSurgeryId = permissionService.getLstViewableSurgeryId();
         SimpleDateFormat formatter = new SimpleDateFormat(DateUtils.FORMAT_DATE_DD_MM_YY_HH_MM_SS);
         String firstDateOfYear = DateUtils.SEARCH_FIRST_YEAR_DAY_SLASH_PREFIX + year + DateUtils.SEARCH_START_DATE_SUFFIX;
         String lastDateOfYear = DateUtils.SEARCH_LAST_YEAR_DAY_SLASH_PREFIX + year + DateUtils.SEARCH_END_DATE_SUFFIX;
         try {
             // Lấy dữ liệu ca phẫu thuật trong db cùng với tháng
-            List<IMonthSurgeryStatistics> lstMonthlySurgeryData = statisticsRepository.getMonthSurgeryStatistics(
+            List<IMonthSurgeryStatistics> lstMonthlySurgeryData = statisticsRepository.getMonthSurgeryStatistics(lstViewableSurgeryId,
                 formatter.parse(firstDateOfYear), formatter.parse(lastDateOfYear));
             // Mapping dữ liệu ca phẫu thuật đã được thực hiện theo tháng theo tháng
             Map<Integer, Integer> mapStatisticsData = new LinkedHashMap<>();
