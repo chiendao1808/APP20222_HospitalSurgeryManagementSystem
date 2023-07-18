@@ -9,13 +9,15 @@ import java.io.IOException;
 public class SurgeryController {
 
 
-    public SurgeryController() {}
+    public SurgeryController() {
+    }
+
     @FXML
-    public void showModal(ActionEvent event)  {
+    public void showModal(ActionEvent event) {
         String FXMLPATH = "views/surgery_view/create.fxml";
         try {
-            ShowScreen showWindow =new ShowScreen();
-            showWindow.Show(FXMLPATH,"Tạo ca phẫu thuật");
+            ShowScreen showWindow = new ShowScreen();
+            showWindow.Show(FXMLPATH, "Tạo ca phẫu thuật");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

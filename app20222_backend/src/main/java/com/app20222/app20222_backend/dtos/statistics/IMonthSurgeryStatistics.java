@@ -4,6 +4,8 @@ public interface IMonthSurgeryStatistics {
 
     Integer getMonth();
 
+    Integer getYear();
+
     Integer getNumSurgery();
 
 }

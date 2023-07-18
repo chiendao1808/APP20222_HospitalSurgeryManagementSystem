@@ -21,7 +21,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class PatientController  {
+public class PatientController {
+
     @FXML
     private TableView<PatientGetListDTO> patientTable;
     @FXML
@@ -53,19 +54,20 @@ public class PatientController  {
     private TableColumn<PatientGetListDTO, String> patientPhoneColumn;
 
 
-    public PatientController() {}
+    public PatientController() {
+    }
 
     public PatientController(TableView<PatientGetListDTO> patientTable,
-                             TableColumn<PatientGetListDTO, String> codeColumn,
-                             TableColumn<PatientGetListDTO, String> emailColumn,
-                             TableColumn<PatientGetListDTO, String> healthInsuranceNumberColumn,
-                             TableColumn<PatientGetListDTO, String> birthdayColumn,
-                             TableColumn<PatientGetListDTO, String> nameColumn,
-                             TableColumn<PatientGetListDTO, String> firstNameColumn,
-                             TableColumn<PatientGetListDTO, String> lastNameColumn,
-                             TableColumn<PatientGetListDTO, Long> idColumn,
-                             TableColumn<PatientGetListDTO, String> phoneColumn,
-                             TableColumn<PatientGetListDTO, String> patientActionColumn) {
+        TableColumn<PatientGetListDTO, String> codeColumn,
+        TableColumn<PatientGetListDTO, String> emailColumn,
+        TableColumn<PatientGetListDTO, String> healthInsuranceNumberColumn,
+        TableColumn<PatientGetListDTO, String> birthdayColumn,
+        TableColumn<PatientGetListDTO, String> nameColumn,
+        TableColumn<PatientGetListDTO, String> firstNameColumn,
+        TableColumn<PatientGetListDTO, String> lastNameColumn,
+        TableColumn<PatientGetListDTO, Long> idColumn,
+        TableColumn<PatientGetListDTO, String> phoneColumn,
+        TableColumn<PatientGetListDTO, String> patientActionColumn) {
         this.patientTable = patientTable;
         this.patientCodeColumn = codeColumn;
         this.patientEmailColumn = emailColumn;
@@ -116,8 +118,10 @@ public class PatientController  {
     public void initializeTable() {
         // Lấy danh sách bệnh nhân từ nguồn dữ liệu của bạn
         List<PatientGetListDTO> patients = new ArrayList<>(); // Thay thế getDataFromDataSource() bằng phương thức lấy dữ liệu từ nguồn dữ liệu của bạn
-        patients.add(new PatientGetListDTO(1L, "1234567890", "2345544455", "John", "Doe", LocalDate.now(), "Address 1", "1234567890", "john.doe@example.com"));
-        patients.add(new PatientGetListDTO(2L, "0987654321", "6644333222", "Jane", "Smith", LocalDate.now(), "Address 2", "0987654321", "jane.smith@example.com"));
+        patients.add(new PatientGetListDTO(1L, "1234567890", "2345544455", "John", "Doe", LocalDate.now(), "Address 1", "1234567890",
+            "john.doe@example.com"));
+        patients.add(new PatientGetListDTO(2L, "0987654321", "6644333222", "Jane", "Smith", LocalDate.now(), "Address 2", "0987654321",
+            "jane.smith@example.com"));
 
         // Tạo danh sách ObservableList từ danh sách bệnh nhân
         ObservableList<PatientGetListDTO> patientList = FXCollections.observableArrayList(patients);
@@ -134,76 +138,78 @@ public class PatientController  {
 
         //add cell of button edit
         Callback<TableColumn<PatientGetListDTO, String>, TableCell<PatientGetListDTO, String>> cellFactory =
-                new Callback<TableColumn<PatientGetListDTO, String>, TableCell<PatientGetListDTO, String>>() {
-                    @Override
-                    public TableCell<PatientGetListDTO, String> call(TableColumn<PatientGetListDTO, String> param) {
-                        final TableCell<PatientGetListDTO, String> cell = new TableCell<PatientGetListDTO, String>() {
-                            private final Button editButton = new Button();
-                            private final Button deleteButton = new Button();
-                            {
-                                FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.PENCIL);
-                                FontAwesomeIconView deleteIcon = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
-                                deleteIcon.setStyle(
-                                        " -fx-cursor: hand ;"
-                                                + "-glyph-size:24px;"
-                                                + "-fx-fill:#ff1744;"
-                                );
-                                editIcon.setStyle(
-                                        " -fx-cursor: hand ;"
-                                                + "-glyph-size:24px;"
-                                                + "-fx-fill:#00E676;"
-                                );
-                                HBox buttonContainer = new HBox(10); // Set the spacing between icons (10 pixels in this example)
-                                buttonContainer.getChildren().addAll(editButton, deleteButton);
-                                editButton.setGraphic(editIcon);
-                                deleteButton.setGraphic(deleteIcon);
-                                editButton.getStyleClass().add("edit-button");
-                                deleteButton.getStyleClass().add("delete-button");
+            new Callback<TableColumn<PatientGetListDTO, String>, TableCell<PatientGetListDTO, String>>() {
+                @Override
+                public TableCell<PatientGetListDTO, String> call(TableColumn<PatientGetListDTO, String> param) {
+                    final TableCell<PatientGetListDTO, String> cell = new TableCell<PatientGetListDTO, String>() {
+                        private final Button editButton = new Button();
+                        private final Button deleteButton = new Button();
 
-                                // Handle edit button action
-                                editButton.setOnAction(event -> {
-                                    PatientGetListDTO patient = getTableView().getItems().get(getIndex());
-                                    String identificationNumber = patient.getIdentificationNumber();
-                                    String firstName = patient.getFirstName();
-                                    String lastName = patient.getLastName();
-                                    String healthInsuranceNumber = patient.getHealthInsuranceNumber();
-                                    LocalDate birthDate = patient.getBirthDate();
-                                    String address = patient.getAddress();
-                                    String phoneNumber = patient.getPhoneNumber();
-                                    String email = patient.getEmail();
-                                    System.out.println("identificationNumber" + identificationNumber);
-                                    // Add your edit button action logic here
-                                    AddPatientController addPatientController = new AddPatientController();
-                                    addPatientController.setText(identificationNumber, firstName, lastName, "Chứng minh nhân dân", healthInsuranceNumber, birthDate, address, phoneNumber, email);
-                                    String FXMLPATH = "views/patient_view/create.fxml";
-                                    try {
-                                        ShowScreen showWindow =new ShowScreen();
-                                        showWindow.Show(FXMLPATH,"Chỉnh sửa bệnh nhân");
-                                    } catch (IOException e) {
-                                        throw new RuntimeException(e);
-                                    }
-                                });
+                        {
+                            FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.PENCIL);
+                            FontAwesomeIconView deleteIcon = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
+                            deleteIcon.setStyle(
+                                " -fx-cursor: hand ;"
+                                    + "-glyph-size:24px;"
+                                    + "-fx-fill:#ff1744;"
+                            );
+                            editIcon.setStyle(
+                                " -fx-cursor: hand ;"
+                                    + "-glyph-size:24px;"
+                                    + "-fx-fill:#00E676;"
+                            );
+                            HBox buttonContainer = new HBox(10); // Set the spacing between icons (10 pixels in this example)
+                            buttonContainer.getChildren().addAll(editButton, deleteButton);
+                            editButton.setGraphic(editIcon);
+                            deleteButton.setGraphic(deleteIcon);
+                            editButton.getStyleClass().add("edit-button");
+                            deleteButton.getStyleClass().add("delete-button");
 
-                                // Handle delete button action
-                                deleteButton.setOnAction(event -> {
-                                    PatientGetListDTO patient = getTableView().getItems().get(getIndex());
-                                    // Add your delete button action logic here
-                                });
-
-                                setGraphic(buttonContainer);
-                            }
-
-                            @Override
-                            protected void updateItem(String item, boolean empty) {
-                                super.updateItem(item, empty);
-                                if (empty) {
-                                    setGraphic(null);
+                            // Handle edit button action
+                            editButton.setOnAction(event -> {
+                                PatientGetListDTO patient = getTableView().getItems().get(getIndex());
+                                String identificationNumber = patient.getIdentificationNumber();
+                                String firstName = patient.getFirstName();
+                                String lastName = patient.getLastName();
+                                String healthInsuranceNumber = patient.getHealthInsuranceNumber();
+                                LocalDate birthDate = patient.getBirthDate();
+                                String address = patient.getAddress();
+                                String phoneNumber = patient.getPhoneNumber();
+                                String email = patient.getEmail();
+                                System.out.println("identificationNumber" + identificationNumber);
+                                // Add your edit button action logic here
+                                AddPatientController addPatientController = new AddPatientController();
+                                addPatientController.setText(identificationNumber, firstName, lastName, "Chứng minh nhân dân",
+                                    healthInsuranceNumber, birthDate, address, phoneNumber, email);
+                                String FXMLPATH = "views/patient_view/create.fxml";
+                                try {
+                                    ShowScreen showWindow = new ShowScreen();
+                                    showWindow.Show(FXMLPATH, "Chỉnh sửa bệnh nhân");
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
                                 }
+                            });
+
+                            // Handle delete button action
+                            deleteButton.setOnAction(event -> {
+                                PatientGetListDTO patient = getTableView().getItems().get(getIndex());
+                                // Add your delete button action logic here
+                            });
+
+                            setGraphic(buttonContainer);
+                        }
+
+                        @Override
+                        protected void updateItem(String item, boolean empty) {
+                            super.updateItem(item, empty);
+                            if (empty) {
+                                setGraphic(null);
                             }
-                        };
-                        return cell;
-                    }
-                };
+                        }
+                    };
+                    return cell;
+                }
+            };
 
         patientActionColumn.setCellFactory(cellFactory);
 
@@ -212,12 +218,13 @@ public class PatientController  {
         }
 
     }
+
     @FXML
-    public void showModal(ActionEvent event)  {
+    public void showModal(ActionEvent event) {
         String FXMLPATH = "views/patient_view/create.fxml";
         try {
-            ShowScreen showWindow =new ShowScreen();
-            showWindow.Show(FXMLPATH,"Tạo mới bệnh nhân");
+            ShowScreen showWindow = new ShowScreen();
+            showWindow.Show(FXMLPATH, "Tạo mới bệnh nhân");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

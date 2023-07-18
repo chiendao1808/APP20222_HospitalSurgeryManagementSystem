@@ -220,38 +220,40 @@ public class MainController implements Initializable {
     @FXML
     private void switchTab(ActionEvent event) {
         tabController = new TabController(
-                patient,
-                medicalRecord,
-                doctors,
-                surgery,
-                surgeryRoom,
-                department,
-                userPane,
-                tabPatient,
-                tabMedicalRecord,
-                tabDoctor,
-                tabSurgeryRoom,
-                tabDepartment,
-                tabSurgery,
-                tabUser);
+            patient,
+            medicalRecord,
+            doctors,
+            surgery,
+            surgeryRoom,
+            department,
+            userPane,
+            tabPatient,
+            tabMedicalRecord,
+            tabDoctor,
+            tabSurgeryRoom,
+            tabDepartment,
+            tabSurgery,
+            tabUser);
         tabController.switchTab(event);
     }
 
 
     // Hiển thị các modal: tạo, sửa, xem chi tiết
     @FXML
-    private void showModal(ActionEvent event)  {
+    private void showModal(ActionEvent event) {
         Button selectedButton = (Button) event.getSource();
-        if(selectedButton == createPatient){
+        if (selectedButton == createPatient) {
             patientController.showModal(event);
-        } else if(selectedButton == createSurgery){
+        } else if (selectedButton == createSurgery) {
             surgeryController.showModal(event);
         }
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        patientController = new PatientController( patientTable,patientCodeColumn,patientEmailColumn,patientHealthInsuranceNumberColumn,patientIBirthdayColumn,patientINameColumn,patientIFirstNameColumn,patientILastNameColumn,patientIdColumn,patientPhoneColumn,patientActionColumn);
+        patientController = new PatientController(patientTable, patientCodeColumn, patientEmailColumn, patientHealthInsuranceNumberColumn,
+            patientIBirthdayColumn, patientINameColumn, patientIFirstNameColumn, patientILastNameColumn, patientIdColumn, patientPhoneColumn,
+            patientActionColumn);
         patientController.initializeTable();
     }
 }//
