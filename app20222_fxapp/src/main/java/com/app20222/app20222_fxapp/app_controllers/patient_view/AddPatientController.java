@@ -1,4 +1,5 @@
 package com.app20222.app20222_fxapp.app_controllers.patient_view;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 public class AddPatientController implements Initializable {
+
     @FXML
     private DialogPane createPatientPane;
 
@@ -40,34 +42,36 @@ public class AddPatientController implements Initializable {
     @FXML
     private TextField phoneNumberView;
 
-    public AddPatientController(){}
+    public AddPatientController() {
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         ObservableList<String> identityTypes = FXCollections.observableArrayList(
-                "Căn cước công dân", "Chứng minh nhân dân", "Hộ chiếu"
+            "Căn cước công dân", "Chứng minh nhân dân", "Hộ chiếu"
         );
         identityTypeView.setItems(identityTypes);
         createPatientPane.getButtonTypes().stream()
-                .filter(buttonType -> buttonType.getButtonData() == ButtonType.OK.getButtonData() ||
-                        buttonType.getButtonData() == ButtonType.CANCEL.getButtonData())
-                .forEach(buttonType -> {
-                    createPatientPane.lookupButton(buttonType).addEventFilter(ActionEvent.ACTION, event -> {
-                        handleButtonAction(buttonType);
-                    });
+            .filter(buttonType -> buttonType.getButtonData() == ButtonType.OK.getButtonData() ||
+                buttonType.getButtonData() == ButtonType.CANCEL.getButtonData())
+            .forEach(buttonType -> {
+                createPatientPane.lookupButton(buttonType).addEventFilter(ActionEvent.ACTION, event -> {
+                    handleButtonAction(buttonType);
                 });
+            });
     }
 
     public boolean isAllFieldsFilled() {
         return !identificationNumberView.getText().isEmpty() &&
-                !firstNameView.getText().isEmpty() &&
-                !lastNameView.getText().isEmpty() &&
-                identityTypeView.getValue() != null &&
-                !healthInsuranceNumberView.getText().isEmpty() &&
-                birthDateView.getValue() != null &&
-                !addressView.getText().isEmpty() &&
-                !phoneNumberView.getText().isEmpty() &&
-                !emailView.getText().isEmpty();
+            !firstNameView.getText().isEmpty() &&
+            !lastNameView.getText().isEmpty() &&
+            identityTypeView.getValue() != null &&
+            !healthInsuranceNumberView.getText().isEmpty() &&
+            birthDateView.getValue() != null &&
+            !addressView.getText().isEmpty() &&
+            !phoneNumberView.getText().isEmpty() &&
+            !emailView.getText().isEmpty();
     }
 
     public boolean isValidEmail(String email) {
@@ -140,7 +144,7 @@ public class AddPatientController implements Initializable {
         }
     }
 
-    public void handleButtonAction(ButtonType buttonType){
+    public void handleButtonAction(ButtonType buttonType) {
         if (buttonType.getButtonData() == ButtonType.OK.getButtonData()) {
             // Xử lý khi nhấn nút "OK"
             handleOkButton();
@@ -151,7 +155,7 @@ public class AddPatientController implements Initializable {
     }
 
     public void setText(String identificationNumber, String firstName, String lastName, String identityType,
-                        String healthInsuranceNumber, LocalDate birthDate, String address, String phoneNumber, String email) {
+        String healthInsuranceNumber, LocalDate birthDate, String address, String phoneNumber, String email) {
         if (identificationNumber != null) {
             identificationNumberView.setText(identificationNumber);
         }

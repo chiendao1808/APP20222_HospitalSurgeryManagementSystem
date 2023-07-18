@@ -12,17 +12,19 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class ShowScreen {
+
     private static double x = 0;
     private static double y = 0;
+
     public void Show(String FXMLPath, String title) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(MainApplication.class.getResource(FXMLPath)));
         Scene scene = new Scene(root);
-        root.setOnMousePressed((MouseEvent event)->{
+        root.setOnMousePressed((MouseEvent event) -> {
             x = event.getSceneX();
             y = event.getSceneY();
         });
         Stage stage = new Stage();
-        root.setOnMouseDragged((MouseEvent event)->{
+        root.setOnMouseDragged((MouseEvent event) -> {
             stage.setX(event.getScreenX() - x);
             stage.setY(event.getScreenY() - y);
         });

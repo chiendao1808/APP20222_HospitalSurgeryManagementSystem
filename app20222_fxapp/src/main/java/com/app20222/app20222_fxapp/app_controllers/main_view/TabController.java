@@ -23,20 +23,20 @@ public class TabController {
     private Button tabUser;
 
     public TabController(
-            AnchorPane patient,
-            AnchorPane medicalRecord,
-            AnchorPane doctors,
-            AnchorPane surgery,
-            AnchorPane surgeryRoom,
-            AnchorPane department,
-            AnchorPane userPane,
-            Button tabPatient,
-            Button tabMedicalRecord,
-            Button tabDoctor,
-            Button tabSurgeryRoom,
-            Button tabDepartment,
-            Button tabSurgery,
-    Button tabUser) {
+        AnchorPane patient,
+        AnchorPane medicalRecord,
+        AnchorPane doctors,
+        AnchorPane surgery,
+        AnchorPane surgeryRoom,
+        AnchorPane department,
+        AnchorPane userPane,
+        Button tabPatient,
+        Button tabMedicalRecord,
+        Button tabDoctor,
+        Button tabSurgeryRoom,
+        Button tabDepartment,
+        Button tabSurgery,
+        Button tabUser) {
         this.patient = patient;
         this.medicalRecord = medicalRecord;
         this.doctors = doctors;
@@ -52,7 +52,10 @@ public class TabController {
         this.tabUser = tabUser;
         this.userPane = userPane;
     }
-    public  TabController () {}
+
+    public TabController() {
+    }
+
     @FXML
     public void switchTab(ActionEvent event) {
         Button selectedButton = (Button) event.getSource();
@@ -90,7 +93,7 @@ public class TabController {
         tabSurgeryRoom.setStyle("-fx-background-color: transparent");
         tabDepartment.setStyle("-fx-background-color: transparent");
         tabUser.setStyle("-fx-background-color: transparent");
-        if(selectedButton == tabUser){
+        if (selectedButton == tabUser) {
             selectedButton.setStyle("-fx-background-color: transparent");
         } else {
             selectedButton.setStyle("-fx-background-color: #2C3D94");

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.app20222.app20222_backend.dtos.statistics.IMonthSurgeryStatistics;
 import com.app20222.app20222_backend.dtos.statistics.INumberSurgeryPreviewDTO;
+import com.app20222.app20222_backend.dtos.statistics.MonthlySurgeryStatistics;
 import com.app20222.app20222_backend.dtos.surgery.IGetListSurgery;
 import com.app20222.app20222_backend.services.statistics.StatisticsService;
 import com.app20222.app20222_backend.utils.DateUtils;
@@ -26,15 +27,15 @@ public class StatisticsController {
 
     @GetMapping("/preview-number-surgery")
     @Operation(description = "Lấy số ca phẫu thuật được thực hiện theo các mốc : tháng này, quý này, năm nay")
-    public INumberSurgeryPreviewDTO getPreviewNumberSurgery() {
+    public INumberSurgeryPreviewDTO getPreviewCurrentNumberSurgery() {
         return null;
     }
 
 
     @GetMapping("/preview-statistics-monthly")
     @Operation(description = "Lấy dữ liệu số ca phẫu thuật được thực hiện trong các tháng của một năm")
-    public List<IMonthSurgeryStatistics> getMonthSurgeryStatistics(@RequestParam(name = "year") Integer year) {
-        return null;
+    public List<MonthlySurgeryStatistics> getMonthSurgeryStatistics(@RequestParam(name = "year") Integer year) {
+        return statisticsService.getMonthSurgeryStatistics(year);
     }
 
 

@@ -34,6 +34,10 @@ public class DateUtils {
     public static final String FORMAT_YYYY_MM_DD= "yyyy-MM-dd";
     public static final String SEARCH_START_DATE_SUFFIX = " 00:00:00";
     public static final String SEARCH_END_DATE_SUFFIX= " 23:59:59";
+
+    public static final String SEARCH_LAST_YEAR_DAY_SLASH_PREFIX = "31/12/";
+
+    public static final String SEARCH_FIRST_YEAR_DAY_SLASH_PREFIX = "01/01/";
     public static final int DATE_OF_WEEK = 7;
     public static final String FORMAT_DATE_MM_YYYY= "MM/uuuu";
     public static final String FORMAT_DATE_YYYY_MM_DD_2= "YYYY/MM/dd";
