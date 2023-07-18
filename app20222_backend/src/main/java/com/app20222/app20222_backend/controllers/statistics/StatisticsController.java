@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.app20222.app20222_backend.dtos.statistics.IMonthSurgeryStatistics;
 import com.app20222.app20222_backend.dtos.statistics.INumberSurgeryPreviewDTO;
 import com.app20222.app20222_backend.dtos.statistics.MonthlySurgeryStatistics;
 import com.app20222.app20222_backend.dtos.surgery.IGetListSurgery;
@@ -28,7 +27,7 @@ public class StatisticsController {
     @GetMapping("/preview-number-surgery")
     @Operation(description = "Lấy số ca phẫu thuật được thực hiện theo các mốc : tháng này, quý này, năm nay")
     public INumberSurgeryPreviewDTO getPreviewCurrentNumberSurgery() {
-        return null;
+        return statisticsService.getPreviewCurrentNumberSurgery();
     }
 
 
@@ -47,7 +46,7 @@ public class StatisticsController {
         @DateTimeFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_SLASH)
         @RequestParam(name = "endTime") Date endTime
     ) {
-        return null;
+        return statisticsService.getPreviewSurgeryList(startTime, endTime);
     }
 
 

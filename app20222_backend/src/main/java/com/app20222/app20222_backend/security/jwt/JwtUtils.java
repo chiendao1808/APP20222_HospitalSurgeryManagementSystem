@@ -30,30 +30,31 @@ public class JwtUtils {
 
     /**
      * Generate Json Token Web
+     *
      * @param user : login user
      * @return : JWT
      */
-    public String generateJwt(User user){
+    public String generateJwt(User user) {
         Map<String, Object> claims = new LinkedHashMap<>();
         claims.put("username", user.getUsername());
         return Jwts.builder().setSubject(user.getUsername())
-                .addClaims(claims)
-                .setIssuedAt(DateUtils.getCurrentDateTime())
-                .setExpiration(new Date(DateUtils.getCurrentDateTime().getTime() + Long.parseLong(ACCESS_TOKEN_EXPIRED_IN_MS)))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
-                .compact();
+            .addClaims(claims)
+            .setIssuedAt(DateUtils.getCurrentDateTime())
+            .setExpiration(new Date(DateUtils.getCurrentDateTime().getTime() + Long.parseLong(ACCESS_TOKEN_EXPIRED_IN_MS)))
+            .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+            .compact();
     }
 
     /**
      * Get claims in jwt
+     *
      * @param jwt : token
      * @return : claims
      */
-    public Claims getClaims(String jwt){
-        try{
+    public Claims getClaims(String jwt) {
+        try {
             return Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(jwt).getBody();
-        }catch (Exception exception)
-        {
+        } catch (Exception exception) {
             log.error("Get claims frm jwt error");
             exception.printStackTrace();
             return null;
@@ -62,14 +63,15 @@ public class JwtUtils {
 
     /**
      * Get username from jwt
+     *
      * @param jwt : token
      * @return : username
      */
-    public String getUsernameFromJwt(String jwt){
-        try{
+    public String getUsernameFromJwt(String jwt) {
+        try {
             Claims claims = getClaims(jwt);
             return claims.get("username", String.class);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             log.error("Get username frm jwt error");
             ex.printStackTrace();
             return null;
@@ -78,35 +80,35 @@ public class JwtUtils {
 
     /**
      * Valid whether
+     *
      * @param jwt : token
      * @return : valid : true - not valid : false
      */
-    public Boolean validateToken(String jwt){
-        try{
+    public Boolean validateToken(String jwt) {
+        try {
             Claims claims = getClaims(jwt);
             Date now = DateUtils.getCurrentDateTime();
             return Objects.nonNull(claims) && claims.getExpiration().after(now);
-        }catch (Exception exception)
-        {
+        } catch (Exception exception) {
             log.error("Check jwt expired error");
             exception.printStackTrace();
-            return true;
+            return false;
         }
     }
 
     /**
      * Generate Refresh Token
+     *
      * @return : Refresh Token
      */
-    public String generateRefreshToken(User user){
+    public String generateRefreshToken(User user) {
         return Base64.getEncoder().withoutPadding().encodeToString((user.getUsername() + user.getEmail()).getBytes());
     }
 
     /**
-     * Get Token from Request Header
-     * Authorization  = Bearer  " " + Token
+     * Get Token from Request Header Authorization  = Bearer  " " + Token
      */
-    public String getTokenFromRequest(HttpServletRequest request){
+    public String getTokenFromRequest(HttpServletRequest request) {
         String authHeader = request.getHeader(SecurityConstants.AUTH_HEADER);
         return Objects.nonNull(authHeader) ? authHeader.split(" ")[1] : null;
     }

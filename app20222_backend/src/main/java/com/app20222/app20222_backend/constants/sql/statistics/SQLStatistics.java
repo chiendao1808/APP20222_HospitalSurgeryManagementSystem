@@ -4,13 +4,17 @@ public class SQLStatistics {
 
     public static final String GET_PREVIEW_CURRENT_SURGERY_NUM =
         "SELECT\n" +
-            "       COUNT(id) FILTER (WHERE end_at IS NOT NULL AND status = 2 AND (end_at BETWEEN DATE_TRUNC('month', NOW()) AND NOW())) \n" +
+            "       COUNT(id) FILTER (WHERE (end_at BETWEEN DATE_TRUNC('month', NOW()) AND NOW())) \n" +
             "           AS currentMonthNum,\n" +
-            "       COUNT(id) FILTER (WHERE end_at IS NOT NULL AND status = 2 AND (end_at BETWEEN DATE_TRUNC('quarter', NOW()) AND NOW())) \n" +
+            "       COUNT(id) FILTER (WHERE (end_at BETWEEN DATE_TRUNC('quarter', NOW()) AND NOW())) \n" +
             "           AS currentQuarterNum,\n" +
-            "       COUNT(id) FILTER (WHERE end_at IS NOT NULL AND status = 2 AND (end_at BETWEEN DATE_TRUNC('month', now()) AND now())) \n" +
+            "       COUNT(id) FILTER (WHERE (end_at BETWEEN DATE_TRUNC('month', now()) AND now())) \n" +
             "           AS currentYearNum\n" +
-            "FROM {h-schema}surgery";
+            "FROM {h-schema}surgery \n" +
+            "WHERE \n" +
+            "      id IN (:lstViewableSurgeryId) AND \n" +
+            "      end_at IS NOT NULL AND \n" +
+            "      status = 2 ";
 
     public static final String GET_PREVIEW_SURGERY_NUM_MONTHLY_IN_A_YEAR =
         "SELECT\n" +
@@ -18,6 +22,7 @@ public class SQLStatistics {
             "       COUNT(id) as numSurgery \n" +
             "    FROM {h-schema}surgery \n" +
             "    WHERE\n" +
+            "          id IN (:lstViewableSurgeryId) AND \n" +
             "          end_at IS NOT NULL AND \n" +
             "          status = 2 AND \n" +
             "          end_at BETWEEN :firstDateOfYear AND :lastDateOfYear \n" +
@@ -50,6 +55,7 @@ public class SQLStatistics {
             "WHERE \n" +
             "     surgery.id IN (:lstViewableSurgeryId) AND \n" +
             "     surgery.end_at IS NOT NULL AND \n" +
+            "     surgery.status = 2 AND \n" +
             "     DATE(surgery.end_at) BETWEEN DATE(:startTime) AND DATE(:endTime)\n";
 
 

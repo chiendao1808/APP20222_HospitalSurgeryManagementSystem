@@ -3,7 +3,6 @@ package com.app20222.app20222_backend.services.statistics;
 import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Service;
-import com.app20222.app20222_backend.dtos.statistics.IMonthSurgeryStatistics;
 import com.app20222.app20222_backend.dtos.statistics.INumberSurgeryPreviewDTO;
 import com.app20222.app20222_backend.dtos.statistics.MonthlySurgeryStatistics;
 import com.app20222.app20222_backend.dtos.surgery.IGetListSurgery;
