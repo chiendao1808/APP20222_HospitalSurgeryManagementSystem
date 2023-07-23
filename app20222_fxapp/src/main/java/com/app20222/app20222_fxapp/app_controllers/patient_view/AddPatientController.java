@@ -1,13 +1,17 @@
 package com.app20222.app20222_fxapp.app_controllers.patient_view;
 
+import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListDTO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import org.w3c.dom.ls.LSOutput;
+
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class AddPatientController implements Initializable {
@@ -42,24 +46,40 @@ public class AddPatientController implements Initializable {
     @FXML
     private TextField phoneNumberView;
 
-    public AddPatientController() {
+    private boolean editMode = false;
+    private PatientGetListDTO originalPatient;
+    public AddPatientController() {}
+
+    public void setEditMode(boolean editMode) {
+        this.editMode = editMode;
+    }
+    public void setPatient(PatientGetListDTO patient) {
+        this.originalPatient = patient;
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public PatientGetListDTO getOriginalPatient() {
+        return originalPatient;
+    }
 
+    public void initialize(URL location, ResourceBundle resources) {
+        setupIdentityTypes();
+        setupButtonEventFilters();
+    }
+    public void setupIdentityTypes() {
         ObservableList<String> identityTypes = FXCollections.observableArrayList(
-            "Căn cước công dân", "Chứng minh nhân dân", "Hộ chiếu"
+                "Căn cước công dân", "Chứng minh nhân dân", "Hộ chiếu"
         );
         identityTypeView.setItems(identityTypes);
+    }
+    private void setupButtonEventFilters() {
         createPatientPane.getButtonTypes().stream()
-            .filter(buttonType -> buttonType.getButtonData() == ButtonType.OK.getButtonData() ||
-                buttonType.getButtonData() == ButtonType.CANCEL.getButtonData())
-            .forEach(buttonType -> {
-                createPatientPane.lookupButton(buttonType).addEventFilter(ActionEvent.ACTION, event -> {
-                    handleButtonAction(buttonType);
+                .filter(buttonType -> buttonType.getButtonData() == ButtonType.OK.getButtonData() ||
+                        buttonType.getButtonData() == ButtonType.CANCEL.getButtonData())
+                .forEach(buttonType -> {
+                    createPatientPane.lookupButton(buttonType).addEventFilter(ActionEvent.ACTION, event -> {
+                        handleButtonAction(buttonType);
+                    });
                 });
-            });
     }
 
     public boolean isAllFieldsFilled() {
@@ -86,7 +106,22 @@ public class AddPatientController implements Initializable {
         return phoneNumber.matches(phoneRegex);
     }
 
-    public void handleOkButton() {
+    public void displayErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Lỗi");
+        alert.setHeaderText("Thông tin không hợp lệ");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    public void handleButtonAction(ButtonType buttonType) {
+        if (buttonType.getButtonData() == ButtonType.OK.getButtonData()) {
+            handleOkButton();
+        } else if (buttonType.getButtonData() == ButtonType.CANCEL.getButtonData()) {
+            createPatientPane.getScene().getWindow().hide();
+        }
+    }
+    public PatientGetListDTO handleOkButton() {
         // Kiểm tra xem tất cả các trường đã được nhập
         if (isAllFieldsFilled()) {
             // Lấy giá trị từ các thành phần
@@ -95,7 +130,7 @@ public class AddPatientController implements Initializable {
             String lastName = lastNameView.getText();
             String identityType = identityTypeView.getValue();
             String healthInsuranceNumber = healthInsuranceNumberView.getText();
-            String birthDate = birthDateView.getValue().toString();
+            LocalDate birthDate = birthDateView.getValue();
             String address = addressView.getText();
             String phoneNumber = phoneNumberView.getText();
             String email = emailView.getText();
@@ -116,9 +151,39 @@ public class AddPatientController implements Initializable {
                 System.out.println("Địa chỉ: " + address);
                 System.out.println("Số điện thoại: " + phoneNumber);
                 System.out.println("Email: " + email);
+                // Gather the information from the input fields
+                if(editMode){
+                    PatientGetListDTO newPatient = new PatientGetListDTO(
+                            getOriginalPatient().getPatientId(),
+                            identificationNumber,
+                            healthInsuranceNumber,
+                            firstName,
+                            lastName,
+                            birthDate,
+                            address,
+                            phoneNumber,
+                            email
+                    );
+                    createPatientPane.getScene().getWindow().hide();
+                    return newPatient;
+                } else {
+                    Random random = new Random();
+                    long id = random.nextInt(100);
+                    PatientGetListDTO newPatient = new PatientGetListDTO(
+                            id,
+                            identificationNumber,
+                            healthInsuranceNumber,
+                            firstName,
+                            lastName,
+                            birthDate,
+                            address,
+                            phoneNumber,
+                            email
+                    );
+                    createPatientPane.getScene().getWindow().hide();
+                    return newPatient;
+                }
 
-                // Tắt DialogPane
-                createPatientPane.getScene().getWindow().hide();
             } else {
                 // Hiển thị thông báo lỗi cho các trường không hợp lệ
                 StringBuilder errorMessages = new StringBuilder();
@@ -128,31 +193,16 @@ public class AddPatientController implements Initializable {
                 if (!isPhoneNumberValid) {
                     errorMessages.append("- Số điện thoại không hợp lệ\n");
                 }
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Lỗi");
-                alert.setHeaderText("Thông tin không hợp lệ");
-                alert.setContentText(errorMessages.toString());
-                alert.showAndWait();
+                displayErrorAlert(errorMessages.toString());
+
             }
         } else {
             // Hiển thị thông báo lỗi nếu chưa nhập đủ các trường
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Lỗi");
-            alert.setHeaderText("Yêu cầu nhập đầy đủ thông tin");
-            alert.setContentText("Vui lòng nhập đầy đủ thông tin trước khi tiếp tục.");
-            alert.showAndWait();
+            displayErrorAlert("Vui lòng nhập đầy đủ thông tin trước khi tiếp tục.");
         }
+        return null;
     }
 
-    public void handleButtonAction(ButtonType buttonType) {
-        if (buttonType.getButtonData() == ButtonType.OK.getButtonData()) {
-            // Xử lý khi nhấn nút "OK"
-            handleOkButton();
-        } else if (buttonType.getButtonData() == ButtonType.CANCEL.getButtonData()) {
-            // Xử lý khi nhấn nút "Cancel"
-            createPatientPane.getScene().getWindow().hide();
-        }
-    }
 
     public void setText(String identificationNumber, String firstName, String lastName, String identityType,
         String healthInsuranceNumber, LocalDate birthDate, String address, String phoneNumber, String email) {
@@ -185,6 +235,15 @@ public class AddPatientController implements Initializable {
         }
     }
 
+    public PatientGetListDTO submit() {
+        if (isAllFieldsFilled() && isValidEmail(emailView.getText()) && isValidPhoneNumber(phoneNumberView.getText())) {
+            // Call handleOkButton to create a new patient
+            return handleOkButton();
+        } else {
+            // If the information is not valid, return null
+            return null;
+        }
+    }
 
 }
 
