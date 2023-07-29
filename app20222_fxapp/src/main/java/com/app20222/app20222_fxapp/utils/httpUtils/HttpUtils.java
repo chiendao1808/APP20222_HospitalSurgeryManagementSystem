@@ -154,25 +154,15 @@ public class HttpUtils {
     /**
      * Handle response
      */
-    public static <T> Object handleResponse(HttpResponse<String> response, Class<T> clazz, ExceptionResponse exResponse){
+    public static <T> T handleResponse(HttpResponse<String> response, TypeReference<T> type){
         T resDTO = null;
         boolean success = false;
         try{
             if(Objects.isNull(response)) return null;
-            switch (response.statusCode()){
-                case HttpStatusCodes.STATUS_CODE_OK:
-                case HttpStatusCodes.STATUS_CODE_ACCEPTED:
-                    resDTO = mapper.readValue(response.body(), clazz);
-                    success = true;
-                    break;
-                default:
-                    exResponse = mapper.readValue(response.body(), ExceptionResponse.class);
-                    break;
-            }
-            return success ? resDTO : exResponse;
+            return mapper.readValue(response.body(), type);
         }catch (Exception exception){
             exception.printStackTrace();
-            return false;
+            return null;
         }
     }
 

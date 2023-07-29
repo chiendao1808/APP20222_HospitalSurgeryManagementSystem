@@ -13,7 +13,7 @@ public class ApiUtils {
      * @param detailPath : đường dẫn chi tiết của API
      * @param params : các tham số truyền vào URL
      */
-    public static String buildURI(String detailPath, Map<String, String> params) throws URISyntaxException {
+    public static String buildURI(String detailPath, Map<String, String> params) {
         try {
             URIBuilder uriBuilder = new URIBuilder();
             uriBuilder.setScheme(ApiConstants.HTTP_SCHEME);

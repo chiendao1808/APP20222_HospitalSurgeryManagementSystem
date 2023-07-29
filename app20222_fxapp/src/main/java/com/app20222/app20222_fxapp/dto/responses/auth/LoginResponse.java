@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Builder
@@ -16,6 +17,7 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LoginResponse {
 
+    @NotNull
     String accessToken;
 
     String refreshToken;
