@@ -1,8 +1,15 @@
 package com.app20222.app20222_fxapp.app_controllers.patient_view;
 
 import com.app20222.app20222_fxapp.MainApplication;
-import com.app20222.app20222_fxapp.app_controllers.ShowScreen;
+import com.app20222.app20222_fxapp.dto.responses.exception.ExceptionResponse;
 import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListDTO;
+import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListNewDTO;
+import com.app20222.app20222_fxapp.enums.apis.APIDetails;
+import com.app20222.app20222_fxapp.utils.apiUtils.ApiUtils;
+import com.app20222.app20222_fxapp.utils.httpUtils.HttpUtils;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.api.client.http.HttpMethods;
+import com.google.api.client.http.HttpStatusCodes;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.FXCollections;
@@ -10,7 +17,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -18,10 +24,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import lombok.Data;
 
 import java.io.IOException;
-import java.net.URL;
+import java.net.http.HttpResponse;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -135,6 +140,16 @@ public class PatientController {
     private ObservableList<PatientGetListDTO> getDataFromDataSource() {
         // Replace this method with your actual logic to fetch data from the data source
         List<PatientGetListDTO> patients = new ArrayList<>();
+        List<PatientGetListNewDTO> patientsNew = null;
+        String uri = ApiUtils.buildURI(APIDetails.PATIENT_GET_LIST.getRequestPath() + APIDetails.PATIENT_GET_LIST.getDetailPath(), new HashMap<>());
+        HttpResponse<String> response = HttpUtils.doRequest(uri, HttpMethods.GET, null, new HashMap<>());
+        // api call successfully (status = 200)
+        if (Objects.equals(response.statusCode(), HttpStatusCodes.STATUS_CODE_OK)) {
+            patientsNew = HttpUtils.handleResponse(response, new TypeReference<>() {});
+            System.out.println(patientsNew);
+        } else {
+            System.out.println(HttpUtils.handleResponse(response, new TypeReference<ExceptionResponse>() {}));
+        }
         patients.add(new PatientGetListDTO(1L, "1234567890", "2345544455", "John", "Doe", LocalDate.now(), "Address 1", "1234567890", "john.doe@example.com"));
         patients.add(new PatientGetListDTO(2L, "0987654321", "6644333222", "Jane", "Smith", LocalDate.now(), "Address 2", "0987654321", "jane.smith@example.com"));
         return FXCollections.observableArrayList(patients);

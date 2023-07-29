@@ -1,11 +1,10 @@
 package com.app20222.app20222_fxapp.dto.responses.patient;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Date;
+import com.app20222.app20222_fxapp.utils.DateUtils;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+
 
 @Data
 public class PatientGetListDTO {
@@ -20,6 +19,7 @@ public class PatientGetListDTO {
 
     private String lastName;
 
+    @JsonFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_SLASH, timezone = DateUtils.TIME_ZONE)
     private LocalDate birthDate;
 
     private String address;

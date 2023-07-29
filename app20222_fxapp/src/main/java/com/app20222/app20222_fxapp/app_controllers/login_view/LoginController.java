@@ -8,6 +8,7 @@ import com.app20222.app20222_fxapp.dto.responses.exception.ExceptionResponse;
 import com.app20222.app20222_fxapp.enums.apis.APIDetails;
 import com.app20222.app20222_fxapp.utils.apiUtils.ApiUtils;
 import com.app20222.app20222_fxapp.utils.httpUtils.HttpUtils;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.api.client.http.HttpMethods;
 import com.google.api.client.http.HttpStatusCodes;
 import javafx.event.ActionEvent;
@@ -115,22 +116,22 @@ public class LoginController {
             // Check login response
             // Logic xử lý response
             LoginResponse loginResponse;
-            ExceptionResponse exceptionResponse = null;
-            Object res = HttpUtils.handleResponse(response, LoginResponse.class, exceptionResponse);
-            if (Objects.nonNull(response) && Objects.nonNull(res)) {
-                if (res instanceof LoginResponse) {
-                    loginResponse = (LoginResponse) res;
-                    // Set authentication info in application context
+            if (Objects.nonNull(response)) {
+                // Login success
+                if (Objects.equals(response.statusCode(), HttpStatusCodes.STATUS_CODE_OK)) {
+                    loginResponse = HttpUtils.handleResponse(response, new TypeReference<>() {});
+                    // Log in success then set authentication info in application context
                     ApplicationContext.accessToken = loginResponse.getAccessToken();
                     ApplicationContext.refreshToken = loginResponse.getRefreshToken();
                     ApplicationContext.roles = loginResponse.getRoles();
                     ApplicationContext.features = loginResponse.getFeatures();
+                } else { // Login fail
+                    System.out.println(HttpUtils.handleResponse(response, new TypeReference<ExceptionResponse>() {}));
                 }
                 return response.statusCode();
             }
         } catch (Exception exception) {
             exception.printStackTrace();
-            return -1;
         }
         return -1;
     }
