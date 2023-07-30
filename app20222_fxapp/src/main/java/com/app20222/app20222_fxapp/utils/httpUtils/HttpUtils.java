@@ -155,8 +155,6 @@ public class HttpUtils {
      * Handle response
      */
     public static <T> T handleResponse(HttpResponse<String> response, TypeReference<T> type){
-        T resDTO = null;
-        boolean success = false;
         try{
             if(Objects.isNull(response)) return null;
             return mapper.readValue(response.body(), type);

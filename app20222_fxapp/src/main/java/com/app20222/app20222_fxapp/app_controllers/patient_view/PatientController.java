@@ -286,15 +286,6 @@ public class PatientController {
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Tạo mới bệnh nhân");
             dialogStage.setScene(new Scene(root));
-            AddPatientController addPatientController = loader.getController();
-            dialogStage.setOnHidden(e -> {
-                // Retrieve the newly added patient information from the AddPatientController
-                PatientGetListDTO newPatient = addPatientController.submit();
-                if (newPatient != null) {
-                    // Add the new patient to the table
-                    this.addNewPatient(newPatient);
-                }
-            });
             dialogStage.show();
 
         } catch (IOException e) {
