@@ -1,65 +1,33 @@
 package com.app20222.app20222_fxapp.dto.responses.patient;
 
-import java.time.LocalDate;
-import com.app20222.app20222_fxapp.utils.DateUtils;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
+import lombok.*;
 
-
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class PatientGetListDTO {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class PatientGetListDTO extends PatientGetListNewDTO {
 
     private Long patientId;
-
     private String identificationNumber;
-
     private String healthInsuranceNumber;
-
     private String firstName;
-
     private String lastName;
-
-    @JsonFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_SLASH, timezone = DateUtils.TIME_ZONE)
-    private LocalDate birthDate;
-
-    private String address;
-
-    private String phoneNumber;
-
     private String email;
-
-    public PatientGetListDTO() {
-    }
-
-    public PatientGetListDTO(Long patientId, String identificationNumber, String healthInsuranceNumber, String firstName, String lastName,
-        LocalDate birthDate, String address, String phoneNumber, String email) {
-        this.patientId = patientId;
-        this.identificationNumber = identificationNumber;
-        this.healthInsuranceNumber = healthInsuranceNumber;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthDate = birthDate;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-    }
-
-    public String getNamePatient() {
-        return firstName + " " + lastName;
-    }
 
     @Override
     public String toString() {
         return "PatientGetListDTO{" +
-            "patientId=" + patientId +
-            ", identificationNumber='" + identificationNumber + '\'' +
-            ", healthInsuranceNumber='" + healthInsuranceNumber + '\'' +
-            ", firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", birthDate=" + birthDate +
-            ", address='" + address + '\'' +
-            ", phoneNumber='" + phoneNumber + '\'' +
-            ", email='" + email + '\'' +
-            '}';
+                "patientId=" + patientId +
+                ", identificationNumber='" + identificationNumber + '\'' +
+                ", healthInsuranceNumber='" + healthInsuranceNumber + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", birthday='" + getBirthDate() + '\'' +
+                ", address='" + getAddress() + '\'' +
+                ", phoneNumber='" + getPhoneNumber() + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

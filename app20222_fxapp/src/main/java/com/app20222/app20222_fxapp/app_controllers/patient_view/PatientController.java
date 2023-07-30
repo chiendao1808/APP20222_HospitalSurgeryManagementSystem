@@ -33,101 +33,84 @@ import java.util.*;
 public class PatientController {
 
     @FXML
-    private TableView<PatientGetListDTO> patientTable;
+    private TableView<PatientGetListNewDTO> patientTable;
     @FXML
     private TableColumn<PatientGetListDTO, String> patientActionColumn;
 
     @FXML
-    private TableColumn<PatientGetListDTO, String> patientCodeColumn;
+    private TableColumn<PatientGetListNewDTO, String> patientCodeColumn;
 
     @FXML
-    private TableColumn<PatientGetListDTO, String> patientEmailColumn;
+    private TableColumn<PatientGetListNewDTO, String> patientAddressColumn;
+
 
     @FXML
-    private TableColumn<PatientGetListDTO, String> patientHealthInsuranceNumberColumn;
+    private TableColumn<PatientGetListNewDTO, String> patientBirthdayColumn;
 
     @FXML
-    private TableColumn<PatientGetListDTO, String> patientBirthdayColumn;
+    private TableColumn<PatientGetListNewDTO, String> patientNameColumn;
+    @FXML
+    private TableColumn<PatientGetListNewDTO, Long> patientIdColumn;
 
     @FXML
-    private TableColumn<PatientGetListDTO, String> patientNameColumn;
-    @FXML
-    private TableColumn<PatientGetListDTO, String> patientFirstNameColumn;
-
-    @FXML
-    private TableColumn<PatientGetListDTO, String> patientLastNameColumn;
-    @FXML
-    private TableColumn<PatientGetListDTO, Long> patientIdColumn;
-
-    @FXML
-    private TableColumn<PatientGetListDTO, String> patientPhoneColumn;
+    private TableColumn<PatientGetListNewDTO, String> patientPhoneColumn;
 
 
     public PatientController() {
     }
 
-    public PatientController(TableView<PatientGetListDTO> patientTable,
-        TableColumn<PatientGetListDTO, String> codeColumn,
-        TableColumn<PatientGetListDTO, String> emailColumn,
-        TableColumn<PatientGetListDTO, String> healthInsuranceNumberColumn,
-        TableColumn<PatientGetListDTO, String> birthdayColumn,
-        TableColumn<PatientGetListDTO, String> nameColumn,
-        TableColumn<PatientGetListDTO, String> firstNameColumn,
-        TableColumn<PatientGetListDTO, String> lastNameColumn,
-        TableColumn<PatientGetListDTO, Long> idColumn,
-        TableColumn<PatientGetListDTO, String> phoneColumn,
-        TableColumn<PatientGetListDTO, String> patientActionColumn) {
+    public PatientController(TableView<PatientGetListNewDTO> patientTable,
+                             TableColumn<PatientGetListNewDTO, Long> idColumn,
+                             TableColumn<PatientGetListNewDTO, String> nameColumn,
+                             TableColumn<PatientGetListNewDTO, String> codeColumn,
+                             TableColumn<PatientGetListNewDTO, String> birthdayColumn,
+                             TableColumn<PatientGetListNewDTO, String> phoneColumn,
+        TableColumn<PatientGetListNewDTO, String> addressColumn,
+        TableColumn<PatientGetListDTO, String> actionColumn) {
         this.patientTable = patientTable;
-        this.patientCodeColumn = codeColumn;
-        this.patientEmailColumn = emailColumn;
-        this.patientHealthInsuranceNumberColumn = healthInsuranceNumberColumn;
-        this.patientBirthdayColumn = birthdayColumn;
-        this.patientNameColumn = nameColumn;
-        this.patientFirstNameColumn = firstNameColumn;
-        this.patientLastNameColumn = lastNameColumn;
         this.patientIdColumn = idColumn;
+        this.patientNameColumn = nameColumn;
+        this.patientCodeColumn = codeColumn;
+        this.patientBirthdayColumn = birthdayColumn;
         this.patientPhoneColumn = phoneColumn;
-        this.patientActionColumn = patientActionColumn;
+        this.patientAddressColumn = addressColumn;
+        this.patientActionColumn = actionColumn;
         // Initialize the table with the provided columns
     }
 
-    public TableColumn<PatientGetListDTO, Long> getPatientIdColumn() {
+    public TableColumn<PatientGetListNewDTO, Long> getPatientIdColumn() {
         return patientIdColumn;
+    }
+
+    public TableColumn<PatientGetListNewDTO, String> getPatientNameColumn() {
+        return patientNameColumn;
+    }
+
+    public TableColumn<PatientGetListNewDTO, String> getPatientCodeColumn() {
+        return patientCodeColumn;
+    }
+
+    public TableColumn<PatientGetListNewDTO, String> getPatientBirthdayColumn() {
+        return patientBirthdayColumn;
+    }
+
+    public TableColumn<PatientGetListNewDTO, String> getPatientPhoneColumn() {
+        return patientPhoneColumn;
+    }
+
+    public TableColumn<PatientGetListNewDTO, String> getPatientAddressColumn() {
+        return patientAddressColumn;
     }
 
     public TableColumn<PatientGetListDTO, String> getPatientActionColumn() {
         return patientActionColumn;
     }
 
-    public TableColumn<PatientGetListDTO, String> getPatientEmailColumn() {
-        return patientEmailColumn;
-    }
-
-    public TableColumn<PatientGetListDTO, String> getPatientCodeColumn() {
-        return patientCodeColumn;
-    }
-
-    public TableColumn<PatientGetListDTO, String> getPatientHealthInsuranceNumberColumn() {
-        return patientHealthInsuranceNumberColumn;
-    }
-
-    public TableColumn<PatientGetListDTO, String> getPatientBirthdayColumn() {
-        return patientBirthdayColumn;
-    }
-
-    public TableColumn<PatientGetListDTO, String> getPatientNameColumn() {
-        return patientNameColumn;
-    }
-
-    public TableColumn<PatientGetListDTO, String> getPatientPhoneColumn() {
-        return patientPhoneColumn;
-    }
-
     // Khởi tạo table
     public void initializeTable() {
         // Lấy danh sách bệnh nhân từ nguồn dữ liệu của bạn
-        ObservableList<PatientGetListDTO> patientList = getDataFromDataSource();
-
+        ObservableList<PatientGetListNewDTO> patientList = getDataFromDataSource();
+        System.out.println("patientList" + patientList);
         setupTableColumns();
         setupEditDeleteButtons();
 
@@ -137,9 +120,8 @@ public class PatientController {
     }
 
     // Tạo list patients (api gọi lấy danh sách ở đây)
-    private ObservableList<PatientGetListDTO> getDataFromDataSource() {
+    private ObservableList<PatientGetListNewDTO> getDataFromDataSource() {
         // Replace this method with your actual logic to fetch data from the data source
-        List<PatientGetListDTO> patients = new ArrayList<>();
         List<PatientGetListNewDTO> patientsNew = null;
         String uri = ApiUtils.buildURI(APIDetails.PATIENT_GET_LIST.getRequestPath() + APIDetails.PATIENT_GET_LIST.getDetailPath(), new HashMap<>());
         HttpResponse<String> response = HttpUtils.doRequest(uri, HttpMethods.GET, null, new HashMap<>());
@@ -150,20 +132,16 @@ public class PatientController {
         } else {
             System.out.println(HttpUtils.handleResponse(response, new TypeReference<ExceptionResponse>() {}));
         }
-        patients.add(new PatientGetListDTO(1L, "1234567890", "2345544455", "John", "Doe", LocalDate.now(), "Address 1", "1234567890", "john.doe@example.com"));
-        patients.add(new PatientGetListDTO(2L, "0987654321", "6644333222", "Jane", "Smith", LocalDate.now(), "Address 2", "0987654321", "jane.smith@example.com"));
-        return FXCollections.observableArrayList(patients);
+        return FXCollections.observableArrayList(patientsNew);
     }
     // Thêm các thông tin vào bảng sau khi đã có danh sách bệnh nhân
     public void setupTableColumns() {
-        this.patientIdColumn.setCellValueFactory(new PropertyValueFactory<>("patientId"));
-        this.patientCodeColumn.setCellValueFactory(new PropertyValueFactory<>("identificationNumber"));
-        this.patientFirstNameColumn.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        this.patientLastNameColumn.setCellValueFactory(new PropertyValueFactory<>("lastName"));
+        this.patientIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        this.patientNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        this.patientCodeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
         this.patientBirthdayColumn.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
-        this.patientHealthInsuranceNumberColumn.setCellValueFactory(new PropertyValueFactory<>("healthInsuranceNumber"));
-        this.patientEmailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
         this.patientPhoneColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
+        this.patientAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
     }
 
     // Hàm tạo 2 nút edit và delete

@@ -1,19 +1,25 @@
 package com.app20222.app20222_fxapp.app_controllers.patient_view;
 
 import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListDTO;
+import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListNewDTO;
+import com.app20222.app20222_fxapp.enums.apis.APIDetails;
+import com.app20222.app20222_fxapp.utils.apiUtils.ApiUtils;
+import com.app20222.app20222_fxapp.utils.httpUtils.HttpUtils;
+import com.google.api.client.http.HttpMethods;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import org.w3c.dom.ls.LSOutput;
+import javafx.util.StringConverter;
+import org.apache.commons.io.ByteOrderMark;
 
 import java.net.URL;
+import java.net.http.HttpResponse;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class AddPatientController implements Initializable {
 
@@ -49,6 +55,8 @@ public class AddPatientController implements Initializable {
 
     private boolean editMode = false;
     private PatientGetListDTO originalPatient;
+    // dùng cho loại gấy chưn thực
+    private final Map<String, String> identityTypeMap = new HashMap<>();
     public AddPatientController() {}
 
     public void setEditMode(boolean editMode) {
@@ -64,14 +72,59 @@ public class AddPatientController implements Initializable {
 
     public void initialize(URL location, ResourceBundle resources) {
         setupIdentityTypes();
+        setBirthDateView();
         setupButtonEventFilters();
     }
     public void setupIdentityTypes() {
-        ObservableList<String> identityTypes = FXCollections.observableArrayList(
-                "Căn cước công dân", "Chứng minh nhân dân", "Hộ chiếu"
-        );
-        identityTypeView.setItems(identityTypes);
+        identityTypeMap.put("Căn cước công dân", "CITIZEN_ID_CARD");
+        identityTypeMap.put("Chứng minh nhân dân", "IDENTIFICATION_CARD");
+        identityTypeMap.put("Hộ chiếu", "PASSPORT");
+        System.out.println(identityTypeMap);
+        // Create an ObservableList to hold the labels for the identity types
+        ObservableList<String> identityTypeLabels = FXCollections.observableArrayList(identityTypeMap.keySet());
+
+        // Set the items in the ComboBox to display the identity type labels
+        identityTypeView.setItems(identityTypeLabels);
+
+        // Set a StringConverter to map the selected label to its corresponding value
+        identityTypeView.setConverter(new StringConverter<String>() {
+            @Override
+            public String toString(String label) {
+                return label; // Display the label in the ComboBox
+            }
+
+            @Override
+            public String fromString(String string) {
+                // Convert the label back to its corresponding value
+                return identityTypeMap.get(string);
+            }
+        });
     }
+    public void setBirthDateView() {
+        // Set the date format for the DatePicker to "dd/MM/yyyy"
+        birthDateView.setConverter(new StringConverter<>() {
+            final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            @Override
+            public String toString(LocalDate localDate) {
+                if (localDate != null) {
+                    return dateFormatter.format(localDate);
+                } else {
+                    return "";
+                }
+            }
+
+            @Override
+            public LocalDate fromString(String dateString) {
+                if (dateString != null && !dateString.trim().isEmpty()) {
+                    return LocalDate.parse(dateString, dateFormatter);
+                } else {
+                    return null;
+                }
+            }
+        });
+    }
+
     private void setupButtonEventFilters() {
         createPatientPane.getButtonTypes().stream()
                 .filter(buttonType -> buttonType.getButtonData() == ButtonType.OK.getButtonData() ||
@@ -129,13 +182,14 @@ public class AddPatientController implements Initializable {
             String identificationNumber = identificationNumberView.getText();
             String firstName = firstNameView.getText();
             String lastName = lastNameView.getText();
-            String identityType = identityTypeView.getValue();
+            String identityTypeLabel = identityTypeView.getValue();
             String healthInsuranceNumber = healthInsuranceNumberView.getText();
-            LocalDate birthDate = birthDateView.getValue();
+            LocalDate birthDateRaw = birthDateView.getValue();
             String address = addressView.getText();
             String phoneNumber = phoneNumberView.getText();
             String email = emailView.getText();
-
+            String identityType = identityTypeMap.get(identityTypeLabel);
+            String birthDate = birthDateView.getConverter().toString(birthDateRaw);
             // Kiểm tra tính hợp lệ của email
             boolean isEmailValid = isValidEmail(email);
             // Kiểm tra tính hợp lệ của số điện thoại
@@ -143,8 +197,8 @@ public class AddPatientController implements Initializable {
 
             if (isEmailValid && isPhoneNumberValid) {
                 // Hiển thị giá trị đã nhập
-                System.out.println("Loại giấy chứng thực: " + identityType);
                 System.out.println("Mã số chứng thức: " + identificationNumber);
+                System.out.println("Loa giấy tờ" + identityType);
                 System.out.println("Họ: " + lastName);
                 System.out.println("Tên: " + firstName);
                 System.out.println("Thẻ bảo hiểm y tế: " + healthInsuranceNumber);
@@ -155,34 +209,27 @@ public class AddPatientController implements Initializable {
                 // Gather the information from the input fields
                 if(editMode){
                     PatientGetListDTO newPatient = new PatientGetListDTO(
-                            getOriginalPatient().getPatientId(),
-                            identificationNumber,
-                            healthInsuranceNumber,
-                            firstName,
-                            lastName,
-                            birthDate,
-                            address,
-                            phoneNumber,
-                            email
+
                     );
                     createPatientPane.getScene().getWindow().hide();
                     return newPatient;
                 } else {
-                    Random random = new Random();
-                    long id = random.nextInt(100);
-                    PatientGetListDTO newPatient = new PatientGetListDTO(
-                            id,
-                            identificationNumber,
-                            healthInsuranceNumber,
-                            firstName,
-                            lastName,
-                            birthDate,
-                            address,
-                            phoneNumber,
-                            email
-                    );
+                    String uri = ApiUtils.buildURI(APIDetails.PATIENT_CREATE.getRequestPath() + APIDetails.PATIENT_CREATE.getDetailPath(), new HashMap<>());
+                    PatientGetListDTO patientsNew = PatientGetListDTO.builder()
+                            .identificationNumber(identificationNumber)
+                            .healthInsuranceNumber(healthInsuranceNumber)
+                            .firstName(firstName)
+                            .lastName(lastName)
+                            .email(email)
+                            .build();
+                    patientsNew.setBirthDate(new Date());
+                    patientsNew.setAddress(address);
+                    patientsNew.setPhoneNumber(phoneNumber);
+                    System.out.println("patientsNew" + patientsNew);
+                    HttpResponse<String> response = HttpUtils.doRequest(uri, HttpMethods.POST,patientsNew , new HashMap<>());
+                    System.out.println("response" + response);
                     createPatientPane.getScene().getWindow().hide();
-                    return newPatient;
+                    return null;
                 }
 
             } else {
@@ -206,7 +253,7 @@ public class AddPatientController implements Initializable {
 
 
     public void setText(String identificationNumber, String firstName, String lastName, String identityType,
-        String healthInsuranceNumber, LocalDate birthDate, String address, String phoneNumber, String email) {
+                        String healthInsuranceNumber, Date birthDate, String address, String phoneNumber, String email) {
         if (identificationNumber != null) {
             identificationNumberView.setText(identificationNumber);
         }
@@ -223,7 +270,7 @@ public class AddPatientController implements Initializable {
             healthInsuranceNumberView.setText(healthInsuranceNumber);
         }
         if (birthDate != null) {
-            birthDateView.setValue(birthDate);
+            birthDateView.setValue(LocalDate.parse((CharSequence) birthDate));
         }
         if (address != null) {
             addressView.setText(address);

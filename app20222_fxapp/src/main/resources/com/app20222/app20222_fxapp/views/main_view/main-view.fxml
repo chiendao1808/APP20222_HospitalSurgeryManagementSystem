@@ -192,18 +192,12 @@
                                           <TableView fx:id="patientTable" layoutX="10.0" layoutY="66.0" prefHeight="506.0" prefWidth="1120.0" stylesheets="@../patient_view/patient.css">
                                             <columns>
                                               <TableColumn fx:id="patientIdColumn" prefWidth="43.20001220703125" text="STT" />
-                                                <TableColumn fx:id="patientCodeColumn" prefWidth="91.20000839233398" text="Mã bệnh nhân" />
-                                                <TableColumn fx:id="patientINameColumn" minWidth="0.0" prefWidth="324.79994201660156" text="Tên bệnh nhân">
-                                                   <columns>
-                                                      <TableColumn fx:id="patientIFirstNameColumn" minWidth="0.0" prefWidth="124.00004577636719" text="Họ" />
-                                                      <TableColumn fx:id="patientILastNameColumn" minWidth="0.0" prefWidth="178.4000244140625" text="Tên" />
-                                                   </columns>
-                                                </TableColumn>
-                                                <TableColumn fx:id="patientIBirthdayColumn" minWidth="0.0" prefWidth="118.39996337890625" text="Năm sinh" />
+                                                <TableColumn fx:id="patientCodeColumn" prefWidth="140.00000762939453" text="Mã bệnh nhân" />
+                                                <TableColumn fx:id="patientINameColumn" minWidth="0.0" prefWidth="219.19998168945312" text="Tên bệnh nhân" />
+                                                <TableColumn fx:id="patientIBirthdayColumn" minWidth="0.0" prefWidth="176.00003051757812" text="Năm sinh" />
                                                 <TableColumn fx:id="patientPhoneColumn" prefWidth="126.40008544921875" text="Số điện thoại" />
-                                                <TableColumn fx:id="patientEmailColumn" prefWidth="186.39996337890625" text="Email" />
-                                                <TableColumn fx:id="patientHealthInsuranceNumberColumn" prefWidth="139.20001220703125" text="Mã bảo hiểm y tế" />
-                                                <TableColumn fx:id="patientActionColumn" prefWidth="105.5999755859375" text="Hành động" />
+                                                <TableColumn fx:id="patientAddressColumn" prefWidth="302.4000244140625" text="Địa chỉ" />
+                                                <TableColumn fx:id="patientActionColumn" prefWidth="108.0" text="Hành động" />
                                             </columns>
                                           </TableView>
                                           <Button fx:id="createPatient" layoutX="1066.0" layoutY="14.0" mnemonicParsing="false" onAction="#showModal" text="Tạo">

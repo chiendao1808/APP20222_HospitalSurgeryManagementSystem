@@ -6,6 +6,7 @@ import com.app20222.app20222_fxapp.app_controllers.patient_view.PatientControlle
 import com.app20222.app20222_fxapp.app_controllers.surgery_view.SurgeryController;
 import com.app20222.app20222_fxapp.dto.responses.BaseResponse;
 import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListDTO;
+import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListNewDTO;
 import com.app20222.app20222_fxapp.dto.responses.surgery.SurgeryGetListDTO;
 import com.app20222.app20222_fxapp.enums.apis.APIDetails;
 import com.app20222.app20222_fxapp.utils.apiUtils.ApiUtils;
@@ -100,35 +101,28 @@ public class MainController implements Initializable {
     @FXML
     private Button createPatient;
     @FXML
-    private TableView<PatientGetListDTO> patientTable;
+    private TableView<PatientGetListNewDTO> patientTable;
     @FXML
     private TableColumn<PatientGetListDTO, String> patientActionColumn;
 
     @FXML
-    private TableColumn<PatientGetListDTO, String> patientCodeColumn;
+    private TableColumn<PatientGetListNewDTO, String> patientCodeColumn;
 
     @FXML
-    private TableColumn<PatientGetListDTO, String> patientEmailColumn;
+    private TableColumn<PatientGetListNewDTO, String> patientAddressColumn;
+
 
     @FXML
-    private TableColumn<PatientGetListDTO, String> patientHealthInsuranceNumberColumn;
+    private TableColumn<PatientGetListNewDTO, String> patientIBirthdayColumn;
 
     @FXML
-    private TableColumn<PatientGetListDTO, String> patientIBirthdayColumn;
+    private TableColumn<PatientGetListNewDTO, String> patientINameColumn;
 
     @FXML
-    private TableColumn<PatientGetListDTO, String> patientINameColumn;
-    @FXML
-    private TableColumn<PatientGetListDTO, String> patientIFirstNameColumn;
+    private TableColumn<PatientGetListNewDTO, Long> patientIdColumn;
 
     @FXML
-    private TableColumn<PatientGetListDTO, String> patientILastNameColumn;
-
-    @FXML
-    private TableColumn<PatientGetListDTO, Long> patientIdColumn;
-
-    @FXML
-    private TableColumn<PatientGetListDTO, String> patientPhoneColumn;
+    private TableColumn<PatientGetListNewDTO, String> patientPhoneColumn;
 
     //  Ca phẫu thuật
     @FXML
@@ -251,8 +245,7 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        patientController = new PatientController(patientTable, patientCodeColumn, patientEmailColumn, patientHealthInsuranceNumberColumn,
-            patientIBirthdayColumn, patientINameColumn, patientIFirstNameColumn, patientILastNameColumn, patientIdColumn, patientPhoneColumn,
+        patientController = new PatientController(patientTable, patientIdColumn,patientINameColumn,patientCodeColumn,patientIBirthdayColumn,patientPhoneColumn,patientAddressColumn,
             patientActionColumn);
         patientController.initializeTable();
     }
