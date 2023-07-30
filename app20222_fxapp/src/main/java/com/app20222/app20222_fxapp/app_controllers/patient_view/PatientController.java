@@ -1,15 +1,10 @@
 package com.app20222.app20222_fxapp.app_controllers.patient_view;
 
 import com.app20222.app20222_fxapp.MainApplication;
-import com.app20222.app20222_fxapp.dto.responses.exception.ExceptionResponse;
 import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListDTO;
 import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListNewDTO;
-import com.app20222.app20222_fxapp.enums.apis.APIDetails;
-import com.app20222.app20222_fxapp.utils.apiUtils.ApiUtils;
-import com.app20222.app20222_fxapp.utils.httpUtils.HttpUtils;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.google.api.client.http.HttpMethods;
-import com.google.api.client.http.HttpStatusCodes;
+import com.app20222.app20222_fxapp.exceptions.api_exception.ApiResponseException;
+import com.app20222.app20222_fxapp.services.patient.PatientAPIService;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.collections.FXCollections;
@@ -26,8 +21,6 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
-import java.net.http.HttpResponse;
-import java.time.LocalDate;
 import java.util.*;
 
 public class PatientController {
@@ -55,6 +48,8 @@ public class PatientController {
     @FXML
     private TableColumn<PatientGetListNewDTO, String> patientPhoneColumn;
 
+    private PatientAPIService patientAPIService;
+
 
     public PatientController() {
     }
@@ -75,6 +70,7 @@ public class PatientController {
         this.patientPhoneColumn = phoneColumn;
         this.patientAddressColumn = addressColumn;
         this.patientActionColumn = actionColumn;
+        this.patientAPIService = new PatientAPIService();
         // Initialize the table with the provided columns
     }
 
@@ -110,7 +106,6 @@ public class PatientController {
     public void initializeTable() {
         // Lấy danh sách bệnh nhân từ nguồn dữ liệu của bạn
         ObservableList<PatientGetListNewDTO> patientList = getDataFromDataSource();
-        System.out.println("patientList" + patientList);
         setupTableColumns();
         setupEditDeleteButtons();
 
@@ -119,20 +114,27 @@ public class PatientController {
         }
     }
 
+    /**
+     * Reload data when has a change
+     */
+    public void reloadTable() {
+        ObservableList<PatientGetListNewDTO> patientList = getDataFromDataSource();
+        if (patientTable != null) {
+            this.patientTable.setItems(patientList);
+        }
+    }
+
     // Tạo list patients (api gọi lấy danh sách ở đây)
     private ObservableList<PatientGetListNewDTO> getDataFromDataSource() {
         // Replace this method with your actual logic to fetch data from the data source
-        List<PatientGetListNewDTO> patientsNew = null;
-        String uri = ApiUtils.buildURI(APIDetails.PATIENT_GET_LIST.getRequestPath() + APIDetails.PATIENT_GET_LIST.getDetailPath(), new HashMap<>());
-        HttpResponse<String> response = HttpUtils.doRequest(uri, HttpMethods.GET, null, new HashMap<>());
-        // api call successfully (status = 200)
-        if (Objects.equals(response.statusCode(), HttpStatusCodes.STATUS_CODE_OK)) {
-            patientsNew = HttpUtils.handleResponse(response, new TypeReference<>() {});
-            System.out.println(patientsNew);
-        } else {
-            System.out.println(HttpUtils.handleResponse(response, new TypeReference<ExceptionResponse>() {}));
+        List<PatientGetListNewDTO> lstPatient = new ArrayList<>();
+        try {
+            lstPatient = patientAPIService.getListPatient(new HashMap<>());
+        } catch (ApiResponseException exception) {
+            exception.printStackTrace();
+            System.out.println(exception.getExceptionResponse());
         }
-        return FXCollections.observableArrayList(patientsNew);
+        return FXCollections.observableArrayList(lstPatient);
     }
     // Thêm các thông tin vào bảng sau khi đã có danh sách bệnh nhân
     public void setupTableColumns() {
@@ -239,10 +241,11 @@ public class PatientController {
 
 
     // Hàm thực hiển mở dialogStage để chỉnh sửa thông tin bệnh nhân
+    @FXML
     private void openEditDialog(PatientGetListDTO patient) {
-        String FXMLPATH = "views/patient_view/create.fxml";
+        String fxmlPath = "views/patient_view/create.fxml";
         try {
-            FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource(FXMLPATH));
+            FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource(fxmlPath));
             Parent root = loader.load();
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Chỉnh sửa bệnh nhân");
@@ -263,10 +266,11 @@ public class PatientController {
             );
             dialogStage.setOnHidden(e -> {
                 // Retrieve the updated patient information from the AddPatientController
-                PatientGetListDTO updatedPatient = addPatientController.submit();
-                if (updatedPatient != null) {
+                Boolean resultSubmit = addPatientController.submit();
+                if (Objects.equals(resultSubmit, true)) {
                     // Update the patient in the table
-                    updatePatientInTable(patient, updatedPatient);
+//                    updatePatientInTable(patient, updatedPatient);
+                    reloadTable();
                 }
             });
             dialogStage.show();
@@ -276,21 +280,35 @@ public class PatientController {
         }
     }
 
-    // Show dialogStage thêm mới bệnh nhn
-    @FXML
-    public void showModal(ActionEvent event) {
-        String FXMLPATH = "views/patient_view/create.fxml";
+    /**
+     * Handle create dialog
+     */
+    public void openCreateDialog() {
+        String fxmlPath = "views/patient_view/create.fxml";
         try {
-            FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource(FXMLPATH));
+            FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource(fxmlPath));
             Parent root = loader.load();
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Tạo mới bệnh nhân");
             dialogStage.setScene(new Scene(root));
+            AddPatientController addPatientController = loader.getController();
+            dialogStage.setOnHidden(e -> {
+                Boolean resultSubmit = addPatientController.submit();
+                if (Objects.equals(resultSubmit, true)) {
+                    reloadTable();
+                }
+            });
             dialogStage.show();
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+
+    // Show dialogStage thêm mới bệnh nhân
+    @FXML
+    public void showModal(ActionEvent event) {
+        openCreateDialog();
     }
 
 }
