@@ -35,6 +35,8 @@ public class ErrorKey {
 
         public static final String IDENTIFICATION_NUMBER = "identification_number";
 
+        public static final String HEALTH_INSURANCE_NUMBER = "health_insurance_number";
+
         public static final String CODE = "code";
 
     }

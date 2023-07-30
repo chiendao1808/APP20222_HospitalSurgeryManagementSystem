@@ -1,15 +1,11 @@
 package com.app20222.app20222_fxapp.app_controllers.patient_view;
 
 import com.app20222.app20222_fxapp.dto.requests.patient.PatientCreateDTO;
-import com.app20222.app20222_fxapp.dto.responses.exception.ExceptionResponse;
 import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListDTO;
-import com.app20222.app20222_fxapp.enums.apis.APIDetails;
 import com.app20222.app20222_fxapp.enums.users.IdentityTypeEnum;
+import com.app20222.app20222_fxapp.exceptions.api_exception.ApiResponseException;
+import com.app20222.app20222_fxapp.services.patient.PatientAPIService;
 import com.app20222.app20222_fxapp.utils.DateUtils;
-import com.app20222.app20222_fxapp.utils.apiUtils.ApiUtils;
-import com.app20222.app20222_fxapp.utils.httpUtils.HttpUtils;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.google.api.client.http.HttpStatusCodes;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,7 +15,6 @@ import javafx.scene.control.*;
 import javafx.util.StringConverter;
 
 import java.net.URL;
-import java.net.http.HttpResponse;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -57,9 +52,13 @@ public class AddPatientController implements Initializable {
     private TextField phoneNumberView;
 
     private boolean editMode = false;
+
+    private Boolean reloadRequired = false;
     private PatientGetListDTO originalPatient;
     // dùng cho loại gấy chưn thực
     private final Map<String, String> identityTypeMap = new HashMap<>();
+
+    private PatientAPIService patientAPIService;
 
     public AddPatientController() {
     }
@@ -80,6 +79,7 @@ public class AddPatientController implements Initializable {
         setupIdentityTypes();
         setBirthDateView();
         setupButtonEventFilters();
+        patientAPIService = new PatientAPIService();
     }
 
     public void setupIdentityTypes() {
@@ -176,13 +176,13 @@ public class AddPatientController implements Initializable {
 
     public void handleButtonAction(ButtonType buttonType) {
         if (buttonType.getButtonData() == ButtonType.OK.getButtonData()) {
-            handleOkButton();
-        } else if (buttonType.getButtonData() == ButtonType.CANCEL.getButtonData()) {
-            createPatientPane.getScene().getWindow().hide();
+            reloadRequired = handleOkButton();
         }
+        createPatientPane.getScene().getWindow().hide();
     }
 
-    public PatientGetListDTO handleOkButton() {
+    public Boolean handleOkButton() {
+        Boolean result = false;
         // Kiểm tra xem tất cả các trường đã được nhập
         if (isAllFieldsFilled()) {
             // Lấy giá trị từ các thành phần
@@ -217,10 +217,7 @@ public class AddPatientController implements Initializable {
                 if (editMode) {
                     PatientGetListDTO newPatient = new PatientGetListDTO();
                     createPatientPane.getScene().getWindow().hide();
-                    return newPatient;
                 } else {
-                    String uri = ApiUtils.buildURI(APIDetails.PATIENT_CREATE.getRequestPath() + APIDetails.PATIENT_CREATE.getDetailPath(),
-                        new HashMap<>());
                     PatientCreateDTO newPatient = PatientCreateDTO.builder()
                         .identityType(IdentityTypeEnum.typeOf(identityType))
                         .identificationNumber(identificationNumber)
@@ -233,20 +230,14 @@ public class AddPatientController implements Initializable {
                         .birthDate(DateUtils.asDate(birthDateRaw))
                         .build();
                     System.out.println("new patient " + newPatient.toString());
-                    HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.PATIENT_CREATE.getMethod(), newPatient, new HashMap<>());
-                    if (Objects.isNull(response)) {
-                        return null;
+                    // API Call
+                    try {
+                        result = patientAPIService.createPatient(newPatient);
+                    } catch (ApiResponseException exception) {
+                        exception.printStackTrace();
+                        System.out.println(exception.getExceptionResponse());
                     }
-                    if (Objects.equals(response.statusCode(), HttpStatusCodes.STATUS_CODE_OK)) {
-                        System.out.println("response" + response.body());
-                        createPatientPane.getScene().getWindow().hide();
-                    } else {
-                        // Log error from BE
-                        System.out.println(HttpUtils.handleResponse(response, new TypeReference<ExceptionResponse>() {}));
-                    }
-                    return null;
                 }
-
             } else {
                 // Hiển thị thông báo lỗi cho các trường không hợp lệ
                 StringBuilder errorMessages = new StringBuilder();
@@ -263,7 +254,7 @@ public class AddPatientController implements Initializable {
             // Hiển thị thông báo lỗi nếu chưa nhập đủ các trường
             displayErrorAlert("Vui lòng nhập đầy đủ thông tin trước khi tiếp tục.");
         }
-        return null;
+        return result;
     }
 
 
@@ -298,14 +289,11 @@ public class AddPatientController implements Initializable {
         }
     }
 
-    public PatientGetListDTO submit() {
-        if (isAllFieldsFilled() && isValidEmail(emailView.getText()) && isValidPhoneNumber(phoneNumberView.getText())) {
-            // Call handleOkButton to create a new patient
-            return handleOkButton();
-        } else {
-            // If the information is not valid, return null
-            return null;
-        }
+    /**
+     * Commit reload list patient request to PatientController
+     */
+    public Boolean submit() {
+       return reloadRequired;
     }
 
 }

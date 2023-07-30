@@ -17,6 +17,8 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 
     Boolean existsByIdentityTypeAndIdentificationNumber(Integer identityType, String identificationNumber);
 
+    Boolean existsByHealthInsuranceNumber(String healthInsuranceNumber);
+
     Boolean existsByIdNotAndIdentityTypeAndIdentificationNumber(Long id, Integer identityType, String identificationNumber);
 
 

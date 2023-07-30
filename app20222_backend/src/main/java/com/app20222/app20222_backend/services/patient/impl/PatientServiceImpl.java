@@ -54,6 +54,12 @@ public class PatientServiceImpl implements PatientService {
                 ErrorKey.Patient.IDENTIFICATION_NUMBER, createDTO.getIdentificationNumber());
         }
 
+        if(patientRepository.existsByHealthInsuranceNumber(createDTO.getHealthInsuranceNumber()))
+        {
+            throw exceptionFactory.resourceExistedException(EXISTED_ERROR_CODE, Resources.PATIENT, MessageConst.RESOURCE_EXISTED,
+                ErrorKey.Patient.HEALTH_INSURANCE_NUMBER, createDTO.getHealthInsuranceNumber());
+        }
+
         // Create new patient
         Patient newPatient = new com.app20222.app20222_backend.entities.patient.Patient();
         BeanUtils.copyProperties(createDTO, newPatient);
