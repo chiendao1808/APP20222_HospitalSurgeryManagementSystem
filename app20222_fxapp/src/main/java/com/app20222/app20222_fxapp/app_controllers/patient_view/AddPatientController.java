@@ -1,11 +1,15 @@
 package com.app20222.app20222_fxapp.app_controllers.patient_view;
 
+import com.app20222.app20222_fxapp.dto.requests.patient.PatientCreateDTO;
+import com.app20222.app20222_fxapp.dto.responses.exception.ExceptionResponse;
 import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListDTO;
-import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListNewDTO;
 import com.app20222.app20222_fxapp.enums.apis.APIDetails;
+import com.app20222.app20222_fxapp.enums.users.IdentityTypeEnum;
+import com.app20222.app20222_fxapp.utils.DateUtils;
 import com.app20222.app20222_fxapp.utils.apiUtils.ApiUtils;
 import com.app20222.app20222_fxapp.utils.httpUtils.HttpUtils;
-import com.google.api.client.http.HttpMethods;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.api.client.http.HttpStatusCodes;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,7 +17,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.util.StringConverter;
-import org.apache.commons.io.ByteOrderMark;
 
 import java.net.URL;
 import java.net.http.HttpResponse;
@@ -57,11 +60,14 @@ public class AddPatientController implements Initializable {
     private PatientGetListDTO originalPatient;
     // dùng cho loại gấy chưn thực
     private final Map<String, String> identityTypeMap = new HashMap<>();
-    public AddPatientController() {}
+
+    public AddPatientController() {
+    }
 
     public void setEditMode(boolean editMode) {
         this.editMode = editMode;
     }
+
     public void setPatient(PatientGetListDTO patient) {
         this.originalPatient = patient;
     }
@@ -75,19 +81,20 @@ public class AddPatientController implements Initializable {
         setBirthDateView();
         setupButtonEventFilters();
     }
+
     public void setupIdentityTypes() {
-        identityTypeMap.put("Căn cước công dân", "CITIZEN_ID_CARD");
-        identityTypeMap.put("Chứng minh nhân dân", "IDENTIFICATION_CARD");
-        identityTypeMap.put("Hộ chiếu", "PASSPORT");
+        identityTypeMap.put(IdentityTypeEnum.CITIZEN_ID_CARD.name(), IdentityTypeEnum.CITIZEN_ID_CARD.getType());
+        identityTypeMap.put(IdentityTypeEnum.ID_CARD.name(), IdentityTypeEnum.ID_CARD.getType());
+        identityTypeMap.put(IdentityTypeEnum.PASSPORT.name(), IdentityTypeEnum.PASSPORT.getType());
         System.out.println(identityTypeMap);
         // Create an ObservableList to hold the labels for the identity types
-        ObservableList<String> identityTypeLabels = FXCollections.observableArrayList(identityTypeMap.keySet());
+        ObservableList<String> identityTypeLabels = FXCollections.observableArrayList(identityTypeMap.values());
 
         // Set the items in the ComboBox to display the identity type labels
         identityTypeView.setItems(identityTypeLabels);
 
-        // Set a StringConverter to map the selected label to its corresponding value
-        identityTypeView.setConverter(new StringConverter<String>() {
+        // Set a StringConverter to map the selected identityType to its corresponding value
+        identityTypeView.setConverter(new StringConverter<>() {
             @Override
             public String toString(String label) {
                 return label; // Display the label in the ComboBox
@@ -96,10 +103,12 @@ public class AddPatientController implements Initializable {
             @Override
             public String fromString(String string) {
                 // Convert the label back to its corresponding value
-                return identityTypeMap.get(string);
+                IdentityTypeEnum type = IdentityTypeEnum.typeOf(string);
+                return type == null ? "" : type.name();
             }
         });
     }
+
     public void setBirthDateView() {
         // Set the date format for the DatePicker to "dd/MM/yyyy"
         birthDateView.setConverter(new StringConverter<>() {
@@ -127,13 +136,10 @@ public class AddPatientController implements Initializable {
 
     private void setupButtonEventFilters() {
         createPatientPane.getButtonTypes().stream()
-                .filter(buttonType -> buttonType.getButtonData() == ButtonType.OK.getButtonData() ||
-                        buttonType.getButtonData() == ButtonType.CANCEL.getButtonData())
-                .forEach(buttonType -> {
-                    createPatientPane.lookupButton(buttonType).addEventFilter(ActionEvent.ACTION, event -> {
-                        handleButtonAction(buttonType);
-                    });
-                });
+            .filter(buttonType -> buttonType.getButtonData() == ButtonType.OK.getButtonData() ||
+                buttonType.getButtonData() == ButtonType.CANCEL.getButtonData())
+            .forEach(buttonType -> createPatientPane.lookupButton(buttonType).addEventFilter(ActionEvent.ACTION, event ->
+                handleButtonAction(buttonType)));
     }
 
     public boolean isAllFieldsFilled() {
@@ -175,6 +181,7 @@ public class AddPatientController implements Initializable {
             createPatientPane.getScene().getWindow().hide();
         }
     }
+
     public PatientGetListDTO handleOkButton() {
         // Kiểm tra xem tất cả các trường đã được nhập
         if (isAllFieldsFilled()) {
@@ -188,7 +195,7 @@ public class AddPatientController implements Initializable {
             String address = addressView.getText();
             String phoneNumber = phoneNumberView.getText();
             String email = emailView.getText();
-            String identityType = identityTypeMap.get(identityTypeLabel);
+            String identityType = identityTypeView.getConverter().toString(identityTypeLabel);
             String birthDate = birthDateView.getConverter().toString(birthDateRaw);
             // Kiểm tra tính hợp lệ của email
             boolean isEmailValid = isValidEmail(email);
@@ -198,7 +205,7 @@ public class AddPatientController implements Initializable {
             if (isEmailValid && isPhoneNumberValid) {
                 // Hiển thị giá trị đã nhập
                 System.out.println("Mã số chứng thức: " + identificationNumber);
-                System.out.println("Loa giấy tờ" + identityType);
+                System.out.println("Loaị giấy tờ" + identityType);
                 System.out.println("Họ: " + lastName);
                 System.out.println("Tên: " + firstName);
                 System.out.println("Thẻ bảo hiểm y tế: " + healthInsuranceNumber);
@@ -207,28 +214,36 @@ public class AddPatientController implements Initializable {
                 System.out.println("Số điện thoại: " + phoneNumber);
                 System.out.println("Email: " + email);
                 // Gather the information from the input fields
-                if(editMode){
-                    PatientGetListDTO newPatient = new PatientGetListDTO(
-
-                    );
+                if (editMode) {
+                    PatientGetListDTO newPatient = new PatientGetListDTO();
                     createPatientPane.getScene().getWindow().hide();
                     return newPatient;
                 } else {
-                    String uri = ApiUtils.buildURI(APIDetails.PATIENT_CREATE.getRequestPath() + APIDetails.PATIENT_CREATE.getDetailPath(), new HashMap<>());
-                    PatientGetListDTO patientsNew = PatientGetListDTO.builder()
-                            .identificationNumber(identificationNumber)
-                            .healthInsuranceNumber(healthInsuranceNumber)
-                            .firstName(firstName)
-                            .lastName(lastName)
-                            .email(email)
-                            .build();
-                    patientsNew.setBirthDate(new Date());
-                    patientsNew.setAddress(address);
-                    patientsNew.setPhoneNumber(phoneNumber);
-                    System.out.println("patientsNew" + patientsNew);
-                    HttpResponse<String> response = HttpUtils.doRequest(uri, HttpMethods.POST,patientsNew , new HashMap<>());
-                    System.out.println("response" + response);
-                    createPatientPane.getScene().getWindow().hide();
+                    String uri = ApiUtils.buildURI(APIDetails.PATIENT_CREATE.getRequestPath() + APIDetails.PATIENT_CREATE.getDetailPath(),
+                        new HashMap<>());
+                    PatientCreateDTO newPatient = PatientCreateDTO.builder()
+                        .identityType(IdentityTypeEnum.typeOf(identityType))
+                        .identificationNumber(identificationNumber)
+                        .firstName(firstName)
+                        .lastName(lastName)
+                        .healthInsuranceNumber(healthInsuranceNumber)
+                        .phoneNumber(phoneNumber)
+                        .email(email)
+                        .address(address)
+                        .birthDate(DateUtils.asDate(birthDateRaw))
+                        .build();
+                    System.out.println("new patient " + newPatient.toString());
+                    HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.PATIENT_CREATE.getMethod(), newPatient, new HashMap<>());
+                    if (Objects.isNull(response)) {
+                        return null;
+                    }
+                    if (Objects.equals(response.statusCode(), HttpStatusCodes.STATUS_CODE_OK)) {
+                        System.out.println("response" + response.body());
+                        createPatientPane.getScene().getWindow().hide();
+                    } else {
+                        // Log error from BE
+                        System.out.println(HttpUtils.handleResponse(response, new TypeReference<ExceptionResponse>() {}));
+                    }
                     return null;
                 }
 
@@ -253,7 +268,7 @@ public class AddPatientController implements Initializable {
 
 
     public void setText(String identificationNumber, String firstName, String lastName, String identityType,
-                        String healthInsuranceNumber, Date birthDate, String address, String phoneNumber, String email) {
+        String healthInsuranceNumber, Date birthDate, String address, String phoneNumber, String email) {
         if (identificationNumber != null) {
             identificationNumberView.setText(identificationNumber);
         }

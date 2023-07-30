@@ -38,7 +38,10 @@ module com.app20222.app20222_fxapp {
 
     opens com.app20222.app20222_fxapp to javafx.fxml;
 
-    // export package
+    // export request package
+    exports com.app20222.app20222_fxapp.dto.requests.patient;
+
+    // export response package
     exports com.app20222.app20222_fxapp;
     exports com.app20222.app20222_fxapp.dto.requests.auth;
     exports com.app20222.app20222_fxapp.dto.responses;

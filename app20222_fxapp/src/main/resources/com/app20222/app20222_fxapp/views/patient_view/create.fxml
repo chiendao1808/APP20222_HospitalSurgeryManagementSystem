@@ -34,8 +34,8 @@
             <Label text="Họ" GridPane.rowIndex="2" />
             <Label text="Tên" GridPane.rowIndex="3" />
             <TextField fx:id="identificationNumberView" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField fx:id="firstNameView" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="lastNameView" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="lastNameView" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="firstNameView" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <Label text="Thẻ bảo hiểm y tế" GridPane.rowIndex="4" />
             <Label text="Ngày sinh" GridPane.rowIndex="5" />
             <Label text="Địa chỉ" GridPane.rowIndex="6" />
