@@ -1,9 +1,11 @@
 package com.app20222.app20222_fxapp.app_controllers.patient_view;
 
 import com.app20222.app20222_fxapp.MainApplication;
+import com.app20222.app20222_fxapp.dto.responses.patient.PatientDetailsDTO;
 import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListNewDTO;
 import com.app20222.app20222_fxapp.exceptions.apiException.ApiResponseException;
 import com.app20222.app20222_fxapp.services.patient.PatientAPIService;
+import com.google.common.collect.Maps;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.SimpleLongProperty;
@@ -171,10 +173,16 @@ public class PatientController {
                                 viewButton.setOnAction(event -> {
                                     PatientGetListNewDTO patient = getTableView().getItems().get(getIndex());
                                     System.out.println("Patient" + patient);
-                                    openEditDialog(patient);
-
+                                    Map<String, String> params = new HashMap<>();
+                                    params.put("id", String.valueOf(patient.getId()));
+                                    try {
+                                        PatientDetailsDTO detailsPatientDTO = patientAPIService.getDetailsPatient(params);
+                                        System.out.println(detailsPatientDTO);
+                                        openEditDialog(detailsPatientDTO);
+                                    } catch (ApiResponseException e) {
+                                        System.out.println(e.getExceptionResponse());
+                                    }
                                 });
-
                                 setGraphic(viewButton);
                             }
 
@@ -213,7 +221,7 @@ public class PatientController {
 
     // Hàm thực hiển mở dialogStage để chỉnh sửa thông tin bệnh nhân
     @FXML
-    private void openEditDialog(PatientGetListNewDTO patient) {
+    private void openEditDialog(PatientDetailsDTO patient) {
         String fxmlPath = "views/patient_view/create.fxml";
         try {
             FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource(fxmlPath));

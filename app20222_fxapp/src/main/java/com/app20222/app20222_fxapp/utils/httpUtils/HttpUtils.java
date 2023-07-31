@@ -4,7 +4,6 @@ package com.app20222.app20222_fxapp.utils.httpUtils;
 import com.app20222.app20222_fxapp.constants.apis.ApiConstants;
 import com.app20222.app20222_fxapp.context.ApplicationContext;
 import com.app20222.app20222_fxapp.dto.responses.BaseResponse;
-import com.app20222.app20222_fxapp.dto.responses.exception.ExceptionResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.http.HttpMethods;
@@ -30,6 +29,9 @@ import java.util.concurrent.CompletableFuture;
 public class HttpUtils {
 
     public static ObjectMapper mapper = new ObjectMapper();
+
+    public static final List<Integer> lstSuccessStatusCode = Arrays.asList(HttpStatusCodes.STATUS_CODE_OK, HttpStatusCodes.STATUS_CODE_CREATED,
+        HttpStatusCodes.STATUS_CODE_ACCEPTED);
 
 
     /**
@@ -162,6 +164,16 @@ public class HttpUtils {
             exception.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * Check api call successfully
+     */
+    public static Boolean isCallSuccessfully(HttpResponse<String> response) {
+        if (Objects.isNull(response)) {
+            return false;
+        }
+        return lstSuccessStatusCode.contains(response.statusCode());
     }
 
 }
