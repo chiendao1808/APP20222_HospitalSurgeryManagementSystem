@@ -154,56 +154,28 @@ public class PatientController {
                 new Callback<>() {
                     @Override
                     public TableCell<PatientGetListNewDTO, String> call(TableColumn<PatientGetListNewDTO, String> param) {
-                        final TableCell<PatientGetListNewDTO, String> cell = new TableCell<>() {
-                            private final Button editButton = new Button();
-                            private final Button deleteButton = new Button();
+                        final TableCell<PatientGetListNewDTO, String> cell = new TableCell<PatientGetListNewDTO, String>() {
+                            private final Button viewButton = new Button();
+
                             {
-                                FontAwesomeIconView editIcon = new FontAwesomeIconView(FontAwesomeIcon.PENCIL);
-                                FontAwesomeIconView deleteIcon = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
-                                deleteIcon.setStyle(
-                                        " -fx-cursor: hand ;"
-                                                + "-glyph-size:24px;"
-                                                + "-fx-fill:#ff1744;"
-                                );
-                                editIcon.setStyle(
+                                FontAwesomeIconView viewIcon = new FontAwesomeIconView(FontAwesomeIcon.EYE);
+                                viewIcon.setStyle(
                                         " -fx-cursor: hand ;"
                                                 + "-glyph-size:24px;"
                                                 + "-fx-fill:#00E676;"
                                 );
-                                HBox buttonContainer = new HBox(10); // Set the spacing between icons (10 pixels in this example)
-                                buttonContainer.getChildren().addAll(editButton, deleteButton);
-                                editButton.setGraphic(editIcon);
-                                deleteButton.setGraphic(deleteIcon);
-                                editButton.getStyleClass().add("edit-button");
-                                deleteButton.getStyleClass().add("delete-button");
+                                viewButton.setGraphic(viewIcon);
+                                viewButton.getStyleClass().add("edit-button");
 
-                                // Handle edit button action (Xử lý khi click nút chỉnh sửa)
-                                editButton.setOnAction(event -> {
+                                // Handle edit button action
+                                viewButton.setOnAction(event -> {
                                     PatientGetListNewDTO patient = getTableView().getItems().get(getIndex());
+                                    System.out.println("Patient" + patient);
                                     openEditDialog(patient);
 
                                 });
 
-                                // Handle delete button action ( Xử lý khi click nút xoá)
-                                deleteButton.setOnAction(event -> {
-                                    PatientGetListNewDTO patient = getTableView().getItems().get(getIndex());
-                                    // Add your delete button action logic here
-                                    if (patient != null) {
-                                        // Show a confirmation dialog before deleting the item
-                                        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                                        alert.setTitle("Xác nhận xoá bệnh nhân");
-                                        alert.setHeaderText("Bạn có chắc chắn muốn xoá bệnh nhân");
-                                        alert.setContentText("Lựa chọn");
-
-                                        Optional<ButtonType> result = alert.showAndWait();
-                                        if (result.isPresent() && result.get() == ButtonType.OK) {
-                                            // User clicked OK, perform the deletion
-                                            getTableView().getItems().remove(patient);
-                                        }
-                                    }
-                                });
-
-                                setGraphic(buttonContainer);
+                                setGraphic(viewButton);
                             }
 
                             @Override
@@ -212,10 +184,7 @@ public class PatientController {
                                 if (empty) {
                                     setGraphic(null);
                                 } else {
-                                    // Add buttons to the cell
-                                    HBox buttonContainer = new HBox(10); // Set the spacing between buttons (10 pixels in this example)
-                                    buttonContainer.getChildren().addAll(editButton, deleteButton);
-                                    setGraphic(buttonContainer);
+                                    setGraphic(viewButton);
                                 }
                             }
                         };
@@ -249,11 +218,13 @@ public class PatientController {
         try {
             FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource(fxmlPath));
             Parent root = loader.load();
-            Stage dialogStage = new Stage();
-            dialogStage.setTitle("Chỉnh sửa bệnh nhân");
-            dialogStage.setScene(new Scene(root));
             AddPatientController addPatientController = loader.getController();
-            addPatientController.setEditMode(true);
+            addPatientController.setEditMode(false);
+            addPatientController.disableAllFields();
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Xem chi tiết bệnh nhân");
+            dialogStage.setScene(new Scene(root));
+
 //            addPatientController.setPatient(patient);
 //            addPatientController.setText(
 //                    patient.getIdentificationNumber(),
@@ -290,10 +261,12 @@ public class PatientController {
         try {
             FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource(fxmlPath));
             Parent root = loader.load();
+            AddPatientController addPatientController = loader.getController();
+            addPatientController.setCreateMode(true);
+            addPatientController.initialize(null, null);
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Tạo mới bệnh nhân");
             dialogStage.setScene(new Scene(root));
-            AddPatientController addPatientController = loader.getController();
             dialogStage.setOnHidden(e -> {
                 Boolean resultSubmit = addPatientController.submit();
                 if (Objects.equals(resultSubmit, true)) {

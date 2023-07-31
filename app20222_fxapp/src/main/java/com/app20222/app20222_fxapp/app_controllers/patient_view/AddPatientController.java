@@ -6,6 +6,7 @@ import com.app20222.app20222_fxapp.enums.users.IdentityTypeEnum;
 import com.app20222.app20222_fxapp.exceptions.apiException.ApiResponseException;
 import com.app20222.app20222_fxapp.services.patient.PatientAPIService;
 import com.app20222.app20222_fxapp.utils.DateUtils;
+import com.app20222.app20222_fxapp.utils.Validation;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,7 +16,10 @@ import javafx.scene.control.*;
 import javafx.util.StringConverter;
 
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -51,20 +55,25 @@ public class AddPatientController implements Initializable {
     @FXML
     private TextField phoneNumberView;
 
+    @FXML
+    private Button editPatient;
     private boolean editMode = false;
-
+    private boolean createMode = false;
     private Boolean reloadRequired = false;
     private PatientGetListNewDTO originalPatient;
     // dùng cho loại gấy chưn thực
     private final Map<String, String> identityTypeMap = new HashMap<>();
 
     private PatientAPIService patientAPIService;
-
     public AddPatientController() {
     }
 
     public void setEditMode(boolean editMode) {
         this.editMode = editMode;
+    }
+
+    public void setCreateMode(boolean createMode) {
+        this.createMode = createMode;
     }
 
     public void setPatient(PatientGetListNewDTO patient) {
@@ -75,13 +84,40 @@ public class AddPatientController implements Initializable {
         return originalPatient;
     }
 
+    // disable khi mở xem chi tiết
+    public void disableAllFields() {
+        identificationNumberView.setDisable(true);
+        firstNameView.setDisable(true);
+        lastNameView.setDisable(true);
+        identityTypeView.setDisable(true);
+        healthInsuranceNumberView.setDisable(true);
+        birthDateView.setDisable(true);
+        addressView.setDisable(true);
+        phoneNumberView.setDisable(true);
+        emailView.setDisable(true);
+    }
+    // Khởi tạo ban đầu
     public void initialize(URL location, ResourceBundle resources) {
         setupIdentityTypes();
         setBirthDateView();
         setupButtonEventFilters();
         patientAPIService = new PatientAPIService();
-    }
+        if (createMode) {
+            editPatient.setVisible(false); // Hide the button for create mode
+            Button okButton = (Button) createPatientPane.lookupButton(ButtonType.OK);
+            okButton.setVisible(true);
+            Button cancelButton = (Button) createPatientPane.lookupButton(ButtonType.CANCEL);
+            cancelButton.setVisible(true);
+        } else {
+            editPatient.setVisible(true); // Show the button for view mode
+            Button okButton = (Button) createPatientPane.lookupButton(ButtonType.OK);
+            okButton.setVisible(false);
+            Button cancelButton = (Button) createPatientPane.lookupButton(ButtonType.CANCEL);
+            cancelButton.setVisible(false);
+        }
 
+    }
+    // sét up du lieu cho loai giay chung thuc
     public void setupIdentityTypes() {
         identityTypeMap.put(IdentityTypeEnum.CITIZEN_ID_CARD.name(), IdentityTypeEnum.CITIZEN_ID_CARD.getType());
         identityTypeMap.put(IdentityTypeEnum.ID_CARD.name(), IdentityTypeEnum.ID_CARD.getType());
@@ -112,6 +148,7 @@ public class AddPatientController implements Initializable {
         // Set the date format for the DatePicker to "dd/MM/yyyy"
         birthDateView.setConverter(new StringConverter<>() {
             final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
             @Override
             public String toString(LocalDate localDate) {
@@ -125,7 +162,13 @@ public class AddPatientController implements Initializable {
             @Override
             public LocalDate fromString(String dateString) {
                 if (dateString != null && !dateString.trim().isEmpty()) {
-                    return LocalDate.parse(dateString, dateFormatter);
+                    try {
+                        Date date = simpleDateFormat.parse(dateString);
+                        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
                 } else {
                     return null;
                 }
@@ -133,36 +176,37 @@ public class AddPatientController implements Initializable {
         });
     }
 
+    // set up 2 nut submit và cancel
     private void setupButtonEventFilters() {
-        createPatientPane.getButtonTypes().stream()
-            .filter(buttonType -> buttonType.getButtonData() == ButtonType.OK.getButtonData() ||
-                buttonType.getButtonData() == ButtonType.CANCEL.getButtonData())
-            .forEach(buttonType -> createPatientPane.lookupButton(buttonType).addEventFilter(ActionEvent.ACTION, event ->
-                handleButtonAction(buttonType)));
+        Button okButton = (Button) createPatientPane.lookupButton(ButtonType.OK);
+        okButton.setOnAction(event -> handleButtonAction(ButtonType.OK));
+
+        Button cancelButton = (Button) createPatientPane.lookupButton(ButtonType.CANCEL);
+        cancelButton.setOnAction(event -> handleButtonAction(ButtonType.CANCEL));
     }
 
+    // validate
     public boolean isAllFieldsFilled() {
-        return !identificationNumberView.getText().isEmpty() &&
-            !firstNameView.getText().isEmpty() &&
-            !lastNameView.getText().isEmpty() &&
-            identityTypeView.getValue() != null &&
-            !healthInsuranceNumberView.getText().isEmpty() &&
-            birthDateView.getValue() != null &&
-            !addressView.getText().isEmpty() &&
-            !phoneNumberView.getText().isEmpty() &&
-            !emailView.getText().isEmpty();
-    }
+            String identificationNumber = identificationNumberView.getText();
+            String firstName = firstNameView.getText();
+            String lastName = lastNameView.getText();
+            String identityType = identityTypeView.getValue();
+            String healthInsuranceNumber = healthInsuranceNumberView.getText();
+            LocalDate birthDate = birthDateView.getValue();
+            String address = addressView.getText();
+            String phoneNumber = phoneNumberView.getText();
+            String email = emailView.getText();
+            return Validation.isAllFieldsFilledPatient(identificationNumber, firstName, lastName, identityType,
+                    healthInsuranceNumber, birthDate, address, phoneNumber, email);
 
+    }
+    // validate
     public boolean isValidEmail(String email) {
-        // Kiểm tra tính hợp lệ của email
-        String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
-        return email.matches(emailRegex);
+        return Validation.isValidEmail(email);
     }
-
+    // validate
     public boolean isValidPhoneNumber(String phoneNumber) {
-        // Kiểm tra tính hợp lệ của số điện thoại
-        String phoneRegex = "^[0-9]{10}$";
-        return phoneNumber.matches(phoneRegex);
+        return Validation.isValidPhoneNumber(phoneNumber);
     }
 
     public void displayErrorAlert(String message) {
@@ -173,12 +217,46 @@ public class AddPatientController implements Initializable {
         alert.showAndWait();
     }
 
-    public void handleButtonAction(ButtonType buttonType) {
-        if (buttonType.getButtonData() == ButtonType.OK.getButtonData()) {
-            reloadRequired = handleOkButton();
-        }
-        createPatientPane.getScene().getWindow().hide();
+    // Khi click button chỉnh sửa
+    @FXML
+    private void handleEditPatient(ActionEvent event) {
+        // Enable all fields for editing
+        identificationNumberView.setDisable(false);
+        firstNameView.setDisable(false);
+        lastNameView.setDisable(false);
+        identityTypeView.setDisable(false);
+        healthInsuranceNumberView.setDisable(false);
+        birthDateView.setDisable(false);
+        addressView.setDisable(false);
+        phoneNumberView.setDisable(false);
+        emailView.setDisable(false);
+
+        // Show the "OK" and "Cancel" buttons
+        Button okButton = (Button) createPatientPane.lookupButton(ButtonType.OK);
+        okButton.setVisible(true);
+
+        Button cancelButton = (Button) createPatientPane.lookupButton(ButtonType.CANCEL);
+        cancelButton.setVisible(true);
+
+        // Hide the "editPatient" button
+        editPatient.setVisible(false);
     }
+
+
+    public void handleButtonAction(ButtonType buttonType) {
+        if (buttonType.getButtonData() == ButtonType.OK.getButtonData() ) {
+            reloadRequired = handleOkButton();
+            System.out.println(reloadRequired);
+            if (reloadRequired) {
+                createPatientPane.getScene().getWindow().hide();
+            }
+        } else {
+            createPatientPane.getScene().getWindow().hide();
+        }
+
+        // For "Cancel" or when reload is not required, just close the alert without affecting the main pane
+    }
+
 
     public Boolean handleOkButton() {
         Boolean result = false;
@@ -247,11 +325,12 @@ public class AddPatientController implements Initializable {
                     errorMessages.append("- Số điện thoại không hợp lệ\n");
                 }
                 displayErrorAlert(errorMessages.toString());
-
+                return false;
             }
         } else {
             // Hiển thị thông báo lỗi nếu chưa nhập đủ các trường
             displayErrorAlert("Vui lòng nhập đầy đủ thông tin trước khi tiếp tục.");
+            return false;
         }
         return result;
     }

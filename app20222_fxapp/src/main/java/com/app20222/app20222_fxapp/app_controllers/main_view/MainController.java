@@ -2,6 +2,7 @@ package com.app20222.app20222_fxapp.app_controllers.main_view;
 
 import com.app20222.app20222_fxapp.app_controllers.patient_view.PatientController;
 import com.app20222.app20222_fxapp.app_controllers.surgery_view.SurgeryController;
+import com.app20222.app20222_fxapp.dto.responses.medicalRecord.MedicalRecordGetListDTO;
 import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListNewDTO;
 import com.app20222.app20222_fxapp.dto.responses.surgery.SurgeryGetListDTO;
 import javafx.animation.TranslateTransition;
@@ -106,6 +107,34 @@ public class MainController implements Initializable {
 
     @FXML
     private TableColumn<PatientGetListNewDTO, String> patientPhoneColumn;
+
+    // Hồ sơ bệnh án
+    @FXML
+    private TableView<MedicalRecordGetListDTO> medicalRecordTable;
+
+    @FXML
+    private TableColumn<MedicalRecordGetListDTO, String> medicalRecordAction;
+
+    @FXML
+    private TableColumn<MedicalRecordGetListDTO, Date> medicalRecordCreateAt;
+
+    @FXML
+    private TableColumn<MedicalRecordGetListDTO, Long> medicalRecordCreatedById;
+
+    @FXML
+    private TableColumn<MedicalRecordGetListDTO, String> medicalRecordCreatedByName;
+
+    @FXML
+    private TableColumn<MedicalRecordGetListDTO, String> medicalRecordPatientCode;
+
+    @FXML
+    private TableColumn<MedicalRecordGetListDTO, Long> medicalRecordPatientID;
+
+    @FXML
+    private TableColumn<MedicalRecordGetListDTO, String> medicalRecordPatientName;
+
+    @FXML
+    private Button createMedicalRecord;
 
     //  Ca phẫu thuật
     @FXML

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonType?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
@@ -54,4 +55,7 @@
       <ButtonType fx:constant="OK" />
       <ButtonType fx:constant="CANCEL" />
    </buttonTypes>
+   <header>
+      <Button fx:id="editPatient" mnemonicParsing="false" onAction="#handleEditPatient" text="Chỉnh sửa" />
+   </header>
 </DialogPane>

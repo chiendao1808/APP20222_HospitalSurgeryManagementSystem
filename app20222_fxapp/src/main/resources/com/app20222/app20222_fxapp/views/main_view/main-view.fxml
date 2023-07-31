@@ -236,16 +236,33 @@
                                     </AnchorPane>
                                     <AnchorPane layoutX="6.0" layoutY="190.0" prefHeight="334.0" prefWidth="836.0" stylesheets="@main.css" AnchorPane.bottomAnchor="24.800000000000068" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="5.2000000000000455" AnchorPane.topAnchor="190.0">
                                        <children>
-                                          <Text layoutX="501.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danh sách Hồ sơ bệnh án" />
-                                          <TableView layoutX="10.0" layoutY="66.0" prefHeight="443.0" prefWidth="1109.0">
+                                          <AnchorPane layoutX="9.0" layoutY="14.0" prefHeight="34.0" prefWidth="1112.0">
+                                             <children>
+                                                <Text layoutX="487.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danh sách Hồ sơ bệnh án" wrappingWidth="155.90676879882812" />
+                                                <Button fx:id="createMedicalRecord" layoutX="1054.0" layoutY="-2.0" mnemonicParsing="false" onAction="#showModal" text="Tạo">
+                                                   <graphic>
+                                                      <FontAwesomeIconView fill="#c40612" glyphName="USER_PLUS" selectionFill="#f4f4f4" size="1em" text="">
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                      </FontAwesomeIconView>
+                                                   </graphic>
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Button>
+                                             </children>
+                                          </AnchorPane>
+                                          <TableView fx:id="medicalRecordTable" layoutX="10.0" layoutY="66.0" prefHeight="443.0" prefWidth="1109.0">
                                              <columns>
                                                 <TableColumn prefWidth="48.799983978271484" text="STT" />
-                                                <TableColumn minWidth="4.79998779296875" prefWidth="176.79998779296875" text="Tên" />
-                                                <TableColumn minWidth="0.0" prefWidth="0.0" text="Email" />
-                                                <TableColumn prefWidth="152.0000457763672" text="SĐT" />
-                                                <TableColumn prefWidth="94.39996337890625" text="Năm sinh" />
-                                                <TableColumn prefWidth="160.79998779296875" text="Địa chỉ" />
-                                                <TableColumn prefWidth="470.39990234375" text="Số CMND" />
+                                                <TableColumn fx:id="medicalRecordPatientID" minWidth="4.79998779296875" prefWidth="122.40009307861328" text="ID bệnh nhân" />
+                                                <TableColumn fx:id="medicalRecordPatientName" prefWidth="193.60003662109375" text="Tên bệnh nhân" />
+                                                <TableColumn fx:id="medicalRecordPatientCode" prefWidth="135.99996948242188" text="Mã số bệnh nhân" />
+                                                <TableColumn fx:id="medicalRecordCreateAt" prefWidth="140.79998779296875" text="Ngày lập hồ sơ" />
+                                                <TableColumn fx:id="medicalRecordCreatedById" prefWidth="134.4000244140625" text="ID người lập hồ sơ" />
+                                                <TableColumn fx:id="medicalRecordCreatedByName" prefWidth="185.5999755859375" text="Tên người lập hồ sơ" />
+                                                <TableColumn fx:id="medicalRecordAction" prefWidth="145.5999755859375" text="Hành động" />
                                              </columns>
                                           </TableView>
                                        </children>
@@ -273,16 +290,34 @@
                                     </AnchorPane>
                                     <AnchorPane layoutX="6.0" layoutY="190.0" prefHeight="334.0" prefWidth="836.0" stylesheets="@main.css" AnchorPane.bottomAnchor="24.800000000000068" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="5.2000000000000455" AnchorPane.topAnchor="190.0">
                                        <children>
-                                          <Text layoutX="501.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danh sách bác sỹ" />
-                                          <TableView layoutX="10.0" layoutY="66.0" prefHeight="443.0" prefWidth="1109.0">
+                                          <AnchorPane layoutX="12.0" layoutY="14.0" prefHeight="38.0" prefWidth="1088.0">
+                                             <children>
+                                                <Text layoutX="485.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danh sách người dùng" />
+                                                <Button fx:id="createMedicalRecord1" layoutX="1030.0" layoutY="5.0" mnemonicParsing="false" onAction="#showModal" prefWidth="75.0" text="Tạo">
+                                                   <graphic>
+                                                      <FontAwesomeIconView fill="#c40612" glyphName="USER_PLUS" selectionFill="#f4f4f4" size="1em" text="">
+                                                         <font>
+                                                            <Font size="14.0" />
+                                                         </font>
+                                                      </FontAwesomeIconView>
+                                                   </graphic>
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Button>
+                                             </children>
+                                          </AnchorPane>
+                                          <TableView layoutX="10.0" layoutY="60.0" prefHeight="443.0" prefWidth="1109.0">
                                              <columns>
                                                 <TableColumn prefWidth="48.799983978271484" text="STT" />
-                                                <TableColumn minWidth="4.79998779296875" prefWidth="176.79998779296875" text="Tên" />
+                                                <TableColumn minWidth="4.79998779296875" prefWidth="176.79998779296875" text="Tên người dùng" />
                                                 <TableColumn minWidth="0.0" prefWidth="0.0" text="Email" />
-                                                <TableColumn prefWidth="152.0000457763672" text="SĐT" />
-                                                <TableColumn prefWidth="94.39996337890625" text="Năm sinh" />
-                                                <TableColumn prefWidth="160.79998779296875" text="Địa chỉ" />
-                                                <TableColumn prefWidth="470.39990234375" text="Số CMND" />
+                                                <TableColumn prefWidth="131.19998168945312" text="Mã người dùng" />
+                                                <TableColumn prefWidth="183.99996948242188" text="Địa chỉ" />
+                                                <TableColumn prefWidth="128.79998779296875" text="Ngày sinh" />
+                                                <TableColumn prefWidth="116.00006103515625" text="SĐT" />
+                                                <TableColumn prefWidth="164.7999267578125" text="Email" />
+                                                <TableColumn prefWidth="158.39990234375" text="Phòng ban" />
                                              </columns>
                                           </TableView>
                                        </children>
