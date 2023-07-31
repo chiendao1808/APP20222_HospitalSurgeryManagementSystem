@@ -1,7 +1,7 @@
 package com.app20222.app20222_fxapp.app_controllers.patient_view;
 
 import com.app20222.app20222_fxapp.dto.requests.patient.PatientCreateDTO;
-import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListDTO;
+import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListNewDTO;
 import com.app20222.app20222_fxapp.enums.users.IdentityTypeEnum;
 import com.app20222.app20222_fxapp.exceptions.api_exception.ApiResponseException;
 import com.app20222.app20222_fxapp.services.patient.PatientAPIService;
@@ -54,7 +54,7 @@ public class AddPatientController implements Initializable {
     private boolean editMode = false;
 
     private Boolean reloadRequired = false;
-    private PatientGetListDTO originalPatient;
+    private PatientGetListNewDTO originalPatient;
     // dùng cho loại gấy chưn thực
     private final Map<String, String> identityTypeMap = new HashMap<>();
 
@@ -67,11 +67,11 @@ public class AddPatientController implements Initializable {
         this.editMode = editMode;
     }
 
-    public void setPatient(PatientGetListDTO patient) {
+    public void setPatient(PatientGetListNewDTO patient) {
         this.originalPatient = patient;
     }
 
-    public PatientGetListDTO getOriginalPatient() {
+    public PatientGetListNewDTO getOriginalPatient() {
         return originalPatient;
     }
 
@@ -86,7 +86,6 @@ public class AddPatientController implements Initializable {
         identityTypeMap.put(IdentityTypeEnum.CITIZEN_ID_CARD.name(), IdentityTypeEnum.CITIZEN_ID_CARD.getType());
         identityTypeMap.put(IdentityTypeEnum.ID_CARD.name(), IdentityTypeEnum.ID_CARD.getType());
         identityTypeMap.put(IdentityTypeEnum.PASSPORT.name(), IdentityTypeEnum.PASSPORT.getType());
-        System.out.println(identityTypeMap);
         // Create an ObservableList to hold the labels for the identity types
         ObservableList<String> identityTypeLabels = FXCollections.observableArrayList(identityTypeMap.values());
 
@@ -215,7 +214,7 @@ public class AddPatientController implements Initializable {
                 System.out.println("Email: " + email);
                 // Gather the information from the input fields
                 if (editMode) {
-                    PatientGetListDTO newPatient = new PatientGetListDTO();
+                    PatientCreateDTO newPatient = new PatientCreateDTO();
                     createPatientPane.getScene().getWindow().hide();
                 } else {
                     PatientCreateDTO newPatient = PatientCreateDTO.builder()

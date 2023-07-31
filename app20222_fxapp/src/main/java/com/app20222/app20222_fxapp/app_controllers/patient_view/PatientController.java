@@ -1,12 +1,12 @@
 package com.app20222.app20222_fxapp.app_controllers.patient_view;
 
 import com.app20222.app20222_fxapp.MainApplication;
-import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListDTO;
 import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListNewDTO;
 import com.app20222.app20222_fxapp.exceptions.api_exception.ApiResponseException;
 import com.app20222.app20222_fxapp.services.patient.PatientAPIService;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,14 +28,13 @@ public class PatientController {
     @FXML
     private TableView<PatientGetListNewDTO> patientTable;
     @FXML
-    private TableColumn<PatientGetListDTO, String> patientActionColumn;
+    private TableColumn<PatientGetListNewDTO, String> patientActionColumn;
 
     @FXML
     private TableColumn<PatientGetListNewDTO, String> patientCodeColumn;
 
     @FXML
     private TableColumn<PatientGetListNewDTO, String> patientAddressColumn;
-
 
     @FXML
     private TableColumn<PatientGetListNewDTO, String> patientBirthdayColumn;
@@ -61,7 +60,7 @@ public class PatientController {
                              TableColumn<PatientGetListNewDTO, String> birthdayColumn,
                              TableColumn<PatientGetListNewDTO, String> phoneColumn,
         TableColumn<PatientGetListNewDTO, String> addressColumn,
-        TableColumn<PatientGetListDTO, String> actionColumn) {
+        TableColumn<PatientGetListNewDTO, String> actionColumn) {
         this.patientTable = patientTable;
         this.patientIdColumn = idColumn;
         this.patientNameColumn = nameColumn;
@@ -98,7 +97,7 @@ public class PatientController {
         return patientAddressColumn;
     }
 
-    public TableColumn<PatientGetListDTO, String> getPatientActionColumn() {
+    public TableColumn<PatientGetListNewDTO, String> getPatientActionColumn() {
         return patientActionColumn;
     }
 
@@ -138,7 +137,10 @@ public class PatientController {
     }
     // Thêm các thông tin vào bảng sau khi đã có danh sách bệnh nhân
     public void setupTableColumns() {
-        this.patientIdColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        this.patientIdColumn.setCellValueFactory(param -> {
+            int index = param.getTableView().getItems().indexOf(param.getValue());
+            return new SimpleLongProperty(index + 1).asObject();
+        });
         this.patientNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         this.patientCodeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
         this.patientBirthdayColumn.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
@@ -148,11 +150,11 @@ public class PatientController {
 
     // Hàm tạo 2 nút edit và delete
     public void setupEditDeleteButtons() {
-        Callback<TableColumn<PatientGetListDTO, String>, TableCell<PatientGetListDTO, String>> cellFactory =
-                new Callback<TableColumn<PatientGetListDTO, String>, TableCell<PatientGetListDTO, String>>() {
+        Callback<TableColumn<PatientGetListNewDTO, String>, TableCell<PatientGetListNewDTO, String>> cellFactory =
+                new Callback<TableColumn<PatientGetListNewDTO, String>, TableCell<PatientGetListNewDTO, String>>() {
                     @Override
-                    public TableCell<PatientGetListDTO, String> call(TableColumn<PatientGetListDTO, String> param) {
-                        final TableCell<PatientGetListDTO, String> cell = new TableCell<PatientGetListDTO, String>() {
+                    public TableCell<PatientGetListNewDTO, String> call(TableColumn<PatientGetListNewDTO, String> param) {
+                        final TableCell<PatientGetListNewDTO, String> cell = new TableCell<PatientGetListNewDTO, String>() {
                             private final Button editButton = new Button();
                             private final Button deleteButton = new Button();
                             {
@@ -177,14 +179,14 @@ public class PatientController {
 
                                 // Handle edit button action (Xử lý khi click nút chỉnh sửa)
                                 editButton.setOnAction(event -> {
-                                    PatientGetListDTO patient = getTableView().getItems().get(getIndex());
+                                    PatientGetListNewDTO patient = getTableView().getItems().get(getIndex());
                                     openEditDialog(patient);
 
                                 });
 
                                 // Handle delete button action ( Xử lý khi click nút xoá)
                                 deleteButton.setOnAction(event -> {
-                                    PatientGetListDTO patient = getTableView().getItems().get(getIndex());
+                                    PatientGetListNewDTO patient = getTableView().getItems().get(getIndex());
                                     // Add your delete button action logic here
                                     if (patient != null) {
                                         // Show a confirmation dialog before deleting the item
@@ -225,14 +227,14 @@ public class PatientController {
     }
 
     // Hàm thêm bệnh nhân mới va bảng
-    public void addNewPatient(PatientGetListDTO newPatient) {
+    public void addNewPatient(PatientGetListNewDTO newPatient) {
         if (newPatient != null) {
             patientTable.getItems().add(newPatient);
         }
     }
 
     // Hàm cập nhật thông tin bệnh nhân
-    public void updatePatientInTable(PatientGetListDTO oldPatient, PatientGetListDTO updatedPatient) {
+    public void updatePatientInTable(PatientGetListNewDTO oldPatient, PatientGetListNewDTO updatedPatient) {
         int index = patientTable.getItems().indexOf(oldPatient);
         if (index >= 0) {
             patientTable.getItems().set(index, updatedPatient);
@@ -242,7 +244,7 @@ public class PatientController {
 
     // Hàm thực hiển mở dialogStage để chỉnh sửa thông tin bệnh nhân
     @FXML
-    private void openEditDialog(PatientGetListDTO patient) {
+    private void openEditDialog(PatientGetListNewDTO patient) {
         String fxmlPath = "views/patient_view/create.fxml";
         try {
             FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource(fxmlPath));
@@ -252,18 +254,18 @@ public class PatientController {
             dialogStage.setScene(new Scene(root));
             AddPatientController addPatientController = loader.getController();
             addPatientController.setEditMode(true);
-            addPatientController.setPatient(patient);
-            addPatientController.setText(
-                    patient.getIdentificationNumber(),
-                    patient.getFirstName(),
-                    patient.getLastName(),
-                    "Chứng minh nhân dân",
-                    patient.getHealthInsuranceNumber(),
-                    patient.getBirthDate(),
-                    patient.getAddress(),
-                    patient.getPhoneNumber(),
-                    patient.getEmail()
-            );
+//            addPatientController.setPatient(patient);
+//            addPatientController.setText(
+//                    patient.getIdentificationNumber(),
+//                    patient.getFirstName(),
+//                    patient.getLastName(),
+//                    "Chứng minh nhân dân",
+//                    patient.getHealthInsuranceNumber(),
+//                    patient.getBirthDate(),
+//                    patient.getAddress(),
+//                    patient.getPhoneNumber(),
+//                    patient.getEmail()
+//            );
             dialogStage.setOnHidden(e -> {
                 // Retrieve the updated patient information from the AddPatientController
                 Boolean resultSubmit = addPatientController.submit();
