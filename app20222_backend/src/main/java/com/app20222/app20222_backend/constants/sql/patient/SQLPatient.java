@@ -5,6 +5,7 @@ public class SQLPatient {
 
     public static final String GET_LIST_PATIENT =
         "SELECT \n" +
+            "      patient.id AS id, \n" +
             "      patient.code AS code, \n" +
             "      patient.identity_type AS identityTypeVal, \n" +
             "      CASE \n" +
