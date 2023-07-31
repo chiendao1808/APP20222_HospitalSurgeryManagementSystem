@@ -1,6 +1,5 @@
-package com.app20222.app20222_backend.dtos.department;
+package com.app20222.app20222_fxapp.dto.responses.deparment;
 
-import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,15 +12,13 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class DepartmentCreateDTO {
+public class DepartmentListDTO {
 
-    @NotNull
+    Long id;
+
     String code;
 
-    @NotNull
     String name;
-
-    String logoPath;
 
     String address;
 
@@ -30,5 +27,7 @@ public class DepartmentCreateDTO {
     String email;
 
     String description;
+
+    String logoPath;
 
 }

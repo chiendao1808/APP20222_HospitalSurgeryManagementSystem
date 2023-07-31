@@ -37,6 +37,9 @@ public class Department {
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "description")
     private String description;
 

@@ -1,5 +1,6 @@
 package com.app20222.app20222_backend.services.department.impl;
 
+import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import com.app20222.app20222_backend.constants.message.errorKey.ErrorKey;
@@ -7,6 +8,7 @@ import com.app20222.app20222_backend.constants.message.messageConst.MessageConst
 import com.app20222.app20222_backend.constants.message.messageConst.MessageConst.Resources;
 import com.app20222.app20222_backend.dtos.department.DepartmentCreateDTO;
 import com.app20222.app20222_backend.dtos.department.DepartmentUpdateDTO;
+import com.app20222.app20222_backend.dtos.department.IGetListDepartment;
 import com.app20222.app20222_backend.entities.department.Department;
 import com.app20222.app20222_backend.exceptions.exceptionFactory.ExceptionFactory;
 import com.app20222.app20222_backend.repositories.department.DepartmentRepository;
@@ -44,5 +46,10 @@ public class DepartmentServiceImpl implements DepartmentService {
                 Resources.DEPARTMENT, ErrorKey.Department.ID, String.valueOf(id)));
         BeanUtils.copyProperties(updateDTO, department);
         departmentRepository.save(department);
+    }
+
+    @Override
+    public List<IGetListDepartment> getListDepartment(Long id, String code, String name, String email, String phone) {
+        return departmentRepository.getListDepartment(id, code, name, email, phone);
     }
 }

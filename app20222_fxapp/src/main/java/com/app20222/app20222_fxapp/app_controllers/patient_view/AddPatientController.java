@@ -3,7 +3,7 @@ package com.app20222.app20222_fxapp.app_controllers.patient_view;
 import com.app20222.app20222_fxapp.dto.requests.patient.PatientCreateDTO;
 import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListNewDTO;
 import com.app20222.app20222_fxapp.enums.users.IdentityTypeEnum;
-import com.app20222.app20222_fxapp.exceptions.api_exception.ApiResponseException;
+import com.app20222.app20222_fxapp.exceptions.apiException.ApiResponseException;
 import com.app20222.app20222_fxapp.services.patient.PatientAPIService;
 import com.app20222.app20222_fxapp.utils.DateUtils;
 import javafx.collections.FXCollections;
@@ -275,7 +275,7 @@ public class AddPatientController implements Initializable {
             healthInsuranceNumberView.setText(healthInsuranceNumber);
         }
         if (birthDate != null) {
-            birthDateView.setValue(LocalDate.parse((CharSequence) birthDate));
+            birthDateView.setValue(DateUtils.asLocalDate(birthDate));
         }
         if (address != null) {
             addressView.setText(address);

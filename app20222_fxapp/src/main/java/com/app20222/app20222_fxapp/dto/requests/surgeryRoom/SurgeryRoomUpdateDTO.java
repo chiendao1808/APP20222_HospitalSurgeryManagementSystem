@@ -1,6 +1,5 @@
-package com.app20222.app20222_backend.dtos.department;
+package com.app20222.app20222_fxapp.dto.requests.surgeryRoom;
 
-import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,22 +12,14 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class DepartmentCreateDTO {
+public class SurgeryRoomUpdateDTO {
 
-    @NotNull
-    String code;
-
-    @NotNull
     String name;
-
-    String logoPath;
 
     String address;
 
-    String phoneNumber;
-
-    String email;
-
     String description;
+
+    Boolean currentAvailable = false;
 
 }

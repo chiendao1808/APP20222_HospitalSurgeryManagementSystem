@@ -74,5 +74,6 @@ module com.app20222.app20222_fxapp {
      */
     opens com.app20222.app20222_fxapp.app_controllers.surgery_view to javafx.fxml;
     exports com.app20222.app20222_fxapp.app_controllers.surgery_view;
+    exports com.app20222.app20222_fxapp.dto.requests.users;
 
 }

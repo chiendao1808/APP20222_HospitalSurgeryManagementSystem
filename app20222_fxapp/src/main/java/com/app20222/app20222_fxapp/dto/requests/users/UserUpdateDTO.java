@@ -1,9 +1,11 @@
-package com.app20222.app20222_backend.dtos.patient;
+package com.app20222.app20222_fxapp.dto.requests.users;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.validation.constraints.NotNull;
-import com.app20222.app20222_backend.enums.users.IdentityTypeEnum;
-import com.app20222.app20222_backend.utils.DateUtils;
+import com.app20222.app20222_fxapp.enums.users.IdentityTypeEnum;
+import com.app20222.app20222_fxapp.utils.DateUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -17,16 +19,15 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class PatientUpdateDTO {
+public class UserUpdateDTO {
 
     @NotNull
-    Long patientId;
+    IdentityTypeEnum identityType;
 
     @NotNull
     String identificationNumber;
 
-    @NotNull
-    IdentityTypeEnum identityType;
+    String avatarPath;
 
     @NotNull
     String firstName;
@@ -34,8 +35,7 @@ public class PatientUpdateDTO {
     @NotNull
     String lastName;
 
-    @NotNull
-    String healthInsuranceNumber;
+    String title;
 
     @JsonFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_SLASH, timezone = DateUtils.TIME_ZONE)
     @NotNull
@@ -43,9 +43,14 @@ public class PatientUpdateDTO {
 
     String address;
 
+    @NotNull
     String phoneNumber;
 
     String email;
 
-    String portraitPath;
+    Set<Long> lstRoleId = new HashSet<>();
+
+    @NotNull
+    Long departmentId;
+
 }

@@ -1,4 +1,5 @@
-package com.app20222.app20222_backend.dtos.department;
+package com.app20222.app20222_fxapp.dto.requests.department;
+
 
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -13,10 +14,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class DepartmentCreateDTO {
-
-    @NotNull
-    String code;
+public class DepartmentUpdateDTO {
 
     @NotNull
     String name;
@@ -30,5 +28,4 @@ public class DepartmentCreateDTO {
     String email;
 
     String description;
-
 }

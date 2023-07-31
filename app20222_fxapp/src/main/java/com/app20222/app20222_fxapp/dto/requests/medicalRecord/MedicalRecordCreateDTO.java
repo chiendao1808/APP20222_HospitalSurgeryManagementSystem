@@ -1,5 +1,7 @@
-package com.app20222.app20222_backend.dtos.department;
+package com.app20222.app20222_fxapp.dto.requests.medicalRecord;
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -13,22 +15,13 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class DepartmentCreateDTO {
+public class MedicalRecordCreateDTO {
 
     @NotNull
-    String code;
+    Long patientId;
 
-    @NotNull
-    String name;
+    String summary;
 
-    String logoPath;
-
-    String address;
-
-    String phoneNumber;
-
-    String email;
-
-    String description;
+    Set<Long> lstFileAttachId = new HashSet<>();
 
 }

@@ -1,6 +1,6 @@
-package com.app20222.app20222_backend.dtos.department;
+package com.app20222.app20222_fxapp.dto.requests.medicalRecord;
 
-import javax.validation.constraints.NotNull;
+import java.util.Set;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,18 +13,9 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class DepartmentUpdateDTO {
+public class MedicalRecordUpdateDTO {
 
-    @NotNull
-    String name;
+    String summary;
 
-    String logoPath;
-
-    String address;
-
-    String phoneNumber;
-
-    String email;
-
-    String description;
+    Set<Long> lstFileAttachId;
 }
