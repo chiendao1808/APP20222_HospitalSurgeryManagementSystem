@@ -1,4 +1,4 @@
-package com.app20222.app20222_fxapp.exceptions.api_exception;
+package com.app20222.app20222_fxapp.exceptions.apiException;
 
 import com.app20222.app20222_fxapp.dto.responses.exception.ExceptionResponse;
 import lombok.AllArgsConstructor;

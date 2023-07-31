@@ -1,8 +1,7 @@
-package com.app20222.app20222_backend.dtos.users;
+package com.app20222.app20222_fxapp.dto.responses.users;
 
 import java.util.Date;
-import org.springframework.beans.BeanUtils;
-import com.app20222.app20222_backend.utils.DateUtils;
+import com.app20222.app20222_fxapp.utils.DateUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -16,7 +15,7 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserDetailDTO {
+public class UserDetailsDTO {
 
     Long id;
 
@@ -44,9 +43,5 @@ public class UserDetailDTO {
     String role;
 
     String department;
-
-    public UserDetailDTO(IGetDetailUser iGetDetailUser) {
-        BeanUtils.copyProperties(iGetDetailUser, this);
-    }
 
 }

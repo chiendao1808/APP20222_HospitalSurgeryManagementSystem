@@ -9,7 +9,7 @@ import com.app20222.app20222_fxapp.dto.requests.patient.PatientCreateDTO;
 import com.app20222.app20222_fxapp.dto.responses.exception.ExceptionResponse;
 import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListNewDTO;
 import com.app20222.app20222_fxapp.enums.apis.APIDetails;
-import com.app20222.app20222_fxapp.exceptions.api_exception.ApiResponseException;
+import com.app20222.app20222_fxapp.exceptions.apiException.ApiResponseException;
 import com.app20222.app20222_fxapp.utils.apiUtils.ApiUtils;
 import com.app20222.app20222_fxapp.utils.httpUtils.HttpUtils;
 import com.fasterxml.jackson.core.type.TypeReference;

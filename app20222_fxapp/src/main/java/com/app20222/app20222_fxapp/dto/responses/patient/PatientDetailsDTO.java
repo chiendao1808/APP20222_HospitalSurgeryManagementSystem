@@ -1,8 +1,7 @@
-package com.app20222.app20222_backend.dtos.users;
+package com.app20222.app20222_fxapp.dto.responses.patient;
 
 import java.util.Date;
-import org.springframework.beans.BeanUtils;
-import com.app20222.app20222_backend.utils.DateUtils;
+import com.app20222.app20222_fxapp.utils.DateUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -16,21 +15,25 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserDetailDTO {
+public class PatientDetailsDTO {
 
     Long id;
+
+    String firstName;
+
+    String lastName;
 
     String name;
 
     String code;
 
-    String identificationNum;
-
     String identityType;
 
-    String title;
+    Integer identityTypeVal;
 
-    String address;
+    String identificationNumber;
+
+    String healthInsuranceNumber;
 
     @JsonFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_SLASH, timezone = DateUtils.TIME_ZONE)
     Date birthDate;
@@ -39,14 +42,8 @@ public class UserDetailDTO {
 
     String email;
 
-    String userName;
+    String address;
 
-    String role;
-
-    String department;
-
-    public UserDetailDTO(IGetDetailUser iGetDetailUser) {
-        BeanUtils.copyProperties(iGetDetailUser, this);
-    }
+    String portraitPath;
 
 }

@@ -1,7 +1,9 @@
 package com.app20222.app20222_backend.controllers.department;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.app20222.app20222_backend.dtos.department.DepartmentCreateDTO;
 import com.app20222.app20222_backend.dtos.department.DepartmentUpdateDTO;
+import com.app20222.app20222_backend.dtos.department.IGetListDepartment;
 import com.app20222.app20222_backend.services.department.DepartmentService;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +36,17 @@ public class DepartmentController {
     public void updateDepartment(@RequestParam(name = "id") Long id,
         @RequestBody @Validated DepartmentUpdateDTO updateDTO) {
         departmentService.updateDepartment(id, updateDTO);
+    }
+
+    @GetMapping("/get-list")
+    @Operation(description = "Lấy danh sách khoa/bộ phận")
+    public List<IGetListDepartment> getListDepartment(
+        @RequestParam(name = "id", required = false, defaultValue = "-1") Long id,
+        @RequestParam(name = "code", required = false, defaultValue = "") String code,
+        @RequestParam(name = "name", required = false, defaultValue = "") String name,
+        @RequestParam(name = "email", required = false, defaultValue = "") String email,
+        @RequestParam(name = "phone", required = false, defaultValue = "") String phone) {
+        return departmentService.getListDepartment(id, code, name, email, phone);
     }
 
 }

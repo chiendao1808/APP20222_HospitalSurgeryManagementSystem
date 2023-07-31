@@ -8,6 +8,10 @@ public interface IGetDetailPatient {
 
     Long getId();
 
+    String getFirstName();
+
+    String getLastName();
+
     String getName();
 
     String getCode();
@@ -18,10 +22,14 @@ public interface IGetDetailPatient {
 
     String getIdentificationNumber();
 
+    String getHealthInsuranceNumber();
+
     @JsonFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_SLASH, timezone = DateUtils.TIME_ZONE)
     Date getBirthDate();
 
     String getPhoneNumber();
+
+    String getEmail();
 
     String getAddress();
 

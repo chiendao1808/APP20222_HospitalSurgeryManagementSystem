@@ -32,6 +32,7 @@ public class SQLPatient {
 
     public static final String GET_DETAIL_PATIENT =
         "SELECT \n" +
+            "      patient.id AS id, \n" +
             "      patient.code AS code, \n" +
             "      patient.identity_type AS identityTypeVal, \n" +
             "      CASE \n" +
@@ -41,8 +42,11 @@ public class SQLPatient {
             "           ELSE '' \n" +
             "      END AS identityType, \n" +
             "      patient.identification_number AS identificationNumber, \n" +
+            "      patient.health_insurance_num AS healthInsuranceNumber, \n" +
             "      patient.portrait_path AS portraitPath, \n" +
-            "      CONCAT_WS(' ', patient.last_name, patient.first_name) AS name, \n" +
+            "      CONCAT_WS(' ', patient.last_name, patient.first_name) AS name," +
+            "      patient.first_name AS firstName, \n" +
+            "      patient.last_name AS lastName, \n" +
             "      patient.birth_date AS birthDate, \n" +
             "      patient.address AS address, \n" +
             "      patient.phone_number AS phoneNumber, \n" +

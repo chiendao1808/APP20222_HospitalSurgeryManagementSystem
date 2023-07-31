@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.dtos.department;
+package com.app20222.app20222_fxapp.dto.requests.department;
 
 import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -30,5 +30,4 @@ public class DepartmentCreateDTO {
     String email;
 
     String description;
-
 }

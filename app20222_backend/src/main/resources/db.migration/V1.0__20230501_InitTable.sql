@@ -88,6 +88,7 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."department"
     name         varchar(100) not null,
     address      text,
     phone_number varchar(11),
+    email        varchar(100),
     description  text,
     primary key (id)
 );
@@ -98,6 +99,7 @@ COMMENT ON COLUMN "app20222_db"."department"."logo_path" IS 'Đường dẫn fil
 COMMENT ON COLUMN "app20222_db"."department"."name" IS 'Tên của khoa/bộ phận';
 COMMENT ON COLUMN "app20222_db"."department"."address" IS 'Địa chỉ của khoa/bộ phận';
 COMMENT ON COLUMN "app20222_db"."department"."phone_number" IS 'Số điện thoại liên hệ của khoa/bộ phận';
+COMMENT ON COLUMN "app20222_db"."department"."email" IS 'Email liên hệ của khoa/bộ phận';
 COMMENT ON COLUMN "app20222_db"."department"."description" IS 'Thông tin mô tả khoa/bộ phận';
 -- Init department data --
 INSERT INTO "app20222_db"."department" (code, name, address, phone_number)

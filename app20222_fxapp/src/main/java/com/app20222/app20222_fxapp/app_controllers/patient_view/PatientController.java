@@ -2,7 +2,7 @@ package com.app20222.app20222_fxapp.app_controllers.patient_view;
 
 import com.app20222.app20222_fxapp.MainApplication;
 import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListNewDTO;
-import com.app20222.app20222_fxapp.exceptions.api_exception.ApiResponseException;
+import com.app20222.app20222_fxapp.exceptions.apiException.ApiResponseException;
 import com.app20222.app20222_fxapp.services.patient.PatientAPIService;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -151,10 +151,10 @@ public class PatientController {
     // Hàm tạo 2 nút edit và delete
     public void setupEditDeleteButtons() {
         Callback<TableColumn<PatientGetListNewDTO, String>, TableCell<PatientGetListNewDTO, String>> cellFactory =
-                new Callback<TableColumn<PatientGetListNewDTO, String>, TableCell<PatientGetListNewDTO, String>>() {
+                new Callback<>() {
                     @Override
                     public TableCell<PatientGetListNewDTO, String> call(TableColumn<PatientGetListNewDTO, String> param) {
-                        final TableCell<PatientGetListNewDTO, String> cell = new TableCell<PatientGetListNewDTO, String>() {
+                        final TableCell<PatientGetListNewDTO, String> cell = new TableCell<>() {
                             private final Button editButton = new Button();
                             private final Button deleteButton = new Button();
                             {
