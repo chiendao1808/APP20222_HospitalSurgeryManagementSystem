@@ -20,6 +20,7 @@ import com.app20222.app20222_backend.repositories.users.UserRepository;
 import com.app20222.app20222_backend.repositories.users.UserRoleRepository;
 import com.app20222.app20222_backend.services.permission.PermissionService;
 import com.app20222.app20222_backend.services.users.UserService;
+import com.app20222.app20222_backend.utils.DateUtils;
 import com.app20222.app20222_backend.utils.StringUtils;
 import com.app20222.app20222_backend.utils.auth.AuthUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -164,9 +166,9 @@ public class UserServiceImpl implements UserService {
         StringBuilder usernameBuilder = new StringBuilder();
         String fullName = user.getFullName();
         String[] fullNameArr = fullName.split(" ");
-        if(fullNameArr.length > 0){
-            usernameBuilder.append(StringUtils.convertVietnameseToEng(fullNameArr[0]).toLowerCase());
-            for(int index = 1; index < fullNameArr.length; index++){
+        if (fullNameArr.length > 0) {
+            usernameBuilder.append(StringUtils.convertVietnameseToEng(fullNameArr[fullNameArr.length - 1]).toLowerCase());
+            for (int index = 0; index < fullNameArr.length - 1; index++) {
                 usernameBuilder.append(StringUtils.convertVietnameseToEng(fullNameArr[index]).toLowerCase().charAt(0));
             }
         }
@@ -175,7 +177,7 @@ public class UserServiceImpl implements UserService {
         usernameBuilder.append(userLikeExisted == 0 ? "" : String.valueOf(userLikeExisted + 1));
         user.setUsername(usernameBuilder.toString());
 
-        String password = user.getUsername() + "@" + new Random().nextInt(1000);
+        String password = user.getUsername() + "@" + DateUtils.asLocalDate(new Date()).getYear();
         user.setPassword(passwordEncoder.encode(password));
     }
 }
