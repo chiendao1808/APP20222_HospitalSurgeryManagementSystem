@@ -1,6 +1,7 @@
 package com.app20222.app20222_backend.services.users;
 
 import com.app20222.app20222_backend.dtos.users.IGetListUser;
+import com.app20222.app20222_backend.dtos.users.ProfileUserDTO;
 import com.app20222.app20222_backend.dtos.users.UserCreateDTO;
 import com.app20222.app20222_backend.dtos.users.UserDetailDTO;
 import com.app20222.app20222_backend.dtos.users.UserUpdateDTO;
@@ -43,4 +44,9 @@ public interface UserService {
      * Chuyển trạng thái hoạt động của người dùng
      */
     void switchUserStatus(Long userId, UserStatusEnum status);
+
+    /**
+     * Get loged in user's profile
+     */
+    ProfileUserDTO getUserProfile();
 }

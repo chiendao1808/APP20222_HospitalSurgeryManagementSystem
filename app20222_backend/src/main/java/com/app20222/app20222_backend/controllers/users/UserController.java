@@ -1,6 +1,7 @@
 package com.app20222.app20222_backend.controllers.users;
 
 import com.app20222.app20222_backend.dtos.users.IGetListUser;
+import com.app20222.app20222_backend.dtos.users.ProfileUserDTO;
 import com.app20222.app20222_backend.dtos.users.UserCreateDTO;
 import com.app20222.app20222_backend.dtos.users.UserDetailDTO;
 import com.app20222.app20222_backend.dtos.users.UserUpdateDTO;
@@ -67,6 +68,12 @@ public class UserController {
         log.info("========= started switchUserStatus ==========");
         userService.switchUserStatus(userId, status);
         log.info("========= end switchUserStatus ==========");
+    }
+
+    @GetMapping("/profile")
+    @Operation(description = "Lấy thông tin profile của user đăng nhập")
+    public ProfileUserDTO getProfileUser(){
+        return userService.getUserProfile();
     }
 
 }
