@@ -46,14 +46,10 @@ public class UserCreateDTO {
     @JsonFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_SLASH, timezone = DateUtils.TIME_ZONE)
     @NotNull
     Date birthDate;
-
     String address;
-
     @NotNull
     String phoneNumber;
-
     String email;
-
     Set<Long> lstRoleId = new HashSet<>();
 
     @NotNull

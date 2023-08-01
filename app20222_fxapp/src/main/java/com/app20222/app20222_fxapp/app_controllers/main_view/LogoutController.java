@@ -44,8 +44,8 @@ public class LogoutController {
                 logoutBtn.getScene().getWindow().hide();
 
                 // Clear token in context
-                ApplicationContext.accessToken = "";
-                ApplicationContext.refreshToken = "";
+//                ApplicationContext.ACCESS_TOKEN = "";
+//                ApplicationContext.REFRESH_TOKEN = "";
 
             }
         } catch (Exception e) {

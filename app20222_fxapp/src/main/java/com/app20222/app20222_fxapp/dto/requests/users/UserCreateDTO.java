@@ -30,7 +30,7 @@ public class UserCreateDTO {
     String identificationNumber;
 
     String avatarPath;
-
+ // mã nhân viên
     String code;
 
     @NotNull
@@ -40,7 +40,7 @@ public class UserCreateDTO {
     @NotNull
     @NotBlank
     String lastName;
-
+ // học hàm học vị
     String title;
 
     @JsonFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_SLASH, timezone = DateUtils.TIME_ZONE)
@@ -53,7 +53,7 @@ public class UserCreateDTO {
     String phoneNumber;
 
     String email;
-
+    // chọn quyền
     Set<Long> lstRoleId = new HashSet<>();
 
     @NotNull

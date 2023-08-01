@@ -1,10 +1,12 @@
 package com.app20222.app20222_fxapp.app_controllers.main_view;
 
+import com.app20222.app20222_fxapp.app_controllers.UserController.UserController;
 import com.app20222.app20222_fxapp.app_controllers.patient_view.PatientController;
 import com.app20222.app20222_fxapp.app_controllers.surgery_view.SurgeryController;
 import com.app20222.app20222_fxapp.dto.responses.medicalRecord.MedicalRecordGetListDTO;
 import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListNewDTO;
 import com.app20222.app20222_fxapp.dto.responses.surgery.SurgeryGetListDTO;
+import com.app20222.app20222_fxapp.dto.responses.users.UserListDTO;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -160,12 +162,43 @@ public class MainController implements Initializable {
     private TableColumn<SurgeryGetListDTO, ?> surgeryStatusColumn;
     @FXML
     private TableColumn<SurgeryGetListDTO, ?> typeSurgeryColumn;
+    // người dùng
+    @FXML
+    private TableColumn<UserListDTO, ?> UserActionColumn;
+
+    @FXML
+    private TableColumn<UserListDTO, ?> UserAddressColumn;
+
+    @FXML
+    private TableColumn<UserListDTO, ?> UserDateColumn;
+
+    @FXML
+    private TableColumn<UserListDTO, ?> UserDepartmentColumn;
+
+    @FXML
+    private TableColumn<UserListDTO, ?> UserEmailColumn;
+
+    @FXML
+    private TableColumn<UserListDTO, ?> UserIdentificationNumColumn;
+
+    @FXML
+    private TableColumn<UserListDTO, ?> UserNameColumn;
+
+    @FXML
+    private TableColumn<UserListDTO, ?> UserPhoneColumn;
+
+    @FXML
+    private TableView<UserListDTO> UserTableView;
+    @FXML
+    private Button createUserBtn;
+
 
     // controller
     //TabController
     private TabController tabController = new TabController();
     private PatientController patientController = new PatientController();
     private SurgeryController surgeryController = new SurgeryController();
+    private UserController userController = new UserController();
 
     // Các hàm xử lý
     // Xử lý khi click icon thu nhỏ múc leftMenu
@@ -210,6 +243,7 @@ public class MainController implements Initializable {
     @FXML
     public void logout(ActionEvent event) {
         LogoutController logoutController = new LogoutController();
+        System.out.println(logoutBtn);
         logoutController.setLogoutBtn(logoutBtn);
         logoutController.logout(event);
     }
@@ -220,6 +254,8 @@ public class MainController implements Initializable {
         LogoutController logoutController = new LogoutController();
         logoutController.setLogoutBtn(logoutBtn1);
         logoutController.logout(event);
+        System.out.println(logoutBtn);
+
     }
 
     // CHuyển giữa các màn
@@ -253,6 +289,9 @@ public class MainController implements Initializable {
         } else if (selectedButton == createSurgery) {
             surgeryController.showModal(event);
         }
+        else if(selectedButton == createUserBtn){
+            userController.showModal(event);
+        }
     }
 
     @Override
@@ -260,5 +299,8 @@ public class MainController implements Initializable {
         patientController = new PatientController(patientTable, patientIdColumn,patientINameColumn,patientCodeColumn,patientIBirthdayColumn,patientPhoneColumn,patientAddressColumn,
             patientActionColumn);
         patientController.initializeTable();
+        userController = new UserController(UserTableView,UserActionColumn,UserAddressColumn,UserDateColumn,UserDepartmentColumn,
+                UserEmailColumn,UserIdentificationNumColumn,UserNameColumn,UserPhoneColumn);
+
     }
 }//

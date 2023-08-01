@@ -89,5 +89,10 @@ module com.app20222.app20222_fxapp {
      */
     opens com.app20222.app20222_fxapp.app_controllers.surgery_view to javafx.fxml;
     exports com.app20222.app20222_fxapp.app_controllers.surgery_view;
+    /**
+     * người dùng
+     */
+    opens com.app20222.app20222_fxapp.app_controllers.UserController to javafx.fxml;
+    exports com.app20222.app20222_fxapp.app_controllers.UserController;
 
 }

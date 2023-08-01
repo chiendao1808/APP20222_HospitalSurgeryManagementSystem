@@ -12,7 +12,6 @@ public enum SurgeryRoleTypeEnum {
     SUPPORT_DOCTOR(2, "Bác sĩ phẫu thuật hộ trợ"),
     SUPPORT_NURSE(3, "Y tá hỗ trợ"),
     RECORD_NURSE(4, "Nhân viên ghi tài liệu");
-
     private final Integer type;
     private final String typeName;
 

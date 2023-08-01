@@ -13,7 +13,6 @@ public class LoginRequest {
 
     @NotNull
     String username;
-
     @NotNull
     String password;
 }

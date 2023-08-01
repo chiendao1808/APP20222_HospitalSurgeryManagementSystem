@@ -52,7 +52,6 @@ public class Surgery extends BaseEntity {
     @JoinColumn(name = "patient_id", updatable = false, insertable = false)
     private Patient patient;
 
-
     @Column(name = "surgery_room_id")
     private Long surgeryRoomId;
 
