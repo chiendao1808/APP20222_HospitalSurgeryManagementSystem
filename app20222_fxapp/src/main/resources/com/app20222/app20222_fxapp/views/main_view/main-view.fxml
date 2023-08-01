@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<StackPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app20222.app20222_fxapp.app_controllers.main_view.MainController">
+<StackPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app20222.app20222_fxapp.app_controllers.main_view.MainController">
    <children>
       <AnchorPane prefHeight="800.0" prefWidth="1412.0">
          <children>
@@ -153,7 +165,7 @@
                      <children>
                         <AnchorPane layoutX="254.0" layoutY="113.0" prefHeight="743.2" prefWidth="1147.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <AnchorPane fx:id="userPane" layoutY="-15.0" prefHeight="796.0" prefWidth="1208.8" stylesheets="@../user_view/user.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <AnchorPane fx:id="userPane" layoutY="-15.0" prefHeight="796.0" prefWidth="1208.8" stylesheets="@../user_view/user.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <Label alignment="CENTER" layoutX="1.0" layoutY="40.0" prefHeight="54.0" prefWidth="1144.0" text="Thông tin cá nhân">
                                        <font>
@@ -184,13 +196,13 @@
                                                       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mã người dùng" wrappingWidth="178.78306770324707" GridPane.rowIndex="2" />
                                                       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Loại giấy chứng thực" wrappingWidth="176.38304328918457" GridPane.rowIndex="3" />
                                                       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mã số giấy chứng thực" wrappingWidth="176.38304328918457" GridPane.rowIndex="4" />
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="181.18302726745605" GridPane.columnIndex="1" />
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="178.78312492370605" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="177.9830150604248" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="181.1829662322998" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="179.5829906463623" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                                      <Text fx:id="profileUserId" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="181.18302726745605" GridPane.columnIndex="1" />
+                                                      <Text fx:id="profileUserName" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="178.78312492370605" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                      <Text fx:id="profileUserCode" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="177.9830150604248" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                      <Text fx:id="profileUserIdentityType" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="181.1829662322998" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                                      <Text fx:id="profileUserIdentificationNum" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="179.5829906463623" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                                       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ngày sinh" wrappingWidth="176.38304328918457" GridPane.rowIndex="5" />
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="178.78312873840332" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                                      <Text fx:id="profileUserBirthDate" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="178.78312873840332" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                                    </children>
                                                 </GridPane>
                                              </children>
@@ -221,13 +233,13 @@
                                                       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Địa chỉ" wrappingWidth="175.58311653137207" GridPane.rowIndex="2" />
                                                       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Khoa " wrappingWidth="173.18309211730957" GridPane.rowIndex="3" />
                                                       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tên đăng nhập" wrappingWidth="174.78306770324707" GridPane.rowIndex="4" />
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="205.98307609558105" GridPane.columnIndex="1" />
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="205.18314933776855" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="204.38297843933105" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="204.38297843933105" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="204.38297843933105" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                                                      <Text fx:id="profileUserEmail" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="205.98307609558105" GridPane.columnIndex="1" />
+                                                      <Text fx:id="profileUserPhone" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="205.18314933776855" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                      <Text fx:id="profileUserAddress" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="204.38297843933105" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                                      <Text fx:id="profileUserDepartment" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="204.38297843933105" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                                      <Text fx:id="profileUser" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="204.38297843933105" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                                       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Quyền" wrappingWidth="173.18309211730957" GridPane.rowIndex="5" />
-                                                      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="204.38297843933105" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                                                      <Text fx:id="profileUserRole" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="204.38297843933105" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                                                    </children>
                                                 </GridPane>
                                              </children>
@@ -236,7 +248,7 @@
                                     </AnchorPane>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="patient" layoutY="6.0" prefHeight="743.2" prefWidth="1159.0" stylesheets="@../patient_view/patient.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <AnchorPane fx:id="patient" layoutY="6.0" prefHeight="743.2" prefWidth="1159.0" stylesheets="@../patient_view/patient.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <AnchorPane layoutX="6.0" layoutY="14.0" prefHeight="174.0" prefWidth="1192.0" stylesheets="@main.css" AnchorPane.topAnchor="0.0">
                                        <children>

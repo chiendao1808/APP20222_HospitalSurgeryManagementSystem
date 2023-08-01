@@ -202,21 +202,6 @@ public class PatientController {
         patientActionColumn.setCellFactory(cellFactory);
     }
 
-    // Hàm thêm bệnh nhân mới va bảng
-    public void addNewPatient(PatientGetListNewDTO newPatient) {
-        if (newPatient != null) {
-            patientTable.getItems().add(newPatient);
-        }
-    }
-
-    // Hàm cập nhật thông tin bệnh nhân
-    public void updatePatientInTable(PatientGetListNewDTO oldPatient, PatientGetListNewDTO updatedPatient) {
-        int index = patientTable.getItems().indexOf(oldPatient);
-        if (index >= 0) {
-            patientTable.getItems().set(index, updatedPatient);
-        }
-    }
-
 
     // Hàm thực hiển mở dialogStage để chỉnh sửa thông tin bệnh nhân
     @FXML

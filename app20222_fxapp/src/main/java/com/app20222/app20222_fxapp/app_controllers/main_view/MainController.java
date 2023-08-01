@@ -1,5 +1,6 @@
 package com.app20222.app20222_fxapp.app_controllers.main_view;
 
+import com.app20222.app20222_fxapp.app_controllers.profile_view.ProfileController;
 import com.app20222.app20222_fxapp.app_controllers.user_view.UserController;
 import com.app20222.app20222_fxapp.app_controllers.patient_view.PatientController;
 import com.app20222.app20222_fxapp.app_controllers.surgery_view.SurgeryController;
@@ -15,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -82,6 +84,45 @@ public class MainController implements Initializable {
     private Button tabSurgery;
     @FXML
     private Button tabUser;
+
+    // thông tin cá nhân
+
+    @FXML
+    private Text profileUser;
+
+    @FXML
+    private Text profileUserAddress;
+
+    @FXML
+    private Text profileUserBirthDate;
+
+    @FXML
+    private Text profileUserCode;
+
+    @FXML
+    private Text profileUserDepartment;
+
+    @FXML
+    private Text profileUserEmail;
+
+    @FXML
+    private Text profileUserIdentificationNum;
+
+    @FXML
+    private Text profileUserIdentityType;
+
+    @FXML
+    private Text profileUserName;
+
+    @FXML
+    private Text profileUserPhone;
+
+    @FXML
+    private Text profileUserRole;
+
+    @FXML
+    private Text profileUserId;
+
 
     // Bệnh nhân
     @FXML
@@ -199,6 +240,7 @@ public class MainController implements Initializable {
     private PatientController patientController;
     private SurgeryController surgeryController = new SurgeryController();
     private UserController userController;
+    private ProfileController profileController;
 
     // Các hàm xử lý
     // Xử lý khi click icon thu nhỏ múc leftMenu
@@ -301,6 +343,9 @@ public class MainController implements Initializable {
         patientController.initializeTable();
         userController = new UserController(UserTableView,UserActionColumn,UserAddressColumn,UserDateColumn,UserDepartmentColumn,
                 UserEmailColumn,UserIdentificationNumColumn,UserNameColumn,UserPhoneColumn);
-
+        profileController = new ProfileController(profileUser, profileUserId, profileUserCode, profileUserName,
+                profileUserIdentityType, profileUserIdentificationNum, profileUserBirthDate, profileUserEmail,
+                profileUserPhone, profileUserAddress, profileUserDepartment, profileUserRole);
+        profileController.initializeProfile();
     }
 }//
