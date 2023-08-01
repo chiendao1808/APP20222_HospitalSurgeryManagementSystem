@@ -1,6 +1,6 @@
 package com.app20222.app20222_fxapp.app_controllers.main_view;
 
-import com.app20222.app20222_fxapp.app_controllers.UserController.UserController;
+import com.app20222.app20222_fxapp.app_controllers.user_view.UserController;
 import com.app20222.app20222_fxapp.app_controllers.patient_view.PatientController;
 import com.app20222.app20222_fxapp.app_controllers.surgery_view.SurgeryController;
 import com.app20222.app20222_fxapp.dto.responses.medicalRecord.MedicalRecordGetListDTO;
@@ -196,9 +196,9 @@ public class MainController implements Initializable {
     // controller
     //TabController
     private TabController tabController = new TabController();
-    private PatientController patientController = new PatientController();
+    private PatientController patientController;
     private SurgeryController surgeryController = new SurgeryController();
-    private UserController userController = new UserController();
+    private UserController userController;
 
     // Các hàm xử lý
     // Xử lý khi click icon thu nhỏ múc leftMenu
