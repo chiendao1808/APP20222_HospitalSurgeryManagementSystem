@@ -52,7 +52,7 @@ public class DepartmentAPIService {
     /**
      * API call updateDepartment
      */
-    public Boolean updateDepartment(DepartmentUpdateDTO updateDTO) {
+    public Boolean updateDepartment(DepartmentUpdateDTO updateDTO, Map<String, String> params) {
         String uri = ApiUtils.buildURI(APIDetails.DEPARTMENT_UPDATE.getRequestPath() + APIDetails.DEPARTMENT_UPDATE.getDetailPath(), new HashMap<>());
         HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.DEPARTMENT_UPDATE.getMethod(), updateDTO, new HashMap<>());
         Boolean isSuccess = HttpUtils.isCallSuccessfully(response);
