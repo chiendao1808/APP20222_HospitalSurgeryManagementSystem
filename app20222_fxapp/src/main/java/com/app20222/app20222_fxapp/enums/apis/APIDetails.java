@@ -18,6 +18,7 @@ public enum APIDetails {
     USER_UPDATE("USER_UPDATE", "/users", "", "PUT"),
     USER_GET_DETAIL("USER_GET_DETAIL", "/users", "/get-detail", "GET"),
     USER_SWITCH_STATUS("USER_SWITCH_STATUS", "/users", "/switch-status", "PUT"),
+    USER_GET_PROFILE("USER_GET_PROFILE", "/users", "/profile", "GET"),
 
     // Department's
     DEPARTMENT_CREATE("DEPARTMENT_CREATE", "/department", "", "POST"),

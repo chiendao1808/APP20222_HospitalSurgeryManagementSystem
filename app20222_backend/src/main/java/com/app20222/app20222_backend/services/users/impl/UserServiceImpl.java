@@ -5,6 +5,7 @@ import com.app20222.app20222_backend.constants.message.messageConst.MessageConst
 import com.app20222.app20222_backend.constants.message.messageConst.MessageConst.Resources;
 import com.app20222.app20222_backend.dtos.users.IGetDetailUser;
 import com.app20222.app20222_backend.dtos.users.IGetListUser;
+import com.app20222.app20222_backend.dtos.users.ProfileUserDTO;
 import com.app20222.app20222_backend.dtos.users.UserCreateDTO;
 import com.app20222.app20222_backend.dtos.users.UserDetailDTO;
 import com.app20222.app20222_backend.dtos.users.UserUpdateDTO;
@@ -122,6 +123,11 @@ public class UserServiceImpl implements UserService {
         permissionService.hasUserPermission(userId, BasePermissionEnum.VIEW);
         IGetDetailUser iGetDetailUser = userRepository.getDetailUser(userId);
         return new UserDetailDTO(iGetDetailUser);
+    }
+
+    @Override
+    public ProfileUserDTO getUserProfile() {
+        return new ProfileUserDTO(userRepository.getDetailUser(AuthUtils.getCurrentUserId()));
     }
 
     @Override

@@ -7,6 +7,7 @@ import java.util.Map;
 import com.app20222.app20222_fxapp.dto.requests.users.UserCreateDTO;
 import com.app20222.app20222_fxapp.dto.requests.users.UserUpdateDTO;
 import com.app20222.app20222_fxapp.dto.responses.exception.ExceptionResponse;
+import com.app20222.app20222_fxapp.dto.responses.users.ProfileUserDTO;
 import com.app20222.app20222_fxapp.dto.responses.users.UserDetailsDTO;
 import com.app20222.app20222_fxapp.dto.responses.users.UserListDTO;
 import com.app20222.app20222_fxapp.enums.apis.APIDetails;
@@ -81,6 +82,23 @@ public class UserAPIService {
             throw new ApiResponseException(exceptionResponse);
         }
         return isSuccess;
+    }
+
+    /**
+     * API call getProfileUser
+     */
+    public ProfileUserDTO getCurrentUserProfile() {
+        ProfileUserDTO profile;
+        String uri = ApiUtils.buildURI(APIDetails.USER_GET_PROFILE.getRequestPath() + APIDetails.USER_GET_PROFILE.getDetailPath(), new HashMap<>());
+        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.USER_GET_PROFILE.getMethod(), null, new HashMap<>());
+        // api call successfully (status = 200)
+        if (HttpUtils.isCallSuccessfully(response)) {
+            profile = HttpUtils.handleResponse(response, new TypeReference<>() {});
+        } else {
+            ExceptionResponse exceptionResponse = HttpUtils.handleResponse(response, new TypeReference<>() {});
+            throw new ApiResponseException(exceptionResponse);
+        }
+        return profile;
     }
 
 }
