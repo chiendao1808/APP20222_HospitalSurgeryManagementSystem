@@ -27,6 +27,9 @@ public class Surgery extends BaseEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "code")
+    private String code;
+
     @Column(name = "description")
     private String description;
 

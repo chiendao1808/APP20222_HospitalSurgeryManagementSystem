@@ -63,7 +63,8 @@ public class SQLSurgery {
             "     (:surgeryRoomId = -1 OR :surgeryRoomId = surgery.surgery_room_id) AND \n" +
             "     (:status = -1 OR :status = surgery.status) AND \n " +
             "     (:startedAt = CAST('1970-01-01 00:00' AS TIMESTAMP) OR :startedAt >= CAST(surgery.started_at AS TIMESTAMP)) AND \n" +
-            "     (:estimatedEndAt = CAST('1970-01-01 00:00' AS TIMESTAMP) OR :estimatedEndAt <= CAST(surgery.estimated_end_at AS TIMESTAMP)) ";
+            "     (:estimatedEndAt = CAST('1970-01-01 00:00' AS TIMESTAMP) OR :estimatedEndAt <= CAST(surgery.estimated_end_at AS TIMESTAMP)) \n" +
+            "ORDER BY COALESCE(surgery.modified_at, surgery.created_at) DESC ";
 
     public static final String GET_DETAILS_SURGERY =
         "WITH surgeryFileCTE AS ( \n" +

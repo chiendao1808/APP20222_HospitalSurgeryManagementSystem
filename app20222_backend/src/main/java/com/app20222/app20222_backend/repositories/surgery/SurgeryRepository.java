@@ -50,4 +50,6 @@ public interface SurgeryRepository extends JpaRepository<Surgery, Long> {
     @Query(value = "UPDATE Surgery surgery SET surgery.status = :status WHERE surgery.id = :surgeryId")
     Integer changeSurgeryStatus(Long surgeryId, Integer status);
 
+    Boolean existsByCode(String code);
+
 }

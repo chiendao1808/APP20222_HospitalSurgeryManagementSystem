@@ -80,7 +80,6 @@ public class PatientAPIService {
             ExceptionResponse exceptionResponse = HttpUtils.handleResponse(response, new TypeReference<>() {});
             throw new ApiResponseException(exceptionResponse);
         }
-
         return isSuccess;
     }
 

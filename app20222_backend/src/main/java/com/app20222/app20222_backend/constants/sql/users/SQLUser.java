@@ -26,7 +26,8 @@ public class SQLUser {
                 "      (:name = '' OR CONCAT_WS(' ', users.last_name, users.first_name) ILIKE ('%' || :name || '%')) AND \n" +
                 "      (:email = '' OR users.code ilike ('%' || :email || '%')) AND \n" +
                 "      (:phone = '' OR users.code ilike ('%' || :phone || '%')) AND \n" +
-                "      (users.department_id IN (:lstDepartmentId)) ";
+                "      (users.department_id IN (:lstDepartmentId)) \n" +
+                "ORDER BY COALESCE(users.modified_at, users.created_at) DESC ";
 
         public static final String GET_DETAIL_USER =
             "SELECT \n" +
@@ -48,7 +49,7 @@ public class SQLUser {
                 "FROM {h-schema}users \n" +
                 "     LEFT JOIN {h-schema}department ON users.department_id = department.id \n" +
                 "WHERE \n" +
-                "      users.id = :userId ";
+                "     users.id = :userId ";
 
         public static final String GET_LIST_USER_FEATURES_BY_ROLES =
             "SELECT code \n" +
