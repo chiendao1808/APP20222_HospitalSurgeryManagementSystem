@@ -92,7 +92,7 @@ module com.app20222.app20222_fxapp {
     /**
      * người dùng
      */
-    opens com.app20222.app20222_fxapp.app_controllers.UserController to javafx.fxml;
-    exports com.app20222.app20222_fxapp.app_controllers.UserController;
+    opens com.app20222.app20222_fxapp.app_controllers.user_view to javafx.fxml;
+    exports com.app20222.app20222_fxapp.app_controllers.user_view;
 
 }

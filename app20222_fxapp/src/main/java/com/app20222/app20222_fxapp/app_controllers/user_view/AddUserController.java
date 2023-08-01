@@ -1,4 +1,4 @@
-package com.app20222.app20222_fxapp.app_controllers.UserController;
+package com.app20222.app20222_fxapp.app_controllers.user_view;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
