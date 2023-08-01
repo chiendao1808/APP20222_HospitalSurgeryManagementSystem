@@ -158,7 +158,6 @@ public class PatientController {
                     public TableCell<PatientGetListNewDTO, String> call(TableColumn<PatientGetListNewDTO, String> param) {
                         final TableCell<PatientGetListNewDTO, String> cell = new TableCell<PatientGetListNewDTO, String>() {
                             private final Button viewButton = new Button();
-
                             {
                                 FontAwesomeIconView viewIcon = new FontAwesomeIconView(FontAwesomeIcon.EYE);
                                 viewIcon.setStyle(
@@ -177,8 +176,8 @@ public class PatientController {
                                     params.put("id", String.valueOf(patient.getId()));
                                     try {
                                         PatientDetailsDTO detailsPatientDTO = patientAPIService.getDetailsPatient(params);
-                                        System.out.println(detailsPatientDTO);
-                                        openEditDialog(detailsPatientDTO);
+                                        System.out.println("detailsPatientDTO" + detailsPatientDTO);
+                                        openEditDialog(detailsPatientDTO,params);
                                     } catch (ApiResponseException e) {
                                         System.out.println(e.getExceptionResponse());
                                     }
@@ -221,39 +220,35 @@ public class PatientController {
 
     // Hàm thực hiển mở dialogStage để chỉnh sửa thông tin bệnh nhân
     @FXML
-    private void openEditDialog(PatientDetailsDTO patient) {
+    private void openEditDialog(PatientDetailsDTO patient, Map<String, String> params) {
         String fxmlPath = "views/patient_view/create.fxml";
         try {
             FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource(fxmlPath));
             Parent root = loader.load();
             AddPatientController addPatientController = loader.getController();
-            addPatientController.setEditMode(false);
             addPatientController.disableAllFields();
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Xem chi tiết bệnh nhân");
             dialogStage.setScene(new Scene(root));
-
-//            addPatientController.setPatient(patient);
-//            addPatientController.setText(
-//                    patient.getIdentificationNumber(),
-//                    patient.getFirstName(),
-//                    patient.getLastName(),
-//                    "Chứng minh nhân dân",
-//                    patient.getHealthInsuranceNumber(),
-//                    patient.getBirthDate(),
-//                    patient.getAddress(),
-//                    patient.getPhoneNumber(),
-//                    patient.getEmail()
-//            );
+            addPatientController.setPatientId(params);
+            addPatientController.setText(
+                    patient.getIdentificationNumber(),
+                    patient.getFirstName(),
+                    patient.getLastName(),
+                    patient.getIdentityType(),
+                    patient.getHealthInsuranceNumber(),
+                    patient.getBirthDate(),
+                    patient.getAddress(),
+                    patient.getPhoneNumber(),
+                    patient.getEmail()
+            );
             dialogStage.setOnHidden(e -> {
-                // Retrieve the updated patient information from the AddPatientController
                 Boolean resultSubmit = addPatientController.submit();
                 if (Objects.equals(resultSubmit, true)) {
-                    // Update the patient in the table
-//                    updatePatientInTable(patient, updatedPatient);
                     reloadTable();
                 }
             });
+            dialogStage.show();
             dialogStage.show();
 
         } catch (IOException e) {

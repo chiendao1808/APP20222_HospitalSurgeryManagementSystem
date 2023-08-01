@@ -30,7 +30,7 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Label text="Loại giấy chứng thực"   />
+            <Label text="Loại giấy chứng thực" />
             <Label text="Mã số chứng thực" GridPane.rowIndex="1" />
             <Label text="Họ" GridPane.rowIndex="2" />
             <Label text="Tên" GridPane.rowIndex="3" />

@@ -1,6 +1,8 @@
 package com.app20222.app20222_fxapp.app_controllers.patient_view;
 
 import com.app20222.app20222_fxapp.dto.requests.patient.PatientCreateDTO;
+import com.app20222.app20222_fxapp.dto.requests.patient.PatientUpdateDTO;
+import com.app20222.app20222_fxapp.dto.responses.patient.PatientDetailsDTO;
 import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListNewDTO;
 import com.app20222.app20222_fxapp.enums.users.IdentityTypeEnum;
 import com.app20222.app20222_fxapp.exceptions.apiException.ApiResponseException;
@@ -57,17 +59,22 @@ public class AddPatientController implements Initializable {
 
     @FXML
     private Button editPatient;
+
+    private Map<String, String> params;
     private boolean editMode = false;
     private boolean createMode = false;
     private Boolean reloadRequired = false;
-    private PatientGetListNewDTO originalPatient;
     // dùng cho loại gấy chưn thực
     private final Map<String, String> identityTypeMap = new HashMap<>();
+
 
     private PatientAPIService patientAPIService;
     public AddPatientController() {
     }
 
+    public void setPatientId(Map<String, String> params) {
+        this.params = params;
+    }
     public void setEditMode(boolean editMode) {
         this.editMode = editMode;
     }
@@ -76,16 +83,13 @@ public class AddPatientController implements Initializable {
         this.createMode = createMode;
     }
 
-    public void setPatient(PatientGetListNewDTO patient) {
-        this.originalPatient = patient;
-    }
 
-    public PatientGetListNewDTO getOriginalPatient() {
-        return originalPatient;
-    }
+
 
     // disable khi mở xem chi tiết
     public void disableAllFields() {
+        String boldStyle = "-fx-font-weight: bold;";
+
         identificationNumberView.setDisable(true);
         firstNameView.setDisable(true);
         lastNameView.setDisable(true);
@@ -95,6 +99,7 @@ public class AddPatientController implements Initializable {
         addressView.setDisable(true);
         phoneNumberView.setDisable(true);
         emailView.setDisable(true);
+        applyBoldStylingToDisabledFields(boldStyle);
     }
     // Khởi tạo ban đầu
     public void initialize(URL location, ResourceBundle resources) {
@@ -115,6 +120,20 @@ public class AddPatientController implements Initializable {
             Button cancelButton = (Button) createPatientPane.lookupButton(ButtonType.CANCEL);
             cancelButton.setVisible(false);
         }
+
+    }
+
+    // bôi đậm các trường khi xem chi tiết
+    public void applyBoldStylingToDisabledFields(String boldStyle) {
+        identificationNumberView.setStyle(boldStyle);
+        firstNameView.setStyle(boldStyle);
+        lastNameView.setStyle(boldStyle);
+        identityTypeView.setStyle(boldStyle);
+        healthInsuranceNumberView.setStyle(boldStyle);
+        birthDateView.setStyle(boldStyle);
+        addressView.setStyle(boldStyle);
+        phoneNumberView.setStyle(boldStyle);
+        emailView.setStyle(boldStyle);
 
     }
     // sét up du lieu cho loai giay chung thuc
@@ -220,6 +239,7 @@ public class AddPatientController implements Initializable {
     // Khi click button chỉnh sửa
     @FXML
     private void handleEditPatient(ActionEvent event) {
+        setEditMode(true);
         // Enable all fields for editing
         identificationNumberView.setDisable(false);
         firstNameView.setDisable(false);
@@ -230,6 +250,9 @@ public class AddPatientController implements Initializable {
         addressView.setDisable(false);
         phoneNumberView.setDisable(false);
         emailView.setDisable(false);
+        String boldStyle = "-fx-font-weight: normal;";
+
+        applyBoldStylingToDisabledFields(boldStyle);
 
         // Show the "OK" and "Cancel" buttons
         Button okButton = (Button) createPatientPane.lookupButton(ButtonType.OK);
@@ -290,10 +313,27 @@ public class AddPatientController implements Initializable {
                 System.out.println("Địa chỉ: " + address);
                 System.out.println("Số điện thoại: " + phoneNumber);
                 System.out.println("Email: " + email);
+                System.out.println("id: " + params);
                 // Gather the information from the input fields
                 if (editMode) {
-                    PatientCreateDTO newPatient = new PatientCreateDTO();
-                    createPatientPane.getScene().getWindow().hide();
+                    PatientUpdateDTO newPatient = PatientUpdateDTO.builder()
+                        .identityType(IdentityTypeEnum.typeOf(identityType))
+                        .identificationNumber(identificationNumber)
+                        .firstName(firstName)
+                        .lastName(lastName)
+                        .healthInsuranceNumber(healthInsuranceNumber)
+                        .phoneNumber(phoneNumber)
+                        .email(email)
+                        .address(address)
+                        .birthDate(DateUtils.asDate(birthDateRaw))
+                        .build();
+                    // API Call
+                    try {
+                        result = patientAPIService.updatePatient(newPatient,params);
+                    } catch (ApiResponseException exception) {
+                        exception.printStackTrace();
+                        System.out.println(exception.getExceptionResponse());
+                    }
                 } else {
                     PatientCreateDTO newPatient = PatientCreateDTO.builder()
                         .identityType(IdentityTypeEnum.typeOf(identityType))
@@ -306,7 +346,6 @@ public class AddPatientController implements Initializable {
                         .address(address)
                         .birthDate(DateUtils.asDate(birthDateRaw))
                         .build();
-                    System.out.println("new patient " + newPatient.toString());
                     // API Call
                     try {
                         result = patientAPIService.createPatient(newPatient);
