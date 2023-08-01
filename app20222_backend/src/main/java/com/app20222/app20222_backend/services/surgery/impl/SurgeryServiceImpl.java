@@ -1,9 +1,11 @@
 package com.app20222.app20222_backend.services.surgery.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.beans.BeanUtils;
@@ -23,8 +25,11 @@ import com.app20222.app20222_backend.dtos.surgery.SurgeryRoleDTO;
 import com.app20222.app20222_backend.dtos.surgery.SurgeryUpdateDTO;
 import com.app20222.app20222_backend.dtos.surgery.IGetListSurgery;
 import com.app20222.app20222_backend.dtos.surgery.IGetOverlapSurgery;
+import com.app20222.app20222_backend.entities.mail.Mail;
 import com.app20222.app20222_backend.entities.surgery.Surgery;
 import com.app20222.app20222_backend.entities.surgery.UserSurgery;
+import com.app20222.app20222_backend.entities.surgeryRoom.SurgeryRoom;
+import com.app20222.app20222_backend.enums.mail.MailTemplateEnum;
 import com.app20222.app20222_backend.enums.permission.BasePermissionEnum;
 import com.app20222.app20222_backend.enums.surgery.SurgeryStatusEnum;
 import com.app20222.app20222_backend.exceptions.exceptionFactory.ExceptionFactory;
@@ -32,9 +37,12 @@ import com.app20222.app20222_backend.repositories.fileAttach.FileAttachRepositor
 import com.app20222.app20222_backend.repositories.fileAttach.SurgeryFileRepository;
 import com.app20222.app20222_backend.repositories.surgery.SurgeryRepository;
 import com.app20222.app20222_backend.repositories.surgery.UserSurgeryRepository;
+import com.app20222.app20222_backend.repositories.surgeryRoom.SurgeryRoomRepository;
+import com.app20222.app20222_backend.repositories.users.UserRepository;
 import com.app20222.app20222_backend.services.mail.MailService;
 import com.app20222.app20222_backend.services.permission.PermissionService;
 import com.app20222.app20222_backend.services.surgery.SurgeryService;
+import com.app20222.app20222_backend.utils.DateUtils;
 import com.app20222.app20222_backend.utils.StringUtils;
 import com.app20222.app20222_backend.utils.auth.AuthUtils;
 
@@ -53,6 +61,10 @@ public class SurgeryServiceImpl implements SurgeryService {
 
     private final SurgeryFileRepository surgeryFileRepository;
 
+    private final UserRepository userRepository;
+
+    private final SurgeryRoomRepository surgeryRoomRepository;
+
     private final MailService mailService;
 
 
@@ -63,7 +75,8 @@ public class SurgeryServiceImpl implements SurgeryService {
     public static final String OVERLAP_PATIENT = "patient_id";
 
     public SurgeryServiceImpl(SurgeryRepository surgeryRepository, UserSurgeryRepository userSurgeryRepository, ExceptionFactory exceptionFactory,
-        PermissionService permissionService, FileAttachRepository fileAttachRepository, SurgeryFileRepository surgeryFileRepository, MailService mailService){
+        PermissionService permissionService, FileAttachRepository fileAttachRepository, SurgeryFileRepository surgeryFileRepository,
+        UserRepository userRepository, SurgeryRoomRepository surgeryRoomRepository, MailService mailService){
         this.surgeryRepository = surgeryRepository;
         this.userSurgeryRepository = userSurgeryRepository;
         this.exceptionFactory = exceptionFactory;
@@ -71,6 +84,8 @@ public class SurgeryServiceImpl implements SurgeryService {
         this.fileAttachRepository = fileAttachRepository;
         this.surgeryFileRepository = surgeryFileRepository;
         this.mailService = mailService;
+        this.userRepository = userRepository;
+        this.surgeryRoomRepository = surgeryRoomRepository;
     }
 
     @Transactional
@@ -82,16 +97,40 @@ public class SurgeryServiceImpl implements SurgeryService {
         // Tạo surgery mới
         Surgery newSurgery = new Surgery();
         BeanUtils.copyProperties(createDTO, newSurgery);
+        newSurgery.setCode(generateSurgeryCode());
         newSurgery.setCreatedBy(AuthUtils.getCurrentUserId());
         newSurgery.setCreatedAt(new Date());
-        Long newSurgeryId = surgeryRepository.save(newSurgery).getId();
+        newSurgery = surgeryRepository.save(newSurgery);
+        Long newSurgeryId = newSurgery.getId();
 
         // Lưu thông tin user - surgery
         List<UserSurgery> lstUserSurgery = createDTO.getLstAssignment().stream().map(
             item -> UserSurgery.builder().userId(item.getAssigneeId()).surgeryId(newSurgeryId).surgeryRoleType(item.getSurgeryRoleType())
                 .build()).collect(Collectors.toList());
-        userSurgeryRepository.saveAll(lstUserSurgery);
-        // TODO : Gửi mail (đợi template)
+        lstUserSurgery = userSurgeryRepository.saveAll(lstUserSurgery);
+
+        // Gửi thông báo qua email
+       try{
+           Set<Long> lstUserIdSendMail = lstUserSurgery.stream().map(UserSurgery::getUserId).collect(Collectors.toSet());
+           List<String> lstEmailToSend = userRepository.findAllEmailByIdIn(lstUserIdSendMail);
+           SurgeryRoom surgeryRoom = surgeryRoomRepository.findById(newSurgery.getSurgeryRoomId()).orElse(null);
+           if(Objects.isNull(surgeryRoom)) return;
+           MailTemplateEnum mailTemplate = MailTemplateEnum.CREATE_SURGERY_TO_USER_MAIL_TEMPLATE;
+           String content = mailTemplate.getRawContent();
+           content = content.replace("$SURGERY_NAME", newSurgery.getName());
+           content = content.replace("$SURGERY_CODE", newSurgery.getCode());
+           content = content.replace("$TIME", new SimpleDateFormat(DateUtils.FORMAT_DATE_DD_MM_YYYY_HH_MM).format(newSurgery.getStartedAt()));
+           content = content.replace("$SURGERY_ROOM", surgeryRoom.getName() + " - " + surgeryRoom.getAddress());
+           Mail mail = Mail.builder()
+               .subject(mailTemplate.getSubject())
+               .content(content)
+               .lstToAddress(lstEmailToSend)
+               .isHasAttachments(false)
+               .build();
+           mailService.sendMail(mail);
+       } catch (Exception ex) {
+           ex.printStackTrace();
+       }
     }
 
     @Transactional
@@ -164,6 +203,19 @@ public class SurgeryServiceImpl implements SurgeryService {
     @Override
     public void switchSurgeryStatus(Long surgeryId, SurgeryStatusEnum status) {
         surgeryRepository.changeSurgeryStatus(surgeryId, status.getValue());
+    }
+
+    /**
+     * Genarate  random surgery's code
+     */
+    private String generateSurgeryCode(){
+        String baseCode = "CPT";
+        Random random = new Random();
+        String generatedCode = baseCode + (random.nextInt(900000) + 100000);
+        while (surgeryRepository.existsByCode(generatedCode)){
+            generatedCode = baseCode + (random.nextInt(900000) + 100000);
+        }
+        return generatedCode;
     }
 
     /**

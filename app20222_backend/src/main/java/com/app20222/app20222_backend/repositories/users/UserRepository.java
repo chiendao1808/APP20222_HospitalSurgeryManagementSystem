@@ -26,6 +26,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT user.id FROM User user WHERE user.departmentId = :departmentId")
     Set<Long> findAllByDepartmentId(Long departmentId);
 
+    @Query(value = "SELECT user.email FROM User user WHERE user.id IN (:lstUserId)")
+    List<String> findAllEmailByIdIn(Set<Long> lstUserId);
+
     @Query(nativeQuery = true, value = SQLUser.GET_DETAIL_USER)
     IGetDetailUser getDetailUser(Long userId);
 

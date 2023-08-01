@@ -175,7 +175,7 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."surgery"
 (
     id               bigserial not null unique,
     name             varchar(100),
-    code             varchar(20),
+    code             varchar(20) not null unique,
     description      text,
     disease_group_id int8,
     type             int4,
