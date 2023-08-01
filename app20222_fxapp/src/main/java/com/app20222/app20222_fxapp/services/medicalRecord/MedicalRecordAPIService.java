@@ -70,7 +70,7 @@ public class MedicalRecordAPIService {
     /**
      * API call updateMedicalRecord
      */
-    public Boolean updateMedicalRecord(MedicalRecordUpdateDTO updateDTO) {
+    public Boolean updateMedicalRecord(MedicalRecordUpdateDTO updateDTO, Map<String, String> params) {
         String uri = ApiUtils.buildURI(APIDetails.MEDICAL_RECORD_UPDATE.getRequestPath() + APIDetails.MEDICAL_RECORD_UPDATE.getDetailPath(), new HashMap<>());
         HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.MEDICAL_RECORD_UPDATE.getMethod(), updateDTO, new HashMap<>());
         Boolean isSuccess = HttpUtils.isCallSuccessfully(response);

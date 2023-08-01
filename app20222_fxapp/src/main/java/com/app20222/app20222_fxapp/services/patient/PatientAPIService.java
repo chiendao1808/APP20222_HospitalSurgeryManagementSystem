@@ -70,7 +70,7 @@ public class PatientAPIService {
     /**
      * API call updatePatient
      */
-    public Boolean updatePatient(PatientUpdateDTO updateDTO) {
+    public Boolean updatePatient(PatientUpdateDTO updateDTO, Map<String, String> params) {
         String uri = ApiUtils.buildURI(APIDetails.PATIENT_UPDATE.getRequestPath() + APIDetails.PATIENT_UPDATE.getDetailPath(), new HashMap<>());
         HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.PATIENT_UPDATE.getMethod(), updateDTO, new HashMap<>());
         Boolean isSuccess = HttpUtils.isCallSuccessfully(response);

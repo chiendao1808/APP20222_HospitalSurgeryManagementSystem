@@ -70,7 +70,7 @@ public class SurgeryAPIService {
     /**
      * API call updateSurgery
      */
-    public Boolean updateSurgery(SurgeryUpdateDTO updateDTO) {
+    public Boolean updateSurgery(SurgeryUpdateDTO updateDTO, Map<String, String> params) {
         String uri = ApiUtils.buildURI(APIDetails.SURGERY_UPDATE.getRequestPath() + APIDetails.SURGERY_UPDATE.getDetailPath(), new HashMap<>());
         HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.SURGERY_UPDATE.getMethod(), updateDTO, new HashMap<>());
         Boolean isSuccess = HttpUtils.isCallSuccessfully(response);

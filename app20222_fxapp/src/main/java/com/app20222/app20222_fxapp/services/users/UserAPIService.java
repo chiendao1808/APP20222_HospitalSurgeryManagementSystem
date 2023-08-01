@@ -71,7 +71,7 @@ public class UserAPIService {
     /**
      * API call updateUser
      */
-    public Boolean updateUser(UserUpdateDTO updateDTO) {
+    public Boolean updateUser(UserUpdateDTO updateDTO, Map<String, String> params) {
         String uri = ApiUtils.buildURI(APIDetails.USER_UPDATE.getRequestPath() + APIDetails.USER_UPDATE.getDetailPath(), new HashMap<>());
         HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.USER_UPDATE.getMethod(), updateDTO, new HashMap<>());
         Boolean isSuccess = HttpUtils.isCallSuccessfully(response);
