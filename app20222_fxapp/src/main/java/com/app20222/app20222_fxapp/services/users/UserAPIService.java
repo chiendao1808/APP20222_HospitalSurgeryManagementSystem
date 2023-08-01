@@ -24,7 +24,7 @@ public class UserAPIService {
     public List<UserListDTO> getListUsers(Map<String, String> params) throws ApiResponseException {
         List<UserListDTO> users;
         String uri = ApiUtils.buildURI(APIDetails.USER_GET_LIST.getRequestPath() + APIDetails.USER_GET_LIST.getDetailPath(), params);
-        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.USER_GET_LIST.getMethod(), null, params);
+        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.USER_GET_LIST.getMethod(), null, new HashMap<>());
         // api call successfully (status = 200)
         if (HttpUtils.isCallSuccessfully(response)) {
             users = HttpUtils.handleResponse(response, new TypeReference<>() {});
@@ -57,7 +57,7 @@ public class UserAPIService {
     public UserDetailsDTO getDetailsUser(Map<String, String> params) {
         UserDetailsDTO user;
         String uri = ApiUtils.buildURI(APIDetails.USER_GET_DETAIL.getRequestPath() + APIDetails.USER_GET_DETAIL.getDetailPath(), params);
-        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.USER_GET_DETAIL.getMethod(), null, params);
+        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.USER_GET_DETAIL.getMethod(), null, new HashMap<>());
         // api call successfully (status = 200)
         if (HttpUtils.isCallSuccessfully(response)) {
             user = HttpUtils.handleResponse(response, new TypeReference<>() {});
@@ -72,7 +72,7 @@ public class UserAPIService {
      * API call updateUser
      */
     public Boolean updateUser(UserUpdateDTO updateDTO, Map<String, String> params) {
-        String uri = ApiUtils.buildURI(APIDetails.USER_UPDATE.getRequestPath() + APIDetails.USER_UPDATE.getDetailPath(), new HashMap<>());
+        String uri = ApiUtils.buildURI(APIDetails.USER_UPDATE.getRequestPath() + APIDetails.USER_UPDATE.getDetailPath(), params);
         HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.USER_UPDATE.getMethod(), updateDTO, new HashMap<>());
         Boolean isSuccess = HttpUtils.isCallSuccessfully(response);
         if (isSuccess) {

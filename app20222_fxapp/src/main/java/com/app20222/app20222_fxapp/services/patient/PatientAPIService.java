@@ -23,7 +23,7 @@ public class PatientAPIService {
     public List<PatientGetListNewDTO> getListPatient(Map<String, String> params) throws ApiResponseException {
         List<PatientGetListNewDTO> patients;
         String uri = ApiUtils.buildURI(APIDetails.PATIENT_GET_LIST.getRequestPath() + APIDetails.PATIENT_GET_LIST.getDetailPath(), params);
-        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.PATIENT_GET_LIST.getMethod(), null, params);
+        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.PATIENT_GET_LIST.getMethod(), null, new HashMap<>());
         // api call successfully (status = 200)
         if (HttpUtils.isCallSuccessfully(response)) {
             patients = HttpUtils.handleResponse(response, new TypeReference<>() {});
@@ -56,7 +56,7 @@ public class PatientAPIService {
     public PatientDetailsDTO getDetailsPatient(Map<String, String> params) {
         PatientDetailsDTO patient;
         String uri = ApiUtils.buildURI(APIDetails.PATIENT_GET_DETAILS.getRequestPath() + APIDetails.PATIENT_GET_DETAILS.getDetailPath(), params);
-        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.PATIENT_GET_DETAILS.getMethod(), null, params);
+        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.PATIENT_GET_DETAILS.getMethod(), null, new HashMap<>());
         // api call successfully (status = 200)
         if (HttpUtils.isCallSuccessfully(response)) {
             patient = HttpUtils.handleResponse(response, new TypeReference<>() {});
@@ -72,7 +72,7 @@ public class PatientAPIService {
      */
     public Boolean updatePatient(PatientUpdateDTO updateDTO, Map<String, String> params) {
         String uri = ApiUtils.buildURI(APIDetails.PATIENT_UPDATE.getRequestPath() + APIDetails.PATIENT_UPDATE.getDetailPath(), params);
-        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.PATIENT_UPDATE.getMethod(), updateDTO, params);
+        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.PATIENT_UPDATE.getMethod(), updateDTO, new HashMap<>());
         Boolean isSuccess = HttpUtils.isCallSuccessfully(response);
         if (isSuccess) {
             System.out.println("response: Updated successfully");
