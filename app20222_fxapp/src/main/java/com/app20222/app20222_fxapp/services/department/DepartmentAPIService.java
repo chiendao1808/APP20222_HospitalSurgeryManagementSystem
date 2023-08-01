@@ -22,7 +22,7 @@ public class DepartmentAPIService {
     public List<DepartmentListDTO> getListDepartment(Map<String, String> params) throws ApiResponseException {
         List<DepartmentListDTO> departments;
         String uri = ApiUtils.buildURI(APIDetails.DEPARTMENT_GET_LIST.getRequestPath() + APIDetails.DEPARTMENT_GET_LIST.getDetailPath(), params);
-        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.DEPARTMENT_GET_LIST.getMethod(), null, params);
+        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.DEPARTMENT_GET_LIST.getMethod(), null, new HashMap<>());
         // api call successfully (status = 200)
         if (HttpUtils.isCallSuccessfully(response)) {
             departments = HttpUtils.handleResponse(response, new TypeReference<>() {});
@@ -53,7 +53,7 @@ public class DepartmentAPIService {
      * API call updateDepartment
      */
     public Boolean updateDepartment(DepartmentUpdateDTO updateDTO, Map<String, String> params) {
-        String uri = ApiUtils.buildURI(APIDetails.DEPARTMENT_UPDATE.getRequestPath() + APIDetails.DEPARTMENT_UPDATE.getDetailPath(), new HashMap<>());
+        String uri = ApiUtils.buildURI(APIDetails.DEPARTMENT_UPDATE.getRequestPath() + APIDetails.DEPARTMENT_UPDATE.getDetailPath(), params);
         HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.DEPARTMENT_UPDATE.getMethod(), updateDTO, new HashMap<>());
         Boolean isSuccess = HttpUtils.isCallSuccessfully(response);
         if (isSuccess) {

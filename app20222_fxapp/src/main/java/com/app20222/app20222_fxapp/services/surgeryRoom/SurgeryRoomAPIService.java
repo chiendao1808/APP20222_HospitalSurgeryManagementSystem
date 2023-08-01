@@ -22,7 +22,7 @@ public class SurgeryRoomAPIService {
     public List<SurgeryRoomListDTO> getListSurgeryRoom(Map<String, String> params) throws ApiResponseException {
         List<SurgeryRoomListDTO> surgeryRooms;
         String uri = ApiUtils.buildURI(APIDetails.SURGERY_ROOM_GET_LIST.getRequestPath() + APIDetails.SURGERY_ROOM_GET_LIST.getDetailPath(), params);
-        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.SURGERY_ROOM_GET_LIST.getMethod(), null, params);
+        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.SURGERY_ROOM_GET_LIST.getMethod(), null, new HashMap<>());
         // api call successfully (status = 200)
         if (HttpUtils.isCallSuccessfully(response)) {
             surgeryRooms = HttpUtils.handleResponse(response, new TypeReference<>() {});
@@ -53,7 +53,7 @@ public class SurgeryRoomAPIService {
      * API call updateSurgeryRoom
      */
     public Boolean updateSurgeryRoom(SurgeryRoomUpdateDTO updateDTO, Map<String, String> params) {
-        String uri = ApiUtils.buildURI(APIDetails.SURGERY_ROOM_UPDATE.getRequestPath() + APIDetails.SURGERY_ROOM_UPDATE.getDetailPath(), new HashMap<>());
+        String uri = ApiUtils.buildURI(APIDetails.SURGERY_ROOM_UPDATE.getRequestPath() + APIDetails.SURGERY_ROOM_UPDATE.getDetailPath(), params);
         HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.SURGERY_ROOM_UPDATE.getMethod(), updateDTO, new HashMap<>());
         Boolean isSuccess = HttpUtils.isCallSuccessfully(response);
         if (isSuccess) {

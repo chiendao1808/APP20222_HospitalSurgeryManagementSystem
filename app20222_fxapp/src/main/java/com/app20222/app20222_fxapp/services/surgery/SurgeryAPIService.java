@@ -23,7 +23,7 @@ public class SurgeryAPIService {
     public List<SurgeryGetListDTO> getListSurgery(Map<String, String> params) throws ApiResponseException {
         List<SurgeryGetListDTO> surgeries;
         String uri = ApiUtils.buildURI(APIDetails.SURGERY_GET_LIST.getRequestPath() + APIDetails.SURGERY_GET_LIST.getDetailPath(), params);
-        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.SURGERY_GET_LIST.getMethod(), null, params);
+        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.SURGERY_GET_LIST.getMethod(), null, new HashMap<>());
         // api call successfully (status = 200)
         if (HttpUtils.isCallSuccessfully(response)) {
             surgeries = HttpUtils.handleResponse(response, new TypeReference<>() {});
@@ -56,7 +56,7 @@ public class SurgeryAPIService {
     public SurgeryDetailDTO getDetailsSurgery(Map<String, String> params) {
         SurgeryDetailDTO surgery;
         String uri = ApiUtils.buildURI(APIDetails.SURGERY_DETAILS.getRequestPath() + APIDetails.SURGERY_DETAILS.getDetailPath(), params);
-        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.SURGERY_DETAILS.getMethod(), null, params);
+        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.SURGERY_DETAILS.getMethod(), null, new HashMap<>());
         // api call successfully (status = 200)
         if (HttpUtils.isCallSuccessfully(response)) {
             surgery = HttpUtils.handleResponse(response, new TypeReference<>() {});
@@ -71,7 +71,7 @@ public class SurgeryAPIService {
      * API call updateSurgery
      */
     public Boolean updateSurgery(SurgeryUpdateDTO updateDTO, Map<String, String> params) {
-        String uri = ApiUtils.buildURI(APIDetails.SURGERY_UPDATE.getRequestPath() + APIDetails.SURGERY_UPDATE.getDetailPath(), new HashMap<>());
+        String uri = ApiUtils.buildURI(APIDetails.SURGERY_UPDATE.getRequestPath() + APIDetails.SURGERY_UPDATE.getDetailPath(), params);
         HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.SURGERY_UPDATE.getMethod(), updateDTO, new HashMap<>());
         Boolean isSuccess = HttpUtils.isCallSuccessfully(response);
         if (isSuccess) {

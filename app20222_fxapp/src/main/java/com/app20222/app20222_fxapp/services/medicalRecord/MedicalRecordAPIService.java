@@ -23,7 +23,7 @@ public class MedicalRecordAPIService {
     public List<MedicalRecordListDTO> getListMedicalRecord(Map<String, String> params) throws ApiResponseException {
         List<MedicalRecordListDTO> medicalRecords;
         String uri = ApiUtils.buildURI(APIDetails.MEDICAL_RECORD_GET_LIST.getRequestPath() + APIDetails.MEDICAL_RECORD_GET_LIST.getDetailPath(), params);
-        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.MEDICAL_RECORD_GET_LIST.getMethod(), null, params);
+        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.MEDICAL_RECORD_GET_LIST.getMethod(), null, new HashMap<>());
         // api call successfully (status = 200)
         if (HttpUtils.isCallSuccessfully(response)) {
             medicalRecords = HttpUtils.handleResponse(response, new TypeReference<>() {});
@@ -56,7 +56,7 @@ public class MedicalRecordAPIService {
     public MedicalRecordDetailsRes getDetailsMedicalRecord(Map<String, String> params) {
         MedicalRecordDetailsRes medicalRecord;
         String uri = ApiUtils.buildURI(APIDetails.MEDICAL_RECORD_GET_DETAILS.getRequestPath() + APIDetails.MEDICAL_RECORD_GET_DETAILS.getDetailPath(), params);
-        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.MEDICAL_RECORD_GET_DETAILS.getMethod(), null, params);
+        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.MEDICAL_RECORD_GET_DETAILS.getMethod(), null, new HashMap<>());
         // api call successfully (status = 200)
         if (HttpUtils.isCallSuccessfully(response)) {
             medicalRecord = HttpUtils.handleResponse(response, new TypeReference<>() {});
@@ -71,7 +71,7 @@ public class MedicalRecordAPIService {
      * API call updateMedicalRecord
      */
     public Boolean updateMedicalRecord(MedicalRecordUpdateDTO updateDTO, Map<String, String> params) {
-        String uri = ApiUtils.buildURI(APIDetails.MEDICAL_RECORD_UPDATE.getRequestPath() + APIDetails.MEDICAL_RECORD_UPDATE.getDetailPath(), new HashMap<>());
+        String uri = ApiUtils.buildURI(APIDetails.MEDICAL_RECORD_UPDATE.getRequestPath() + APIDetails.MEDICAL_RECORD_UPDATE.getDetailPath(), params);
         HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.MEDICAL_RECORD_UPDATE.getMethod(), updateDTO, new HashMap<>());
         Boolean isSuccess = HttpUtils.isCallSuccessfully(response);
         if (isSuccess) {

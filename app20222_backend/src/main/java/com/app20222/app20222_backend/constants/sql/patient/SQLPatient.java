@@ -29,7 +29,8 @@ public class SQLPatient {
             "      ('' = :identificationNum OR patient.identification_number ILIKE '%' || :identificationNum || '%') AND \n" +
             "      ('' = :name OR CONCAT_WS(' ', patient.last_name, patient.first_name) ILIKE '%' || :name || '%') AND \n" +
             "      ('' = :phoneNumber OR patient.phone_number ILIKE '%' || :phoneNumber || '%') AND \n" +
-            "      ('' = :email OR patient.code ILIKE '%' || :email || '%')";
+            "      ('' = :email OR patient.code ILIKE '%' || :email || '%') \n" +
+            "ORDER BY COALESCE(patient.modified_at, patient.created_at) DESC ";
 
     public static final String GET_DETAIL_PATIENT =
         "SELECT \n" +

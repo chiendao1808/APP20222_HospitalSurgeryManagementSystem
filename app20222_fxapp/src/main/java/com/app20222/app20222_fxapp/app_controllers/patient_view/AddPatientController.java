@@ -2,8 +2,6 @@ package com.app20222.app20222_fxapp.app_controllers.patient_view;
 
 import com.app20222.app20222_fxapp.dto.requests.patient.PatientCreateDTO;
 import com.app20222.app20222_fxapp.dto.requests.patient.PatientUpdateDTO;
-import com.app20222.app20222_fxapp.dto.responses.patient.PatientDetailsDTO;
-import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListNewDTO;
 import com.app20222.app20222_fxapp.enums.users.IdentityTypeEnum;
 import com.app20222.app20222_fxapp.exceptions.apiException.ApiResponseException;
 import com.app20222.app20222_fxapp.services.patient.PatientAPIService;
