@@ -25,4 +25,8 @@ public class ApplicationContext {
      * List usable features
      */
     public static Set<String> features = new HashSet<>();
+
+    public static String lastLoginUsername = "";
+
+    public static String lastLoginPassword = "";
 }

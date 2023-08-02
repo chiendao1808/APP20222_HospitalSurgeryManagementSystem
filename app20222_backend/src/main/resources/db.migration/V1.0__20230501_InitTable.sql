@@ -421,6 +421,65 @@ COMMENT ON COLUMN "app20222_db"."mail"."is_has_attachments" IS 'Có/Không file 
 COMMENT ON COLUMN "app20222_db"."mail"."status" IS 'Trạng thái email (0: Chờ gửi, 1: Đã gửi, 2: Gửi thành công, 3 : Gửi thất bại)';
 COMMENT ON COLUMN "app20222_db"."mail"."sent_time" IS 'Thời gian gửi';
 
+-- Bảng mail_templates --
+DROP TABLE IF EXISTS "app20222_db"."mail_templates";
+CREATE TABLE IF NOT EXISTS "app20222_db"."mail_templates"
+(
+    id                 bigserial   not null unique,
+    name               varchar(100) not null,
+    code               varchar(30) not null unique,
+    raw_content        text        not null,
+    lst_mail_params    text        not null default '[]',
+    subject            text        not null,
+    primary key (id)
+);
+COMMENT ON TABLE "app20222_db"."mail_templates" IS 'Bảng lưu các mẫu email trong hệ thống';
+COMMENT ON COLUMN "app20222_db"."mail_templates"."id" IS 'Id mẫu email';
+COMMENT ON COLUMN "app20222_db"."mail_templates"."name" IS 'Tên mẫu email';
+COMMENT ON COLUMN "app20222_db"."mail_templates"."code" IS 'Mã code mẫu email';
+COMMENT ON COLUMN "app20222_db"."mail_templates"."raw_content" IS 'Form html mẫu email';
+COMMENT ON COLUMN "app20222_db"."mail_templates"."subject" IS 'Tiêu đề mẫu email';
+COMMENT ON COLUMN "app20222_db"."mail_templates"."lst_mail_params" IS 'Danh sách các param của email';
+-- Init dữ liệu --
+INSERT INTO "app20222_db"."mail_templates" ("name", "code", "subject", "raw_content", "lst_mail_params")
+VALUES ('Gửi thông báo phân công vào ca phẫu thuật mới', 'SURGERY-01', 'Phân công ca phẫu thuật mới', 
+        '<html xmlns="http://www.w3.org/1999/xhtml"> 
+               <header>
+               <meta http-equiv = "Content-Type" content = "text/html;charset=utf-8">
+               </header>
+               <body>
+                  <h1> Xin chào, bạn đã được phân công vào một ca phẫu thuật mới</h1>
+                  <div>
+                     <p>Thông tin về ca phẫu thuật:</p>
+                     <span> - Tên ca phẫu thuật: $SURGERY_NAME</span> <br>
+                     <span> - Mã ca phẫu thuật: $SURGERY_CODE </span> <br>
+                     <span> - Thời gian thực hiện: $TIME </span> <br>
+                     <span> - Phòng phẫu thuật: $SURGERY_ROOM</span> <br>
+                     <p>Trân trọng, </p>
+                     <p>Đội ngũ quản trị bệnh viện</p>
+                  </div>
+               </body>
+            </html>', '[$SUGERY_NAME,$SUGERY_CODE,$TIME,$SURGEY_ROOM]');
+INSERT INTO "app20222_db"."mail_templates" ("name", "code", "subject", "raw_content", "lst_mail_params")
+VALUES ('Gửi thông báo phân công bổ sung vào ca phẫu thuật', 'SURGERY-02', 'Phân công bổ sung ca phẫu thuật',
+        '<html xmlns="http://www.w3.org/1999/xhtml">
+               <header>
+               <meta http-equiv = "Content-Type" content = "text/html;charset=utf-8">
+               </header>
+               <body>
+                  <h1> Xin chào, bạn đã được phân công bổ sung vào một ca phẫu thuật</h1>
+                  <div>
+                     <p>Thông tin về ca phẫu thuật:</p>
+                     <span> - Tên ca phẫu thuật: $SURGERY_NAME</span> <br>
+                     <span> - Mã ca phẫu thuật: $SURGERY_CODE </span> <br>
+                     <span> - Thời gian thực hiện: $TIME </span> <br>
+                     <span> - Phòng phẫu thuật: $SURGERY_ROOM</span> <br>
+                     <p>Trân trọng, </p>
+                     <p>Đội ngũ quản trị bệnh viện</p>
+                  </div>
+               </body>
+            </html>', '[$SUGERY_NAME,$SUGERY_CODE,$TIME,$SURGEY_ROOM]');
+
 -- Bảng feature --
 DROP TABLE IF EXISTS "app20222_db"."features";
 CREATE TABLE IF NOT EXISTS "app20222_db"."features"

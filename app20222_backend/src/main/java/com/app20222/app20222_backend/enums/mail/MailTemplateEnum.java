@@ -10,11 +10,11 @@ import lombok.Getter;
 @Getter
 public enum MailTemplateEnum {
 
-    CREATE_SURGERY_TO_USER_MAIL_TEMPLATE("SURGERY-01", "Đặt lịch ca phẫu thuật",
+    CREATE_SURGERY_TO_USER_MAIL_TEMPLATE("SURGERY-01", "Phân công ca phẫu thuật mới",
         SurgeryMailTemplate.CREATE_SURGERY_MAIL_TO_USER_TEMPLATE,
         Arrays.asList("$SUGERY_NAME", "$SUGERY_CODE", "$TIME", "$SURGEY_ROOM")),
 
-    CHANGE_ASSIGNMENT_SURGERY_MAIL_TO_USER_TEMPLATE("SURGERY-02", "Phân công ca phẫu thuật",
+    CHANGE_ASSIGNMENT_SURGERY_MAIL_TO_USER_TEMPLATE("SURGERY-02", "Phân công bổ sung ca phẫu thuật",
         SurgeryMailTemplate.CHANGE_ASSIGNMENT_SURGERY_MAIL_TO_USER_TEMPLATE,
         Arrays.asList("$SUGERY_NAME", "$SUGERY_CODE", "$TIME", "$SURGEY_ROOM"));
 
