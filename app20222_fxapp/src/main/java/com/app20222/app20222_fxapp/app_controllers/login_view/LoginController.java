@@ -125,6 +125,8 @@ public class LoginController {
                     ApplicationContext.refreshToken = loginResponse.getRefreshToken();
                     ApplicationContext.roles = loginResponse.getRoles();
                     ApplicationContext.features = loginResponse.getFeatures();
+                    ApplicationContext.lastLoginUsername = username;
+                    ApplicationContext.lastLoginPassword = password;
                 } else { // Login fail
                     System.out.println(HttpUtils.handleResponse(response, new TypeReference<ExceptionResponse>() {}));
                 }

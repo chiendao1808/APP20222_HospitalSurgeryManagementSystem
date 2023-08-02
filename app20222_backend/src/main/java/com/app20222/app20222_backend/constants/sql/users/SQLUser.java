@@ -5,6 +5,7 @@ public class SQLUser {
     public static final String GET_LIST_USER =
         "SELECT \n" +
                 "    users.id AS id,\n" +
+                "    users.code AS code, \n" +
                 "    CONCAT_WS(' ', users.last_name, users.first_name) AS name, \n" +
                 "    users.identification_number AS identificationNum,\n" +
                 "    CASE \n" +
@@ -32,6 +33,7 @@ public class SQLUser {
         public static final String GET_DETAIL_USER =
             "SELECT \n" +
                 "    users.id AS id,\n" +
+                "    users.code AS code, \n" +
                 "    CONCAT_WS(' ', users.last_name, users.first_name) AS name, \n" +
                 "    users.identification_number AS identificationNum,\n" +
                 "    CASE \n" +

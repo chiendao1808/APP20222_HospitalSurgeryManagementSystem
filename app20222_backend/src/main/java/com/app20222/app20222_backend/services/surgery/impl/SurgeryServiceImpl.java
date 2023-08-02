@@ -26,6 +26,7 @@ import com.app20222.app20222_backend.dtos.surgery.SurgeryUpdateDTO;
 import com.app20222.app20222_backend.dtos.surgery.IGetListSurgery;
 import com.app20222.app20222_backend.dtos.surgery.IGetOverlapSurgery;
 import com.app20222.app20222_backend.entities.mail.Mail;
+import com.app20222.app20222_backend.entities.mail.MailTemplate;
 import com.app20222.app20222_backend.entities.surgery.Surgery;
 import com.app20222.app20222_backend.entities.surgery.UserSurgery;
 import com.app20222.app20222_backend.entities.surgeryRoom.SurgeryRoom;
@@ -35,6 +36,7 @@ import com.app20222.app20222_backend.enums.surgery.SurgeryStatusEnum;
 import com.app20222.app20222_backend.exceptions.exceptionFactory.ExceptionFactory;
 import com.app20222.app20222_backend.repositories.fileAttach.FileAttachRepository;
 import com.app20222.app20222_backend.repositories.fileAttach.SurgeryFileRepository;
+import com.app20222.app20222_backend.repositories.mail.MailTemplateRepository;
 import com.app20222.app20222_backend.repositories.surgery.SurgeryRepository;
 import com.app20222.app20222_backend.repositories.surgery.UserSurgeryRepository;
 import com.app20222.app20222_backend.repositories.surgeryRoom.SurgeryRoomRepository;
@@ -67,6 +69,8 @@ public class SurgeryServiceImpl implements SurgeryService {
 
     private final MailService mailService;
 
+    private final MailTemplateRepository mailTemplateRepository;
+
 
     public static final String OVERLAP_ASSIGNEE = "assignee_id";
 
@@ -76,7 +80,8 @@ public class SurgeryServiceImpl implements SurgeryService {
 
     public SurgeryServiceImpl(SurgeryRepository surgeryRepository, UserSurgeryRepository userSurgeryRepository, ExceptionFactory exceptionFactory,
         PermissionService permissionService, FileAttachRepository fileAttachRepository, SurgeryFileRepository surgeryFileRepository,
-        UserRepository userRepository, SurgeryRoomRepository surgeryRoomRepository, MailService mailService){
+        UserRepository userRepository, SurgeryRoomRepository surgeryRoomRepository, MailService mailService,
+        MailTemplateRepository mailTemplateRepository){
         this.surgeryRepository = surgeryRepository;
         this.userSurgeryRepository = userSurgeryRepository;
         this.exceptionFactory = exceptionFactory;
@@ -86,6 +91,7 @@ public class SurgeryServiceImpl implements SurgeryService {
         this.mailService = mailService;
         this.userRepository = userRepository;
         this.surgeryRoomRepository = surgeryRoomRepository;
+        this.mailTemplateRepository = mailTemplateRepository;
     }
 
     @Transactional
@@ -109,28 +115,34 @@ public class SurgeryServiceImpl implements SurgeryService {
                 .build()).collect(Collectors.toList());
         lstUserSurgery = userSurgeryRepository.saveAll(lstUserSurgery);
 
-        // Gửi thông báo qua email
-       try{
-           Set<Long> lstUserIdSendMail = lstUserSurgery.stream().map(UserSurgery::getUserId).collect(Collectors.toSet());
-           List<String> lstEmailToSend = userRepository.findAllEmailByIdIn(lstUserIdSendMail);
-           SurgeryRoom surgeryRoom = surgeryRoomRepository.findById(newSurgery.getSurgeryRoomId()).orElse(null);
-           if(Objects.isNull(surgeryRoom)) return;
-           MailTemplateEnum mailTemplate = MailTemplateEnum.CREATE_SURGERY_TO_USER_MAIL_TEMPLATE;
-           String content = mailTemplate.getRawContent();
-           content = content.replace("$SURGERY_NAME", newSurgery.getName());
-           content = content.replace("$SURGERY_CODE", newSurgery.getCode());
-           content = content.replace("$TIME", new SimpleDateFormat(DateUtils.FORMAT_DATE_DD_MM_YYYY_HH_MM).format(newSurgery.getStartedAt()));
-           content = content.replace("$SURGERY_ROOM", surgeryRoom.getName() + " - " + surgeryRoom.getAddress());
-           Mail mail = Mail.builder()
-               .subject(mailTemplate.getSubject())
-               .content(content)
-               .lstToAddress(lstEmailToSend)
-               .isHasAttachments(false)
-               .build();
-           mailService.sendMail(mail);
-       } catch (Exception ex) {
-           ex.printStackTrace();
-       }
+        // Gửi thông báo qua email (cho những người dùng được phân công vào ca phẫu thuật)
+        try {
+            Set<Long> lstUserIdSendMail = lstUserSurgery.stream().map(UserSurgery::getUserId).collect(Collectors.toSet());
+            List<String> lstEmailToSend = userRepository.findAllEmailByIdIn(lstUserIdSendMail);
+            SurgeryRoom surgeryRoom = surgeryRoomRepository.findById(newSurgery.getSurgeryRoomId()).orElse(null);
+            if (Objects.isNull(surgeryRoom)) {
+                return;
+            }
+            MailTemplate mailTemplate = mailTemplateRepository.findByCode(MailTemplateEnum.CREATE_SURGERY_TO_USER_MAIL_TEMPLATE.getCode())
+                .orElse(null);
+            if (Objects.isNull(mailTemplate)) {
+                return;
+            }
+            String content = mailTemplate.getRawContent();
+            content = content.replace("$SURGERY_NAME", newSurgery.getName());
+            content = content.replace("$SURGERY_CODE", newSurgery.getCode());
+            content = content.replace("$TIME", new SimpleDateFormat(DateUtils.FORMAT_DATE_HH_MM_DD_MM_YYYY).format(newSurgery.getStartedAt()));
+            content = content.replace("$SURGERY_ROOM", surgeryRoom.getName() + " - " + surgeryRoom.getAddress());
+            Mail mail = Mail.builder()
+                .subject(mailTemplate.getSubject())
+                .content(content)
+                .lstToAddress(lstEmailToSend)
+                .isHasAttachments(false)
+                .build();
+            mailService.sendMail(mail);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Transactional
@@ -142,17 +154,48 @@ public class SurgeryServiceImpl implements SurgeryService {
         Set<Long> lstAssigneeId = updateDTO.getLstAssignment().stream().map(SurgeryRoleDTO::getAssigneeId).collect(Collectors.toSet());
         validateSurgeryOverlap(updateDTO.getStartedAt(), updateDTO.getEstimatedEndAt(), lstAssigneeId, updateDTO.getSurgeryRoomId(), null, surgeryId);
 
+
         // Cập nhật thông tin surgery
         BeanUtils.copyProperties(updateDTO, surgery);
-        surgeryRepository.save(surgery);
+        surgery = surgeryRepository.save(surgery);
+        // Lấy ra danh sách các người dùng được phân công trong ca phẫu thuật hiện tại
+        Set<Long> lstOldUserIdInSurgery = userSurgeryRepository.findUserIdBySurgeryId(surgeryId);
         // Xóa toàn bộ assignment theo surgery id
         userSurgeryRepository.deleteAllBySurgeryId(surgeryId);
         // lưu assignment mới
         List<UserSurgery> lstUserSurgery = updateDTO.getLstAssignment().stream().map(
             item -> UserSurgery.builder().userId(item.getAssigneeId()).surgeryId(surgeryId).surgeryRoleType(item.getSurgeryRoleType())
                 .build()).collect(Collectors.toList());
-        userSurgeryRepository.saveAll(lstUserSurgery);
-        // TODO : Gửi mail (đợi template)
+        lstUserSurgery = userSurgeryRepository.saveAll(lstUserSurgery);
+        // Gửi thông báo qua email ( cho những người dùng được phân công bổ sung vào ca phẫu thuật)
+        try {
+            Set<Long> lstNewUserSurgery = lstUserSurgery.stream().map(UserSurgery::getUserId)
+                .filter(item -> !lstOldUserIdInSurgery.contains(item)).collect(Collectors.toSet());
+            List<String> lstEmailToSend = userRepository.findAllEmailByIdIn(lstNewUserSurgery);
+            SurgeryRoom surgeryRoom = surgeryRoomRepository.findById(surgery.getSurgeryRoomId()).orElse(null);
+            if (Objects.isNull(surgeryRoom)) {
+                return;
+            }
+            MailTemplate mailTemplate = mailTemplateRepository
+                .findByCode(MailTemplateEnum.CHANGE_ASSIGNMENT_SURGERY_MAIL_TO_USER_TEMPLATE.getCode()).orElse(null);
+            if (Objects.isNull(mailTemplate)) {
+                return;
+            }
+            String mailUpdateContent = mailTemplate.getRawContent();
+            mailUpdateContent = mailUpdateContent.replace("$SURGERY_NAME", surgery.getName());
+            mailUpdateContent = mailUpdateContent.replace("$SURGERY_CODE", surgery.getCode());
+            mailUpdateContent = mailUpdateContent.replace("$TIME", new SimpleDateFormat(DateUtils.FORMAT_DATE_HH_MM_DD_MM_YYYY).format(surgery.getStartedAt()));
+            mailUpdateContent = mailUpdateContent.replace("$SURGERY_ROOM", surgeryRoom.getName() + " - " + surgeryRoom.getAddress());
+            Mail mail = Mail.builder()
+                .subject(mailTemplate.getSubject())
+                .content(mailUpdateContent)
+                .lstToAddress(lstEmailToSend)
+                .isHasAttachments(false)
+                .build();
+            mailService.sendMail(mail);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @Override

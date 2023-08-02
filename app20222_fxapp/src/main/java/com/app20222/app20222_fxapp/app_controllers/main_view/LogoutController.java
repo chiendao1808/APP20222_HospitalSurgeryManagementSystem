@@ -40,13 +40,10 @@ public class LogoutController {
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
                 stage.show();
-
                 logoutBtn.getScene().getWindow().hide();
-
-                // Clear token in context
-//                ApplicationContext.ACCESS_TOKEN = "";
-//                ApplicationContext.REFRESH_TOKEN = "";
-
+                //Clear token in context when log out
+                ApplicationContext.accessToken = "";
+                ApplicationContext.refreshToken = "";
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -30,6 +30,7 @@ public class DateUtils {
     public static final String TIME_ZONE = "Asia/Ho_Chi_Minh";
     public static final String FORMAT_DATE_YYYY_MM_DD_T_HH_MM_SS = "yyyy-MM-dd'T'HH:mm:ss";
     public static final String FORMAT_DATE_YYYY_MM_DD_T_HH_MM_SS_SSSZ = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+    public static final String FORMAT_DATE_HH_MM_DD_MM_YYYY = "HH:mm dd/MM/yyyy";
 
     public static final String FORMAT_DATE_FILE_DD_MM_YYYY_HH_MM_SS = "ddMMyyyyHHmmss";
 
