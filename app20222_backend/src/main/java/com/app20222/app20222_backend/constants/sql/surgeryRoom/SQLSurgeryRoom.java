@@ -16,6 +16,6 @@ public class SQLSurgeryRoom {
             "      (:id = -1 OR id = :id) AND \n" +
             "      (:code = '' OR code ILIKE ('%' || :code || '%')) AND \n" +
             "      (:name = '' OR name ILIKE ('%' || :name || '%')) AND \n" +
-            "      currentAvailable = :currentAvailable ";
+            "      current_available = :currentAvailable ";
 
 }
