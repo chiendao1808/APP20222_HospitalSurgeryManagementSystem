@@ -1,12 +1,16 @@
 package com.app20222.app20222_fxapp.app_controllers.main_view;
 
+import com.app20222.app20222_fxapp.app_controllers.medicalRecord_view.MedicalRecordController;
 import com.app20222.app20222_fxapp.app_controllers.profile_view.ProfileController;
+import com.app20222.app20222_fxapp.app_controllers.surgeryRoom_view.SurgeryRoomController;
 import com.app20222.app20222_fxapp.app_controllers.user_view.UserController;
 import com.app20222.app20222_fxapp.app_controllers.patient_view.PatientController;
 import com.app20222.app20222_fxapp.app_controllers.surgery_view.SurgeryController;
 import com.app20222.app20222_fxapp.dto.responses.medicalRecord.MedicalRecordGetListDTO;
+import com.app20222.app20222_fxapp.dto.responses.medicalRecord.MedicalRecordListDTO;
 import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListNewDTO;
 import com.app20222.app20222_fxapp.dto.responses.surgery.SurgeryGetListDTO;
+import com.app20222.app20222_fxapp.dto.responses.surgeryRoom.SurgeryRoomListDTO;
 import com.app20222.app20222_fxapp.dto.responses.users.UserListDTO;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
@@ -140,7 +144,7 @@ public class MainController implements Initializable {
 
 
     @FXML
-    private TableColumn<PatientGetListNewDTO, String> patientIBirthdayColumn;
+    private TableColumn<PatientGetListNewDTO, Date> patientIBirthdayColumn;
 
     @FXML
     private TableColumn<PatientGetListNewDTO, String> patientINameColumn;
@@ -153,7 +157,10 @@ public class MainController implements Initializable {
 
     // Hồ sơ bệnh án
     @FXML
-    private TableView<MedicalRecordGetListDTO> medicalRecordTable;
+    private TableView<MedicalRecordListDTO> medicalRecordTable;
+
+    @FXML
+    private TableColumn<MedicalRecordGetListDTO,Long> medicalRecordStt;
 
     @FXML
     private TableColumn<MedicalRecordGetListDTO, String> medicalRecordAction;
@@ -183,26 +190,37 @@ public class MainController implements Initializable {
     @FXML
     private Button createSurgery;
     @FXML
-    private TableView<SurgeryGetListDTO> surgeryTable;
-    @FXML
     private ScrollPane surgeryTableView;
     // column
     @FXML
-    private TableColumn<SurgeryGetListDTO, ?> id;
+    private TableView<SurgeryGetListDTO> surgeryTable;
+
     @FXML
-    private TableColumn<SurgeryGetListDTO, ?> surgeryCodeColumn;
+    private TableColumn<SurgeryGetListDTO, String> surgeryActionColumn;
     @FXML
-    private TableColumn<SurgeryGetListDTO, ?> surgeryNameColumn;
+    private TableColumn<SurgeryGetListDTO, Long> surgerySttColumn;
     @FXML
-    private TableColumn<SurgeryGetListDTO, ?> surgeryPatientNameColumn;
+    private TableColumn<SurgeryGetListDTO, String> surgeryCodeColumn;
     @FXML
-    private TableColumn<SurgeryGetListDTO, ?> surgeryResultColumn;
+    private TableColumn<SurgeryGetListDTO, String> surgeryNameColumn;
     @FXML
-    private TableColumn<SurgeryGetListDTO, ?> surgeryRoomColumn;
+    private TableColumn<SurgeryGetListDTO, String> surgeryPatientNameColumn;
     @FXML
-    private TableColumn<SurgeryGetListDTO, ?> surgeryStatusColumn;
+    private TableColumn<SurgeryGetListDTO, String> surgeryResultColumn;
     @FXML
-    private TableColumn<SurgeryGetListDTO, ?> typeSurgeryColumn;
+    private TableColumn<SurgeryGetListDTO, String> surgeryRoomColumn;
+    @FXML
+    private TableColumn<SurgeryGetListDTO,String> surgeryStatusColumn;
+    @FXML
+    private TableColumn<SurgeryGetListDTO, String> typeSurgeryColumn;
+    @FXML
+    private TableColumn<SurgeryGetListDTO, String> surgeryDiseaseGroupNameColumn;
+    @FXML
+    private TableColumn<SurgeryGetListDTO, Date> surgeryStartedAtColumn;
+    @FXML
+    private TableColumn<SurgeryGetListDTO, Date> surgeryEndedAtColumn;
+    @FXML
+    private TableColumn<SurgeryGetListDTO, Date> surgeryEstimatedEndAtColumn;
     // người dùng
     @FXML
     private TableColumn<UserListDTO, ?> UserActionColumn;
@@ -233,14 +251,45 @@ public class MainController implements Initializable {
     @FXML
     private Button createUserBtn;
 
+    // phòng phẫu thuật
+    @FXML
+    private TableColumn<SurgeryRoomListDTO, String> surgeryRoomAction;
+
+    @FXML
+    private TableColumn<SurgeryRoomListDTO, String> surgeryRoomAddress;
+
+    @FXML
+    private TableColumn<SurgeryRoomListDTO, String> surgeryRoomCode;
+
+    @FXML
+    private TableColumn<SurgeryRoomListDTO, Boolean> surgeryRoomCurrentAvailable;
+
+    @FXML
+    private TableColumn<SurgeryRoomListDTO, String> surgeryRoomDescription;
+
+    @FXML
+    private TableColumn<SurgeryRoomListDTO, String> surgeryRoomName;
+
+    @FXML
+    private TableColumn<SurgeryRoomListDTO, Date> surgeryRoomOnServiceAt;
+
+    @FXML
+    private TableColumn<SurgeryRoomListDTO, Long> surgeryRoomStt;
+
+    @FXML
+    private TableView<SurgeryRoomListDTO> surgeryRoomTable;
+    @FXML
+    private Button createSurgeryRoom;
 
     // controller
     //TabController
     private TabController tabController = new TabController();
     private PatientController patientController;
-    private SurgeryController surgeryController = new SurgeryController();
+    private MedicalRecordController medicalRecordController;
+    private SurgeryController surgeryController;
     private UserController userController;
     private ProfileController profileController;
+    private SurgeryRoomController surgeryRoomController;
 
     // Các hàm xử lý
     // Xử lý khi click icon thu nhỏ múc leftMenu
@@ -338,14 +387,33 @@ public class MainController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        patientController = new PatientController(patientTable, patientIdColumn,patientINameColumn,patientCodeColumn,patientIBirthdayColumn,patientPhoneColumn,patientAddressColumn,
+        // Benh nhan
+        patientController = new PatientController(patientTable, patientIdColumn,patientINameColumn,patientCodeColumn,
+                patientIBirthdayColumn,patientPhoneColumn,patientAddressColumn,
             patientActionColumn);
         patientController.initializeTable();
+        // Nguoi dung
         userController = new UserController(UserTableView,UserActionColumn,UserAddressColumn,UserDateColumn,UserDepartmentColumn,
                 UserEmailColumn,UserIdentificationNumColumn,UserNameColumn,UserPhoneColumn);
         profileController = new ProfileController(profileUser, profileUserId, profileUserCode, profileUserName,
                 profileUserIdentityType, profileUserIdentificationNum, profileUserBirthDate, profileUserEmail,
                 profileUserPhone, profileUserAddress, profileUserDepartment, profileUserRole);
         profileController.initializeProfile();
+        // Ho so benh an
+        medicalRecordController = new MedicalRecordController(medicalRecordTable, medicalRecordStt,medicalRecordPatientID, medicalRecordPatientName,
+                medicalRecordPatientCode, medicalRecordCreateAt,medicalRecordCreatedById,medicalRecordCreatedByName,medicalRecordAction);
+        medicalRecordController.initializeMedicalRecord();
+        // Ca phau thuat
+        surgeryController = new SurgeryController(surgeryTable,surgerySttColumn,surgeryCodeColumn,
+                surgeryNameColumn,surgeryPatientNameColumn, surgeryResultColumn,surgeryRoomColumn,
+                surgeryStatusColumn,typeSurgeryColumn,surgeryActionColumn,  surgeryDiseaseGroupNameColumn,
+               surgeryStartedAtColumn,surgeryEndedAtColumn,
+               surgeryEstimatedEndAtColumn );
+        surgeryController.initializeSurgery();
+
+        // phòng phẫu thuật
+        surgeryRoomController = new SurgeryRoomController(surgeryRoomTable,surgeryRoomStt,surgeryRoomName,surgeryRoomCode,
+                surgeryRoomDescription,surgeryRoomAddress,surgeryRoomCurrentAvailable,surgeryRoomOnServiceAt,surgeryRoomAction);
+        surgeryRoomController.initializeMedicalRecord();
     }
 }//
