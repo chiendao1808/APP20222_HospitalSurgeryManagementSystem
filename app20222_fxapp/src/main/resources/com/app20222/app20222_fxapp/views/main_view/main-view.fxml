@@ -38,7 +38,7 @@
                               <Line endX="109.40000915527344" layoutX="125.0" layoutY="132.0" startX="-102.59999084472656" />
                               <AnchorPane layoutX="2.0" layoutY="142.0" prefHeight="651.0" prefWidth="250.0">
                                  <children>
-                                    <Button fx:id="tabPatient" alignment="BOTTOM_LEFT" layoutX="16.0" layoutY="100.0" mnemonicParsing="false" onAction="#switchTab" prefHeight="37.0" prefWidth="218.0" style="-fx-background-color: #2C3D94;" styleClass="nav-btn" stylesheets="@main.css" text="Bệnh nhân">
+                                    <Button fx:id="tabPatient" alignment="BOTTOM_LEFT" layoutX="18.0" layoutY="62.0" mnemonicParsing="false" onAction="#switchTab" prefHeight="37.0" prefWidth="218.0" style="-fx-background-color: #2C3D94;" styleClass="nav-btn" stylesheets="@main.css" text="Bệnh nhân">
                                        <graphic>
                                           <FontAwesomeIconView fill="WHITE" size="1.8em" />
                                        </graphic>
@@ -48,14 +48,14 @@
                                           <FontAwesomeIconView fill="WHITE" glyphName="FOLDER" selectionFill="#7e2828" size="1.8em" text="" />
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="tabDoctor" layoutX="16.0" layoutY="62.0" mnemonicParsing="false" onAction="#switchTab" prefHeight="37.0" prefWidth="218.0" styleClass="nav-btn" stylesheets="@main.css" text="Người dùng">
-                                       <graphic>
-                                          <FontAwesomeIconView fill="WHITE" size="1.8em" />
-                                       </graphic>
-                                    </Button>
                                     <Button fx:id="tabSurgery" layoutX="16.0" layoutY="176.0" mnemonicParsing="false" onAction="#switchTab" prefHeight="37.0" prefWidth="218.0" styleClass="nav-btn" stylesheets="@main.css" text="Ca phẩu thuật">
                                        <graphic>
                                           <FontAwesomeIconView fill="#fafafa" size="1.8em" />
+                                       </graphic>
+                                    </Button>
+                                    <Button fx:id="tabDoctor" layoutX="18.0" layoutY="100.0" mnemonicParsing="false" onAction="#switchTab" prefHeight="37.0" prefWidth="218.0" styleClass="nav-btn" stylesheets="@main.css" text="Người dùng">
+                                       <graphic>
+                                          <FontAwesomeIconView fill="WHITE" size="1.8em" />
                                        </graphic>
                                     </Button>
                                     <Button fx:id="tabSurgeryRoom" layoutX="16.0" layoutY="214.0" mnemonicParsing="false" onAction="#switchTab" prefHeight="37.0" prefWidth="218.0" styleClass="nav-btn" stylesheets="@main.css" text="Phòng phẫu thuật">
@@ -165,7 +165,7 @@
                      <children>
                         <AnchorPane layoutX="254.0" layoutY="113.0" prefHeight="743.2" prefWidth="1147.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <AnchorPane fx:id="userPane" layoutY="-15.0" prefHeight="796.0" prefWidth="1208.8" stylesheets="@../user_view/user.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <AnchorPane fx:id="userPane" layoutY="-15.0" prefHeight="796.0" prefWidth="1208.8" stylesheets="@../user_view/user.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <Label alignment="CENTER" layoutX="1.0" layoutY="40.0" prefHeight="54.0" prefWidth="1144.0" text="Thông tin cá nhân">
                                        <font>
@@ -265,7 +265,10 @@
                                     </AnchorPane>
                                     <AnchorPane layoutX="6.0" layoutY="190.0" prefHeight="581.0" prefWidth="1192.0" stylesheets="@main.css" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="190.0">
                                        <children>
-                                          <Text layoutX="501.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danh sách bệnh nhân" />
+                                          <Text layoutX="501.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danh sách bệnh nhân">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font></Text>
                                           <TableView fx:id="patientTable" layoutX="10.0" layoutY="66.0" prefHeight="506.0" prefWidth="1166.0" stylesheets="@../patient_view/patient.css">
                                             <columns>
                                               <TableColumn fx:id="patientIdColumn" prefWidth="43.20001220703125" text="STT" />
@@ -296,7 +299,7 @@
                                     </AnchorPane>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="medicalRecord" layoutX="10.0" layoutY="16.0" prefHeight="743.2" prefWidth="1147.2" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <AnchorPane fx:id="medicalRecord" layoutX="10.0" layoutY="16.0" prefHeight="743.2" prefWidth="1147.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <AnchorPane layoutX="6.0" layoutY="14.0" prefHeight="170.0" prefWidth="1189.0" stylesheets="@main.css" AnchorPane.topAnchor="0.0">
                                        <children>
@@ -315,7 +318,10 @@
                                        <children>
                                           <AnchorPane layoutX="9.0" layoutY="14.0" prefHeight="34.0" prefWidth="1112.0">
                                              <children>
-                                                <Text layoutX="487.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danh sách Hồ sơ bệnh án" wrappingWidth="155.90676879882812" />
+                                                <Text layoutX="474.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danh sách Hồ sơ bệnh án" wrappingWidth="315.1067810058594">
+                                                   <font>
+                                                      <Font size="20.0" />
+                                                   </font></Text>
                                                 <Button fx:id="createMedicalRecord" layoutX="1112.0" layoutY="-2.0" mnemonicParsing="false" onAction="#showModal" prefHeight="30.0" prefWidth="61.0" text="Tạo">
                                                    <graphic>
                                                       <FontAwesomeIconView fill="#c40612" glyphName="USER_PLUS" selectionFill="#f4f4f4" size="1em" text="">
@@ -332,7 +338,7 @@
                                           </AnchorPane>
                                           <TableView fx:id="medicalRecordTable" layoutX="10.0" layoutY="66.0" prefHeight="443.0" prefWidth="1179.0">
                                              <columns>
-                                                <TableColumn prefWidth="48.799983978271484" text="STT" />
+                                                <TableColumn fx:id="medicalRecordStt" prefWidth="48.799983978271484" text="STT" />
                                                 <TableColumn fx:id="medicalRecordPatientID" minWidth="4.79998779296875" prefWidth="122.40009307861328" text="ID bệnh nhân" />
                                                 <TableColumn fx:id="medicalRecordPatientName" prefWidth="193.60003662109375" text="Tên bệnh nhân" />
                                                 <TableColumn fx:id="medicalRecordPatientCode" prefWidth="135.99996948242188" text="Mã số bệnh nhân" />
@@ -369,7 +375,10 @@
                                        <children>
                                           <AnchorPane layoutX="12.0" layoutY="14.0" prefHeight="38.0" prefWidth="1088.0">
                                              <children>
-                                                <Text layoutX="485.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danh sách người dùng" />
+                                                <Text layoutX="485.0" layoutY="24.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danh sách người dùng">
+                                                   <font>
+                                                      <Font size="20.0" />
+                                                   </font></Text>
                                                 <Button fx:id="createUserBtn" layoutX="1090.0" layoutY="5.0" mnemonicParsing="false" onAction="#showModal" prefHeight="30.0" prefWidth="78.0" text="Tạo">
                                                    <graphic>
                                                       <FontAwesomeIconView fill="#c40612" glyphName="USER_PLUS" selectionFill="#f4f4f4" size="1em" text="">
@@ -425,7 +434,7 @@
                                        <children>
                                           <Label layoutX="471.0" layoutY="17.0" text="Danh sách ca phẫu thuật">
                                              <font>
-                                                <Font size="19.0" />
+                                                <Font size="20.0" />
                                              </font>
                                           </Label>
                                           <ScrollPane fx:id="surgeryTableView" layoutY="80.0">
@@ -434,15 +443,19 @@
                                                    <children>
                                                       <TableView fx:id="surgeryTable" layoutX="3.0" layoutY="5.0" prefHeight="494.0" prefWidth="1167.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
                                                          <columns>
-                                                            <TableColumn fx:id="id" prefWidth="37.600006103515625" text="STT" />
+                                                            <TableColumn fx:id="surgerySttColumn" prefWidth="37.600006103515625" text="STT" />
                                                             <TableColumn fx:id="surgeryNameColumn" prefWidth="231.20003509521484" text="Tên ca phẫu thuật" />
-                                                            <TableColumn fx:id="surgeryCodeColumn" prefWidth="136.79998779296875" text="Mã phòng phẫu thuật" />
-                                                            <TableColumn fx:id="surgeryPatientNameColumn" prefWidth="181.5999755859375" text="Tên bệnh nhân" />
-                                                            <TableColumn fx:id="typeSurgeryColumn" minWidth="0.0" prefWidth="108.0" text="Loại ca phẫu thuật" />
-                                                            <TableColumn fx:id="surgeryRoomColumn" minWidth="0.0" prefWidth="108.00006103515625" text="Phòng phẫu thuật" />
+                                                            <TableColumn fx:id="surgeryDiseaseGroupNameColumn" prefWidth="120.0" text="Nhóm bệnh" />
+                                                            <TableColumn fx:id="surgeryCodeColumn" prefWidth="131.99990844726562" text="Mã phòng phẫu thuật" />
+                                                            <TableColumn fx:id="surgeryPatientNameColumn" prefWidth="184.00006103515625" text="Tên bệnh nhân" />
+                                                            <TableColumn fx:id="typeSurgeryColumn" minWidth="0.0" prefWidth="129.5999755859375" text="Loại ca phẫu thuật" />
+                                                            <TableColumn fx:id="surgeryRoomColumn" minWidth="0.0" prefWidth="135.2000732421875" text="Phòng phẫu thuật" />
+                                                            <TableColumn fx:id="surgeryStartedAtColumn" prefWidth="119.99993896484375" text="Thời gian bắt đầu" />
+                                                            <TableColumn fx:id="surgeryEstimatedEndAtColumn" prefWidth="119.99993896484375" text="Thời gian ước tính" />
+                                                            <TableColumn fx:id="surgeryEndedAtColumn" prefWidth="119.99993896484375" text="Thời gian kết thúc" />
                                                             <TableColumn fx:id="surgeryStatusColumn" minWidth="2.39996337890625" prefWidth="100.0" text="Trạng thái" />
                                                             <TableColumn fx:id="surgeryResultColumn" prefWidth="115.999755859375" text="Kết quả" />
-                                                            <TableColumn fx:id="surgeryResultColumn1" prefWidth="139.2000732421875" text="Hành động" />
+                                                            <TableColumn fx:id="surgeryActionColumn" prefWidth="139.2000732421875" text="Hành động" />
                                                          </columns>
                                                       </TableView>
                                                    </children>
@@ -475,18 +488,34 @@
                                     </AnchorPane>
                                     <AnchorPane layoutX="6.0" layoutY="190.0" prefHeight="334.0" prefWidth="836.0" stylesheets="@main.css" AnchorPane.bottomAnchor="24.800000000000068" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="5.2000000000000455" AnchorPane.topAnchor="190.0">
                                        <children>
-                                          <Text layoutX="501.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danh sách phòng phẫu thuật" />
-                                          <TableView layoutX="10.0" layoutY="66.0" prefHeight="443.0" prefWidth="1175.0">
+                                          <Text layoutX="-6.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danh sách phòng phẫu thuật" textAlignment="CENTER" wrappingWidth="1179.3004913330078">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font></Text>
+                                          <TableView fx:id="surgeryRoomTable" layoutX="10.0" layoutY="66.0" prefHeight="443.0" prefWidth="1175.0">
                                              <columns>
-                                                <TableColumn prefWidth="48.799983978271484" text="STT" />
-                                                <TableColumn minWidth="4.79998779296875" prefWidth="176.79998779296875" text="Tên" />
-                                                <TableColumn minWidth="0.0" prefWidth="0.0" text="Email" />
-                                                <TableColumn prefWidth="152.0000457763672" text="SĐT" />
-                                                <TableColumn prefWidth="94.39996337890625" text="Năm sinh" />
-                                                <TableColumn prefWidth="160.79998779296875" text="Địa chỉ" />
-                                                <TableColumn prefWidth="539.2000610351563" text="Số CMND" />
+                                                <TableColumn fx:id="surgeryRoomStt" prefWidth="48.799983978271484" text="STT" />
+                                                <TableColumn fx:id="surgeryRoomCode" minWidth="4.79998779296875" prefWidth="127.19998931884766" text="Mã phòng phẫu thuật" />
+                                                <TableColumn fx:id="surgeryRoomName" prefWidth="175.19992065429688" text="Tên phòng phẫu thuật" />
+                                                <TableColumn fx:id="surgeryRoomAddress" prefWidth="237.59994506835938" text="Địa chỉ" />
+                                                <TableColumn fx:id="surgeryRoomDescription" prefWidth="307.2000732421875" text="Mô tả" />
+                                                <TableColumn fx:id="surgeryRoomCurrentAvailable" prefWidth="152.7999267578125" text="Trạng thái sử dụng" />
+                                                <TableColumn fx:id="surgeryRoomOnServiceAt" prefWidth="126.4000244140625" text="Ngày tạo" />
+                                                <TableColumn fx:id="surgeryRoomAction" minWidth="0.0" prefWidth="0.0" text="Hành động" />
                                              </columns>
                                           </TableView>
+                                          <Button fx:id="createSurgeryRoom" layoutX="1116.0" layoutY="15.0" mnemonicParsing="false" onAction="#showModal" text="Tạo">
+                                             <graphic>
+                                                <FontAwesomeIconView fx:id="" fill="#c40612" glyphName="USER_PLUS" selectionFill="#f4f4f4" size="1em" text="">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </FontAwesomeIconView>
+                                             </graphic>
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Button>
                                        </children>
                                        <styleClass>
                                           <String fx:value="shadow" />

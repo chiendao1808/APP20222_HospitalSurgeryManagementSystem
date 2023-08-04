@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class PatientController {
@@ -39,7 +40,7 @@ public class PatientController {
     private TableColumn<PatientGetListNewDTO, String> patientAddressColumn;
 
     @FXML
-    private TableColumn<PatientGetListNewDTO, String> patientBirthdayColumn;
+    private TableColumn<PatientGetListNewDTO, Date> patientBirthdayColumn;
 
     @FXML
     private TableColumn<PatientGetListNewDTO, String> patientNameColumn;
@@ -59,7 +60,7 @@ public class PatientController {
                              TableColumn<PatientGetListNewDTO, Long> idColumn,
                              TableColumn<PatientGetListNewDTO, String> nameColumn,
                              TableColumn<PatientGetListNewDTO, String> codeColumn,
-                             TableColumn<PatientGetListNewDTO, String> birthdayColumn,
+                             TableColumn<PatientGetListNewDTO, Date> birthdayColumn,
                              TableColumn<PatientGetListNewDTO, String> phoneColumn,
         TableColumn<PatientGetListNewDTO, String> addressColumn,
         TableColumn<PatientGetListNewDTO, String> actionColumn) {
@@ -75,34 +76,11 @@ public class PatientController {
         // Initialize the table with the provided columns
     }
 
-    public TableColumn<PatientGetListNewDTO, Long> getPatientIdColumn() {
-        return patientIdColumn;
+    // fomat date về string
+    private String formatDate(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(date);
     }
-
-    public TableColumn<PatientGetListNewDTO, String> getPatientNameColumn() {
-        return patientNameColumn;
-    }
-
-    public TableColumn<PatientGetListNewDTO, String> getPatientCodeColumn() {
-        return patientCodeColumn;
-    }
-
-    public TableColumn<PatientGetListNewDTO, String> getPatientBirthdayColumn() {
-        return patientBirthdayColumn;
-    }
-
-    public TableColumn<PatientGetListNewDTO, String> getPatientPhoneColumn() {
-        return patientPhoneColumn;
-    }
-
-    public TableColumn<PatientGetListNewDTO, String> getPatientAddressColumn() {
-        return patientAddressColumn;
-    }
-
-    public TableColumn<PatientGetListNewDTO, String> getPatientActionColumn() {
-        return patientActionColumn;
-    }
-
     // Khởi tạo table
     public void initializeTable() {
         // Lấy danh sách bệnh nhân từ nguồn dữ liệu của bạn
@@ -112,6 +90,17 @@ public class PatientController {
 
         if (patientTable != null) {
             this.patientTable.setItems(patientList);
+            patientBirthdayColumn.setCellFactory(column -> new TableCell<>() {
+                @Override
+                protected void updateItem(Date date, boolean empty) {
+                    super.updateItem(date, empty);
+                    if (empty || date == null) {
+                        setText(null);
+                    } else {
+                        setText(formatDate(date));
+                    }
+                }
+            });
         }
     }
 
