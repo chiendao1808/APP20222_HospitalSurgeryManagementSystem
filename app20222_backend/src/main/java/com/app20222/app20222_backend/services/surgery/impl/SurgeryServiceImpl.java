@@ -178,21 +178,20 @@ public class SurgeryServiceImpl implements SurgeryService {
             }
             MailTemplate mailTemplate = mailTemplateRepository
                 .findByCode(MailTemplateEnum.CHANGE_ASSIGNMENT_SURGERY_MAIL_TO_USER_TEMPLATE.getCode()).orElse(null);
-            if (Objects.isNull(mailTemplate)) {
-                return;
+            if (Objects.nonNull(mailTemplate)) {
+                String mailUpdateContent = mailTemplate.getRawContent();
+                mailUpdateContent = mailUpdateContent.replace("$SURGERY_NAME", surgery.getName());
+                mailUpdateContent = mailUpdateContent.replace("$SURGERY_CODE", surgery.getCode());
+                mailUpdateContent = mailUpdateContent.replace("$TIME", new SimpleDateFormat(DateUtils.FORMAT_DATE_HH_MM_DD_MM_YYYY).format(surgery.getStartedAt()));
+                mailUpdateContent = mailUpdateContent.replace("$SURGERY_ROOM", surgeryRoom.getName() + " - " + surgeryRoom.getAddress());
+                Mail mail = Mail.builder()
+                    .subject(mailTemplate.getSubject())
+                    .content(mailUpdateContent)
+                    .lstToAddress(lstEmailToSend)
+                    .isHasAttachments(false)
+                    .build();
+                mailService.sendMail(mail);
             }
-            String mailUpdateContent = mailTemplate.getRawContent();
-            mailUpdateContent = mailUpdateContent.replace("$SURGERY_NAME", surgery.getName());
-            mailUpdateContent = mailUpdateContent.replace("$SURGERY_CODE", surgery.getCode());
-            mailUpdateContent = mailUpdateContent.replace("$TIME", new SimpleDateFormat(DateUtils.FORMAT_DATE_HH_MM_DD_MM_YYYY).format(surgery.getStartedAt()));
-            mailUpdateContent = mailUpdateContent.replace("$SURGERY_ROOM", surgeryRoom.getName() + " - " + surgeryRoom.getAddress());
-            Mail mail = Mail.builder()
-                .subject(mailTemplate.getSubject())
-                .content(mailUpdateContent)
-                .lstToAddress(lstEmailToSend)
-                .isHasAttachments(false)
-                .build();
-            mailService.sendMail(mail);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
