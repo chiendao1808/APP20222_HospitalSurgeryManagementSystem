@@ -39,7 +39,7 @@ public class MailServiceImpl implements MailService {
     public void sendMail(Mail mail) {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, "UTF-8");
             mimeMessageHelper.setSubject(mail.getSubject());
             mimeMessageHelper.setText(mail.getContent(), true);
             mimeMessageHelper.setFrom(mailHost);
