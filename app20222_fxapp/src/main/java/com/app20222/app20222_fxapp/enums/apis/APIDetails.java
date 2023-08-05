@@ -50,7 +50,7 @@ public enum APIDetails {
     MEDICAL_RECORD_GET_LIST("MEDICAL_RECORD_GET_LIST","/medical-record", "/get-list", "GET"),
     MEDICAL_RECORD_GET_DETAILS("MEDICAL_RECORD_GET_DETAIL","/medical-record", "/get-detail", "GET"),
     MEDICAL_RECORD_UPDATE("MEDICAL_RECORD_UPDATE", "/medical-record", "/", "PUT"),
-    
+
     // ComboBox
     GET_COMBO_BOX_USER("GET_COMBO_BOX_USER","/combo-box", "/users/get-lst-user-name-code", "GET"),
     GET_COMBO_BOX_ROLE("GET_COMBO_BOX_ROLE","/combo-box", "/role/get-lst-role-name-code", "GET"),

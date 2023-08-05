@@ -5,6 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.app20222.app20222_backend.dtos.fileAttach.FileUploadResDTO;
@@ -21,15 +22,16 @@ public class FileAttachController {
     @Autowired
     private FileAttachService fileAttachService;
 
-    @PostMapping(value = "/upload-doc", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(value = "/upload-doc", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(description = "Upload document files")
-    public FileUploadResDTO uploadDocFile(@RequestParam(name = "file") MultipartFile multipartFile){
+    public FileUploadResDTO uploadDocFile(@RequestPart(name = "file") MultipartFile multipartFile) {
         return fileAttachService.uploadDocument(multipartFile, FileTypeEnum.DOCUMENT);
     }
 
-    @PostMapping(value = "/upload-img", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    @PostMapping(value = "/upload-img", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.IMAGE_JPEG_VALUE,
+        MediaType.IMAGE_PNG_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     @Operation(description = "Upload image files")
-    public FileUploadResDTO uploadImageFile(@RequestParam(name = "file") MultipartFile multipartFile) {
+    public FileUploadResDTO uploadImageFile(@RequestPart(name = "file") MultipartFile multipartFile) {
         return fileAttachService.uploadImage(multipartFile, FileTypeEnum.IMAGE);
     }
 
