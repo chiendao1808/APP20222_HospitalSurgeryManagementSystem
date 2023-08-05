@@ -355,7 +355,6 @@ public class PatientController {
         String phone = patientSearchPhone.getText();
 
         // Sử dụng các giá trị được lấy từ các trường tìm kiếm
-        // Gọi phương thức fetchSearchResults() hoặc thực hiện các hành động cần thiết.
          searchParams.put("code", code);
          searchParams.put("email", email);
          searchParams.put("idNumber", idNumber);
@@ -366,6 +365,16 @@ public class PatientController {
          reloadTable();
 
     }
-
-
+    // clear params tìm kiếm
+    @FXML
+    public void clearParams(ActionEvent event) {
+        resetSearchParams();
+        searchParams.put("code", "");
+        searchParams.put("email", "");
+        searchParams.put("idNumber", "");
+        searchParams.put("name", "");
+        searchParams.put("phoneNumber", "");
+        searchParams.put("identityType", "ALL");
+        reloadTable();
+    }
 }

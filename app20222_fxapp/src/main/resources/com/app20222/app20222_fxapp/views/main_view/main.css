@@ -99,3 +99,16 @@
     -fx-text-fill: black;
     -fx-font-family: "Helvetica Neue",Helvetica,Arial;
 }
+.buttonSearch {
+    -fx-background-color: transparent;
+    -fx-border-color: #d1ccd1;
+    -fx-border-width: 1px;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 8px 16px;
+    -fx-text-fill: black;
+    -fx-cursor: hand;
+}
+.buttonSearch:hover{
+    -fx-background-color: rgba(255,255,255,0.6);
+}
