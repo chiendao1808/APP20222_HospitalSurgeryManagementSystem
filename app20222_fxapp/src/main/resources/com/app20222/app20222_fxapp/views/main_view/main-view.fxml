@@ -249,7 +249,7 @@
                                     </AnchorPane>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="patient" layoutY="6.0" prefHeight="743.2" prefWidth="1159.0" stylesheets="@../patient_view/patient.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <AnchorPane fx:id="patient" layoutY="6.0" prefHeight="743.2" prefWidth="1159.0" stylesheets="@../patient_view/patient.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <AnchorPane layoutX="6.0" layoutY="14.0" prefHeight="174.0" prefWidth="1192.0" stylesheets="@main.css" AnchorPane.topAnchor="0.0">
                                        <children>
@@ -312,7 +312,7 @@
                                     </AnchorPane>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="medicalRecord" layoutX="10.0" layoutY="16.0" prefHeight="743.2" prefWidth="1147.2" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <AnchorPane fx:id="medicalRecord" layoutX="10.0" layoutY="16.0" prefHeight="743.2" prefWidth="1147.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <AnchorPane layoutX="6.0" layoutY="14.0" prefHeight="170.0" prefWidth="1189.0" stylesheets="@main.css" AnchorPane.topAnchor="0.0">
                                        <children>
@@ -329,24 +329,12 @@
                                     </AnchorPane>
                                     <AnchorPane layoutX="6.0" layoutY="190.0" prefHeight="334.0" prefWidth="836.0" stylesheets="@main.css" AnchorPane.bottomAnchor="24.800000000000068" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="5.2000000000000455" AnchorPane.topAnchor="190.0">
                                        <children>
-                                          <AnchorPane layoutX="9.0" layoutY="14.0" prefHeight="34.0" prefWidth="1112.0">
+                                          <AnchorPane layoutX="9.0" layoutY="14.0" prefHeight="34.0" prefWidth="1082.0">
                                              <children>
                                                 <Text layoutX="474.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danh sách Hồ sơ bệnh án" wrappingWidth="315.1067810058594">
                                                    <font>
                                                       <Font size="20.0" />
                                                    </font></Text>
-                                                <Button fx:id="createMedicalRecord" layoutX="1112.0" layoutY="-2.0" mnemonicParsing="false" onAction="#showModal" prefHeight="30.0" prefWidth="61.0" text="Tạo">
-                                                   <graphic>
-                                                      <FontAwesomeIconView fill="#c40612" glyphName="USER_PLUS" selectionFill="#f4f4f4" size="1em" text="">
-                                                         <font>
-                                                            <Font size="14.0" />
-                                                         </font>
-                                                      </FontAwesomeIconView>
-                                                   </graphic>
-                                                   <font>
-                                                      <Font size="14.0" />
-                                                   </font>
-                                                </Button>
                                              </children>
                                           </AnchorPane>
                                           <TableView fx:id="medicalRecordTable" layoutX="10.0" layoutY="66.0" prefHeight="443.0" prefWidth="1179.0">
@@ -361,6 +349,18 @@
                                                 <TableColumn fx:id="medicalRecordAction" prefWidth="176.0" text="Hành động" />
                                              </columns>
                                           </TableView>
+                                          <Button fx:id="createMedicalRecord" layoutX="1109.0" layoutY="16.0" mnemonicParsing="false" onAction="#showModal" prefHeight="30.0" prefWidth="66.0" text="Tạo">
+                                             <graphic>
+                                                <FontAwesomeIconView fill="#c40612" glyphName="USER_PLUS" selectionFill="#f4f4f4" size="1em" text="">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </FontAwesomeIconView>
+                                             </graphic>
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Button>
                                        </children>
                                        <styleClass>
                                           <String fx:value="shadow" />
@@ -410,7 +410,8 @@
                                              <columns>
                                                 <TableColumn fx:id="UserSttColumn" prefWidth="48.799983978271484" text="STT" />
                                                 <TableColumn fx:id="UserNameColumn" minWidth="4.79998779296875" prefWidth="176.79998779296875" text="Tên người dùng" />
-                                                <TableColumn fx:id="UserIdentificationNumColumn" prefWidth="138.39996337890625" text="Số chứng thực cá nhân " />
+                                                <TableColumn fx:id="UserIdentityTypeColumn" prefWidth="142.39996337890625" text="Loại giấy chứng thực" />
+                                                <TableColumn fx:id="UserIdentificationNumColumn" prefWidth="135.19998168945312" text="Số chứng thực cá nhân " />
                                                 <TableColumn fx:id="UserAddressColumn" prefWidth="176.79995727539062" text="Địa chỉ" />
                                                 <TableColumn fx:id="UserDateColumn" prefWidth="128.79998779296875" text="Ngày sinh" />
                                                 <TableColumn fx:id="UserPhoneColumn" prefWidth="116.00006103515625" text="SĐT" />
@@ -513,7 +514,7 @@
                                                 <TableColumn fx:id="surgeryRoomDescription" prefWidth="307.2000732421875" text="Mô tả" />
                                                 <TableColumn fx:id="surgeryRoomCurrentAvailable" prefWidth="152.7999267578125" text="Trạng thái sử dụng" />
                                                 <TableColumn fx:id="surgeryRoomOnServiceAt" prefWidth="126.4000244140625" text="Ngày tạo" />
-                                                <TableColumn fx:id="surgeryRoomAction" minWidth="0.0" prefWidth="0.0" text="Hành động" />
+                                                <TableColumn fx:id="surgeryRoomAction" prefWidth="126.4000244140625" text="Hành động" />
                                              </columns>
                                           </TableView>
                                           <Button fx:id="createSurgeryRoom" layoutX="1116.0" layoutY="15.0" mnemonicParsing="false" onAction="#showModal" text="Tạo">
