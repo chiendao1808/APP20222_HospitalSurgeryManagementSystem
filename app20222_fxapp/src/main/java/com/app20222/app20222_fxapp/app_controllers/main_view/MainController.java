@@ -497,4 +497,4 @@ public class MainController implements Initializable {
        patientController.onPatientSubmitSearch(event);
     }
 
-}//
+}
