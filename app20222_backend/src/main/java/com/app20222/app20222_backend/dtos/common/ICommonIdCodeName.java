@@ -4,7 +4,7 @@ public interface ICommonIdCodeName {
 
     Long getId();
 
-    Long getName();
+    String getName();
 
-    Long getCode();
+    String getCode();
 }
