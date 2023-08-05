@@ -3,6 +3,7 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import java.lang.String?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -248,15 +249,27 @@
                                     </AnchorPane>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="patient" layoutY="6.0" prefHeight="743.2" prefWidth="1159.0" stylesheets="@../patient_view/patient.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <AnchorPane fx:id="patient" layoutY="6.0" prefHeight="743.2" prefWidth="1159.0" stylesheets="@../patient_view/patient.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <AnchorPane layoutX="6.0" layoutY="14.0" prefHeight="174.0" prefWidth="1192.0" stylesheets="@main.css" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Text layoutX="536.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm" AnchorPane.leftAnchor="536.0" />
-                                          <TextField layoutX="44.0" layoutY="60.0" prefHeight="26.0" prefWidth="176.0" styleClass="textField" stylesheets="@main.css" />
-                                          <TextField layoutX="467.0" layoutY="60.0" prefHeight="26.0" prefWidth="191.0" styleClass="textField" stylesheets="@main.css" />
-                                          <TextField layoutX="851.0" layoutY="60.0" prefHeight="26.0" prefWidth="174.0" styleClass="textField" stylesheets="@main.css" />
-                                          <Button layoutX="526.0" layoutY="106.0" mnemonicParsing="false" styleClass="btn" stylesheets="@main.css" text="Xác nhận" />
+                                          <Text layoutX="578.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm" AnchorPane.leftAnchor="578.0" />
+                                          <TextField fx:id="patientSearchCode" layoutX="147.0" layoutY="52.0" prefHeight="29.0" prefWidth="194.0" styleClass="textField" stylesheets="@main.css" />
+                                          <TextField fx:id="patientSearchName" layoutX="514.0" layoutY="53.0" prefHeight="29.0" prefWidth="237.0" styleClass="textField" stylesheets="@main.css" />
+                                          <TextField fx:id="patientSearchEmail" layoutX="912.0" layoutY="53.0" prefHeight="29.0" prefWidth="233.0" styleClass="textField" stylesheets="@main.css" />
+                                          <Button fx:id="patientSubmitSearch" layoutX="1119.0" layoutY="131.0" mnemonicParsing="false" onAction="#onPatientSubmitSearch" stylesheets="@main.css" textFill="#fffcfc">
+                                             <graphic>
+                                                <FontAwesomeIconView fill="#e10b0b" glyphName="SEARCH" selectionFill="#282626" />
+                                             </graphic></Button>
+                                          <Text layoutX="45.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mã bệnh nhân" />
+                                          <Text layoutX="401.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tên bệnh nhân" />
+                                          <Text layoutX="842.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
+                                          <TextField fx:id="patientSearchPhone" layoutX="147.0" layoutY="108.0" prefHeight="29.0" prefWidth="194.0" styleClass="textField" stylesheets="@main.css" />
+                                          <Text layoutX="45.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Số điện thoại" />
+                                          <ComboBox fx:id="patientSearchIdentityType" layoutX="545.0" layoutY="108.0" prefHeight="33.0" prefWidth="206.0" styleClass="textField" stylesheets="@main.css" />
+                                          <Text layoutX="401.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Loại giấy chứng thực" />
+                                          <TextField fx:id="patientSearchIdNumber" layoutX="912.0" layoutY="107.0" prefHeight="30.0" prefWidth="170.0" styleClass="textField" stylesheets="@main.css" />
+                                          <Text layoutX="788.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mã số chứng thực" />
                                        </children>
                                        <styleClass>
                                           <String fx:value="white-color" />
@@ -299,7 +312,7 @@
                                     </AnchorPane>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="medicalRecord" layoutX="10.0" layoutY="16.0" prefHeight="743.2" prefWidth="1147.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <AnchorPane fx:id="medicalRecord" layoutX="10.0" layoutY="16.0" prefHeight="743.2" prefWidth="1147.2" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <AnchorPane layoutX="6.0" layoutY="14.0" prefHeight="170.0" prefWidth="1189.0" stylesheets="@main.css" AnchorPane.topAnchor="0.0">
                                        <children>

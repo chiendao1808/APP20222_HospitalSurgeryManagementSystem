@@ -155,6 +155,28 @@ public class MainController implements Initializable {
     @FXML
     private TableColumn<PatientGetListNewDTO, String> patientPhoneColumn;
 
+    // tìm kiếm bệnh nhân
+    @FXML
+    private TextField patientSearchCode;
+
+    @FXML
+    private TextField patientSearchEmail;
+
+    @FXML
+    private TextField patientSearchIdNumber;
+
+    @FXML
+    private ComboBox<String> patientSearchIdentityType;
+
+    @FXML
+    private TextField patientSearchName;
+
+    @FXML
+    private TextField patientSearchPhone;
+
+    @FXML
+    private Button patientSubmitSearch;
+
     // Hồ sơ bệnh án
     @FXML
     private TableView<MedicalRecordListDTO> medicalRecordTable;
@@ -356,6 +378,7 @@ public class MainController implements Initializable {
     // CHuyển giữa các màn
     @FXML
     private void switchTab(ActionEvent event) {
+        Button selectedButton = (Button) event.getSource();
         tabController = new TabController(
             patient,
             medicalRecord,
@@ -372,6 +395,19 @@ public class MainController implements Initializable {
             tabSurgery,
             tabUser);
         tabController.switchTab(event);
+        HashMap<Button, Runnable> buttonToInitializer = new HashMap<>();
+        buttonToInitializer.put(tabPatient, this::initializePatientTab);
+        buttonToInitializer.put(tabMedicalRecord, this::initializeMedicalRecordTab);
+        buttonToInitializer.put(tabDoctor, this::initializeUserTab);
+        buttonToInitializer.put(tabSurgery, this::initializeSurgeryTab);
+        buttonToInitializer.put(tabSurgeryRoom, this::initializeSurgeryRoomTab);
+        buttonToInitializer.put(tabDepartment, this::initializeDepartmentTab);
+        buttonToInitializer.put(tabUser, this::initializeProfileTab);
+
+        Runnable initializer = buttonToInitializer.get(selectedButton);
+        if (initializer != null) {
+            initializer.run();
+        }
     }
 
 
@@ -389,37 +425,76 @@ public class MainController implements Initializable {
         }
     }
 
+    // Thưc thi các tab gọi api danh sách, tim kiem
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // Benh nhan
-        patientController = new PatientController(patientTable, patientIdColumn,patientINameColumn,patientCodeColumn,
-                patientIBirthdayColumn,patientPhoneColumn,patientAddressColumn,
-            patientActionColumn);
-        patientController.initializeTable();
-        // Nguoi dung
-        userController = new UserController(UserTableView,UserActionColumn,UserAddressColumn,UserDateColumn,
-                UserDepartmentColumn, UserEmailColumn,UserIdentificationNumColumn,
-                UserNameColumn,UserPhoneColumn,UserSttColumn);
-        userController.initializeTable();
+    // Mặc định gọi danh sách bệnh nhân đầu tiên
+    initializePatientTab();
+}
+
+    // Các phương thức khởi tạo tab tương ứng
+    // Hồ sơ cá nhân
+    private void initializeProfileTab() {
         profileController = new ProfileController(profileUser, profileUserId, profileUserCode, profileUserName,
                 profileUserIdentityType, profileUserIdentificationNum, profileUserBirthDate, profileUserEmail,
                 profileUserPhone, profileUserAddress, profileUserDepartment, profileUserRole);
         profileController.initializeProfile();
-        // Ho so benh an
-        medicalRecordController = new MedicalRecordController(medicalRecordTable, medicalRecordStt,medicalRecordPatientID, medicalRecordPatientName,
-                medicalRecordPatientCode, medicalRecordCreateAt,medicalRecordCreatedById,medicalRecordCreatedByName,medicalRecordAction);
+    }
+
+    // Bệnh nhân
+    private void initializePatientTab() {
+        patientController = new PatientController(patientTable, patientIdColumn,patientINameColumn,patientCodeColumn,
+                patientIBirthdayColumn,patientPhoneColumn,patientAddressColumn,
+                patientActionColumn, patientSearchCode, patientSearchEmail, patientSearchIdNumber,
+                patientSearchIdentityType, patientSearchName, patientSearchPhone, patientSubmitSearch);
+        patientController.initializePatient();
+    }
+
+    // Người dùng
+    private void initializeUserTab() {
+        userController = new UserController(UserTableView,UserActionColumn,UserAddressColumn,UserDateColumn,
+                UserDepartmentColumn, UserEmailColumn,UserIdentificationNumColumn,
+                UserNameColumn,UserPhoneColumn,UserSttColumn);
+        userController.initializeTable();
+    }
+
+    // Hồ sơ bệnh án
+    private void initializeMedicalRecordTab() {
+        medicalRecordController = new MedicalRecordController(medicalRecordTable, medicalRecordStt,medicalRecordPatientID,
+                medicalRecordPatientName, medicalRecordPatientCode, medicalRecordCreateAt,medicalRecordCreatedById,
+                medicalRecordCreatedByName, medicalRecordAction);
         medicalRecordController.initializeMedicalRecord();
-        // Ca phau thuat
+    }
+
+    // Ca phẫu thuật
+    private void initializeSurgeryTab() {
         surgeryController = new SurgeryController(surgeryTable,surgerySttColumn,surgeryCodeColumn,
                 surgeryNameColumn,surgeryPatientNameColumn, surgeryResultColumn,surgeryRoomColumn,
                 surgeryStatusColumn,typeSurgeryColumn,surgeryActionColumn,  surgeryDiseaseGroupNameColumn,
-               surgeryStartedAtColumn,surgeryEndedAtColumn,
-               surgeryEstimatedEndAtColumn );
+                surgeryStartedAtColumn,surgeryEndedAtColumn,
+                surgeryEstimatedEndAtColumn );
         surgeryController.initializeSurgery();
-
-        // phòng phẫu thuật
-        surgeryRoomController = new SurgeryRoomController(surgeryRoomTable,surgeryRoomStt,surgeryRoomName,surgeryRoomCode,
-                surgeryRoomDescription,surgeryRoomAddress,surgeryRoomCurrentAvailable,surgeryRoomOnServiceAt,surgeryRoomAction);
-        surgeryRoomController.initializeMedicalRecord();
     }
+
+    // Phòng phẫu thuật
+    private void initializeSurgeryRoomTab() {
+        surgeryController = new SurgeryController(surgeryTable,surgerySttColumn,surgeryCodeColumn,
+                surgeryNameColumn,surgeryPatientNameColumn, surgeryResultColumn,surgeryRoomColumn,
+                surgeryStatusColumn,typeSurgeryColumn,surgeryActionColumn,  surgeryDiseaseGroupNameColumn,
+                surgeryStartedAtColumn,surgeryEndedAtColumn,
+                surgeryEstimatedEndAtColumn );
+        surgeryRoomController.initializeSurgeryRoom();
+    }
+
+    private void initializeDepartmentTab() {
+        // Khởi tạo và gọi phương thức tương ứng cho tab Department (nếu có)
+    }
+
+
+    // Tìm kiếm bệnh nhân
+    @FXML
+    private void onPatientSubmitSearch(ActionEvent event) {
+       patientController.onPatientSubmitSearch(event);
+    }
+
 }//

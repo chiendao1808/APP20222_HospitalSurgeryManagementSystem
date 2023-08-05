@@ -3,9 +3,9 @@ package com.app20222.app20222_fxapp.app_controllers.patient_view;
 import com.app20222.app20222_fxapp.MainApplication;
 import com.app20222.app20222_fxapp.dto.responses.patient.PatientDetailsDTO;
 import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListNewDTO;
+import com.app20222.app20222_fxapp.enums.users.IdentityTypeEnum;
 import com.app20222.app20222_fxapp.exceptions.apiException.ApiResponseException;
 import com.app20222.app20222_fxapp.services.patient.PatientAPIService;
-import com.google.common.collect.Maps;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.SimpleLongProperty;
@@ -18,9 +18,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -46,12 +46,35 @@ public class PatientController {
     private TableColumn<PatientGetListNewDTO, String> patientNameColumn;
     @FXML
     private TableColumn<PatientGetListNewDTO, Long> patientIdColumn;
-
     @FXML
     private TableColumn<PatientGetListNewDTO, String> patientPhoneColumn;
+    // Tìm kiếm
+    @FXML
+    private TextField patientSearchCode;
 
+    @FXML
+    private TextField patientSearchEmail;
+
+    @FXML
+    private TextField patientSearchIdNumber;
+
+    @FXML
+    private ComboBox<String> patientSearchIdentityType;
+
+    @FXML
+    private TextField patientSearchName;
+
+    @FXML
+    private TextField patientSearchPhone;
+
+    @FXML
+    private Button patientSubmitSearch;
     private PatientAPIService patientAPIService;
 
+    // dùng cho loại gấy chưn thực
+    private final Map<String, String> identityTypeMap = new HashMap<>();
+    // params tìm kiếm
+    Map<String, String> searchParams = new HashMap<>();
 
     public PatientController() {
     }
@@ -62,8 +85,11 @@ public class PatientController {
                              TableColumn<PatientGetListNewDTO, String> codeColumn,
                              TableColumn<PatientGetListNewDTO, Date> birthdayColumn,
                              TableColumn<PatientGetListNewDTO, String> phoneColumn,
-        TableColumn<PatientGetListNewDTO, String> addressColumn,
-        TableColumn<PatientGetListNewDTO, String> actionColumn) {
+                             TableColumn<PatientGetListNewDTO, String> addressColumn,
+                             TableColumn<PatientGetListNewDTO, String> actionColumn,
+                             TextField patientSearchCode, TextField patientSearchEmail, TextField patientSearchIdNumber,
+                             ComboBox<String> patientSearchIdentityType, TextField patientSearchName, TextField patientSearchPhone,
+                             Button patientSubmitSearch) {
         this.patientTable = patientTable;
         this.patientIdColumn = idColumn;
         this.patientNameColumn = nameColumn;
@@ -72,9 +98,16 @@ public class PatientController {
         this.patientPhoneColumn = phoneColumn;
         this.patientAddressColumn = addressColumn;
         this.patientActionColumn = actionColumn;
-        this.patientAPIService = new PatientAPIService();
+        this.patientSearchCode = patientSearchCode;
+        this.patientSearchEmail = patientSearchEmail;
+        this.patientSearchIdNumber = patientSearchIdNumber;
+        this.patientSearchIdentityType = patientSearchIdentityType;
+        this.patientSearchName = patientSearchName;
+        this.patientSearchPhone = patientSearchPhone;
+        this.patientSubmitSearch = patientSubmitSearch;
         // Initialize the table with the provided columns
     }
+
 
     // fomat date về string
     private String formatDate(Date date) {
@@ -82,6 +115,11 @@ public class PatientController {
         return sdf.format(date);
     }
     // Khởi tạo table
+    public void initializePatient(){
+        patientAPIService = new PatientAPIService();
+        initializeTable();
+        setupIdentityTypes();
+    }
     public void initializeTable() {
         // Lấy danh sách bệnh nhân từ nguồn dữ liệu của bạn
         ObservableList<PatientGetListNewDTO> patientList = getDataFromDataSource();
@@ -111,6 +149,7 @@ public class PatientController {
         ObservableList<PatientGetListNewDTO> patientList = getDataFromDataSource();
         if (patientTable != null) {
             this.patientTable.setItems(patientList);
+            setupEditDeleteButtons();
         }
     }
 
@@ -119,7 +158,7 @@ public class PatientController {
         // Replace this method with your actual logic to fetch data from the data source
         List<PatientGetListNewDTO> lstPatient = new ArrayList<>();
         try {
-            lstPatient = patientAPIService.getListPatient(new HashMap<>());
+            lstPatient = patientAPIService.getListPatient(searchParams);
         } catch (ApiResponseException exception) {
             exception.printStackTrace();
             System.out.println(exception.getExceptionResponse());
@@ -139,6 +178,31 @@ public class PatientController {
         this.patientAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
     }
 
+    public void setupIdentityTypes() {
+        identityTypeMap.put(IdentityTypeEnum.CITIZEN_ID_CARD.name(), IdentityTypeEnum.CITIZEN_ID_CARD.getType());
+        identityTypeMap.put(IdentityTypeEnum.ID_CARD.name(), IdentityTypeEnum.ID_CARD.getType());
+        identityTypeMap.put(IdentityTypeEnum.PASSPORT.name(), IdentityTypeEnum.PASSPORT.getType());
+        // Create an ObservableList to hold the labels for the identity types
+        ObservableList<String> identityTypeLabels = FXCollections.observableArrayList(identityTypeMap.values());
+
+        // Set the items in the ComboBox to display the identity type labels
+        patientSearchIdentityType.setItems(identityTypeLabels);
+
+        // Set a StringConverter to map the selected identityType to its corresponding value
+        patientSearchIdentityType.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(String label) {
+                return label; // Display the label in the ComboBox
+            }
+
+            @Override
+            public String fromString(String string) {
+                // Convert the label back to its corresponding value
+                IdentityTypeEnum type = IdentityTypeEnum.typeOf(string);
+                return type == null ? "" : type.name();
+            }
+        });
+    }
     // Hàm tạo 2 nút edit và delete
     public void setupEditDeleteButtons() {
         Callback<TableColumn<PatientGetListNewDTO, String>, TableCell<PatientGetListNewDTO, String>> cellFactory =
@@ -262,5 +326,31 @@ public class PatientController {
     public void showModal(ActionEvent event) {
         openCreateDialog();
     }
+
+    // Tìm kiếm
+    @FXML
+    public void onPatientSubmitSearch(ActionEvent event) {
+        String code = patientSearchCode.getText();
+        String email = patientSearchEmail.getText();
+        String idNumber = patientSearchIdNumber.getText();
+        String selectedIdentityTypeLabel = patientSearchIdentityType.getValue();
+        String identityType = String.valueOf(IdentityTypeEnum.typeOf(selectedIdentityTypeLabel));
+        String name = patientSearchName.getText();
+        String phone = patientSearchPhone.getText();
+
+        // Sử dụng các giá trị được lấy từ các trường tìm kiếm
+        // Gọi phương thức fetchSearchResults() hoặc thực hiện các hành động cần thiết.
+         searchParams.put("code", code);
+         searchParams.put("email", email);
+         searchParams.put("idNumber", idNumber);
+         searchParams.put("identityType", identityType);
+         searchParams.put("name", name);
+         searchParams.put("phoneNumber", phone);
+         System.out.println(searchParams);
+         // gọi lại api sau khi tìm kiếm
+         reloadTable();
+
+    }
+
 
 }

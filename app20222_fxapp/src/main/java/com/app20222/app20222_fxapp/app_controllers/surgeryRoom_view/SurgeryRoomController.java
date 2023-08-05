@@ -71,7 +71,7 @@ public class SurgeryRoomController {
         this.surgeryRoomAction = surgeryRoomAction;
     }
 
-    public void initializeMedicalRecord() {
+    public void initializeSurgeryRoom() {
         surgeryRoomAPIService = new SurgeryRoomAPIService();
         initializeTable();
     }
