@@ -1,11 +1,13 @@
 package com.app20222.app20222_fxapp.app_controllers.main_view;
 
+import com.app20222.app20222_fxapp.app_controllers.department_view.DepartmentController;
 import com.app20222.app20222_fxapp.app_controllers.medicalRecord_view.MedicalRecordController;
 import com.app20222.app20222_fxapp.app_controllers.profile_view.ProfileController;
 import com.app20222.app20222_fxapp.app_controllers.surgeryRoom_view.SurgeryRoomController;
 import com.app20222.app20222_fxapp.app_controllers.user_view.UserController;
 import com.app20222.app20222_fxapp.app_controllers.patient_view.PatientController;
 import com.app20222.app20222_fxapp.app_controllers.surgery_view.SurgeryController;
+import com.app20222.app20222_fxapp.dto.responses.deparment.DepartmentListDTO;
 import com.app20222.app20222_fxapp.dto.responses.medicalRecord.MedicalRecordGetListDTO;
 import com.app20222.app20222_fxapp.dto.responses.medicalRecord.MedicalRecordListDTO;
 import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListNewDTO;
@@ -176,6 +178,9 @@ public class MainController implements Initializable {
 
     @FXML
     private Button patientSubmitSearch;
+    @FXML
+    private Button patientClearSearch;
+
 
     // Hồ sơ bệnh án
     @FXML
@@ -311,6 +316,54 @@ public class MainController implements Initializable {
     @FXML
     private Button createSurgeryRoom;
 
+    // Khoa/ bộ phận
+    @FXML
+    private TableColumn<DepartmentListDTO, String> departmentAction;
+
+    @FXML
+    private TableColumn<DepartmentListDTO, String> departmentAddress;
+
+    @FXML
+    private TableColumn<DepartmentListDTO, String> departmentCode;
+
+    @FXML
+    private TableColumn<DepartmentListDTO, String> departmentDescription;
+
+    @FXML
+    private TableColumn<DepartmentListDTO, String> departmentEmail;
+
+    @FXML
+    private TableColumn<DepartmentListDTO, String> departmentName;
+
+    @FXML
+    private TableColumn<DepartmentListDTO, String> departmentPhoneNumber;
+
+    @FXML
+    private TextField departmentSearchCode;
+
+    @FXML
+    private TextField departmentSearchEmail;
+
+    @FXML
+    private TextField departmentSearchName;
+
+    @FXML
+    private TextField departmentSearchPhone;
+
+    @FXML
+    private TableColumn<DepartmentListDTO, Long> departmentStt;
+
+    @FXML
+    private TableView<DepartmentListDTO> departmentTable;
+
+    @FXML
+    private Button createDepartment;
+    @FXML
+    private Button departmentSubmitSearch;
+    @FXML
+    private Button departmentClearSearch;
+
+
     // controller
     //TabController
     private TabController tabController = new TabController();
@@ -320,7 +373,7 @@ public class MainController implements Initializable {
     private UserController userController;
     private ProfileController profileController;
     private SurgeryRoomController surgeryRoomController;
-
+    private DepartmentController departmentController;
     // Các hàm xử lý
     // Xử lý khi click icon thu nhỏ múc leftMenu
     @FXML
@@ -416,6 +469,8 @@ public class MainController implements Initializable {
         String currentPaneName = getCurrentAnchorPaneName();
         if (!"patient".equals(currentPaneName)) {
             patientController.resetSearchParams();
+        } else if(!"department".equals(currentPaneName)) {
+            departmentController.resetSearchParams();
         }
     }
 
@@ -453,6 +508,8 @@ public class MainController implements Initializable {
             userController.showModal(event);
         }  else if(selectedButton == createMedicalRecord){
             medicalRecordController.showModal(event);
+        } else if(selectedButton == createDepartment){
+            departmentController.showModal(event);
         }
     }
 
@@ -515,15 +572,36 @@ public class MainController implements Initializable {
         surgeryRoomController.initializeSurgeryRoom();
     }
 
+    // Khoa bộ phận
     private void initializeDepartmentTab() {
-        // Khởi tạo và gọi phương thức tương ứng cho tab Department (nếu có)
+        departmentController = new DepartmentController(departmentTable,departmentAction,
+                departmentAddress, departmentCode,departmentDescription,departmentEmail,
+                departmentName, departmentPhoneNumber, departmentStt,departmentSearchCode,
+                departmentSearchEmail,departmentSearchName, departmentSearchPhone,createDepartment);
+        departmentController.initializeDepartment();
     }
 
-
-    // Tìm kiếm bệnh nhân
+    // Hàm khi tìm kiếm cho các màn
     @FXML
-    private void onPatientSubmitSearch(ActionEvent event) {
-       patientController.onPatientSubmitSearch(event);
+    private void onSubmitSearch(ActionEvent event) {
+        Button selectedButton = (Button) event.getSource();
+        System.out.println("selectedButton2222 " + selectedButton);
+        if (selectedButton == patientSubmitSearch) {
+            patientController.onPatientSubmitSearch(event);
+        } else if (selectedButton == departmentSubmitSearch) {
+            departmentController.onDepartmentSubmitSearch(event);
+        }
+    }
+    // Hàm khi click button clear tìm kếm
+    @FXML
+    private void onSubmitClear(ActionEvent event) {
+        Button selectedButton = (Button) event.getSource();
+        System.out.println(selectedButton);
+        if (selectedButton == patientClearSearch) {
+            patientController.clearParams(event);
+        } else if (selectedButton == departmentClearSearch) {
+            departmentController.clearParams(event);
+        }
     }
 
 }

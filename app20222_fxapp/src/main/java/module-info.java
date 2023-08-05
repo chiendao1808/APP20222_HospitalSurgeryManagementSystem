@@ -99,5 +99,10 @@ module com.app20222.app20222_fxapp {
      */
     opens com.app20222.app20222_fxapp.app_controllers.surgeryRoom_view to javafx.fxml;
     exports com.app20222.app20222_fxapp.app_controllers.surgeryRoom_view;
+    /**
+     * khoa bộ phận
+     */
+    opens com.app20222.app20222_fxapp.app_controllers.department_view to javafx.fxml;
+    exports com.app20222.app20222_fxapp.app_controllers.department_view;
 
 }

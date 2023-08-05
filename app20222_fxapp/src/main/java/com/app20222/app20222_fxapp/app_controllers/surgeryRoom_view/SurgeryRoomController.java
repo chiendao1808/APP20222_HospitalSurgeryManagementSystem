@@ -78,7 +78,6 @@ public class SurgeryRoomController {
     public void initializeTable() {
         // Lấy danh sách bệnh nhân từ nguồn dữ liệu của bạn
         ObservableList<SurgeryRoomListDTO> surgeryRoomList = getDataFromDataSource();
-        System.out.println("surgeryRoomList" + surgeryRoomList);
         setupTableColumns();
         setupEditDeleteButtons();
 

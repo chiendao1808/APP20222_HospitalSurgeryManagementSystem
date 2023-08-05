@@ -67,13 +67,12 @@ public class SurgeryController {
         initializeTable();
     }
     private String formatDate(Date date) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm dd/MM/yyyy");
         return sdf.format(date);
     }
     public void initializeTable(){
         // Lấy danh sách bệnh nhân từ nguồn dữ liệu của bạn
         ObservableList<SurgeryGetListDTO> surgeryList = getDataFromDataSource();
-        System.out.println("surgeryList" + surgeryList);
         setupTableColumns();
         setupEditDeleteButtons();
 

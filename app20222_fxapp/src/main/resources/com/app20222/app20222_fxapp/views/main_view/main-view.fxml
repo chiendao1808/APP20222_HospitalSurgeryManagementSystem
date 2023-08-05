@@ -251,16 +251,15 @@
                               </AnchorPane>
                               <AnchorPane fx:id="patient" layoutY="6.0" prefHeight="743.2" prefWidth="1159.0" stylesheets="@../patient_view/patient.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <AnchorPane layoutX="6.0" layoutY="14.0" prefHeight="174.0" prefWidth="1192.0" stylesheets="@main.css" AnchorPane.topAnchor="0.0">
+                                    <AnchorPane layoutX="8.0" prefHeight="174.0" prefWidth="1192.0" stylesheets="@main.css" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Text layoutX="578.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm" AnchorPane.leftAnchor="578.0" />
+                                          <Button fx:id="patientSubmitSearch" layoutX="489.0" layoutY="6.0" mnemonicParsing="false" onAction="#onSubmitSearch" styleClass="buttonSearch" stylesheets="@main.css" text="Tìm kiếm" textFill="#fffcfc">
+                                             <graphic>
+                                                <FontAwesomeIconView fill="#36cc6f" glyphName="SEARCH" selectionFill="#36cc6f" size="1.8em" text="" />
+                                             </graphic></Button>
                                           <TextField fx:id="patientSearchCode" layoutX="147.0" layoutY="52.0" prefHeight="29.0" prefWidth="194.0" styleClass="textField" stylesheets="@main.css" />
                                           <TextField fx:id="patientSearchName" layoutX="514.0" layoutY="53.0" prefHeight="29.0" prefWidth="237.0" styleClass="textField" stylesheets="@main.css" />
                                           <TextField fx:id="patientSearchEmail" layoutX="912.0" layoutY="53.0" prefHeight="29.0" prefWidth="233.0" styleClass="textField" stylesheets="@main.css" />
-                                          <Button fx:id="patientSubmitSearch" layoutX="1119.0" layoutY="131.0" mnemonicParsing="false" onAction="#onPatientSubmitSearch" stylesheets="@main.css" textFill="#fffcfc">
-                                             <graphic>
-                                                <FontAwesomeIconView fill="#e10b0b" glyphName="SEARCH" selectionFill="#282626" />
-                                             </graphic></Button>
                                           <Text layoutX="45.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mã bệnh nhân" />
                                           <Text layoutX="401.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tên bệnh nhân" />
                                           <Text layoutX="842.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
@@ -268,8 +267,13 @@
                                           <Text layoutX="45.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Số điện thoại" />
                                           <ComboBox fx:id="patientSearchIdentityType" layoutX="545.0" layoutY="108.0" prefHeight="33.0" prefWidth="206.0" styleClass="textField" stylesheets="@main.css" />
                                           <Text layoutX="401.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Loại giấy chứng thực" />
-                                          <TextField fx:id="patientSearchIdNumber" layoutX="912.0" layoutY="107.0" prefHeight="30.0" prefWidth="170.0" styleClass="textField" stylesheets="@main.css" />
+                                          <TextField fx:id="patientSearchIdNumber" layoutX="912.0" layoutY="107.0" prefHeight="30.0" prefWidth="232.0" styleClass="textField" stylesheets="@main.css" />
                                           <Text layoutX="788.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mã số chứng thực" />
+                                          <Button fx:id="patientClearSearch" layoutX="625.0" layoutY="6.0" mnemonicParsing="false" onAction="#onSubmitClear" styleClass="buttonSearch" stylesheets="@main.css" text="Clear tìm kiếm" textFill="#fffcfc">
+                                             <graphic>
+                                                <FontAwesomeIconView fill="#6e6a6a" glyphName="TRASH" selectionFill="#282626" size="1.8em" text="" />
+                                             </graphic>
+                                          </Button>
                                        </children>
                                        <styleClass>
                                           <String fx:value="white-color" />
@@ -293,9 +297,9 @@
                                                 <TableColumn fx:id="patientActionColumn" prefWidth="124.0" text="Hành động" />
                                             </columns>
                                           </TableView>
-                                          <Button fx:id="createPatient" layoutX="1118.0" layoutY="16.0" mnemonicParsing="false" onAction="#showModal" text="Tạo">
+                                          <Button fx:id="createPatient" layoutX="1104.0" layoutY="11.0" mnemonicParsing="false" onAction="#showModal" styleClass="buttonSearch" stylesheets="@main.css" text="Tạo">
                                              <graphic>
-                                                <FontAwesomeIconView fill="#c40612" glyphName="USER_PLUS" selectionFill="#f4f4f4" size="1em" text="">
+                                                <FontAwesomeIconView fill="#086fc2" glyphName="USER_PLUS" selectionFill="#f4f4f4" size="1em" styleClass="buttonSearch" text="">
                                                    <font>
                                                       <Font size="14.0" />
                                                    </font>
@@ -312,7 +316,7 @@
                                     </AnchorPane>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="medicalRecord" layoutX="10.0" layoutY="16.0" prefHeight="743.2" prefWidth="1147.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <AnchorPane fx:id="medicalRecord" layoutX="10.0" layoutY="16.0" prefHeight="743.2" prefWidth="1147.2" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <AnchorPane layoutX="6.0" layoutY="14.0" prefHeight="170.0" prefWidth="1189.0" stylesheets="@main.css" AnchorPane.topAnchor="0.0">
                                        <children>
@@ -349,9 +353,9 @@
                                                 <TableColumn fx:id="medicalRecordAction" prefWidth="176.0" text="Hành động" />
                                              </columns>
                                           </TableView>
-                                          <Button fx:id="createMedicalRecord" layoutX="1109.0" layoutY="16.0" mnemonicParsing="false" onAction="#showModal" prefHeight="30.0" prefWidth="66.0" text="Tạo">
+                                          <Button fx:id="createMedicalRecord" layoutX="1086.0" layoutY="16.0" mnemonicParsing="false" onAction="#showModal" prefHeight="30.0" prefWidth="89.0" styleClass="buttonSearch" stylesheets="@main.css" text="Tạo">
                                              <graphic>
-                                                <FontAwesomeIconView fill="#c40612" glyphName="USER_PLUS" selectionFill="#f4f4f4" size="1em" text="">
+                                                <FontAwesomeIconView fill="#086fc2" glyphName="USER_PLUS" selectionFill="#f4f4f4" size="1em" text="">
                                                    <font>
                                                       <Font size="14.0" />
                                                    </font>
@@ -537,15 +541,28 @@
                                     </AnchorPane>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="department" layoutX="50.0" layoutY="56.0" prefHeight="781.6" prefWidth="1183.2" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <AnchorPane fx:id="department" layoutX="50.0" layoutY="56.0" prefHeight="781.6" prefWidth="1183.2" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <AnchorPane layoutX="6.0" layoutY="14.0" prefHeight="170.0" prefWidth="1193.0" stylesheets="@main.css" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <Text layoutX="536.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm" AnchorPane.leftAnchor="536.0" />
-                                          <TextField layoutX="44.0" layoutY="60.0" prefHeight="26.0" prefWidth="176.0" styleClass="textField" stylesheets="@main.css" />
-                                          <TextField layoutX="467.0" layoutY="60.0" prefHeight="26.0" prefWidth="191.0" styleClass="textField" stylesheets="@main.css" />
-                                          <TextField layoutX="851.0" layoutY="60.0" prefHeight="26.0" prefWidth="174.0" styleClass="textField" stylesheets="@main.css" />
-                                          <Button layoutX="526.0" layoutY="106.0" mnemonicParsing="false" styleClass="btn" stylesheets="@main.css" text="Xác nhận" />
+                                          <Text layoutX="536.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" AnchorPane.leftAnchor="536.0" />
+                                          <TextField fx:id="departmentSearchCode" layoutX="152.0" layoutY="60.0" prefHeight="30.0" prefWidth="190.0" styleClass="textField" stylesheets="@main.css" />
+                                          <TextField fx:id="departmentSearchName" layoutX="536.0" layoutY="60.0" prefHeight="30.0" prefWidth="231.0" styleClass="textField" stylesheets="@main.css" />
+                                          <TextField fx:id="departmentSearchEmail" layoutX="914.0" layoutY="60.0" prefHeight="30.0" prefWidth="236.0" styleClass="textField" stylesheets="@main.css" />
+                                          <Button fx:id="departmentSubmitSearch" layoutX="479.0" layoutY="9.0" mnemonicParsing="false" onAction="#onSubmitSearch" styleClass="buttonSearch" stylesheets="@main.css" text="Tìm kiếm" textFill="#282628">
+                                             <graphic>
+                                                <FontAwesomeIconView fill="#36cc6f" glyphName="SEARCH" size="1.8em" />
+                                             </graphic></Button>
+                                          <Text layoutX="34.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mã khoa/ bộ phận" />
+                                          <Text layoutX="406.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tên khoa/ bộ phận" />
+                                          <Text layoutX="860.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
+                                          <TextField fx:id="departmentSearchPhone" layoutX="169.0" layoutY="111.0" prefHeight="30.0" prefWidth="206.0" styleClass="textField" stylesheets="@main.css" />
+                                          <Text layoutX="34.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Số điện thoại liên hệ" />
+                                          <Button fx:id="departmentClearSearch" layoutX="617.0" layoutY="9.0" mnemonicParsing="false" onAction="#onSubmitClear" styleClass="buttonSearch" stylesheets="@main.css" text="Clear tìm kiếm" textFill="#fffcfc">
+                                             <graphic>
+                                                <FontAwesomeIconView fill="#6e6a6a" glyphName="TRASH" selectionFill="#282626" size="1.8em" text="" />
+                                             </graphic>
+                                          </Button>
                                        </children>
                                        <styleClass>
                                           <String fx:value="white-color" />
@@ -554,18 +571,35 @@
                                     </AnchorPane>
                                     <AnchorPane layoutX="6.0" layoutY="190.0" prefHeight="581.0" prefWidth="1192.0" stylesheets="@main.css" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="190.0">
                                        <children>
-                                          <Text layoutX="501.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danh sách khoa" />
-                                          <TableView layoutX="10.0" layoutY="66.0" prefHeight="443.0" prefWidth="1177.0">
+                                          <Text layoutX="482.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Danh sách khoa/ bộ phận">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font></Text>
+                                          <TableView fx:id="departmentTable" layoutX="10.0" layoutY="66.0" prefHeight="500.0" prefWidth="1178.0">
                                              <columns>
-                                                <TableColumn prefWidth="48.799983978271484" text="STT" />
-                                                <TableColumn minWidth="4.79998779296875" prefWidth="176.79998779296875" text="Tên" />
-                                                <TableColumn minWidth="0.0" prefWidth="0.0" text="Email" />
-                                                <TableColumn prefWidth="152.0000457763672" text="SĐT" />
-                                                <TableColumn prefWidth="94.39996337890625" text="Năm sinh" />
-                                                <TableColumn prefWidth="160.79998779296875" text="Địa chỉ" />
-                                                <TableColumn prefWidth="538.3999633789062" text="Số CMND" />
+                                                <TableColumn fx:id="departmentStt" prefWidth="48.799983978271484" text="STT" />
+                                                <TableColumn fx:id="departmentName" minWidth="4.79998779296875" prefWidth="192.00003814697266" text="Tên khoa / bộ phận" />
+                                                <TableColumn minWidth="0.0" prefWidth="0.79998779296875" text="Email" />
+                                                <TableColumn fx:id="departmentCode" prefWidth="137.5999755859375" text="Mã khoa / bộ phận" />
+                                                <TableColumn fx:id="departmentPhoneNumber" prefWidth="125.60000610351562" text="Số điện thoại liên hệ" />
+                                                <TableColumn fx:id="departmentEmail" prefWidth="208.00006103515625" text="Email" />
+                                                <TableColumn fx:id="departmentAddress" prefWidth="240.0" text="Địa chỉ" />
+                                                <TableColumn fx:id="departmentDescription" prefWidth="350.0" text="Mô tả" />
+                                                <TableColumn fx:id="departmentAction" prefWidth="110.0" text="Hành động" />
                                              </columns>
                                           </TableView>
+                                          <Button fx:id="createDepartment" layoutX="1103.0" layoutY="11.0" mnemonicParsing="false" onAction="#showModal" styleClass="buttonSearch" stylesheets="@main.css" text="Tạo">
+                                             <graphic>
+                                                <FontAwesomeIconView fx:id="1" fill="#086fc2" glyphName="USER_PLUS" selectionFill="#f4f4f4" size="1em" text="">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </FontAwesomeIconView>
+                                             </graphic>
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Button>
                                        </children>
                                        <styleClass>
                                           <String fx:value="shadow" />
