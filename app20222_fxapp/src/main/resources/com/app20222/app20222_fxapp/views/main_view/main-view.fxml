@@ -395,9 +395,8 @@
                                           </AnchorPane>
                                           <TableView fx:id="UserTableView" layoutX="10.0" layoutY="60.0" prefHeight="443.0" prefWidth="1173.0">
                                              <columns>
-                                                <TableColumn prefWidth="48.799983978271484" text="STT" />
+                                                <TableColumn fx:id="UserSttColumn" prefWidth="48.799983978271484" text="STT" />
                                                 <TableColumn fx:id="UserNameColumn" minWidth="4.79998779296875" prefWidth="176.79998779296875" text="Tên người dùng" />
-                                                <TableColumn minWidth="0.0" prefWidth="0.0" text="Email" />
                                                 <TableColumn fx:id="UserIdentificationNumColumn" prefWidth="138.39996337890625" text="Số chứng thực cá nhân " />
                                                 <TableColumn fx:id="UserAddressColumn" prefWidth="176.79995727539062" text="Địa chỉ" />
                                                 <TableColumn fx:id="UserDateColumn" prefWidth="128.79998779296875" text="Ngày sinh" />
