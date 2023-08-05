@@ -3,7 +3,6 @@ package com.app20222.app20222_fxapp.utils.httpUtils;
 
 import com.app20222.app20222_fxapp.constants.apis.ApiConstants;
 import com.app20222.app20222_fxapp.context.ApplicationContext;
-import com.app20222.app20222_fxapp.dto.responses.BaseResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.api.client.http.HttpMethods;
@@ -13,7 +12,6 @@ import org.apache.http.HttpEntity;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
-
 
 import java.io.*;
 import java.net.URI;
@@ -99,40 +97,40 @@ public class HttpUtils {
     /**
      * Execute a request upload file
      */
-    public static BaseResponse doUploadFile(String uri, File file, Map<String, String> headers) {
+    public static HttpResponse<String> doUploadFile(String uri, File file, Map<String, String> headers){
         List<String> reqHeaders = buildHeaders(headers, uri);
-        reqHeaders.addAll(List.of(HttpHeaders.CONTENT_TYPE, "multipart/form-data"));
         try {
             // Build Multipart entity
             HttpClient client = HttpClient.newHttpClient();
             HttpEntity httpEntity = MultipartEntityBuilder.create()
-                .addBinaryBody("uploaded_file", file, ContentType.MULTIPART_FORM_DATA, file.getName())
+                .addBinaryBody("file", file, ContentType.MULTIPART_FORM_DATA, file.getName())
                 .setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
                 .build();
             // Write file using a pipeline stream to avoided overflow
             Pipe pipe = Pipe.open(); // Open a pipeline stream
             // Use new thread to avoid deadlock when write data
-            new Thread(() -> {
+            Thread writeDataThread = new Thread(() -> {
                 try (OutputStream outputStream = Channels.newOutputStream(pipe.sink())) {
                     // Write Data to pipeline
                     httpEntity.writeTo(outputStream);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
-            }).start();
+            });
+            writeDataThread.start();
+            writeDataThread.join(); // wait for write data successfully
             // Create a http request
             HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
-                .header(HttpHeaders.CONTENT_TYPE, httpEntity.getContentType().getValue())
-                .headers(reqHeaders.toArray(String[]::new))
+                .header(HttpHeaders.CONTENT_TYPE, httpEntity.getContentType().getValue()) // Content-Type multipart
+                .headers(reqHeaders.toArray(String[]::new)) // Other headers
                 .POST(HttpRequest.BodyPublishers.ofInputStream(() -> Channels.newInputStream(pipe.source())))
-                .timeout(Duration.ofMillis(10000)) // 10s  time-out
+                .timeout(Duration.ofMillis(15000)) // 10s  time-out
                 .build();
-            HttpResponse<String> response = client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).join();
-            return mapper.readValue(response.body(), BaseResponse.class);
+            return client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (Exception ex) {
             ex.printStackTrace();
-            return new BaseResponse(204, "Upload file fail!", new Date());
+            return null;
         }
     }
 

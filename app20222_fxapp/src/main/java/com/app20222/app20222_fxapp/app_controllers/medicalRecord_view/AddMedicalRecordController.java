@@ -1,11 +1,13 @@
 package com.app20222.app20222_fxapp.app_controllers.medicalRecord_view;
 
 import com.app20222.app20222_fxapp.dto.common.CommonIdCodeName;
+import com.app20222.app20222_fxapp.dto.responses.FileUploadResDTO;
 import com.app20222.app20222_fxapp.dto.responses.exception.ExceptionResponse;
 import com.app20222.app20222_fxapp.dto.responses.medicalRecord.MedicalRecordListDTO;
 import com.app20222.app20222_fxapp.enums.apis.APIDetails;
 import com.app20222.app20222_fxapp.exceptions.apiException.ApiResponseException;
 import com.app20222.app20222_fxapp.services.comboBox.ComboBoxAPIService;
+import com.app20222.app20222_fxapp.services.fileUpload.FileUploadAPIService;
 import com.app20222.app20222_fxapp.utils.apiUtils.ApiUtils;
 import com.app20222.app20222_fxapp.utils.httpUtils.HttpUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -19,6 +21,7 @@ import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.net.http.HttpResponse;
 import java.util.*;
@@ -40,6 +43,9 @@ public class AddMedicalRecordController implements Initializable {
     private Label medicalRecordFileName;
 
     private ComboBoxAPIService comboBoxAPIService;
+
+    private FileUploadAPIService fileUploadAPIService;
+
     private Boolean reloadRequired = false;
 
     private String messageError;
@@ -55,6 +61,7 @@ public class AddMedicalRecordController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         comboBoxAPIService = new ComboBoxAPIService();
+        fileUploadAPIService = new FileUploadAPIService();
         setupButtonEventFilters();
         setUpMedicalRecordPatientId();
     }
@@ -166,19 +173,12 @@ public class AddMedicalRecordController implements Initializable {
             // Gọi phương thức doUploadFile với tệp đã chọn
             Map<String, String> headers = new HashMap<>(); // Thêm các header cần thiết (nếu có)
 
-            String uri = ApiUtils.buildURI(APIDetails.FILE_UPLOAD.getRequestPath() + APIDetails.FILE_UPLOAD.getDetailPath(), new HashMap<>());
+            String uri = ApiUtils.buildURI(APIDetails.UPLOAD_DOCUMENT.getRequestPath() + APIDetails.UPLOAD_DOCUMENT.getDetailPath(), new HashMap<>());
             System.out.println("uri" + uri);
-            HttpResponse<String> response = (HttpResponse<String>) HttpUtils.doUploadFile(uri,seletedFile , headers);
+            FileUploadResDTO response = fileUploadAPIService.uploadFileDocument(seletedFile, headers);
             System.out.println("response"+ response);
-            // api call successfully (status = 200)
-            if (HttpUtils.isCallSuccessfully(response)) {
-//                 = HttpUtils.handleResponse(response, new TypeReference<>() {});
-            } else {
-                ExceptionResponse exceptionResponse = HttpUtils.handleResponse(response, new TypeReference<>() {});
-                throw new ApiResponseException(exceptionResponse);
-            }
         } else {
-            medicalRecordFileName.setText("Không tải đươ file");
+            medicalRecordFileName.setText("");
         }
     }
 
