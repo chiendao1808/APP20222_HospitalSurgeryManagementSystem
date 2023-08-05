@@ -42,7 +42,7 @@ public class MailServiceImpl implements MailService {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, "UTF-8");
             mimeMessageHelper.setSubject(mail.getSubject());
             mimeMessageHelper.setText(mail.getContent(), true);
-            mimeMessageHelper.setFrom(mailHost);
+            mimeMessageHelper.setFrom("Bệnh viện" + "<" + mailHost + ">");
             mimeMessageHelper.setTo(mail.getLstToAddress().toArray(String[]::new));
 
             /* add attachments (if exists or has attachments) */
