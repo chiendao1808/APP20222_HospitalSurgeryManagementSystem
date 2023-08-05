@@ -13,6 +13,14 @@ public interface IGetListPatient {
 
     String getCode();
 
+    String getIdentityTypeVal();
+
+    String getIdentityType();
+
+    String getIdentificationNumber();
+
+    String getHealthInsuranceNumber();
+
     @JsonFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_SLASH, timezone = DateUtils.TIME_ZONE)
     Date getBirthDate();
 

@@ -50,9 +50,7 @@ public enum APIDetails {
     MEDICAL_RECORD_GET_LIST("MEDICAL_RECORD_GET_LIST","/medical-record", "/get-list", "GET"),
     MEDICAL_RECORD_GET_DETAILS("MEDICAL_RECORD_GET_DETAIL","/medical-record", "/get-detail", "GET"),
     MEDICAL_RECORD_UPDATE("MEDICAL_RECORD_UPDATE", "/medical-record", "/", "PUT"),
-
-    // File
-    FILE_UPLOAD("FILE_UPLOAD", "/file-attach", "/upload-doc", "POST"),
+    
     // ComboBox
     GET_COMBO_BOX_USER("GET_COMBO_BOX_USER","/combo-box", "/users/get-lst-user-name-code", "GET"),
     GET_COMBO_BOX_ROLE("GET_COMBO_BOX_ROLE","/combo-box", "/role/get-lst-role-name-code", "GET"),
@@ -64,7 +62,11 @@ public enum APIDetails {
     // Statistics
     STATISTICS_PREVIEW_NUMBER_SURGERY("STATISTICS_PREVIEW_NUMBER_SURGERY", "/statistics", "/preview-number-surgery", "GET"),
     STATISTICS_PREVIEW_STATISTICS_MONTHLY("STATISTICS_PREVIEW_STATISTICS_MONTHLY", "/statistics", "/preview-statistics-monthly", "GET"),
-    STATISTICS_PREVIEW_LIST_SURGERY("STATISTICS_PREVIEW_LIST_SURGERY", "/statistics", "/preview-list-surgery", "GET");
+    STATISTICS_PREVIEW_LIST_SURGERY("STATISTICS_PREVIEW_LIST_SURGERY", "/statistics", "/preview-list-surgery", "GET"),
+
+    //Upload file
+    UPLOAD_DOCUMENT("UPLOAD_DOCUMENT", "/file-attach", "/upload-doc", "POST"),
+    UPLOAD_IMAGE("UPLOAD_IMAGE", "/file-attach", "/upload-img", "POST");
 
 
     private final String code;

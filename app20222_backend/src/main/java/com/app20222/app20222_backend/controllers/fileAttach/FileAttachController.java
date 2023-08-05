@@ -29,7 +29,7 @@ public class FileAttachController {
 
     @PostMapping(value = "/upload-img", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
     @Operation(description = "Upload image files")
-    public FileUploadResDTO uploadImageFile(@RequestParam(name = "image") MultipartFile multipartFile) {
+    public FileUploadResDTO uploadImageFile(@RequestParam(name = "file") MultipartFile multipartFile) {
         return fileAttachService.uploadImage(multipartFile, FileTypeEnum.IMAGE);
     }
 
