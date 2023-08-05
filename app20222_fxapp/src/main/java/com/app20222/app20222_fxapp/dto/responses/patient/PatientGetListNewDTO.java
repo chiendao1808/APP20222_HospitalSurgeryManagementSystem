@@ -21,6 +21,14 @@ public class PatientGetListNewDTO {
 
     String code;
 
+    String identityTypeVal;
+
+    String identityType;
+
+    String identificationNumber;
+
+    String healthInsuranceNumber;
+
     @JsonFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_SLASH, timezone = DateUtils.TIME_ZONE)
     Date birthDate;
 

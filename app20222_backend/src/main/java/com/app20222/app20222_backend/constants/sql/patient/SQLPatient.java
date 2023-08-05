@@ -15,6 +15,7 @@ public class SQLPatient {
             "           ELSE '' \n" +
             "      END AS identityType, \n" +
             "      patient.identification_number AS identificationNumber, \n" +
+            "      patient.health_insurance_num AS healthInsuranceNumber, \n" +
             "      patient.portrait_path AS portraitPath, \n" +
             "      CONCAT_WS(' ', patient.last_name, patient.first_name) AS name, \n" +
             "      patient.birth_date AS birthDate, \n" +
