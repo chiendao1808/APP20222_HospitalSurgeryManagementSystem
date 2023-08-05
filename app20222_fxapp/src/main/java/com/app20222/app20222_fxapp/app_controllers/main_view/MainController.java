@@ -260,6 +260,9 @@ public class MainController implements Initializable {
     private TableColumn<UserListDTO, String> UserEmailColumn;
 
     @FXML
+    private TableColumn<UserListDTO, String>  UserIdentityTypeColumn;
+
+    @FXML
     private TableColumn<UserListDTO, String> UserIdentificationNumColumn;
 
     @FXML
@@ -270,6 +273,7 @@ public class MainController implements Initializable {
 
     @FXML
     private TableColumn<UserListDTO, Long> UserSttColumn;
+
 
     @FXML
     private TableView<UserListDTO> UserTableView;
@@ -408,8 +412,33 @@ public class MainController implements Initializable {
         if (initializer != null) {
             initializer.run();
         }
+        // thực hiện reset params
+        String currentPaneName = getCurrentAnchorPaneName();
+        if (!"patient".equals(currentPaneName)) {
+            patientController.resetSearchParams();
+        }
     }
 
+    // Lấy tên màn hình
+    public String getCurrentAnchorPaneName() {
+        if (patient.isVisible()) {
+            return "patient";
+        } else if (medicalRecord.isVisible()) {
+            return "medicalRecord";
+        } else if (doctors.isVisible()) {
+            return "doctors";
+        } else if (surgery.isVisible()) {
+            return "surgery";
+        } else if (surgeryRoom.isVisible()) {
+            return "surgeryRoom";
+        } else if (department.isVisible()) {
+            return "department";
+        } else if (userPane.isVisible()) {
+            return "userPane";
+        } else {
+            return "Không có AnchorPane nào đang hiển thị.";
+        }
+    }
 
     // Hiển thị các modal: tạo, sửa, xem chi tiết
     @FXML
@@ -422,6 +451,8 @@ public class MainController implements Initializable {
         }
         else if(selectedButton == createUserBtn){
             userController.showModal(event);
+        }  else if(selectedButton == createMedicalRecord){
+            medicalRecordController.showModal(event);
         }
     }
 
@@ -454,7 +485,7 @@ public class MainController implements Initializable {
     private void initializeUserTab() {
         userController = new UserController(UserTableView,UserActionColumn,UserAddressColumn,UserDateColumn,
                 UserDepartmentColumn, UserEmailColumn,UserIdentificationNumColumn,
-                UserNameColumn,UserPhoneColumn,UserSttColumn);
+                UserNameColumn,UserPhoneColumn,UserSttColumn,UserIdentityTypeColumn);
         userController.initializeTable();
     }
 
@@ -478,11 +509,9 @@ public class MainController implements Initializable {
 
     // Phòng phẫu thuật
     private void initializeSurgeryRoomTab() {
-        surgeryController = new SurgeryController(surgeryTable,surgerySttColumn,surgeryCodeColumn,
-                surgeryNameColumn,surgeryPatientNameColumn, surgeryResultColumn,surgeryRoomColumn,
-                surgeryStatusColumn,typeSurgeryColumn,surgeryActionColumn,  surgeryDiseaseGroupNameColumn,
-                surgeryStartedAtColumn,surgeryEndedAtColumn,
-                surgeryEstimatedEndAtColumn );
+        surgeryRoomController = new SurgeryRoomController( surgeryRoomTable,  surgeryRoomStt,
+         surgeryRoomName, surgeryRoomCode, surgeryRoomDescription,
+        surgeryRoomAddress, surgeryRoomCurrentAvailable, surgeryRoomOnServiceAt, surgeryRoomAction );
         surgeryRoomController.initializeSurgeryRoom();
     }
 

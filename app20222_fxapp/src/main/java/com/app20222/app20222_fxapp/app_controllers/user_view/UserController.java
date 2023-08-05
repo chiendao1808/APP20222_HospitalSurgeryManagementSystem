@@ -48,7 +48,8 @@ public class UserController {
 
     @FXML
     private TableColumn<UserListDTO, String> UserDepartmentColumn;
-
+    @FXML
+    private TableColumn<UserListDTO,String> UserIdentityTypeColumn;
     @FXML
     private TableColumn<UserListDTO, String> UserIdentificationNumColumn;
 
@@ -80,7 +81,8 @@ public class UserController {
         TableColumn<UserListDTO, String> userDateColumn,
         TableColumn<UserListDTO, String> userDepartmentColumn, TableColumn<UserListDTO, String> userEmailColumn,
         TableColumn<UserListDTO, String> userIdentificationNumColumn, TableColumn<UserListDTO, String> userNameColumn,
-        TableColumn<UserListDTO, String> userPhoneColumn , TableColumn<UserListDTO,Long> userSttColumn ) {
+        TableColumn<UserListDTO, String> userPhoneColumn , TableColumn<UserListDTO,Long> userSttColumn,
+                          TableColumn<UserListDTO,String> userIdentityTypeColumn ) {
         this.UserTableView = userTableView;
         this.UserActionColumn = userActionColumn;
         this.UserAddressColumn = userAddressColumn;
@@ -91,6 +93,7 @@ public class UserController {
         this.UserNameColumn = userNameColumn;
         this.UserPhoneColumn = userPhoneColumn;
         this.UserSttColumn = userSttColumn;
+        this.UserIdentityTypeColumn = userIdentityTypeColumn;
         userAPIService = new UserAPIService();
     }
 
@@ -146,7 +149,8 @@ public class UserController {
             return new SimpleLongProperty(index + 1).asObject();
         });
         this.UserNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        this.UserIdentificationNumColumn.setCellValueFactory(new PropertyValueFactory<>("identificationNumber"));
+        this.UserIdentityTypeColumn.setCellValueFactory(new PropertyValueFactory<>("identityType"));
+        this.UserIdentificationNumColumn.setCellValueFactory(new PropertyValueFactory<>("identificationNum"));
         this.UserDateColumn.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
         this.UserPhoneColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
         this.UserAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));

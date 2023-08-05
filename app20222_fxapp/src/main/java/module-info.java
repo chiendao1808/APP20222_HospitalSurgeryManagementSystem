@@ -59,7 +59,7 @@ module com.app20222.app20222_fxapp {
     // other dto exports
     exports com.app20222.app20222_fxapp.dto.file_attach;
     exports com.app20222.app20222_fxapp.dto.common;
-
+    exports com.app20222.app20222_fxapp.dto.responses;
     // export view controller
 
     /**

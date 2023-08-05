@@ -1,8 +1,11 @@
 package com.app20222.app20222_fxapp.app_controllers.medicalRecord_view;
 
+import com.app20222.app20222_fxapp.MainApplication;
+import com.app20222.app20222_fxapp.app_controllers.patient_view.AddPatientController;
 import com.app20222.app20222_fxapp.dto.responses.medicalRecord.MedicalRecordGetListDTO;
 
 import com.app20222.app20222_fxapp.dto.responses.medicalRecord.MedicalRecordListDTO;
+import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListNewDTO;
 import com.app20222.app20222_fxapp.exceptions.apiException.ApiResponseException;
 import com.app20222.app20222_fxapp.services.medicalRecord.MedicalRecordAPIService;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -10,12 +13,17 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import lombok.*;
 
@@ -77,6 +85,14 @@ public class MedicalRecordController {
         this.medicalRecordCreatedByName = medicalRecordCreatedByName;
         this.medicalRecordAction = medicalRecordAction;
     }
+    public void reloadTable() {
+        ObservableList<MedicalRecordListDTO> medicalRecordLst = getDataFromDataSource();
+        if (medicalRecordTable != null) {
+            this.medicalRecordTable.setItems(medicalRecordLst);
+            setupEditDeleteButtons();
+        }
+    }
+
     public void initializeMedicalRecord() {
         medicalRecordAPIService = new MedicalRecordAPIService();
         initializeTable();
@@ -169,5 +185,36 @@ public class MedicalRecordController {
                 };
 
         medicalRecordAction.setCellFactory(cellFactory);
+    }
+    /**
+     * Handle create dialog
+     */
+    public void openCreateDialog() {
+        String fxmlPath = "views/medicalRecord_view/create.fxml";
+        try {
+            FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource(fxmlPath));
+            Parent root = loader.load();
+            AddMedicalRecordController addMedicalRecordController = loader.getController();
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Tạo mới hồ sơ bệnh án");
+            dialogStage.setScene(new Scene(root));
+            dialogStage.setOnHidden(e -> {
+                Boolean resultSubmit = addMedicalRecordController.submit();
+                if (Objects.equals(resultSubmit, true)) {
+                    reloadTable();
+                }
+            });
+            dialogStage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    // Show dialogStage thêm mới bệnh nhân
+    @FXML
+    public void showModal(ActionEvent event) {
+        openCreateDialog();
     }
 }

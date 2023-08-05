@@ -123,6 +123,7 @@ public class PatientController {
     public void initializeTable() {
         // Lấy danh sách bệnh nhân từ nguồn dữ liệu của bạn
         ObservableList<PatientGetListNewDTO> patientList = getDataFromDataSource();
+        System.out.println("patientList" + patientList);
         setupTableColumns();
         setupEditDeleteButtons();
 
@@ -179,6 +180,7 @@ public class PatientController {
     }
 
     public void setupIdentityTypes() {
+        identityTypeMap.put(IdentityTypeEnum.ALL.name(), IdentityTypeEnum.ALL.getType());
         identityTypeMap.put(IdentityTypeEnum.CITIZEN_ID_CARD.name(), IdentityTypeEnum.CITIZEN_ID_CARD.getType());
         identityTypeMap.put(IdentityTypeEnum.ID_CARD.name(), IdentityTypeEnum.ID_CARD.getType());
         identityTypeMap.put(IdentityTypeEnum.PASSPORT.name(), IdentityTypeEnum.PASSPORT.getType());
@@ -202,6 +204,7 @@ public class PatientController {
                 return type == null ? "" : type.name();
             }
         });
+        patientSearchIdentityType.setValue("Tất cả");
     }
     // Hàm tạo 2 nút edit và delete
     public void setupEditDeleteButtons() {
@@ -254,11 +257,20 @@ public class PatientController {
 
         patientActionColumn.setCellFactory(cellFactory);
     }
+    // reset param
+    public void resetSearchParams() {
+        patientSearchIdentityType.setValue("Tất cả");
+        patientSearchCode.setText("");
+        patientSearchEmail.setText("");
+        patientSearchIdNumber.setText("");
+        patientSearchName.setText("");
+        patientSearchPhone.setText("");
+    }
 
 
     // Hàm thực hiển mở dialogStage để chỉnh sửa thông tin bệnh nhân
     @FXML
-    private void openEditDialog(PatientDetailsDTO patient, Map<String, String> params) {
+    public void openEditDialog(PatientDetailsDTO patient, Map<String, String> params) {
         String fxmlPath = "views/patient_view/create.fxml";
         try {
             FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource(fxmlPath));
@@ -330,11 +342,15 @@ public class PatientController {
     // Tìm kiếm
     @FXML
     public void onPatientSubmitSearch(ActionEvent event) {
+        searchParams.put("identityType", "ALL");
         String code = patientSearchCode.getText();
         String email = patientSearchEmail.getText();
         String idNumber = patientSearchIdNumber.getText();
         String selectedIdentityTypeLabel = patientSearchIdentityType.getValue();
-        String identityType = String.valueOf(IdentityTypeEnum.typeOf(selectedIdentityTypeLabel));
+        if (!"Tất cả".equals(selectedIdentityTypeLabel)) {
+            String identityType = String.valueOf(IdentityTypeEnum.typeOf(selectedIdentityTypeLabel));
+            searchParams.put("identityType", identityType);
+        }
         String name = patientSearchName.getText();
         String phone = patientSearchPhone.getText();
 
@@ -343,7 +359,6 @@ public class PatientController {
          searchParams.put("code", code);
          searchParams.put("email", email);
          searchParams.put("idNumber", idNumber);
-         searchParams.put("identityType", identityType);
          searchParams.put("name", name);
          searchParams.put("phoneNumber", phone);
          System.out.println(searchParams);
