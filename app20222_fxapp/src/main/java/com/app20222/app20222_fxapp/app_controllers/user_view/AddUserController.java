@@ -1,12 +1,22 @@
 package com.app20222.app20222_fxapp.app_controllers.user_view;
 
+import com.app20222.app20222_fxapp.services.patient.PatientAPIService;
+import com.app20222.app20222_fxapp.utils.DateUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.util.StringConverter;
+
+import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 public class AddUserController {
 
@@ -17,7 +27,7 @@ public class AddUserController {
     private TextField DepartmentIdView;
 
     @FXML
-    private ComboBox<?> RoleListIdView;
+    private ComboBox<String> RoleListIdView;
 
     @FXML
     private TextField addressView;
@@ -41,18 +51,154 @@ public class AddUserController {
     private TextField identificationNumberView;
 
     @FXML
-    private ComboBox<?> identityTypeView;
+    private ComboBox<String> identityTypeView;
 
     @FXML
     private TextField lastNameView;
 
     @FXML
     private TextField phoneNumberView;
+    private Map<String, String> params;
+    private boolean editMode = false;
+    private boolean createMode = false;
+    private Boolean reloadRequired = false;
 
     @FXML
     void handleEditPatient(ActionEvent event) {
+    }
+
+
+    public void setCreateMode(boolean createMode) {
+        this.createMode = createMode ;
+    }
+    public void setEditMode(boolean editMode){
+        this.editMode = editMode ;
+    }
+    public void setUserId(Map<String,String> map){
+        this.params = map ;
+    }
+    public void disableAllFields(){
+        String boldStyle = "-fx-font-weight: bold;";
+        identificationNumberView.setDisable(true);
+        identityTypeView.setDisable(true);
+        firstNameView.setDisable(true);
+        lastNameView.setDisable(true);
+        CodeNumberView.setDisable(true);
+        birthDateView.setDisable(true);
+        addressView.setDisable(true);
+        phoneNumberView.setDisable(true);
+        emailView.setDisable(true);
+        RoleListIdView.setDisable(true);
+        DepartmentIdView.setDisable(true);
+        applyBoldStylingToDisabledFields(boldStyle);
+    }
+    // boi dam cac truong khi xem chi tiet
+    public void applyBoldStylingToDisabledFields(String boldStyle) {
+        identificationNumberView.setStyle(boldStyle);
+        identityTypeView.setStyle(boldStyle);
+        firstNameView.setStyle(boldStyle);
+        lastNameView.setStyle(boldStyle);
+        CodeNumberView.setStyle(boldStyle);
+        birthDateView.setStyle(boldStyle);
+        addressView.setStyle(boldStyle);
+        phoneNumberView.setStyle(boldStyle);
+        emailView.setStyle(boldStyle);
+        RoleListIdView.setStyle(boldStyle);
+        DepartmentIdView.setStyle(boldStyle);
+    }
+    public void setBirthDateView() {
+        // Set the date format for the DatePicker to "dd/MM/yyyy"
+        birthDateView.setConverter(new StringConverter<>() {
+            final DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+            @Override
+            public String toString(LocalDate localDate) {
+                if (localDate != null) {
+                    return dateFormatter.format(localDate);
+                } else {
+                    return "";
+                }
+            }
+
+            @Override
+            public LocalDate fromString(String dateString) {
+                if (dateString != null && !dateString.trim().isEmpty()) {
+                    try {
+                        Date date = simpleDateFormat.parse(dateString);
+                        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                } else {
+                    return null;
+                }
+            }
+        });
+    }
+    public void setText(String identificationNumber , String identifyType ,String firstName , String lastName , String codeNumber,
+                        Date birthDate, String address , String phoneNumber, String email ,
+    String roleList , String departmentId ) {
+        if(identificationNumber !=  null){
+            identificationNumberView.setText(identificationNumber);
+        }
+        if(identifyType !=  null){
+            identityTypeView.setValue(identifyType);
+        }
+        if(lastName!=  null){
+            lastNameView.setText(lastName);
+        }
+        if(firstName !=  null){
+            firstNameView.setText(firstName);
+        }
+        if(codeNumber !=  null){
+            CodeNumberView.setText(codeNumber);
+        }
+        if(birthDate !=  null){
+            birthDateView.setValue(DateUtils.asLocalDate(birthDate));
+        }
+        if(address !=  null){
+            addressView.setText(address);
+        }
+        if(phoneNumber !=  null){
+            phoneNumberView.setText(phoneNumber);
+        }
+        if(email !=  null){
+            emailView.setText(email);
+        }
+        if(roleList !=  null){
+            RoleListIdView.setValue(roleList);
+        }
+        if(departmentId !=  null){
+            DepartmentIdView.setText(departmentId);
+        }
+
 
     }
+////    public void initialize(URL location, ResourceBundle resources) {
+////        setupIdentityTypes();
+////        setBirthDateView();
+////        setupButtonEventFilters();
+////        patientAPIService = new PatientAPIService();
+////        if (createMode) {
+////            editPatient.setVisible(false); // Hide the button for create mode
+////            Button okButton = (Button) createPatientPane.lookupButton(ButtonType.OK);
+////            okButton.setVisible(true);
+////            Button cancelButton = (Button) createPatientPane.lookupButton(ButtonType.CANCEL);
+////            cancelButton.setVisible(true);
+////        } else {
+////            editPatient.setVisible(true); // Show the button for view mode
+////            Button okButton = (Button) createPatientPane.lookupButton(ButtonType.OK);
+////            okButton.setVisible(false);
+////            Button cancelButton = (Button) createPatientPane.lookupButton(ButtonType.CANCEL);
+////            cancelButton.setVisible(false);
+////        }
+//
+//    }
+public Boolean submit() {
+    return reloadRequired;
+}
 
 }
 
