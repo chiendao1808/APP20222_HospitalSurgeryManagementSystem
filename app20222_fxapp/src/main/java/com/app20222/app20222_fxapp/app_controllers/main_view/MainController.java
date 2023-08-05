@@ -223,31 +223,35 @@ public class MainController implements Initializable {
     private TableColumn<SurgeryGetListDTO, Date> surgeryEstimatedEndAtColumn;
     // người dùng
     @FXML
-    private TableColumn<UserListDTO, ?> UserActionColumn;
+    private TableColumn<UserListDTO, String> UserActionColumn;
 
     @FXML
-    private TableColumn<UserListDTO, ?> UserAddressColumn;
+    private TableColumn<UserListDTO, String> UserAddressColumn;
 
     @FXML
-    private TableColumn<UserListDTO, ?> UserDateColumn;
+    private TableColumn<UserListDTO, String> UserDateColumn;
 
     @FXML
-    private TableColumn<UserListDTO, ?> UserDepartmentColumn;
+    private TableColumn<UserListDTO, String> UserDepartmentColumn;
 
     @FXML
-    private TableColumn<UserListDTO, ?> UserEmailColumn;
+    private TableColumn<UserListDTO, String> UserEmailColumn;
 
     @FXML
-    private TableColumn<UserListDTO, ?> UserIdentificationNumColumn;
+    private TableColumn<UserListDTO, String> UserIdentificationNumColumn;
 
     @FXML
-    private TableColumn<UserListDTO, ?> UserNameColumn;
+    private TableColumn<UserListDTO, String> UserNameColumn;
 
     @FXML
-    private TableColumn<UserListDTO, ?> UserPhoneColumn;
+    private TableColumn<UserListDTO, String> UserPhoneColumn;
+
+    @FXML
+    private TableColumn<UserListDTO, Long> UserSttColumn;
 
     @FXML
     private TableView<UserListDTO> UserTableView;
+
     @FXML
     private Button createUserBtn;
 
@@ -393,8 +397,10 @@ public class MainController implements Initializable {
             patientActionColumn);
         patientController.initializeTable();
         // Nguoi dung
-        userController = new UserController(UserTableView,UserActionColumn,UserAddressColumn,UserDateColumn,UserDepartmentColumn,
-                UserEmailColumn,UserIdentificationNumColumn,UserNameColumn,UserPhoneColumn);
+        userController = new UserController(UserTableView,UserActionColumn,UserAddressColumn,UserDateColumn,
+                UserDepartmentColumn, UserEmailColumn,UserIdentificationNumColumn,
+                UserNameColumn,UserPhoneColumn,UserSttColumn);
+        userController.initializeTable();
         profileController = new ProfileController(profileUser, profileUserId, profileUserCode, profileUserName,
                 profileUserIdentityType, profileUserIdentificationNum, profileUserBirthDate, profileUserEmail,
                 profileUserPhone, profileUserAddress, profileUserDepartment, profileUserRole);
