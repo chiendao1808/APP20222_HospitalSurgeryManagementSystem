@@ -1,7 +1,9 @@
 package com.app20222.app20222_backend.services.statistics;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
 import com.app20222.app20222_backend.dtos.statistics.INumberSurgeryPreviewDTO;
 import com.app20222.app20222_backend.dtos.statistics.MonthlySurgeryStatistics;
@@ -24,4 +26,9 @@ public interface StatisticsService {
      * Lấy danh sách thông tin các ca phẫu thuật theo mội khoảng thời gian nhất định ( phục vụ biểu đồ )
      */
     List<IGetListSurgery> getPreviewSurgeryList(Date startTime, Date endTime);
+
+    /**
+     * Xuất dữ liệu các ca phẫu thuật đã được thực hiện theo một bộ lọc
+     */
+    InputStreamResource exportPreviewSurgery(Date startTime, Date endTime) throws SQLException;
 }

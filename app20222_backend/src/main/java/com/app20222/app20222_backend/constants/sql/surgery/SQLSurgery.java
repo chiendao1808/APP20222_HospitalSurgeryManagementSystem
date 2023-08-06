@@ -38,7 +38,7 @@ public class SQLSurgery {
             "     surgery.name AS name, \n" +
             "     diseaseGroup.name AS diseaseGroupName, \n" +
             "     '' AS type, \n" +
-            "     CONCAT_WS(' ', patient.last_name, patient.first_name), \n" +
+            "     CONCAT_WS(' ', patient.last_name, patient.first_name) AS patientName, \n" +
             "     sRoom.name AS surgeryRoomName, \n" +
             "     CASE \n" +
             "           WHEN surgery.status = 0 THEN 'Chờ thực hiện' \n" +

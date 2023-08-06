@@ -49,4 +49,11 @@ public class StringUtils {
         return vietnamese;
     }
 
+    /**
+     * Convert Java String -> SQL text
+     */
+    public static String formatSqlText(String text) {
+        return "'" + text + "'";
+    }
+
 }

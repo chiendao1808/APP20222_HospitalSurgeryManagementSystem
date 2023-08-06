@@ -63,6 +63,7 @@ public enum APIDetails {
     STATISTICS_PREVIEW_NUMBER_SURGERY("STATISTICS_PREVIEW_NUMBER_SURGERY", "/statistics", "/preview-number-surgery", "GET"),
     STATISTICS_PREVIEW_STATISTICS_MONTHLY("STATISTICS_PREVIEW_STATISTICS_MONTHLY", "/statistics", "/preview-statistics-monthly", "GET"),
     STATISTICS_PREVIEW_LIST_SURGERY("STATISTICS_PREVIEW_LIST_SURGERY", "/statistics", "/preview-list-surgery", "GET"),
+    STATISTICS_EXPORT_PREVIEW_SURGERY("STATISTICS_EXPORT_PREVIEW_SURGERY", "/statistics", "/export-preview-surgery", "GET"),
 
     //Upload file
     UPLOAD_DOCUMENT("UPLOAD_DOCUMENT", "/file-attach", "/upload-doc", "POST"),

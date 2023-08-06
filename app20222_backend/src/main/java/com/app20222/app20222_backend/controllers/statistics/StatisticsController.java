@@ -1,9 +1,12 @@
 package com.app20222.app20222_backend.controllers.statistics;
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,6 +16,7 @@ import com.app20222.app20222_backend.dtos.statistics.MonthlySurgeryStatistics;
 import com.app20222.app20222_backend.dtos.surgery.IGetListSurgery;
 import com.app20222.app20222_backend.services.statistics.StatisticsService;
 import com.app20222.app20222_backend.utils.DateUtils;
+import com.app20222.app20222_backend.utils.excelFile.ExcelFileUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,6 +51,18 @@ public class StatisticsController {
         @RequestParam(name = "endTime") Date endTime
     ) {
         return statisticsService.getPreviewSurgeryList(startTime, endTime);
+    }
+
+
+    @GetMapping("/export-preview-surgery")
+    @Operation(description = "Xuất dữ liệu danh sách ca phẫu thuật")
+    public ResponseEntity<InputStreamResource> exportPreviewSurgery(
+        @DateTimeFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_SLASH)
+        @RequestParam(name = "startTime") Date startTime,
+        @DateTimeFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_SLASH)
+        @RequestParam(name = "endTime") Date endTime
+    ) throws SQLException {
+        return ExcelFileUtils.getResponseCSVStream(statisticsService.exportPreviewSurgery(startTime, endTime));
     }
 
 
