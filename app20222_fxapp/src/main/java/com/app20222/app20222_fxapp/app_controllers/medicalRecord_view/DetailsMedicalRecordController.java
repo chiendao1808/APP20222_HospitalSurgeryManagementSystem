@@ -1,6 +1,7 @@
 package com.app20222.app20222_fxapp.app_controllers.medicalRecord_view;
 
 import com.app20222.app20222_fxapp.constants.apis.ApiConstants;
+import com.app20222.app20222_fxapp.constants.fileAttach.FileAttachConstants;
 import com.app20222.app20222_fxapp.dto.file_attach.FileAttachDTO;
 import com.app20222.app20222_fxapp.dto.responses.medicalRecord.MedicalRecordDetailsDTO;
 import com.app20222.app20222_fxapp.dto.responses.medicalRecord.MedicalRecordDetailsRes;
@@ -44,7 +45,7 @@ public class DetailsMedicalRecordController {
     @FXML
     private Text medicalRecordFileNameDetail;
 
-    private static final String filePathSuffix = "http://" + ApiConstants.API_LOCAL_IP + ":" + ApiConstants.SERVER_PORT + ApiConstants.DEFAULT_API_PATH;
+    private static final String filePathSuffix = ApiConstants.HTTP_SCHEME + "://" + ApiConstants.API_LOCAL_IP + ":" + ApiConstants.SERVER_PORT + ApiConstants.DEFAULT_API_PATH;
 
 
     private MedicalRecordDetailsRes medicalRecordDetailsRes;
@@ -74,6 +75,7 @@ public class DetailsMedicalRecordController {
     }
 
 
+    // Xử lý download file
     public void downloadFile(String fileUrl, String filePath) {
         try {
             FileUtils.copyURLToFile(new URL(fileUrl), new File(filePath), 10000, 10000);
@@ -82,17 +84,25 @@ public class DetailsMedicalRecordController {
             e.printStackTrace();
         }
     }
+
     @FXML
     public void handleDownload(ActionEvent event) {
         List<FileAttachDTO> fileList = medicalRecordDetailsRes.getLstMedicalRecordFile();
         if (fileList != null && !fileList.isEmpty()) {
-            for (FileAttachDTO file : fileList) {// Assuming you want to download the first file in the list.
+            for (FileAttachDTO file : fileList) {
                 String fileUrl = Objects.equals(file.getType(), FileTypeEnum.DOCUMENT.getType()) ? filePathSuffix + file.getLocation() : file.getLocation();
-                String suggestedFileName = file.getFileName();
-
+                String selectedFileName = file.getFileName();
+                String extension = com.app20222.app20222_fxapp.utils.fileUtils.FileUtils.getFileExtension(selectedFileName);
                 FileChooser fileChooser = new FileChooser();
-                fileChooser.setInitialFileName(suggestedFileName);
-
+                fileChooser.setInitialDirectory(new File(FileAttachConstants.DEFAULT_DOWNLOAD_FOLDER));
+                fileChooser.setTitle(file.getFileName());
+                fileChooser.setInitialFileName(file.getFileName());
+                fileChooser.getExtensionFilters().addAll(FileAttachConstants.lstExtensionFilters);
+                FileChooser.ExtensionFilter extensionFilter = FileAttachConstants.mapExtensionFilters.get(extension);
+                if(Objects.nonNull(extensionFilter)){
+                    fileChooser.setSelectedExtensionFilter(extensionFilter);
+                }
+                // Show save file window dialog
                 File selectedFile = fileChooser.showSaveDialog(detailMedicalRecordPane.getScene().getWindow());
 
                 if (selectedFile != null) {

@@ -62,44 +62,48 @@ module com.app20222.app20222_fxapp {
     exports com.app20222.app20222_fxapp.dto.responses;
     // export view controller
 
-    /**
+    /*
      * Main View
      */
     opens com.app20222.app20222_fxapp.app_controllers.main_view to javafx.fxml;
     exports com.app20222.app20222_fxapp.app_controllers.main_view;
 
-    /**
-     * Login View
+    /*
+      Login View
      */
     opens com.app20222.app20222_fxapp.app_controllers.login_view to javafx.fxml;
     exports com.app20222.app20222_fxapp.app_controllers.login_view;
 
-    /**
+    /*
      * bệnh nhân
      */
     opens com.app20222.app20222_fxapp.app_controllers.patient_view to javafx.fxml;
     exports com.app20222.app20222_fxapp.app_controllers.patient_view;
-    /**
+    /*
      * Hồ so benh an
      */
     opens com.app20222.app20222_fxapp.app_controllers.medicalRecord_view to javafx.fxml;
     exports com.app20222.app20222_fxapp.app_controllers.medicalRecord_view;
-    /**
+
+    /*
      * ca phâu thuật
      */
     opens com.app20222.app20222_fxapp.app_controllers.surgery_view to javafx.fxml;
     exports com.app20222.app20222_fxapp.app_controllers.surgery_view;
-    /**
+
+    /*
      * người dùng
      */
     opens com.app20222.app20222_fxapp.app_controllers.user_view to javafx.fxml;
     exports com.app20222.app20222_fxapp.app_controllers.user_view;
-    /**
+
+    /*
      * phòng phẫu thuật
      */
     opens com.app20222.app20222_fxapp.app_controllers.surgeryRoom_view to javafx.fxml;
     exports com.app20222.app20222_fxapp.app_controllers.surgeryRoom_view;
-    /**
+
+    /*
      * khoa bộ phận
      */
     opens com.app20222.app20222_fxapp.app_controllers.department_view to javafx.fxml;
