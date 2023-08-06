@@ -8,6 +8,7 @@ import com.app20222.app20222_fxapp.dto.responses.users.UserDetailsDTO;
 import com.app20222.app20222_fxapp.dto.responses.users.UserListDTO;
 import com.app20222.app20222_fxapp.exceptions.apiException.ApiResponseException;
 import com.app20222.app20222_fxapp.services.users.UserAPIService;
+import com.app20222.app20222_fxapp.utils.DateUtils;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.SimpleLongProperty;
@@ -28,11 +29,7 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 
 public class UserController {
@@ -106,43 +103,48 @@ public class UserController {
         ObservableList<UserListDTO> userList = getDataFromDataSource();
         setupTableColumns();
         setUpEditDeleteButton();
+        setUpEditDeleteButton();
 
         if (UserTableView != null) {
             this.UserTableView.setItems(userList);
         }
     }
 
-//    public void openEditDialog(UserDetailsDTO userDetailsDTO , Map<String,String> param) {
-//        String fxmlPath = "views/user_view/create.fxml";
-//        try {
-//            FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource(fxmlPath));
-//            Parent root = loader.load();
-//            AddUserController addUserController = loader.getController();
-//            addUserController.disableAllFields();
-//            Stage dialogStage = new Stage();
-//            dialogStage.setTitle("Xem chi tiết người dùng");
-//            dialogStage.setScene(new Scene(root));
-//            addUserController.setUserId(param);
-//            addUserController.setText(
-//                    userDetailsDTO.getIdentificationNum(),
-//                    userDetailsDTO.getIdentityType(),
-//                    userDetailsDTO.getPhoneNumber(),
-//                    userDetailsDTO.getBirthDate(),
-//                    userDetailsDTO.getAddress(),
-//                    userDetailsDTO.getDepartment(),
-//                    userDetailsDTO.getRole(),
-//                    userDetailsDTO.getEmail(),
-//
-//
-//
-//
-//
-//            );
-//
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
+    public void openEditDialog(UserDetailsDTO userDetailsDTO , Map<String,String> param) {
+        String fxmlPath = "views/user_view/view-detail.fxml";
+        try {
+            FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource(fxmlPath));
+            Parent root = loader.load();
+            ViewUserDeatailController viewUserDeatailController = loader.getController();
+            viewUserDeatailController.disableAllFields();
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Xem chi tiết người dùng");
+            dialogStage.setScene(new Scene(root));
+            viewUserDeatailController.setUserId(param);
+            viewUserDeatailController.setText(
+                    userDetailsDTO.getIdentificationNum(),
+                    userDetailsDTO.getIdentityType(),
+                    userDetailsDTO.getName(),
+                    userDetailsDTO.getCode(),
+                    userDetailsDTO.getBirthDate(),
+                    userDetailsDTO.getAddress(),
+                    userDetailsDTO.getPhoneNumber(),
+                    userDetailsDTO.getEmail(),
+                    userDetailsDTO.getRole(),
+                    userDetailsDTO.getDepartment()
+            );
+            dialogStage.setOnHidden(e->{
+                boolean resultSubmit = viewUserDeatailController.submit();
+                if(Objects.equals(resultSubmit,true)){
+                    reloadTable();
+                }
+            });
+            dialogStage.show();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public void setupTableColumns() {
         this.UserSttColumn.setCellValueFactory(param -> {
             int index = param.getTableView().getItems().indexOf(param.getValue());
@@ -185,6 +187,7 @@ public class UserController {
                             try {
                                 UserDetailsDTO userDetail = userAPIService.getDetailsUser(map);
                                 System.out.println("userDetail " + userDetail);
+                                openEditDialog(userDetail,map);
 
                             } catch (ApiResponseException exception) {
                                 System.out.println(exception.getExceptionResponse());
@@ -209,18 +212,7 @@ public class UserController {
         UserActionColumn.setCellFactory(cellCallback);
     }
 
-//    public void openEditDialog(UserDetailsDTO userDetailsDTO , Map<String,String> map){
-//        String fxmlPath =  "views/user_view/create.fxml";
-//        try {
-//            FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource(fxmlPath));
-//            Parent root = fxmlLoader.load();
-//            AddUserController addUserController = fxmlLoader.getController();
-//            addUserController.disi
-//
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
+
 public void openCreateDialog() {
     String fxmlPath = "views/user_view/create.fxml";
     try {
@@ -266,4 +258,10 @@ public void openCreateDialog() {
         
         return FXCollections.observableArrayList(lstUsers);
     }
-}
+
+    public void handleEditUser(ActionEvent actionEvent) {
+    }
+
+
+
+    }
