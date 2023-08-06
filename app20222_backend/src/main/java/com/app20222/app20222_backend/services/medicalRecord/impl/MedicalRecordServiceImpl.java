@@ -52,11 +52,11 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
         BeanUtils.copyProperties(createDTO, medicalRecord);
         medicalRecord.setCreatedBy(AuthUtils.getCurrentUserId());
         medicalRecord.setCreatedAt(new Date());
-        medicalRecordRepository.save(medicalRecord);
+        Long medicalRecordId = medicalRecordRepository.save(medicalRecord).getId();
 
         //save file attach with medical_record
         List<MedicalRecordFile> lstFileAttach = createDTO.getLstFileAttachId().stream()
-            .map(item -> new MedicalRecordFile(createDTO.getPatientId(), item)).collect(Collectors.toList());
+            .map(item -> new MedicalRecordFile(item, medicalRecordId)).collect(Collectors.toList());
         medicalRecordFileRepository.saveAll(lstFileAttach);
     }
 
