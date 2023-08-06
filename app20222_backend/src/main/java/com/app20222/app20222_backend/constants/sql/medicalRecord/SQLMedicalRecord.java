@@ -46,7 +46,8 @@ public class SQLMedicalRecord {
         "SELECT \n" +
             "     file.id AS fileId, \n" +
             "     file.name AS fileName, \n" +
-            "     file.location AS location \n" +
+            "     file.location AS location," +
+            "     file.type AS type \n" +
             "FROM {h-schema}medical_records_files AS medRecordFile \n" +
             "   JOIN {h-schema}file_attach AS file ON file.id = medRecordFile.file_id \n" +
             "WHERE medRecordFile.medical_record_id = :medicalRecordId ";

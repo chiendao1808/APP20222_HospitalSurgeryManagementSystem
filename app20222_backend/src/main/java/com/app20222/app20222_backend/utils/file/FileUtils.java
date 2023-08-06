@@ -16,7 +16,7 @@ public class FileUtils {
             if (Objects.isNull(multipartFile) || Objects.isNull(multipartFile.getOriginalFilename())) {
                 return null;
             }
-            File covertedFile = new File(tempPath + formatter.format(new Date()) + "-" + multipartFile.getOriginalFilename());
+            File covertedFile = new File(tempPath + formatter.format(new Date()) + "_" + multipartFile.getOriginalFilename().replace(" ", "_"));
             FileOutputStream fos = new FileOutputStream(covertedFile);
             fos.write(multipartFile.getBytes());
             fos.close();

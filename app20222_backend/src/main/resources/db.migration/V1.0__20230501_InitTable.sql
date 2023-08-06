@@ -277,7 +277,7 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."file_attach"
 COMMENT ON TABLE "app20222_db"."file_attach" IS 'Bảng lưu thông tin file tải lên';
 COMMENT ON COLUMN "app20222_db"."file_attach"."id" IS 'Id file đính kèm';
 COMMENT ON COLUMN "app20222_db"."file_attach"."name" IS 'Tên file đính kèm';
-COMMENT ON COLUMN "app20222_db"."file_attach"."type" IS 'Loại file đính kèm (0: File avatar/ảnh chân dung, 2: File tài liệu văn bản)';
+COMMENT ON COLUMN "app20222_db"."file_attach"."type" IS 'Loại file đính kèm (0: File avatar/ảnh chân dung, 1: File tài liệu văn bản)';
 COMMENT ON COLUMN "app20222_db"."file_attach"."file_ext" IS 'Định dạng file';
 COMMENT ON COLUMN "app20222_db"."file_attach"."size" IS 'Kích thước file (byte)';
 COMMENT ON COLUMN "app20222_db"."file_attach"."stored_type" IS 'Loại kho lưu trữ file (0: Lưu tại server, 1: Lưu tại cloud server bên thứ 3)';

@@ -17,4 +17,5 @@ public class FileUploadResDTO {
     Long id;
     String fileName;
     String location;
+    Integer type;
 }

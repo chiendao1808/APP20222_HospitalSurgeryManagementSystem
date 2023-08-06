@@ -20,5 +20,6 @@ public class FileAttachDTO {
     
     String location;
 
+    Integer type;
 
 }

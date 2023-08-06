@@ -126,7 +126,8 @@ public class SQLSurgery {
         "SELECT \n" +
             "     file.id AS fileId, \n" +
             "     file.name AS fileName, \n" +
-            "     file.location AS location \n" +
+            "     file.location AS location, \n" +
+            "     file.type AS type \n" +
             "FROM {h-schema}surgeries_files AS surFile \n" +
             "   JOIN {h-schema}file_attach AS file ON file.id = surFile.file_id \n" +
             "WHERE surFile.surgery_id = :surgeryId ";
