@@ -3,6 +3,7 @@ package com.app20222.app20222_backend.repositories.users;
 import com.app20222.app20222_backend.constants.sql.users.SQLUser;
 import com.app20222.app20222_backend.dtos.users.IGetDetailUser;
 import com.app20222.app20222_backend.dtos.users.IGetListUser;
+import com.app20222.app20222_backend.dtos.users.RoleDTO;
 import com.app20222.app20222_backend.entities.users.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -39,6 +40,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Boolean existsByCode(String code);
 
     Boolean existsByIdNotAndIdentityTypeAndIdentificationNumber(Long id, Integer identityType, String identificationNumber);
+
+    @Query(value = "SELECT id FROM User WHERE departmentId = :departmentId")
+    Set<Long> findAllUserIdByDepartmentId(Long departmentId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE User SET departmentId = :newDepartmentId WHERE departmentId = :oldDepartmentId")
+    Integer changeAllUserDepartmentByDepartmentId(Long oldDepartmentId, Long newDepartmentId);
 
     @Transactional
     @Modifying

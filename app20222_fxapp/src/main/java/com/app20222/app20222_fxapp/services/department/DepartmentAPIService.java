@@ -65,4 +65,21 @@ public class DepartmentAPIService {
         return isSuccess;
     }
 
+
+    /**
+     * API call deleteDepartment
+     */
+    public Boolean deleteDepartment(Map<String, String> params) {
+        String uri = ApiUtils.buildURI(APIDetails.DEPARTMENT_DELETE.getRequestPath() + APIDetails.DEPARTMENT_DELETE.getDetailPath(), params);
+        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.DEPARTMENT_DELETE.getMethod(), null, new HashMap<>());
+        Boolean isSuccess = HttpUtils.isCallSuccessfully(response);
+        if (isSuccess) {
+            System.out.println("response: Updated successfully");
+        } else {
+            ExceptionResponse exceptionResponse = HttpUtils.handleResponse(response, new TypeReference<>() {});
+            throw new ApiResponseException(exceptionResponse);
+        }
+        return isSuccess;
+    }
+
 }

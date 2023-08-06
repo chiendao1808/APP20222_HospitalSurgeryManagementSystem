@@ -15,4 +15,9 @@ public interface DepartmentService {
 
     List<IGetListDepartment> getListDepartment(Long id, String code, String name, String email, String phone);
 
+    /**
+     * Xoá khoa/bộ phận -> chuyển các user có departmentId = id -> -1L -> đợi gán lại
+     */
+    void deleteDepartment(Long id);
+
 }

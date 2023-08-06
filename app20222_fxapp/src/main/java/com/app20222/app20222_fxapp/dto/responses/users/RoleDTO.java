@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.dtos.users;
+package com.app20222.app20222_fxapp.dto.responses.users;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -12,10 +12,11 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserRoleDTO {
-    Long userId;
+public class RoleDTO {
 
     Long roleId;
+
+    String roleCode;
 
     String displayedName;
 }

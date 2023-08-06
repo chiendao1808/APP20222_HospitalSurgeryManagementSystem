@@ -12,10 +12,11 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserRoleDTO {
-    Long userId;
+public class RoleDTO {
 
     Long roleId;
+
+    String roleCode;
 
     String displayedName;
 }

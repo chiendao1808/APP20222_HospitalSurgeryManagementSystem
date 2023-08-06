@@ -24,6 +24,7 @@ public enum APIDetails {
     DEPARTMENT_CREATE("DEPARTMENT_CREATE", "/department", "", "POST"),
     DEPARTMENT_UPDATE("DEPARTMENT_UPDATE", "/department", "", "PUT"),
     DEPARTMENT_GET_LIST("DEPARTMENT_GET_LIST", "/department", "/get-list", "GET"),
+    DEPARTMENT_DELETE("DEPARTMENT_DELETE", "/department", "/", "DELETE"),
 
 
     // Surgery's APIs

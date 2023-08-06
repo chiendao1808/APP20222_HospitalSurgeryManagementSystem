@@ -1,6 +1,8 @@
 package com.app20222.app20222_backend.dtos.users;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import org.springframework.beans.BeanUtils;
 import com.app20222.app20222_backend.utils.DateUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -41,7 +43,7 @@ public class UserDetailDTO {
 
     String userName;
 
-    String role;
+    List<RoleDTO> roles = new ArrayList<>();
 
     String department;
 

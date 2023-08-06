@@ -6,6 +6,7 @@ import com.app20222.app20222_backend.constants.message.messageConst.MessageConst
 import com.app20222.app20222_backend.dtos.users.IGetDetailUser;
 import com.app20222.app20222_backend.dtos.users.IGetListUser;
 import com.app20222.app20222_backend.dtos.users.ProfileUserDTO;
+import com.app20222.app20222_backend.dtos.users.RoleDTO;
 import com.app20222.app20222_backend.dtos.users.UserCreateDTO;
 import com.app20222.app20222_backend.dtos.users.UserDetailDTO;
 import com.app20222.app20222_backend.dtos.users.UserUpdateDTO;
@@ -16,6 +17,7 @@ import com.app20222.app20222_backend.enums.users.UserStatusEnum;
 import com.app20222.app20222_backend.exceptions.exceptionFactory.ExceptionFactory;
 import com.app20222.app20222_backend.repositories.department.DepartmentRepository;
 import com.app20222.app20222_backend.repositories.feature.FeatureRepository;
+import com.app20222.app20222_backend.repositories.role.RoleRepository;
 import com.app20222.app20222_backend.repositories.users.UserRepository;
 import com.app20222.app20222_backend.repositories.users.UserRoleRepository;
 import com.app20222.app20222_backend.services.permission.PermissionService;
@@ -29,7 +31,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -57,9 +58,11 @@ public class UserServiceImpl implements UserService {
 
     private final FeatureRepository featureRepository;
 
+    private final RoleRepository roleRepository;
+
     public UserServiceImpl(UserRepository userRepository, PermissionService permissionService, PasswordEncoder passwordEncoder,
         UserRoleRepository userRoleRepository, ExceptionFactory exceptionFactory, DepartmentRepository departmentRepository,
-        FeatureRepository featureRepository){
+        FeatureRepository featureRepository, RoleRepository roleRepository){
         this.userRepository = userRepository;
         this.permissionService = permissionService;
         this.passwordEncoder = passwordEncoder;
@@ -67,6 +70,7 @@ public class UserServiceImpl implements UserService {
         this.exceptionFactory = exceptionFactory;
         this.departmentRepository = departmentRepository;
         this.featureRepository = featureRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -124,7 +128,12 @@ public class UserServiceImpl implements UserService {
     public UserDetailDTO getDetailUser(Long userId) {
         permissionService.hasUserPermission(userId, BasePermissionEnum.VIEW);
         IGetDetailUser iGetDetailUser = userRepository.getDetailUser(userId);
-        return new UserDetailDTO(iGetDetailUser);
+        UserDetailDTO userDetails = new UserDetailDTO(iGetDetailUser);
+        Set<Long> roleIds = userRoleRepository.findAllByUserId(userId).stream().map(UserRole::getRoleId).collect(Collectors.toSet());
+        List<RoleDTO> roles = roleRepository.findAllById(roleIds).stream().map(item -> new RoleDTO(item.getId(), item.getCode(), item.getDisplayedName())).collect(
+            Collectors.toList());
+        userDetails.setRoles(roles);
+        return userDetails;
     }
 
     @Override
