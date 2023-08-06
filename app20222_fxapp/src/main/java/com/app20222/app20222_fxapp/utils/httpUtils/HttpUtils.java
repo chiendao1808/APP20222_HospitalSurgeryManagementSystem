@@ -123,11 +123,11 @@ public class HttpUtils {
             HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(uri))
                 .header(HttpHeaders.CONTENT_TYPE, httpEntity.getContentType().getValue()) // Content-Type multipart
-                .headers(reqHeaders.toArray(String[]::new)) // Other headers
+                .headers(reqHeaders.toArray(String[]::new)) // Other headers : Auth,...
                 .POST(HttpRequest.BodyPublishers.ofInputStream(() -> Channels.newInputStream(pipe.source())))
                 .timeout(Duration.ofMillis(15000)) // 10s  time-out
                 .build();
-            return client.send(request, HttpResponse.BodyHandlers.ofString());
+            return client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).join();
         } catch (Exception ex) {
             ex.printStackTrace();
             return null;
