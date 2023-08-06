@@ -25,4 +25,17 @@ public class Validation {
         String phoneRegex = "^[0-9]{10}$";
         return phoneNumber.matches(phoneRegex);
     }
+    public static boolean isAllFieldsFilledUser(String identificationNumber, String name, String identityType,
+                                                   String department , String role , String code , LocalDate birthDate, String address, String phoneNumber, String email) {
+        return !identificationNumber.isEmpty() &&
+                !code.isEmpty() &&
+                !name.isEmpty() &&
+                identityType != null &&
+                !department.isEmpty() &&
+                role != null &&
+                birthDate != null &&
+                !address.isEmpty() &&
+                !phoneNumber.isEmpty() &&
+                !email.isEmpty();
+    }
 }

@@ -137,45 +137,7 @@ public class AddUserController {
             }
         });
     }
-    public void setText(String identificationNumber , String identifyType ,String firstName , String lastName , String codeNumber,
-                        Date birthDate, String address , String phoneNumber, String email ,
-    String roleList , String departmentId ) {
-        if(identificationNumber !=  null){
-            identificationNumberView.setText(identificationNumber);
-        }
-        if(identifyType !=  null){
-            identityTypeView.setValue(identifyType);
-        }
-        if(lastName!=  null){
-            lastNameView.setText(lastName);
-        }
-        if(firstName !=  null){
-            firstNameView.setText(firstName);
-        }
-        if(codeNumber !=  null){
-            CodeNumberView.setText(codeNumber);
-        }
-        if(birthDate !=  null){
-            birthDateView.setValue(DateUtils.asLocalDate(birthDate));
-        }
-        if(address !=  null){
-            addressView.setText(address);
-        }
-        if(phoneNumber !=  null){
-            phoneNumberView.setText(phoneNumber);
-        }
-        if(email !=  null){
-            emailView.setText(email);
-        }
-        if(roleList !=  null){
-            RoleListIdView.setValue(roleList);
-        }
-        if(departmentId !=  null){
-            DepartmentIdView.setText(departmentId);
-        }
 
-
-    }
 ////    public void initialize(URL location, ResourceBundle resources) {
 ////        setupIdentityTypes();
 ////        setBirthDateView();
