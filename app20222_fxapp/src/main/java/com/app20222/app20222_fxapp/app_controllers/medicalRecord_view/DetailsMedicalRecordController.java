@@ -1,21 +1,22 @@
 package com.app20222.app20222_fxapp.app_controllers.medicalRecord_view;
 
+import com.app20222.app20222_fxapp.constants.apis.ApiConstants;
 import com.app20222.app20222_fxapp.dto.file_attach.FileAttachDTO;
 import com.app20222.app20222_fxapp.dto.responses.medicalRecord.MedicalRecordDetailsDTO;
 import com.app20222.app20222_fxapp.dto.responses.medicalRecord.MedicalRecordDetailsRes;
+import com.app20222.app20222_fxapp.enums.fileAttach.FileTypeEnum;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DialogPane;
-import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
+import java.util.Objects;
+import org.apache.commons.io.FileUtils;
 
 public class DetailsMedicalRecordController {
     @FXML
@@ -42,6 +43,8 @@ public class DetailsMedicalRecordController {
 
     @FXML
     private Text medicalRecordFileNameDetail;
+
+    private static final String filePathSuffix = "http://" + ApiConstants.API_LOCAL_IP + ":" + ApiConstants.SERVER_PORT + ApiConstants.DEFAULT_API_PATH;
 
 
     private MedicalRecordDetailsRes medicalRecordDetailsRes;
@@ -71,19 +74,9 @@ public class DetailsMedicalRecordController {
     }
 
 
-    public void downloadFile(String fileUrl, String fileName) {
+    public void downloadFile(String fileUrl, String filePath) {
         try {
-            URL url = new URL(fileUrl);
-            URLConnection connection = url.openConnection();
-            InputStream inputStream = connection.getInputStream();
-            FileOutputStream outputStream = new FileOutputStream(fileName);
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-            }
-            outputStream.close();
-            inputStream.close();
+            FileUtils.copyURLToFile(new URL(fileUrl), new File(filePath), 10000, 10000);
             System.out.println("File đã được tải xuống thành công!");
         } catch (IOException e) {
             e.printStackTrace();
@@ -93,18 +86,19 @@ public class DetailsMedicalRecordController {
     public void handleDownload(ActionEvent event) {
         List<FileAttachDTO> fileList = medicalRecordDetailsRes.getLstMedicalRecordFile();
         if (fileList != null && !fileList.isEmpty()) {
-            FileAttachDTO fileToDownload = fileList.get(0); // Assuming you want to download the first file in the list.
-            String fileUrl = fileToDownload.getLocation();
-            String suggestedFileName = fileToDownload.getFileName();
+            for (FileAttachDTO file : fileList) {// Assuming you want to download the first file in the list.
+                String fileUrl = Objects.equals(file.getType(), FileTypeEnum.DOCUMENT.getType()) ? filePathSuffix + file.getLocation() : file.getLocation();
+                String suggestedFileName = file.getFileName();
 
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setInitialFileName(suggestedFileName);
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setInitialFileName(suggestedFileName);
 
-            File selectedFile = fileChooser.showSaveDialog(detailMedicalRecordPane.getScene().getWindow());
+                File selectedFile = fileChooser.showSaveDialog(detailMedicalRecordPane.getScene().getWindow());
 
-            if (selectedFile != null) {
-                String fileName = selectedFile.getAbsolutePath();
-                downloadFile(fileUrl, fileName);
+                if (selectedFile != null) {
+                    String fileName = selectedFile.getAbsolutePath();
+                    downloadFile(fileUrl, fileName);
+                }
             }
         }
 

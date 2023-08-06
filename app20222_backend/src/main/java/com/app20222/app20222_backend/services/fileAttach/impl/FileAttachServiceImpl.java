@@ -78,7 +78,7 @@ public class FileAttachServiceImpl implements FileAttachService {
             fileAttach = fileAttachRepository.save(fileAttach);
             // Delete file after upload cloudinary
             uploadFile.delete();
-            return new FileUploadResDTO(fileAttach.getId(), fileAttach.getFileName(), fileAttach.getLocation());
+            return new FileUploadResDTO(fileAttach.getId(), fileAttach.getFileName(), fileAttach.getLocation(), fileAttach.getFileType());
         } catch (IOException ex) {
             ex.printStackTrace();
             return null;
@@ -105,6 +105,6 @@ public class FileAttachServiceImpl implements FileAttachService {
             .createdBy(AuthUtils.getCurrentUserId())
             .build();
         fileAttach = fileAttachRepository.save(fileAttach);
-        return new FileUploadResDTO(fileAttach.getId(), fileAttach.getFileName(), fileAttach.getLocation());
+        return new FileUploadResDTO(fileAttach.getId(), fileAttach.getFileName(), fileAttach.getLocation(), fileAttach.getFileType());
     }
 }
