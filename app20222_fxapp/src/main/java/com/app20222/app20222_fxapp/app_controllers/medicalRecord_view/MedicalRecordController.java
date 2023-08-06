@@ -292,7 +292,7 @@ public class MedicalRecordController {
                                     params.put("id", String.valueOf(medicalRecord.getId()));
                                     try {
                                         MedicalRecordDetailsRes medicalRecordDetailsRes = medicalRecordAPIService.getDetailsMedicalRecord(params);
-                                        openUpdateDialog(medicalRecordDetailsRes,params);
+                                        openUpdateDialog(medicalRecordDetailsRes, params);
                                     } catch (ApiResponseException e) {
                                         System.out.println(e.getExceptionResponse());
                                     }

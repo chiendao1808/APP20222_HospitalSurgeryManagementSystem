@@ -43,7 +43,8 @@ public class AddMedicalRecordController implements Initializable {
     @FXML
     private Label medicalRecordFileName;
 
-    private ProgressIndicator progressIndicator;
+//    private ProgressIndicator progressIndicator;
+
     private ComboBoxAPIService comboBoxAPIService;
 
     private FileUploadAPIService fileUploadAPIService;
@@ -247,10 +248,10 @@ public class AddMedicalRecordController implements Initializable {
         File seletedFile = fc.showOpenDialog(null);
         if (seletedFile != null) {
             medicalRecordFileName.setText(seletedFile.getName());
-            progressIndicator.setVisible(true);
-            RotateTransition rotateTransition = new RotateTransition(Duration.seconds(1), progressIndicator);
-            rotateTransition.setByAngle(360);
-            rotateTransition.setCycleCount(RotateTransition.INDEFINITE);
+//            progressIndicator.setVisible(true);
+//            RotateTransition rotateTransition = new RotateTransition(Duration.seconds(1), progressIndicator);
+//            rotateTransition.setByAngle(360);
+//            rotateTransition.setCycleCount(RotateTransition.INDEFINITE);
 
             Task<Void> uploadTask = new Task<Void>() {
                 @Override
@@ -285,15 +286,15 @@ public class AddMedicalRecordController implements Initializable {
 
             // Set up completion handler for the task
             uploadTask.setOnSucceeded(e -> {
-                rotateTransition.stop();
-                progressIndicator.setVisible(false);
+//                rotateTransition.stop();
+//                progressIndicator.setVisible(false);
             });
 
             Thread uploadThread = new Thread(uploadTask);
             uploadThread.setDaemon(true);
             uploadThread.start();
 
-            rotateTransition.play();
+//            rotateTransition.play();
         } else {
             medicalRecordFileName.setText("");
         }

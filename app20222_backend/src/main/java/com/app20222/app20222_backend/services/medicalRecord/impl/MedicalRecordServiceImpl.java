@@ -97,7 +97,7 @@ public class MedicalRecordServiceImpl implements MedicalRecordService {
         medicalRecordFileRepository.deleteAllByMedicalRecordId(medRecordId);
         Set<Long> lstNewFileId = updateDTO.getLstFileAttachId();
         List<MedicalRecordFile> lstMedicalRecordFile = new ArrayList<>();
-        lstNewFileId.forEach(item -> lstMedicalRecordFile.add(new MedicalRecordFile(medRecordId, item)));
+        lstNewFileId.forEach(item -> lstMedicalRecordFile.add(new MedicalRecordFile(item, medRecordId)));
         medicalRecordFileRepository.saveAll(lstMedicalRecordFile);
     }
 }
