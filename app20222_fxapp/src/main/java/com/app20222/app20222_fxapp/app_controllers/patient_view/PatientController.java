@@ -48,6 +48,12 @@ public class PatientController {
     private TableColumn<PatientGetListNewDTO, Long> patientIdColumn;
     @FXML
     private TableColumn<PatientGetListNewDTO, String> patientPhoneColumn;
+    @FXML
+    private TableColumn<PatientGetListNewDTO, String> patientIdentificationNumberColumn;
+    @FXML
+    private TableColumn<PatientGetListNewDTO, String> patientIdentityTypeColumn;
+    @FXML
+    private TableColumn<PatientGetListNewDTO, String> patientHealthInsuranceNumberColumn;
     // Tìm kiếm
     @FXML
     private TextField patientSearchCode;
@@ -87,6 +93,9 @@ public class PatientController {
                              TableColumn<PatientGetListNewDTO, String> phoneColumn,
                              TableColumn<PatientGetListNewDTO, String> addressColumn,
                              TableColumn<PatientGetListNewDTO, String> actionColumn,
+                             TableColumn<PatientGetListNewDTO, String> patientIdentificationNumberColumn,
+                             TableColumn<PatientGetListNewDTO, String> patientIdentityTypeColumn,
+                             TableColumn<PatientGetListNewDTO, String> patientHealthInsuranceNumberColumn,
                              TextField patientSearchCode, TextField patientSearchEmail, TextField patientSearchIdNumber,
                              ComboBox<String> patientSearchIdentityType, TextField patientSearchName, TextField patientSearchPhone,
                              Button patientSubmitSearch) {
@@ -98,6 +107,9 @@ public class PatientController {
         this.patientPhoneColumn = phoneColumn;
         this.patientAddressColumn = addressColumn;
         this.patientActionColumn = actionColumn;
+        this.patientIdentityTypeColumn =  patientIdentityTypeColumn;
+        this.patientIdentificationNumberColumn = patientIdentificationNumberColumn;
+        this.patientHealthInsuranceNumberColumn = patientHealthInsuranceNumberColumn;
         this.patientSearchCode = patientSearchCode;
         this.patientSearchEmail = patientSearchEmail;
         this.patientSearchIdNumber = patientSearchIdNumber;
@@ -177,6 +189,9 @@ public class PatientController {
         this.patientBirthdayColumn.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
         this.patientPhoneColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
         this.patientAddressColumn.setCellValueFactory(new PropertyValueFactory<>("address"));
+        this.patientIdentityTypeColumn.setCellValueFactory(new PropertyValueFactory<>("identityType"));
+        this.patientIdentificationNumberColumn.setCellValueFactory(new PropertyValueFactory<>("identificationNumber"));
+        this.patientHealthInsuranceNumberColumn.setCellValueFactory(new PropertyValueFactory<>("HealthInsuranceNumber"));
     }
 
     public void setupIdentityTypes() {
