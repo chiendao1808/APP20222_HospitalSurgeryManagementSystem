@@ -144,7 +144,6 @@ public class MainController implements Initializable {
     @FXML
     private TableColumn<PatientGetListNewDTO, String> patientAddressColumn;
 
-
     @FXML
     private TableColumn<PatientGetListNewDTO, Date> patientIBirthdayColumn;
 
@@ -156,6 +155,12 @@ public class MainController implements Initializable {
 
     @FXML
     private TableColumn<PatientGetListNewDTO, String> patientPhoneColumn;
+    @FXML
+    private TableColumn<PatientGetListNewDTO, String> patientIdentificationNumberColumn;
+    @FXML
+    private TableColumn<PatientGetListNewDTO, String> patientIdentityTypeColumn;
+    @FXML
+    private TableColumn<PatientGetListNewDTO, String> patientHealthInsuranceNumberColumn;
 
     // tìm kiếm bệnh nhân
     @FXML
@@ -190,7 +195,7 @@ public class MainController implements Initializable {
     private TableColumn<MedicalRecordGetListDTO,Long> medicalRecordStt;
 
     @FXML
-    private TableColumn<MedicalRecordGetListDTO, String> medicalRecordAction;
+    private TableColumn<MedicalRecordListDTO, String> medicalRecordAction;
 
     @FXML
     private TableColumn<MedicalRecordGetListDTO, Date> medicalRecordCreateAt;
@@ -212,6 +217,24 @@ public class MainController implements Initializable {
 
     @FXML
     private Button createMedicalRecord;
+    // tìm kiếm hồ sơ bệnh án
+
+    @FXML
+    private TextField medicalRecordSearchCode;
+
+    @FXML
+    private DatePicker medicalRecordSearchEndAt;
+
+    @FXML
+    private TextField medicalRecordSearchName;
+
+    @FXML
+    private DatePicker medicalRecordSearchStartAt;
+    @FXML
+    private Button medicalRecordSubmitSearch;
+    @FXML
+    private Button medicalRecordClearSearch;
+
 
     //  Ca phẫu thuật
     @FXML
@@ -467,10 +490,18 @@ public class MainController implements Initializable {
         }
         // thực hiện reset params
         String currentPaneName = getCurrentAnchorPaneName();
-        if (!"patient".equals(currentPaneName)) {
-            patientController.resetSearchParams();
-        } else if(!"department".equals(currentPaneName)) {
-            departmentController.resetSearchParams();
+        switch (currentPaneName) {
+            case "patient":
+                patientController.resetSearchParams();
+                break;
+            case "department":
+                departmentController.resetSearchParams();
+                break;
+            case "medicalRecord":
+                medicalRecordController.resetSearchParams();
+                break;
+            default:
+                break;
         }
     }
 
@@ -533,7 +564,8 @@ public class MainController implements Initializable {
     private void initializePatientTab() {
         patientController = new PatientController(patientTable, patientIdColumn,patientINameColumn,patientCodeColumn,
                 patientIBirthdayColumn,patientPhoneColumn,patientAddressColumn,
-                patientActionColumn, patientSearchCode, patientSearchEmail, patientSearchIdNumber,
+                patientActionColumn,patientIdentificationNumberColumn,patientIdentityTypeColumn,patientHealthInsuranceNumberColumn,
+                patientSearchCode, patientSearchEmail, patientSearchIdNumber,
                 patientSearchIdentityType, patientSearchName, patientSearchPhone, patientSubmitSearch);
         patientController.initializePatient();
     }
@@ -550,7 +582,7 @@ public class MainController implements Initializable {
     private void initializeMedicalRecordTab() {
         medicalRecordController = new MedicalRecordController(medicalRecordTable, medicalRecordStt,medicalRecordPatientID,
                 medicalRecordPatientName, medicalRecordPatientCode, medicalRecordCreateAt,medicalRecordCreatedById,
-                medicalRecordCreatedByName, medicalRecordAction);
+                medicalRecordCreatedByName, medicalRecordAction,medicalRecordSearchCode,medicalRecordSearchName,medicalRecordSearchStartAt,medicalRecordSearchEndAt);
         medicalRecordController.initializeMedicalRecord();
     }
 
@@ -590,6 +622,8 @@ public class MainController implements Initializable {
             patientController.onPatientSubmitSearch(event);
         } else if (selectedButton == departmentSubmitSearch) {
             departmentController.onDepartmentSubmitSearch(event);
+        } else if (selectedButton == medicalRecordSubmitSearch) {
+            medicalRecordController.onDepartmentSubmitSearch(event);
         }
     }
     // Hàm khi click button clear tìm kếm
@@ -601,6 +635,8 @@ public class MainController implements Initializable {
             patientController.clearParams(event);
         } else if (selectedButton == departmentClearSearch) {
             departmentController.clearParams(event);
+        } else if (selectedButton == medicalRecordClearSearch) {
+            medicalRecordController.clearParams(event);
         }
     }
 

@@ -49,7 +49,7 @@ public class MedicalRecordController {
             @DateTimeFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_SLASH)
             @RequestParam(name = "startDate", required = false, defaultValue = "01/01/1970") Date startDate,
             @DateTimeFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_SLASH)
-            @RequestParam(name = "startDate", required = false, defaultValue = "01/01/1970") Date endDate) {
+            @RequestParam(name = "endDate", required = false, defaultValue = "01/01/1970") Date endDate) {
         return medicalRecordService.getListMedicalRecords(patientId, patientName, patientCode, phoneNumber, identityType, identificationNum,
                 email, startDate, endDate);
     }
