@@ -4,6 +4,7 @@ import com.app20222.app20222_fxapp.MainApplication;
 import com.app20222.app20222_fxapp.app_controllers.patient_view.AddPatientController;
 import com.app20222.app20222_fxapp.dto.responses.patient.PatientDetailsDTO;
 import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListNewDTO;
+import com.app20222.app20222_fxapp.dto.responses.users.RoleDTO;
 import com.app20222.app20222_fxapp.dto.responses.users.UserDetailsDTO;
 import com.app20222.app20222_fxapp.dto.responses.users.UserListDTO;
 import com.app20222.app20222_fxapp.exceptions.apiException.ApiResponseException;
@@ -30,6 +31,7 @@ import javafx.util.Callback;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class UserController {
@@ -130,7 +132,7 @@ public class UserController {
                     userDetailsDTO.getAddress(),
                     userDetailsDTO.getPhoneNumber(),
                     userDetailsDTO.getEmail(),
-                    userDetailsDTO.getRole(),
+                    userDetailsDTO.getRoles().stream().map(RoleDTO::getDisplayedName).collect(Collectors.joining(",")),
                     userDetailsDTO.getDepartment()
             );
             dialogStage.setOnHidden(e->{

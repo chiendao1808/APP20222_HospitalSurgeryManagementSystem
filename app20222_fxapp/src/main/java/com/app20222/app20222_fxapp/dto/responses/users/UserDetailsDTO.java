@@ -1,6 +1,7 @@
 package com.app20222.app20222_fxapp.dto.responses.users;
 
 import java.util.Date;
+import java.util.List;
 import com.app20222.app20222_fxapp.utils.DateUtils;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AccessLevel;
@@ -40,7 +41,7 @@ public class UserDetailsDTO {
 
     String userName;
 
-    String role;
+    List<RoleDTO> roles;
 
     String department;
 

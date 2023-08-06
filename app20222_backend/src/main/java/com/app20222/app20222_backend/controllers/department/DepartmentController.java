@@ -3,6 +3,7 @@ package com.app20222.app20222_backend.controllers.department;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -47,6 +48,12 @@ public class DepartmentController {
         @RequestParam(name = "email", required = false, defaultValue = "") String email,
         @RequestParam(name = "phone", required = false, defaultValue = "") String phone) {
         return departmentService.getListDepartment(id, code, name, email, phone);
+    }
+
+    @DeleteMapping()
+    @Operation(description = "Xoá khoa bộ phận")
+    public void deleteDepartment(@RequestParam(name = "id") Long id){
+
     }
 
 }
