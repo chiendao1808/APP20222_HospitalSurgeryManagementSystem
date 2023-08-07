@@ -40,7 +40,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public void createDepartment(DepartmentCreateDTO createDTO) {
-        if (AuthUtils.isSuperAdmin() && PermissionUtils.checkAdminRoles()) {
+        if (AuthUtils.isSuperAdmin() || PermissionUtils.checkHospitalRoles()) {
             if (departmentRepository.existsByCode(createDTO.getCode())) {
                 throw exceptionFactory
                     .resourceExistedException(ErrorKey.Department.EXISTED_ERROR_CODE, Resources.DEPARTMENT, MessageConst.RESOURCE_EXISTED,
@@ -57,7 +57,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public void updateDepartment(Long id, DepartmentUpdateDTO updateDTO) {
-        if (AuthUtils.isSuperAdmin() && PermissionUtils.checkAdminRoles()) {
+        if (AuthUtils.isSuperAdmin() || PermissionUtils.checkHospitalRoles() ||
+            (PermissionUtils.checkAdminRoles() && AuthUtils.getCurrentUserDepartmentId() == id)) {
             Department department = departmentRepository.findById(id).orElseThrow(
                 () -> exceptionFactory.resourceNotFoundException(ErrorKey.Department.NOT_FOUND_ERROR_CODE, MessageConst.RESOURCE_NOT_FOUND,
                     Resources.DEPARTMENT, ErrorKey.Department.ID, String.valueOf(id)));
@@ -77,15 +78,15 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Transactional
     @Override
     public void deleteDepartment(Long id) {
-        if(AuthUtils.isSuperAdmin() && PermissionUtils.checkAdminRoles()){
-            if(departmentRepository.existsById(id)){
+        if (AuthUtils.isSuperAdmin() || PermissionUtils.checkHospitalRoles()) {
+            if (departmentRepository.existsById(id)) {
                 userRepository.changeAllUserDepartmentByDepartmentId(id, -1L);
                 departmentRepository.deleteById(id);
             } else {
                 throw exceptionFactory.resourceNotFoundException(ErrorKey.Department.NOT_FOUND_ERROR_CODE, MessageConst.RESOURCE_NOT_FOUND,
                     Resources.DEPARTMENT, ErrorKey.Department.ID, String.valueOf(id));
             }
-        }else {
+        } else {
             throw exceptionFactory.permissionDeniedException(ErrorKey.User.PERMISSION_DENIED_ERROR_CODE, Resources.DEPARTMENT,
                 MessageConst.PERMISSIONS_DENIED);
         }
