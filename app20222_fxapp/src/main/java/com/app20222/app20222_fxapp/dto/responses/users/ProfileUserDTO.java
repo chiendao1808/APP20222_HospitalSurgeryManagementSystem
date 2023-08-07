@@ -44,4 +44,5 @@ public class ProfileUserDTO {
 
     String department;
 
+    Long departmentId;
 }

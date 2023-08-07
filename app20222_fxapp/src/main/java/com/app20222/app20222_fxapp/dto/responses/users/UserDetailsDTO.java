@@ -45,4 +45,6 @@ public class UserDetailsDTO {
 
     String department;
 
+    Long departmentId;
+
 }

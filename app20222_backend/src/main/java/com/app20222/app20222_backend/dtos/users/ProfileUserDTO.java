@@ -45,6 +45,8 @@ public class ProfileUserDTO {
 
     String department;
 
+    Long departmentId;
+
     public ProfileUserDTO(IGetDetailUser iGetDetailUser) {
         BeanUtils.copyProperties(iGetDetailUser, this);
     }

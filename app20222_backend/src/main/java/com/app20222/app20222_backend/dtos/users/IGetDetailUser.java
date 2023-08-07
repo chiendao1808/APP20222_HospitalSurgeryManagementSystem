@@ -34,4 +34,6 @@ public interface IGetDetailUser {
 
     String getDepartment();
 
+    Long getDepartmentId();
+
 }
