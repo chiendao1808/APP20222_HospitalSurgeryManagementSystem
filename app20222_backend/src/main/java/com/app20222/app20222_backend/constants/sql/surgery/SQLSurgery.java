@@ -59,8 +59,11 @@ public class SQLSurgery {
             "     (surgery.id IN (:lstViewableSurgeryId)) AND \n" +
             "     (:surgeryName = '' OR surgery.name ILIKE '%' || :surgeryName || '%') AND \n" +
             "     (:patientId = -1 OR :patientId = surgery.patient_id) AND \n" +
+            "     (:patientName = '' OR CONCAT_WS(' ', patient.last_name, patient.first_name) ILIKE '%' || :patientName || '%') AND \n" +
             "     (:diseaseGroupId = -1 OR :diseaseGroupId = surgery.disease_group_id) AND \n" +
+            "     (:diseaseGroupName = '' OR diseaseGroup.name ILIKE '%' || :diseaseGroupName || '%') AND \n" +
             "     (:surgeryRoomId = -1 OR :surgeryRoomId = surgery.surgery_room_id) AND \n" +
+            "     (:surgeryRoomName = '' OR sRoom.name ILIKE '%' || :surgeryRoomName || '%' ) AND \n" +
             "     (:status = -1 OR :status = surgery.status) AND \n " +
             "     (:startedAt = CAST('1970-01-01 00:00' AS TIMESTAMP) OR :startedAt >= CAST(surgery.started_at AS TIMESTAMP)) AND \n" +
             "     (:estimatedEndAt = CAST('1970-01-01 00:00' AS TIMESTAMP) OR :estimatedEndAt <= CAST(surgery.estimated_end_at AS TIMESTAMP)) \n" +

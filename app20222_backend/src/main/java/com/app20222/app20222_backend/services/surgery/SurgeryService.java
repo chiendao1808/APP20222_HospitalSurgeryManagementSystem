@@ -22,8 +22,8 @@ public interface SurgeryService {
      */
     void updateSurgery(Long surgeryId, SurgeryUpdateDTO updateDTO);
 
-    List<IGetListSurgery> getListSurgery(Long surgeryId, String surgeryName, Long patientId, Long diseaseGroupId, Long surgeryRoomId,
-        SurgeryStatusEnum status, Date startedAt, Date estimatedEndAt);
+    List<IGetListSurgery> getListSurgery(Long surgeryId, String surgeryName, Long patientId, String patientName, Long diseaseGroupId,
+        String diseaseGroupName, Long surgeryRoomId, String surgeryRoomName, SurgeryStatusEnum status, Date startedAt, Date estimatedEndAt);
 
     /**
      * Lấy thông tin chi tiết ca phẫu thuật

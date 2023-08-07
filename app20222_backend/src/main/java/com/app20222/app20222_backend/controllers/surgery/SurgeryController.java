@@ -35,7 +35,7 @@ public class SurgeryController {
 
     @PostMapping
     @Operation(description = "Tạo ca phẫu thuật mới")
-    public void createSurgery(@RequestBody @Validated SurgeryCreateDTO dto){
+    public void createSurgery(@RequestBody @Validated SurgeryCreateDTO dto) {
         log.info("======= Started createSurgery ========");
         surgeryService.createSurgery(dto);
         log.info("======= End createSurgery ========");
@@ -53,30 +53,34 @@ public class SurgeryController {
     @GetMapping("/get-list")
     @Operation(description = "Lấy danh sách thông tin ca phẫu thuật")
     public List<IGetListSurgery> getListSurgery(
-            @RequestParam(name = "surgeryName", required = false, defaultValue = "") String surgeryName,
-            @RequestParam(name = "surgeryId", required = false, defaultValue = "-1") Long surgeryId,
-            @RequestParam(name = "patientId", required = false, defaultValue = "-1") Long patientId,
-            @RequestParam(name = "surgeryRoomId", required = false, defaultValue = "-1") Long surgeryRoomId,
-            @RequestParam(name = "diseaseGroupId", required = false, defaultValue = "-1") Long diseaseGroupId,
-            @RequestParam(name = "status", required = false, defaultValue = "ALL") SurgeryStatusEnum status,
-            @DateTimeFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_HH_MM)
-            @RequestParam(name = "startedAt", required = false, defaultValue = "01/01/1970 00:00") Date startedAt,
-            @DateTimeFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_HH_MM)
-            @RequestParam(name = "estimatedEndAt", required = false, defaultValue = "01/01/1970 00:00") Date estimatedEndAt
+        @RequestParam(name = "surgeryName", required = false, defaultValue = "") String surgeryName,
+        @RequestParam(name = "surgeryId", required = false, defaultValue = "-1") Long surgeryId,
+        @RequestParam(name = "patientId", required = false, defaultValue = "-1") Long patientId,
+        @RequestParam(name = "patientName", required = false, defaultValue = "") String patientName,
+        @RequestParam(name = "surgeryRoomId", required = false, defaultValue = "-1") Long surgeryRoomId,
+        @RequestParam(name = "surgeryRoomName", required = false, defaultValue = "") String surgeryRoomName,
+        @RequestParam(name = "diseaseGroupId", required = false, defaultValue = "-1") Long diseaseGroupId,
+        @RequestParam(name = "diseaseGroupName", required = false, defaultValue = "") String diseaseGroupName,
+        @RequestParam(name = "status", required = false, defaultValue = "ALL") SurgeryStatusEnum status,
+        @DateTimeFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_HH_MM)
+        @RequestParam(name = "startedAt", required = false, defaultValue = "01/01/1970 00:00") Date startedAt,
+        @DateTimeFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_HH_MM)
+        @RequestParam(name = "estimatedEndAt", required = false, defaultValue = "01/01/1970 00:00") Date estimatedEndAt
     ) {
-        return surgeryService.getListSurgery(surgeryId, surgeryName, patientId, surgeryRoomId, diseaseGroupId, status, startedAt,
-                estimatedEndAt);
+        return surgeryService
+            .getListSurgery(surgeryId, surgeryName, patientId, patientName, diseaseGroupId, diseaseGroupName, surgeryRoomId, surgeryRoomName,
+                status, startedAt, estimatedEndAt);
     }
 
     @GetMapping("/get-details")
     @Operation(description = "Xem thông tin chi tiết ca phẫu thuật ")
-    public SurgeryDetailDTO getDetailSurgery(@RequestParam(name = "id") Long id){
+    public SurgeryDetailDTO getDetailSurgery(@RequestParam(name = "id") Long id) {
         return surgeryService.getDetailSurgery(id);
     }
 
     @DeleteMapping("/delete")
     @Operation(description = "Xóa ca phẫu thuật")
-    public void deleteSurgery(@RequestParam(name = "id") Long id){
+    public void deleteSurgery(@RequestParam(name = "id") Long id) {
         log.info("======= Started deleteSurgery ========");
         surgeryService.deleteSurgery(id);
         log.info("======= End deleteSurgery ========");
@@ -85,7 +89,7 @@ public class SurgeryController {
     @PutMapping("/switch-status")
     @Operation(description = "Chuyển trạng thái ca phẫu thuật")
     public void switchSurgeryStatus(@RequestParam(name = "id") Long surgeryId,
-                                    @RequestParam(name = "status") SurgeryStatusEnum status) {
+        @RequestParam(name = "status") SurgeryStatusEnum status) {
         log.info("======= Started switchSurgeryStatus ========");
         surgeryService.switchSurgeryStatus(surgeryId, status);
         log.info("======= End switchSurgeryStatus ========");
