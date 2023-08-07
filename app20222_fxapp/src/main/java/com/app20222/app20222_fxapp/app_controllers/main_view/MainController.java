@@ -7,6 +7,7 @@ import com.app20222.app20222_fxapp.app_controllers.surgeryRoom_view.SurgeryRoomC
 import com.app20222.app20222_fxapp.app_controllers.user_view.UserController;
 import com.app20222.app20222_fxapp.app_controllers.patient_view.PatientController;
 import com.app20222.app20222_fxapp.app_controllers.surgery_view.SurgeryController;
+import com.app20222.app20222_fxapp.dto.common.CommonIdCodeName;
 import com.app20222.app20222_fxapp.dto.responses.deparment.DepartmentListDTO;
 import com.app20222.app20222_fxapp.dto.responses.medicalRecord.MedicalRecordGetListDTO;
 import com.app20222.app20222_fxapp.dto.responses.medicalRecord.MedicalRecordListDTO;
@@ -276,6 +277,46 @@ public class MainController implements Initializable {
     private TableColumn<SurgeryGetListDTO, Date> surgeryEndedAtColumn;
     @FXML
     private TableColumn<SurgeryGetListDTO, Date> surgeryEstimatedEndAtColumn;
+
+    // Tìm kiếm
+    @FXML
+    private Button surgeryClearSearch;
+    @FXML
+    private TextField surgerySearchDiseaseGroup;
+
+    @FXML
+    private ComboBox<Integer> surgerySearchEstimatedEndAtHour;
+
+    @FXML
+    private ComboBox<Integer> surgerySearchEstimatedEndAtMinute;
+
+    @FXML
+    private DatePicker surgerySearchEstimatedEndAtYear;
+
+    @FXML
+    private TextField surgerySearchName;
+
+    @FXML
+    private ComboBox<CommonIdCodeName> surgerySearchPatientId;
+
+    @FXML
+    private ComboBox<Integer> surgerySearchStartedAtHour;
+
+    @FXML
+    private ComboBox<Integer> surgerySearchStartedAtMinute;
+
+    @FXML
+    private ComboBox<String> surgerySearchStatus;
+    @FXML
+    private TextField surgerySearchPatientIdSearch;
+
+    @FXML
+    private ComboBox<CommonIdCodeName> surgerySearchSurgeryRoomId;
+
+    @FXML
+    private DatePicker surgerySearchStartAtYear;
+    @FXML
+    private Button surgerySubmitSearch;
     // người dùng
     @FXML
     private TableColumn<UserListDTO, String> UserActionColumn;
@@ -508,6 +549,9 @@ public class MainController implements Initializable {
             case "medicalRecord":
                 medicalRecordController.resetSearchParams();
                 break;
+            case "surgery":
+                surgeryController.resetSearchParams();
+                break;
             default:
                 break;
         }
@@ -607,11 +651,14 @@ public class MainController implements Initializable {
 
     // Ca phẫu thuật
     private void initializeSurgeryTab() {
-        surgeryController = new SurgeryController(surgeryTable, surgerySttColumn, surgeryCodeColumn,
-            surgeryNameColumn, surgeryPatientNameColumn, surgeryResultColumn, surgeryRoomColumn,
-            surgeryStatusColumn, typeSurgeryColumn, surgeryActionColumn, surgeryDiseaseGroupNameColumn,
-            surgeryStartedAtColumn, surgeryEndedAtColumn,
-            surgeryEstimatedEndAtColumn);
+        surgeryController = new SurgeryController(surgeryTable,surgerySttColumn,surgeryCodeColumn,
+                surgeryNameColumn,surgeryPatientNameColumn, surgeryResultColumn,surgeryRoomColumn,
+                surgeryStatusColumn,typeSurgeryColumn,surgeryActionColumn,  surgeryDiseaseGroupNameColumn,
+                surgeryStartedAtColumn,surgeryEndedAtColumn,
+                surgeryEstimatedEndAtColumn,surgerySearchDiseaseGroup,surgerySearchEstimatedEndAtHour,
+                surgerySearchEstimatedEndAtMinute,surgerySearchEstimatedEndAtYear,surgerySearchName,
+                surgerySearchPatientId,surgerySearchStartedAtHour,surgerySearchStartedAtMinute,
+                surgerySearchStatus,surgerySearchSurgeryRoomId,surgerySearchStartAtYear,surgerySearchPatientIdSearch );
         surgeryController.initializeSurgery();
     }
 
@@ -643,6 +690,8 @@ public class MainController implements Initializable {
             departmentController.onDepartmentSubmitSearch(event);
         } else if (selectedButton == medicalRecordSubmitSearch) {
             medicalRecordController.onDepartmentSubmitSearch(event);
+        } else if (selectedButton == surgerySubmitSearch) {
+            surgeryController.onDepartmentSubmitSearch(event);
         }
     }
 
@@ -657,6 +706,8 @@ public class MainController implements Initializable {
             departmentController.clearParams(event);
         } else if (selectedButton == medicalRecordClearSearch) {
             medicalRecordController.clearParams(event);
+        } else if (selectedButton == surgeryClearSearch) {
+            surgeryController.clearParams(event);
         }
     }
 

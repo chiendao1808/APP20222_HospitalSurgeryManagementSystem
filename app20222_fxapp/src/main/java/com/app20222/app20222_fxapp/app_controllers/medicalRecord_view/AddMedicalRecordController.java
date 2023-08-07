@@ -248,11 +248,6 @@ public class AddMedicalRecordController implements Initializable {
         File seletedFile = fc.showOpenDialog(null);
         if (seletedFile != null) {
             medicalRecordFileName.setText(seletedFile.getName());
-//            progressIndicator.setVisible(true);
-//            RotateTransition rotateTransition = new RotateTransition(Duration.seconds(1), progressIndicator);
-//            rotateTransition.setByAngle(360);
-//            rotateTransition.setCycleCount(RotateTransition.INDEFINITE);
-
             Task<Void> uploadTask = new Task<Void>() {
                 @Override
                 protected Void call() throws Exception {
@@ -284,17 +279,15 @@ public class AddMedicalRecordController implements Initializable {
                 }
             };
 
-            // Set up completion handler for the task
+
             uploadTask.setOnSucceeded(e -> {
-//                rotateTransition.stop();
-//                progressIndicator.setVisible(false);
+//
             });
 
             Thread uploadThread = new Thread(uploadTask);
             uploadThread.setDaemon(true);
             uploadThread.start();
 
-//            rotateTransition.play();
         } else {
             medicalRecordFileName.setText("");
         }

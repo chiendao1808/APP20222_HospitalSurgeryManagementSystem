@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="detailSurgeryPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="607.0" prefWidth="1133.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app20222.app20222_fxapp.app_controllers.surgery_view.DetailSurgeryController">
+   <children>
+      <Text layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thông tin ca phẫu thuật" textAlignment="CENTER" wrappingWidth="1133.0">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Text>
+      <AnchorPane layoutX="34.0" layoutY="271.0" prefHeight="298.0" prefWidth="544.0">
+         <children>
+            <TableView fx:id="surgeryDetailLstAssignmentTable" layoutX="8.0" layoutY="52.0" prefHeight="232.0" prefWidth="524.0">
+              <columns>
+                  <TableColumn fx:id="surgeryDetailAssignmentStt" prefWidth="42.39999008178711" text="STT" />
+                <TableColumn fx:id="surgeryDetailAssigneeCode" prefWidth="127.20001220703125" text="Mã người thực hiện" />
+                <TableColumn fx:id="surgeryDetailAssigneeName" prefWidth="214.40003967285156" text="Tên người thực hiện" />
+                  <TableColumn fx:id="surgeryDetailSurgeryRole" prefWidth="140.79998779296875" text="Vai trò" />
+              </columns>
+            </TableView>
+            <Text layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thông tin người thực hiện" textAlignment="CENTER" wrappingWidth="544.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="600.0" layoutY="271.0" prefHeight="298.0" prefWidth="510.0">
+         <children>
+            <TableView fx:id="surgeryDetailLstFileTable" layoutX="6.0" layoutY="48.0" prefHeight="232.0" prefWidth="491.0">
+              <columns>
+                <TableColumn fx:id="surgeryDetailFileStt" prefWidth="44.79998779296875" text="STT" />
+                <TableColumn fx:id="surgeryDetailFileName" prefWidth="200.0" text="Tên File" />
+                  <TableColumn fx:id="surgeryDetailFileLocation" prefWidth="190.0" text="Địa chỉ file" />
+                  <TableColumn fx:id="surgeryDetailFileType" text="Loại file" />
+                  <TableColumn fx:id="surgeryDetailFileAction" minWidth="3.2000732421875" prefWidth="60.0" text="Hành động" />
+              </columns>
+            </TableView>
+            <Text layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thông tin tài liệu" textAlignment="CENTER" wrappingWidth="510.4" />
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="34.0" layoutY="51.0" prefHeight="200.0" prefWidth="904.0">
+         <children>
+            <GridPane layoutX="5.0" layoutY="9.0" prefHeight="126.0" prefWidth="1074.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="30.0" minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="30.0" minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="30.0" minHeight="10.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Text fill="#202020" strokeType="OUTSIDE" strokeWidth="0.0" text="Tên ca phẫu thuật:" wrappingWidth="150.13671875" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tên bệnh nhân: " wrappingWidth="150.13671875" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Thời gian bắt đầu thực hiện: " wrappingWidth="166.93670654296875" GridPane.rowIndex="3" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Thời gian tạo ca phẫu thuật:" wrappingWidth="150.13671875" GridPane.rowIndex="2" />
+                  <Text fx:id="surgeryDetailName" fill="#2c3d94" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weigh: bold;" wrappingWidth="150.13671875" GridPane.columnIndex="1" />
+                  <Text fx:id="surgeryDetailPatientName" fill="#2c3d94" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weigh: bold;" wrappingWidth="150.13671875" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <Text fx:id="surgeryDetailStartedAt" fill="#2c3d94" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weigh: bold;" text="Text" wrappingWidth="150.13671875" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <Text fx:id="surgeryDetailCreatedAt" fill="#2c3d94" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weigh: bold;" text="Text" wrappingWidth="150.13671875" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mã ca phẫu thuật: " wrappingWidth="150.13671875" GridPane.columnIndex="2" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Loại ca phẫu thuật: " wrappingWidth="150.13671875" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Trạng thái :" wrappingWidth="150.13671875" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Thời gian kết thúc :" wrappingWidth="150.13671875" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <Text fx:id="surgeryDetailCode" fill="#2c3d94" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="150.13671875" GridPane.columnIndex="3" />
+                  <Text fx:id="diseaseGroupType" fill="#2c3d94e0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="150.13671875" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <Text fx:id="surgeryDetailStatus" fill="#2c3d94" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="150.13671875" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                  <Text fx:id="surgeryDetailEndedAt" fill="#2c3d94" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="150.13671875" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nhóm bệnh :" wrappingWidth="150.13671875" GridPane.columnIndex="4" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Phòng phẫu thuật :" wrappingWidth="150.13671875" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Kết quả : " wrappingWidth="150.13671875" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Thời gian ước tính :" wrappingWidth="150.13671875" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                  <Text fx:id="surgeryDetailDiseaseGroupName" fill="#2c3d94" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="150.13671875" GridPane.columnIndex="5" />
+                  <Text fx:id="surgeryDetailSurgeryRoom" fill="#2c3d94" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="150.13671875" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                  <Text fx:id="surgeryDetailResult" fill="#2c3d94" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="150.13671875" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                  <Text fx:id="surgeryDetailEstimatedEndAt" fill="#2c3d94" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="150.13671875" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
+            <Text layoutX="5.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Người tạo ca phẫu thuật: " wrappingWidth="150.13671875" />
+            <Text fx:id="surgeryDetailCreatedBy" fill="#2c3d94" layoutX="185.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weigh: bold;" text="Text" wrappingWidth="150.13671875" />
+            <Text layoutX="365.0" layoutY="155.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Mô tả :" wrappingWidth="150.13671875" />
+            <TextArea fx:id="surgeryDetailDescription" editable="false" layoutX="540.0" layoutY="135.0" prefHeight="88.0" prefWidth="524.0" styleClass="primaryColor" stylesheets="@../main_view/main.css" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

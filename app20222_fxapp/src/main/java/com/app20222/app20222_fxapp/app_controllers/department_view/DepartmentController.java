@@ -1,14 +1,9 @@
 package com.app20222.app20222_fxapp.app_controllers.department_view;
 
 import com.app20222.app20222_fxapp.MainApplication;
-import com.app20222.app20222_fxapp.app_controllers.patient_view.AddPatientController;
 import com.app20222.app20222_fxapp.dto.responses.deparment.DepartmentListDTO;
-import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListNewDTO;
-import com.app20222.app20222_fxapp.dto.responses.surgeryRoom.SurgeryRoomListDTO;
-import com.app20222.app20222_fxapp.enums.users.IdentityTypeEnum;
 import com.app20222.app20222_fxapp.exceptions.apiException.ApiResponseException;
 import com.app20222.app20222_fxapp.services.department.DepartmentAPIService;
-import com.app20222.app20222_fxapp.services.surgeryRoom.SurgeryRoomAPIService;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.SimpleLongProperty;
@@ -21,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 
@@ -139,33 +135,36 @@ public class DepartmentController {
                     @Override
                     public TableCell<DepartmentListDTO, String> call(TableColumn<DepartmentListDTO, String> param) {
                         final TableCell<DepartmentListDTO, String> cell = new TableCell<DepartmentListDTO, String>() {
-                            private final Button viewButton = new Button();
-
+                            private final Button deleteButton = new Button();
+                            private final Button updateButton = new Button();
                             {
-                                FontAwesomeIconView viewIcon = new FontAwesomeIconView(FontAwesomeIcon.EYE);
-                                viewIcon.setStyle(
+                                FontAwesomeIconView deleteIcon = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
+                                FontAwesomeIconView updateIcon = new FontAwesomeIconView(FontAwesomeIcon.PENCIL_SQUARE);
+
+                                deleteIcon.setStyle(
                                         " -fx-cursor: hand ;"
                                                 + "-glyph-size:24px;"
                                                 + "-fx-fill:#00E676;"
                                 );
-                                viewButton.setGraphic(viewIcon);
-                                viewButton.getStyleClass().add("edit-button");
+                                updateIcon.setStyle(
+                                        " -fx-cursor: hand ;"
+                                                + "-glyph-size:24px;"
+                                                + "-fx-fill:#00E676;"
+                                );
+                                deleteButton.setGraphic(deleteIcon);
+                                updateButton.setGraphic(updateIcon);
+                                deleteButton.getStyleClass().add("delete-button");
+                                updateButton.getStyleClass().add("edit-button");
 
                                 // Handle edit button action
-                                viewButton.setOnAction(event -> {
+                                updateButton.setOnAction(event -> {
                                     DepartmentListDTO department = getTableView().getItems().get(getIndex());
-//                                    System.out.println("Patient" + patient);
                                     Map<String, String> params = new HashMap<>();
                                     params.put("id", String.valueOf(department.getId()));
-//                                    try {
-//                                        PatientDetailsDTO detailsPatientDTO = patientAPIService.getDetailsPatient(params);
-//                                        System.out.println("detailsPatientDTO" + detailsPatientDTO);
-//                                        openEditDialog(detailsPatientDTO,params);
-//                                    } catch (ApiResponseException e) {
-//                                        System.out.println(e.getExceptionResponse());
-//                                    }
+                                    openEditDialog(department,params);
                                 });
-                                setGraphic(viewButton);
+
+                                setGraphic(new HBox(updateButton,deleteButton));
                             }
 
                             @Override
@@ -174,7 +173,8 @@ public class DepartmentController {
                                 if (empty) {
                                     setGraphic(null);
                                 } else {
-                                    setGraphic(viewButton);
+                                    setGraphic(new HBox(updateButton,deleteButton));
+
                                 }
                             }
                         };
@@ -194,9 +194,8 @@ public class DepartmentController {
             FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource(fxmlPath));
             Parent root = loader.load();
             AddDepartmentController addDepartmentController = loader.getController();
-
             Stage dialogStage = new Stage();
-            dialogStage.setTitle("Tạo mới bệnh nhân");
+            dialogStage.setTitle("Tạo mới khoa/ bộ phận");
             dialogStage.setScene(new Scene(root));
             dialogStage.setOnHidden(e -> {
                 Boolean resultSubmit = addDepartmentController.submit();
@@ -210,7 +209,31 @@ public class DepartmentController {
             e.printStackTrace();
         }
     }
+    // Cập nhật khoa/ phòng
+    public void openEditDialog(DepartmentListDTO department,  Map<String, String> params) {
+        String fxmlPath = "views/department_view/create.fxml";
+        try {
+            FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource(fxmlPath));
+            Parent root = loader.load();
+            AddDepartmentController addDepartmentController = loader.getController();
+            addDepartmentController.setDepartmentEditDTO(department,params);
+            addDepartmentController.setEditMode(true);
+            addDepartmentController.disableDepartmentCodeFields();
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Chỉnh sửa Khoa/ bộ phận");
+            dialogStage.setScene(new Scene(root));
+            dialogStage.setOnHidden(e -> {
+                Boolean resultSubmit = addDepartmentController.submit();
+                if (Objects.equals(resultSubmit, true)) {
+                    reloadTable();
+                }
+            });
+            dialogStage.show();
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * Reload data when has a change
      */

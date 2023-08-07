@@ -1,58 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.ButtonType?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.DialogPane?>
-<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
 
-<DialogPane prefWidth="400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app20222.app20222_fxapp.app_controllers.surgery_view.SurgeryController">
+
+<DialogPane fx:id="createSurgeryPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app20222.app20222_fxapp.app_controllers.surgery_view.AddSurgeryController">
    <content>
-      <GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="400.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="284.4000244140625" minWidth="10.0" prefWidth="114.400048828125" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="491.5999755859375" minWidth="10.0" prefWidth="265.599951171875" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="594.0" prefWidth="868.0" style="-fx-background-color: white;">
          <children>
-            <Label text="Tên ca phẫu thuật" />
-            <Label text="Mô tả" GridPane.rowIndex="1" />
-            <Label text="Label" GridPane.rowIndex="2" />
-            <Label text="Loại ca phẫu thuật" GridPane.rowIndex="3" />
-            <TextField prefHeight="26.0" prefWidth="262.0" GridPane.columnIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Label text="Mã bệnh nhân" GridPane.rowIndex="4" />
-            <Label text="Người thực hiện" GridPane.rowIndex="5" />
-            <Label text="Thời gian bắt đầu" GridPane.rowIndex="6" />
-            <Label text="Thời gian kết thúc" GridPane.rowIndex="7" />
-            <Label text="Phòng phẫu thuật" GridPane.rowIndex="8" />
-            <Label text="Trạng thái" GridPane.rowIndex="9" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="7" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="8" />
-            <TextField GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <AnchorPane layoutX="37.0" layoutY="21.0" prefHeight="269.0" prefWidth="814.0">
+               <children>
+                  <GridPane layoutX="13.0" layoutY="5.0" prefHeight="278.4" prefWidth="814.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.60003662109375" minWidth="10.0" prefWidth="114.4" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="333.6000183105469" minWidth="10.0" prefWidth="215.0000366210937" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="291.0" minWidth="10.0" prefWidth="168.19999999999993" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="307.4" minWidth="10.0" prefWidth="307.4" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tên ca phẫu thuật" wrappingWidth="115.73663330078125" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Mô tả" wrappingWidth="118.13668823242188" GridPane.rowIndex="1" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nhóm bệnh" wrappingWidth="168.53668212890625" GridPane.columnIndex="2" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Thời gian bắt đầu thực hiện ca" wrappingWidth="170.93670654296875" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Thời gian kết thúc ca" wrappingWidth="171.7366943359375" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Phòng phẫu thuật" wrappingWidth="116.53671264648438" GridPane.rowIndex="2" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Bệnh nhân" wrappingWidth="114.13668823242188" GridPane.rowIndex="3" />
+                        <ComboBox fx:id="createSurgeryRoomId" prefHeight="26.0" prefWidth="186.0" promptText="Chọn phòng phẫu thuật" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <ComboBox fx:id="createSurgeryPatientId" prefHeight="26.0" prefWidth="185.0" promptText="Chọn bệnh nhân" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextArea fx:id="createSurgeryDescription" prefHeight="70.0" prefWidth="204.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets right="10.0" />
+                           </GridPane.margin>
+                        </TextArea>
+                        <TextField fx:id="createSurgeryDiseaseGroupId" prefHeight="26.0" prefWidth="190.0" GridPane.columnIndex="3">
+                           <GridPane.margin>
+                              <Insets right="50.0" />
+                           </GridPane.margin>
+                        </TextField>
+                        <TextField fx:id="createSurgeryName" prefHeight="26.0" prefWidth="154.0" GridPane.columnIndex="1">
+                           <GridPane.margin>
+                              <Insets right="10.0" />
+                           </GridPane.margin>
+                        </TextField>
+                        <ComboBox fx:id="createSurgeryStartHour" prefHeight="26.0" prefWidth="70.0" promptText="Giờ" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <ComboBox fx:id="createSurgeryStartMinute" prefHeight="26.0" prefWidth="80.0" promptText="Phút" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets left="80.0" />
+                           </GridPane.margin>
+                        </ComboBox>
+                        <DatePicker fx:id="createSurgeryStartedAt" prefHeight="26.0" prefWidth="99.0" promptText="Năm" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                           <GridPane.margin>
+                              <Insets left="180.0" />
+                           </GridPane.margin>
+                        </DatePicker>
+                        <ComboBox fx:id="createSurgeryEstimatedEndHour" prefHeight="26.0" prefWidth="70.0" promptText="Giờ" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                        <ComboBox fx:id="createSurgeryEstimatedEndMinute" prefHeight="26.0" prefWidth="80.0" promptText="Phút" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets left="80.0" />
+                           </GridPane.margin>
+                        </ComboBox>
+                        <DatePicker fx:id="createSurgeryEstimatedEndAt" prefHeight="26.0" prefWidth="99.0" promptText="Năm" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                           <GridPane.margin>
+                              <Insets left="180.0" />
+                           </GridPane.margin>
+                        </DatePicker>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Trạng thái" wrappingWidth="171.7366943359375" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                     </children>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="28.0" layoutY="309.0" prefHeight="209.0" prefWidth="822.0">
+               <children>
+                  <ListView fx:id="selectLstAssignment" layoutY="2.0" prefHeight="200.0" prefWidth="283.0" styleClass="border" stylesheets="@../main_view/main.css" />
+                  <Button fx:id="selectAssignment" layoutX="314.0" layoutY="75.0" mnemonicParsing="false" onAction="#onSelectAssignmentButtonClick" styleClass="buttonSearch" stylesheets="@../main_view/main.css" text="Lựa chọn" />
+                  <ListView fx:id="RemoveLstAssignment" layoutX="528.0" layoutY="2.0" prefHeight="200.0" prefWidth="283.0" styleClass="border" stylesheets="@../main_view/main.css" />
+                  <Button fx:id="removeAssignment" layoutX="446.0" layoutY="75.0" mnemonicParsing="false" onAction="#onRemoveAssignmentButtonClick" styleClass="buttonSearch" stylesheets="@../main_view/main.css" text="Xoá" />
+               </children>
+            </AnchorPane>
+            <Button fx:id="submitCreateSurgery" layoutX="360.0" layoutY="524.0" mnemonicParsing="false" onAction="#handleSubmit" prefHeight="34.0" prefWidth="78.0" stylesheets="@../main_view/main.css" text="Xác nhận">
+               <styleClass>
+                  <String fx:value="arrow-btn" />
+                  <String fx:value="btn" />
+               </styleClass>
+            </Button>
+            <Button fx:id="cancelCreateSurgery" layoutX="460.0" layoutY="522.0" mnemonicParsing="false" onAction="#handleCancel" prefHeight="38.0" prefWidth="65.0" stylesheets="@../main_view/main.css" text="Huỷ">
+               <styleClass>
+                  <String fx:value="nav-btn" />
+                  <String fx:value="buttonSearch" />
+               </styleClass>
+            </Button>
          </children>
-      </GridPane>
+      </AnchorPane>
    </content>
-   <buttonTypes>
-      <ButtonType fx:constant="OK" />
-      <ButtonType fx:constant="CANCEL" />
-   </buttonTypes>
 </DialogPane>
