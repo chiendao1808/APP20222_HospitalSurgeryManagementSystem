@@ -47,7 +47,8 @@ public class SQLUser {
                 "     users.phone_number AS phoneNumber, \n" +
                 "     users.address AS address, \n" +
                 "     users.email AS email, \n" +
-                "     department.name AS department \n" +
+                "     department.name AS department, \n" +
+                "     department.id AS departmentId \n" +
                 "FROM {h-schema}users \n" +
                 "     LEFT JOIN {h-schema}department ON users.department_id = department.id \n" +
                 "WHERE \n" +
