@@ -207,13 +207,13 @@ public class SurgeryServiceImpl implements SurgeryService {
     }
 
     @Override
-    public List<IGetListSurgery> getListSurgery(Long surgeryId, String surgeryName, Long patientId, Long diseaseGroupId, Long surgeryRoomId,
-        SurgeryStatusEnum status, Date startedAt, Date estimatedEndAt) {
+    public List<IGetListSurgery> getListSurgery(Long surgeryId, String surgeryName, Long patientId, String patientName, Long diseaseGroupId,
+        String diseaseGroupName, Long surgeryRoomId, String surgeryRoomName, SurgeryStatusEnum status, Date startedAt, Date estimatedEndAt) {
         // Lấy danh sách surgery mà user đăng nhập có quyền xem
         Set<Long> lstViewableSurgeryId = permissionService.getLstViewableSurgeryId();
         lstViewableSurgeryId.add(surgeryId);
-        return surgeryRepository.getListSurgery(lstViewableSurgeryId, surgeryName, patientId, diseaseGroupId, surgeryRoomId, status.getValue(),
-            startedAt, estimatedEndAt);
+        return surgeryRepository.getListSurgery(lstViewableSurgeryId, surgeryName, patientId, patientName, diseaseGroupId, diseaseGroupName,
+            surgeryRoomId, surgeryRoomName, status.getValue(), startedAt, estimatedEndAt);
     }
 
     @Override

@@ -31,8 +31,8 @@ public interface SurgeryRepository extends JpaRepository<Surgery, Long> {
     List<IGetOverlapSurgery> getOverlapSurgery(Date startedTime, Date estimatedEndTime);
 
     @Query(nativeQuery = true, value = SQLSurgery.GET_LIST_SURGERY)
-    List<IGetListSurgery> getListSurgery(Set<Long> lstViewableSurgeryId, String surgeryName, Long patientId, Long diseaseGroupId, Long surgeryRoomId,
-        Integer status, Date startedAt, Date estimatedEndAt);
+    List<IGetListSurgery> getListSurgery(Set<Long> lstViewableSurgeryId, String surgeryName, Long patientId, String patientName, Long diseaseGroupId, String diseaseGroupName, Long surgeryRoomId,
+        String surgeryRoomName, Integer status, Date startedAt, Date estimatedEndAt);
 
     @Query(nativeQuery = true, value = SQLSurgery.GET_DETAILS_SURGERY)
     IGetDetailSurgery getDetailSurgery(Long surgeryId);

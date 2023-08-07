@@ -28,6 +28,9 @@ public class SurgeryUpdateDTO {
     String diseaseGroup;
 
     @NotNull
+    Integer status;
+
+    @NotNull
     private Integer type;
 
     List<SurgeryRoleDTO> lstAssignment = new ArrayList<>();
