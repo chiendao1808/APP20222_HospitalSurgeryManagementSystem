@@ -64,9 +64,14 @@ public class ComboBoxServiceImpl implements ComboBoxService {
         return comboBoxRepository.getListSurgeryRoleType();
     }
 
+    @Override
+    public List<ICommonIdCodeName> getListDiseaseGroup(String diseaseGroupName) {
+        return comboBoxRepository.getListDiseaseGroup(diseaseGroupName);
+    }
+
     /*
-    ==== COMBO BOX SURGERY ROOM =================================================================
-    */
+        ==== COMBO BOX SURGERY ROOM =================================================================
+        */
     @Override
     public List<ICommonIdCodeName> getComboBoxSurgeryRoom(String surgeryRoomName) {
         return comboBoxRepository.getComboBoxSurgeryRoom(surgeryRoomName);

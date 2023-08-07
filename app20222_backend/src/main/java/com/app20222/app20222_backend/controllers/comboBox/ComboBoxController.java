@@ -70,6 +70,13 @@ public class ComboBoxController {
         return comboBoxService.getListSurgeryRoleType();
     }
 
+    @GetMapping("/surgery/get-lst-disease-group")
+    @Operation(description = "Lấy ComboBox disease group : id, name, code")
+    public List<ICommonIdCodeName> getListDiseaseGroup(
+        @RequestParam(name = "name", required = false, defaultValue = "") String diseaseGroupName) {
+        return comboBoxService.getListDiseaseGroup(diseaseGroupName);
+    }
+
     /*
     ==== COMBO BOX SURGERY ROOM =================================================================
     */

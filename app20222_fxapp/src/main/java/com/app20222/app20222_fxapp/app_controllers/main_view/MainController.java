@@ -691,7 +691,7 @@ public class MainController implements Initializable {
         } else if (selectedButton == medicalRecordSubmitSearch) {
             medicalRecordController.onDepartmentSubmitSearch(event);
         } else if (selectedButton == surgerySubmitSearch) {
-            surgeryController.onDepartmentSubmitSearch(event);
+            surgeryController.onSurgerySubmitSearch(event);
         }
     }
 
