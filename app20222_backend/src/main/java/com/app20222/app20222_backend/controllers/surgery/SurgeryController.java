@@ -68,9 +68,9 @@ public class SurgeryController {
                 estimatedEndAt);
     }
 
-    @GetMapping("/get-details/{id}")
+    @GetMapping("/get-details")
     @Operation(description = "Xem thông tin chi tiết ca phẫu thuật ")
-    public SurgeryDetailDTO getDetailSurgery(@PathVariable(name = "id") Long id){
+    public SurgeryDetailDTO getDetailSurgery(@RequestParam(name = "id") Long id){
         return surgeryService.getDetailSurgery(id);
     }
 
