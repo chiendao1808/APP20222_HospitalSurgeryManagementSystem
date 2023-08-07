@@ -34,9 +34,15 @@ public class SurgeryDetailDTO {
 
     String patientName;
 
+    Long patientId;
+
     String surgeryRoom;
 
+    Long surgeryRoomId;
+
     String status;
+
+    Integer statusVal;
 
     String result;
 
