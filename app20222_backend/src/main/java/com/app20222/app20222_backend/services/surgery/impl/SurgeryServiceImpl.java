@@ -25,6 +25,7 @@ import com.app20222.app20222_backend.dtos.surgery.SurgeryRoleDTO;
 import com.app20222.app20222_backend.dtos.surgery.SurgeryUpdateDTO;
 import com.app20222.app20222_backend.dtos.surgery.IGetListSurgery;
 import com.app20222.app20222_backend.dtos.surgery.IGetOverlapSurgery;
+import com.app20222.app20222_backend.entities.diseaseGroup.DiseaseGroup;
 import com.app20222.app20222_backend.entities.mail.Mail;
 import com.app20222.app20222_backend.entities.mail.MailTemplate;
 import com.app20222.app20222_backend.entities.surgery.Surgery;
@@ -34,6 +35,7 @@ import com.app20222.app20222_backend.enums.mail.MailTemplateEnum;
 import com.app20222.app20222_backend.enums.permission.BasePermissionEnum;
 import com.app20222.app20222_backend.enums.surgery.SurgeryStatusEnum;
 import com.app20222.app20222_backend.exceptions.exceptionFactory.ExceptionFactory;
+import com.app20222.app20222_backend.repositories.diseaseGroup.DiseaseGroupRepository;
 import com.app20222.app20222_backend.repositories.fileAttach.FileAttachRepository;
 import com.app20222.app20222_backend.repositories.fileAttach.SurgeryFileRepository;
 import com.app20222.app20222_backend.repositories.mail.MailTemplateRepository;
@@ -71,6 +73,8 @@ public class SurgeryServiceImpl implements SurgeryService {
 
     private final MailTemplateRepository mailTemplateRepository;
 
+    private final DiseaseGroupRepository diseaseGroupRepository;
+
 
     public static final String OVERLAP_ASSIGNEE = "assignee_id";
 
@@ -81,7 +85,7 @@ public class SurgeryServiceImpl implements SurgeryService {
     public SurgeryServiceImpl(SurgeryRepository surgeryRepository, UserSurgeryRepository userSurgeryRepository, ExceptionFactory exceptionFactory,
         PermissionService permissionService, FileAttachRepository fileAttachRepository, SurgeryFileRepository surgeryFileRepository,
         UserRepository userRepository, SurgeryRoomRepository surgeryRoomRepository, MailService mailService,
-        MailTemplateRepository mailTemplateRepository){
+        MailTemplateRepository mailTemplateRepository, DiseaseGroupRepository diseaseGroupRepository){
         this.surgeryRepository = surgeryRepository;
         this.userSurgeryRepository = userSurgeryRepository;
         this.exceptionFactory = exceptionFactory;
@@ -92,6 +96,7 @@ public class SurgeryServiceImpl implements SurgeryService {
         this.userRepository = userRepository;
         this.surgeryRoomRepository = surgeryRoomRepository;
         this.mailTemplateRepository = mailTemplateRepository;
+        this.diseaseGroupRepository = diseaseGroupRepository;
     }
 
     @Transactional
@@ -104,6 +109,7 @@ public class SurgeryServiceImpl implements SurgeryService {
         Surgery newSurgery = new Surgery();
         BeanUtils.copyProperties(createDTO, newSurgery);
         newSurgery.setCode(generateSurgeryCode());
+        newSurgery.setDiseaseGroupId(createDiseaseGroupIfNotExists(createDTO.getDiseaseGroup()));
         newSurgery.setCreatedBy(AuthUtils.getCurrentUserId());
         newSurgery.setCreatedAt(new Date());
         newSurgery = surgeryRepository.save(newSurgery);
@@ -157,6 +163,9 @@ public class SurgeryServiceImpl implements SurgeryService {
 
         // Cập nhật thông tin surgery
         BeanUtils.copyProperties(updateDTO, surgery);
+        surgery.setDiseaseGroupId(createDiseaseGroupIfNotExists(updateDTO.getDiseaseGroup()));
+        surgery.setModifiedBy(AuthUtils.getCurrentUserId());
+        surgery.setModifiedAt(new Date());
         surgery = surgeryRepository.save(surgery);
         // Lấy ra danh sách các người dùng được phân công trong ca phẫu thuật hiện tại
         Set<Long> lstOldUserIdInSurgery = userSurgeryRepository.findUserIdBySurgeryId(surgeryId);
@@ -291,5 +300,25 @@ public class SurgeryServiceImpl implements SurgeryService {
             throw exceptionFactory.overlappedException(ErrorKey.Surgery.OVERLAPPED_ERROR_CODE, MessageConst.RESOURCE_OVERLAPPED, Resources.SURGERY,
                 String.join(",", overlapCause));
         }
+    }
+
+    /**
+     * Tạo mới nhóm bệnh nhân nếu không tồn tại check theo tên
+     */
+    private Long createDiseaseGroupIfNotExists(String diseaseGroupName){
+        DiseaseGroup diseaseGroup = diseaseGroupRepository.findByName(diseaseGroupName).orElse(null);
+        Long diseaseGroupId;
+        if (Objects.isNull(diseaseGroup)) {
+            Random random = new Random();
+            String baseCode = "NB";
+            String genCode = baseCode + (random.nextInt(9000) + 1000);
+            while (diseaseGroupRepository.existsByCode(genCode)){
+                genCode = baseCode + (random.nextInt(9000) + 1000);
+            }
+            diseaseGroupId = diseaseGroupRepository.save(DiseaseGroup.builder().code(genCode).departmentId(-1L).name(diseaseGroupName).build()).getId();
+        } else {
+            diseaseGroupId = diseaseGroup.getId();
+        }
+        return diseaseGroupId;
     }
 }
