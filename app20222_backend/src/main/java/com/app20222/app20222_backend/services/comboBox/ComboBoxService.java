@@ -34,6 +34,8 @@ public interface ComboBoxService {
      */
     List<IComboBoxSurgeryRoleType> getListSurgeryRoleType();
 
+    List<ICommonIdCodeName> getListDiseaseGroup(String diseaseGroupName);
+
      /*
       ==== COMBO BOX SURGERY ROOM ===
      */

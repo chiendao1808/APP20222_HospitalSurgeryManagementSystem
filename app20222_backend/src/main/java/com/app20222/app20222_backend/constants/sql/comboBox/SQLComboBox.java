@@ -56,6 +56,15 @@ public class SQLComboBox {
                     "     name AS name \n" +
                     "FROM {h-schema}surgery_role_type \n";
 
+    public static final String GET_LIST_DISEASE_GROUP =
+        "SELECT \n" +
+            "     id AS id, \n" +
+            "     name AS name, \n" +
+            "     code AS code \n" +
+            "FROM {h-schema}disease_group \n" +
+            "WHERE \n" +
+            "     :diseaseGroupName = '' OR name ILIKE '%' || :diseaseGroupName || '%' ";
+
     /*
      ==== COMBO BOX SURGERY ROOM ===
     */

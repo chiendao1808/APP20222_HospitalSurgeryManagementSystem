@@ -588,7 +588,7 @@ public class SurgeryController {
     }
 
     @FXML
-    public void onDepartmentSubmitSearch(ActionEvent event) {
+    public void onSurgerySubmitSearch(ActionEvent event) {
         String diseaseGroupName = surgerySearchDiseaseGroup.getText();
         String surgeryStatusLabel = surgerySearchStatus.getValue();
         String surgeryStatus = surgerySearchStatus.getConverter().fromString(surgeryStatusLabel);

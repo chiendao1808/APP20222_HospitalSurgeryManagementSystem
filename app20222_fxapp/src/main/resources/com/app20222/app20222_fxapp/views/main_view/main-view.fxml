@@ -477,8 +477,8 @@
                                           <Text layoutX="751.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thời gian kết thúc dự kiên" wrappingWidth="133.9698028564453" />
                                           <ComboBox fx:id="surgerySearchEstimatedEndAtHour" layoutX="897.0" layoutY="116.0" prefHeight="34.0" prefWidth="73.0" promptText="Giờ" styleClass="border" stylesheets="@main.css" />
                                           <ComboBox fx:id="surgerySearchEstimatedEndAtMinute" layoutX="971.0" layoutY="116.0" prefHeight="34.0" prefWidth="79.0" promptText="Phút" styleClass="border" stylesheets="@main.css" />
-                                          <DatePicker fx:id="surgerySearchStartAtYear" layoutX="617.0" layoutY="115.0" prefHeight="36.0" prefWidth="118.0" promptText="Năm" />
-                                          <DatePicker fx:id="surgerySearchEstimatedEndAtYear" layoutX="1050.0" layoutY="115.0" prefHeight="36.0" prefWidth="118.0" promptText="Năm" />
+                                          <DatePicker fx:id="surgerySearchStartAtYear" layoutX="617.0" layoutY="115.0" prefHeight="36.0" prefWidth="118.0" promptText="Ngày" />
+                                          <DatePicker fx:id="surgerySearchEstimatedEndAtYear" layoutX="1050.0" layoutY="115.0" prefHeight="36.0" prefWidth="118.0" promptText="Ngày" />
                                           <TextField fx:id="surgerySearchPatientIdSearch" layoutX="708.0" layoutY="59.0" prefHeight="30.0" prefWidth="150.0" />
                                        </children>
                                        <styleClass>

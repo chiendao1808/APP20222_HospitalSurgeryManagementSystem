@@ -58,6 +58,7 @@ public enum APIDetails {
     GET_COMBO_BOX_DEPARTMENT("GET_COMBO_BOX_DEPARTMENT","/combo-box", "/department/get-lst-department-name-code", "GET"),
     GET_COMBO_BOX_PATIENT("GET_COMBO_BOX_PATIENT","/combo-box", "/patient/get-lst-patient-name-code", "GET"),
     GET_COMBO_BOX_SURGERY_ROLE_TYPE("GET_COMBO_BOX_SURGERY_ROLE_TYPE","/combo-box", "/surgery/get-lst-surgery-role-type", "GET"),
+    GET_COMBO_BOX_DISEASE_GROUP("GET_COMBO_BOX_DISEASE_GROUP","/combo-box", "/surgery/get-lst-disease-group", "GET"),
     GET_COMBO_BOX_SURGERY_ROOM("GET_COMBO_BOX_SURGERY_ROOM","/combo-box", "/surgery-room/get-surgery-room-name-code", "GET"),
 
     // Statistics

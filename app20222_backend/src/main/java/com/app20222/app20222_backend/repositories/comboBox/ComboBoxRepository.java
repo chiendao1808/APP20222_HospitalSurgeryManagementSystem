@@ -44,6 +44,9 @@ public interface ComboBoxRepository extends JpaRepository<User, Long> {
     @Query(nativeQuery = true, value = SQLComboBox.GET_LIST_SURGERY_ROLE)
     List<IComboBoxSurgeryRoleType> getListSurgeryRoleType();
 
+    @Query(nativeQuery = true, value = SQLComboBox.GET_LIST_DISEASE_GROUP)
+    List<ICommonIdCodeName> getListDiseaseGroup(String diseaseGroupName);
+
      /*
       ==== COMBO BOX SURGERY ROOM ===
      */

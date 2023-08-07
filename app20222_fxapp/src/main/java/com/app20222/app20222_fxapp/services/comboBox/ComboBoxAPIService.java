@@ -126,6 +126,24 @@ public class ComboBoxAPIService {
         return comboBoxSurgeryRoleTypes;
     }
 
+    /**
+     * API Call getComboBoxDiseaseGroups
+     */
+    public List<CommonIdCodeName> getComboBoxDiseaseGroups(Map<String, String> params) throws ApiResponseException {
+        List<CommonIdCodeName> comboBoxDiseaseGroup;
+        String uri = ApiUtils
+            .buildURI(APIDetails.GET_COMBO_BOX_DISEASE_GROUP.getRequestPath() + APIDetails.GET_COMBO_BOX_DISEASE_GROUP.getDetailPath(), params);
+        HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.GET_COMBO_BOX_DISEASE_GROUP.getMethod(), null, new HashMap<>());
+        // api call successfully (status = 200)
+        if (HttpUtils.isCallSuccessfully(response)) {
+            comboBoxDiseaseGroup = HttpUtils.handleResponse(response, new TypeReference<>() {});
+        } else {
+            ExceptionResponse exceptionResponse = HttpUtils.handleResponse(response, new TypeReference<>() {});
+            throw new ApiResponseException(exceptionResponse);
+        }
+        return comboBoxDiseaseGroup;
+    }
+
     /*
       ==== COMBO BOX SURGERY ROOM =================================================================
      */
@@ -134,18 +152,18 @@ public class ComboBoxAPIService {
      * API Call getComboBoxSurgeryRooms
      */
     public List<CommonIdCodeName> getComboBoxSurgeryRooms(Map<String, String> params) throws ApiResponseException {
-        List<CommonIdCodeName> comboBoxPatients;
+        List<CommonIdCodeName> comboBoxSurgeryRooms;
         String uri = ApiUtils
             .buildURI(APIDetails.GET_COMBO_BOX_SURGERY_ROOM.getRequestPath() + APIDetails.GET_COMBO_BOX_SURGERY_ROOM.getDetailPath(), params);
         HttpResponse<String> response = HttpUtils.doRequest(uri, APIDetails.GET_COMBO_BOX_SURGERY_ROOM.getMethod(), null, new HashMap<>());
         // api call successfully (status = 200)
         if (HttpUtils.isCallSuccessfully(response)) {
-            comboBoxPatients = HttpUtils.handleResponse(response, new TypeReference<>() {});
+            comboBoxSurgeryRooms = HttpUtils.handleResponse(response, new TypeReference<>() {});
         } else {
             ExceptionResponse exceptionResponse = HttpUtils.handleResponse(response, new TypeReference<>() {});
             throw new ApiResponseException(exceptionResponse);
         }
-        return comboBoxPatients;
+        return comboBoxSurgeryRooms;
     }
 
 
