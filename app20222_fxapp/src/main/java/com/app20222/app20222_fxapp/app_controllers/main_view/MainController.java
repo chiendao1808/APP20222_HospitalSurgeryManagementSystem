@@ -13,7 +13,9 @@ import com.app20222.app20222_fxapp.dto.responses.medicalRecord.MedicalRecordList
 import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListNewDTO;
 import com.app20222.app20222_fxapp.dto.responses.surgery.SurgeryGetListDTO;
 import com.app20222.app20222_fxapp.dto.responses.surgeryRoom.SurgeryRoomListDTO;
+import com.app20222.app20222_fxapp.dto.responses.users.ProfileUserDTO;
 import com.app20222.app20222_fxapp.dto.responses.users.UserListDTO;
+import com.app20222.app20222_fxapp.services.users.UserAPIService;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,6 +37,9 @@ public class MainController implements Initializable {
     private Stage stage;
     private Scene scene;
     private Parent root;
+
+    @FXML
+    private Label profileUserDisplayName;
 
     @FXML
     private Button arrowBtn;
@@ -192,7 +197,7 @@ public class MainController implements Initializable {
     private TableView<MedicalRecordListDTO> medicalRecordTable;
 
     @FXML
-    private TableColumn<MedicalRecordGetListDTO,Long> medicalRecordStt;
+    private TableColumn<MedicalRecordGetListDTO, Long> medicalRecordStt;
 
     @FXML
     private TableColumn<MedicalRecordListDTO, String> medicalRecordAction;
@@ -260,7 +265,7 @@ public class MainController implements Initializable {
     @FXML
     private TableColumn<SurgeryGetListDTO, String> surgeryRoomColumn;
     @FXML
-    private TableColumn<SurgeryGetListDTO,String> surgeryStatusColumn;
+    private TableColumn<SurgeryGetListDTO, String> surgeryStatusColumn;
     @FXML
     private TableColumn<SurgeryGetListDTO, String> typeSurgeryColumn;
     @FXML
@@ -288,7 +293,7 @@ public class MainController implements Initializable {
     private TableColumn<UserListDTO, String> UserEmailColumn;
 
     @FXML
-    private TableColumn<UserListDTO, String>  UserIdentityTypeColumn;
+    private TableColumn<UserListDTO, String> UserIdentityTypeColumn;
 
     @FXML
     private TableColumn<UserListDTO, String> UserIdentificationNumColumn;
@@ -386,6 +391,8 @@ public class MainController implements Initializable {
     @FXML
     private Button departmentClearSearch;
 
+    private UserAPIService userAPIService;
+
 
     // controller
     //TabController
@@ -397,6 +404,7 @@ public class MainController implements Initializable {
     private ProfileController profileController;
     private SurgeryRoomController surgeryRoomController;
     private DepartmentController departmentController;
+
     // Các hàm xử lý
     // Xử lý khi click icon thu nhỏ múc leftMenu
     @FXML
@@ -534,12 +542,11 @@ public class MainController implements Initializable {
             patientController.showModal(event);
         } else if (selectedButton == createSurgery) {
             surgeryController.showModal(event);
-        }
-        else if(selectedButton == createUserBtn){
+        } else if (selectedButton == createUserBtn) {
             userController.showModal(event);
-        }  else if(selectedButton == createMedicalRecord){
+        } else if (selectedButton == createMedicalRecord) {
             medicalRecordController.showModal(event);
-        } else if(selectedButton == createDepartment){
+        } else if (selectedButton == createDepartment) {
             departmentController.showModal(event);
         }
     }
@@ -547,69 +554,81 @@ public class MainController implements Initializable {
     // Thưc thi các tab gọi api danh sách, tim kiem
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-    // Mặc định gọi danh sách bệnh nhân đầu tiên
-    initializePatientTab();
-}
+        userAPIService = new UserAPIService();
+        //Init data
+        try{
+            ProfileUserDTO profileUser = userAPIService.getCurrentUserProfile();
+            if(Objects.nonNull(profileUser))
+            {
+                profileUserDisplayName.setText(profileUser.getName());
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        // Mặc định gọi danh sách bệnh nhân đầu tiên
+        initializePatientTab();
+    }
 
     // Các phương thức khởi tạo tab tương ứng
     // Hồ sơ cá nhân
     private void initializeProfileTab() {
         profileController = new ProfileController(profileUser, profileUserId, profileUserCode, profileUserName,
-                profileUserIdentityType, profileUserIdentificationNum, profileUserBirthDate, profileUserEmail,
-                profileUserPhone, profileUserAddress, profileUserDepartment, profileUserRole);
+            profileUserIdentityType, profileUserIdentificationNum, profileUserBirthDate, profileUserEmail,
+            profileUserPhone, profileUserAddress, profileUserDepartment, profileUserRole);
         profileController.initializeProfile();
     }
 
     // Bệnh nhân
     private void initializePatientTab() {
-        patientController = new PatientController(patientTable, patientIdColumn,patientINameColumn,patientCodeColumn,
-                patientIBirthdayColumn,patientPhoneColumn,patientAddressColumn,
-                patientActionColumn,patientIdentificationNumberColumn,patientIdentityTypeColumn,patientHealthInsuranceNumberColumn,
-                patientSearchCode, patientSearchEmail, patientSearchIdNumber,
-                patientSearchIdentityType, patientSearchName, patientSearchPhone, patientSubmitSearch);
+        patientController = new PatientController(patientTable, patientIdColumn, patientINameColumn, patientCodeColumn,
+            patientIBirthdayColumn, patientPhoneColumn, patientAddressColumn,
+            patientActionColumn, patientIdentificationNumberColumn, patientIdentityTypeColumn, patientHealthInsuranceNumberColumn,
+            patientSearchCode, patientSearchEmail, patientSearchIdNumber,
+            patientSearchIdentityType, patientSearchName, patientSearchPhone, patientSubmitSearch);
         patientController.initializePatient();
     }
 
     // Người dùng
     private void initializeUserTab() {
-        userController = new UserController(UserTableView,UserActionColumn,UserAddressColumn,UserDateColumn,
-                UserDepartmentColumn, UserEmailColumn,UserIdentificationNumColumn,
-                UserNameColumn,UserPhoneColumn,UserSttColumn,UserIdentityTypeColumn);
+        userController = new UserController(UserTableView, UserActionColumn, UserAddressColumn, UserDateColumn,
+            UserDepartmentColumn, UserEmailColumn, UserIdentificationNumColumn,
+            UserNameColumn, UserPhoneColumn, UserSttColumn, UserIdentityTypeColumn);
         userController.initializeTable();
     }
 
     // Hồ sơ bệnh án
     private void initializeMedicalRecordTab() {
-        medicalRecordController = new MedicalRecordController(medicalRecordTable, medicalRecordStt,medicalRecordPatientID,
-                medicalRecordPatientName, medicalRecordPatientCode, medicalRecordCreateAt,medicalRecordCreatedById,
-                medicalRecordCreatedByName, medicalRecordAction,medicalRecordSearchCode,medicalRecordSearchName,medicalRecordSearchStartAt,medicalRecordSearchEndAt);
+        medicalRecordController = new MedicalRecordController(medicalRecordTable, medicalRecordStt, medicalRecordPatientID,
+            medicalRecordPatientName, medicalRecordPatientCode, medicalRecordCreateAt, medicalRecordCreatedById,
+            medicalRecordCreatedByName, medicalRecordAction, medicalRecordSearchCode, medicalRecordSearchName, medicalRecordSearchStartAt,
+            medicalRecordSearchEndAt);
         medicalRecordController.initializeMedicalRecord();
     }
 
     // Ca phẫu thuật
     private void initializeSurgeryTab() {
-        surgeryController = new SurgeryController(surgeryTable,surgerySttColumn,surgeryCodeColumn,
-                surgeryNameColumn,surgeryPatientNameColumn, surgeryResultColumn,surgeryRoomColumn,
-                surgeryStatusColumn,typeSurgeryColumn,surgeryActionColumn,  surgeryDiseaseGroupNameColumn,
-                surgeryStartedAtColumn,surgeryEndedAtColumn,
-                surgeryEstimatedEndAtColumn );
+        surgeryController = new SurgeryController(surgeryTable, surgerySttColumn, surgeryCodeColumn,
+            surgeryNameColumn, surgeryPatientNameColumn, surgeryResultColumn, surgeryRoomColumn,
+            surgeryStatusColumn, typeSurgeryColumn, surgeryActionColumn, surgeryDiseaseGroupNameColumn,
+            surgeryStartedAtColumn, surgeryEndedAtColumn,
+            surgeryEstimatedEndAtColumn);
         surgeryController.initializeSurgery();
     }
 
     // Phòng phẫu thuật
     private void initializeSurgeryRoomTab() {
-        surgeryRoomController = new SurgeryRoomController( surgeryRoomTable,  surgeryRoomStt,
-         surgeryRoomName, surgeryRoomCode, surgeryRoomDescription,
-        surgeryRoomAddress, surgeryRoomCurrentAvailable, surgeryRoomOnServiceAt, surgeryRoomAction );
+        surgeryRoomController = new SurgeryRoomController(surgeryRoomTable, surgeryRoomStt,
+            surgeryRoomName, surgeryRoomCode, surgeryRoomDescription,
+            surgeryRoomAddress, surgeryRoomCurrentAvailable, surgeryRoomOnServiceAt, surgeryRoomAction);
         surgeryRoomController.initializeSurgeryRoom();
     }
 
     // Khoa bộ phận
     private void initializeDepartmentTab() {
-        departmentController = new DepartmentController(departmentTable,departmentAction,
-                departmentAddress, departmentCode,departmentDescription,departmentEmail,
-                departmentName, departmentPhoneNumber, departmentStt,departmentSearchCode,
-                departmentSearchEmail,departmentSearchName, departmentSearchPhone,createDepartment);
+        departmentController = new DepartmentController(departmentTable, departmentAction,
+            departmentAddress, departmentCode, departmentDescription, departmentEmail,
+            departmentName, departmentPhoneNumber, departmentStt, departmentSearchCode,
+            departmentSearchEmail, departmentSearchName, departmentSearchPhone, createDepartment);
         departmentController.initializeDepartment();
     }
 
@@ -626,6 +645,7 @@ public class MainController implements Initializable {
             medicalRecordController.onDepartmentSubmitSearch(event);
         }
     }
+
     // Hàm khi click button clear tìm kếm
     @FXML
     private void onSubmitClear(ActionEvent event) {
