@@ -1,4 +1,4 @@
-package com.app20222.app20222_backend.enums.role;
+package com.app20222.app20222_fxapp.enums.users;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
