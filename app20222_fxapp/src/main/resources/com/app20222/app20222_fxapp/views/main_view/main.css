@@ -112,3 +112,7 @@
 .buttonSearch:hover{
     -fx-background-color: rgba(255,255,255,0.6);
 }
+.primaryColor{
+    -fx-text-fill: rgb(44,61,148);
+    -fx-font-family: "Helvetica Neue",Helvetica,Arial;
+}

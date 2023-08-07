@@ -49,6 +49,7 @@ public class LoginController {
     /**
      * Hàm sử lý khi login vào màn home
      */
+    @FXML
     public void switchToSceneMain(ActionEvent event) throws IOException {
         Alert alert;
         if (username.getText().isEmpty() || password.getText().isEmpty()) {
