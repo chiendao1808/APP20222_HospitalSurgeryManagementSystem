@@ -1,6 +1,7 @@
 package com.app20222.app20222_backend.services.department.impl;
 
 import java.util.List;
+import java.util.Objects;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,6 @@ import com.app20222.app20222_backend.exceptions.exceptionFactory.ExceptionFactor
 import com.app20222.app20222_backend.repositories.department.DepartmentRepository;
 import com.app20222.app20222_backend.repositories.users.UserRepository;
 import com.app20222.app20222_backend.services.department.DepartmentService;
-import com.app20222.app20222_backend.services.permission.PermissionService;
 import com.app20222.app20222_backend.utils.auth.AuthUtils;
 import com.app20222.app20222_backend.utils.permissionUtils.PermissionUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -58,7 +58,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public void updateDepartment(Long id, DepartmentUpdateDTO updateDTO) {
         if (AuthUtils.isSuperAdmin() || PermissionUtils.checkHospitalRoles() ||
-            (PermissionUtils.checkAdminRoles() && AuthUtils.getCurrentUserDepartmentId() == id)) {
+            (PermissionUtils.checkAdminRoles() && Objects.equals(AuthUtils.getCurrentUserDepartmentId(), id))) {
             Department department = departmentRepository.findById(id).orElseThrow(
                 () -> exceptionFactory.resourceNotFoundException(ErrorKey.Department.NOT_FOUND_ERROR_CODE, MessageConst.RESOURCE_NOT_FOUND,
                     Resources.DEPARTMENT, ErrorKey.Department.ID, String.valueOf(id)));

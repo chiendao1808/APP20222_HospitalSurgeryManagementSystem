@@ -27,7 +27,7 @@ public class SurgeryCreateDTO {
     String description;
 
     @NotNull
-    Long diseaseGroupId;
+    String diseaseGroup;
 
     @NotNull
     Integer type;

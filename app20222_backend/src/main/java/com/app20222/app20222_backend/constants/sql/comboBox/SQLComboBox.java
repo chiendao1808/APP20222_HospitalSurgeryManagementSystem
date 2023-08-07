@@ -19,7 +19,7 @@ public class SQLComboBox {
     public static final String GET_COMBO_BOX_ROLE =
             "SELECT \n" +
                     "     id AS id, \n" +
-                    "     name AS name, \n" +
+                    "     displayed_name AS name, \n" +
                     "     code AS code \n" +
                     "FROM {h-schema}role \n";
 
