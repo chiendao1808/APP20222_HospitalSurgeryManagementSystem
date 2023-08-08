@@ -23,14 +23,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotResult;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
+import org.controlsfx.control.CheckComboBox;
 
 import java.io.IOException;
 import java.util.*;
@@ -72,9 +70,64 @@ public class UserController {
 
     @FXML
     private Button createUserBtn;
+    @FXML
+    private TextField userSearchCode;
+
+    @FXML
+    private ComboBox<String> userSearchDepartment;
+
+    @FXML
+    private TextField userSearchEmail;
+
+    @FXML
+    private TextField userSearchIdentificationNum;
+
+    @FXML
+    private ComboBox<String> userSearchIdentityType;
+
+    @FXML
+    private TextField userSearchName;
+
+    @FXML
+    private TextField userSearchPhone;
+
+    @FXML
+    private CheckComboBox<String> userSearchRole;
+
+    @FXML
+    private Button userSubmitSearch;
+    @FXML
+    void onUserClearSearch(ActionEvent event) {
+
+    }
+
+    @FXML
+    public void onUserSubmitSearch(ActionEvent event) {
+        searchParams.put("identityType","ALL");
+        String code = userSearchCode.getText();
+        String email = userSearchEmail.getText();
+        String idNumber = userSearchIdentificationNum.getText();
+        String selectedIdentityTypeLabel = userSearchIdentityType.getValue();
+        if (!"Tất cả".equals(selectedIdentityTypeLabel)) {
+            String identityType = String.valueOf(IdentityTypeEnum.typeOf(selectedIdentityTypeLabel));
+            searchParams.put("identityType", identityType);
+        }
+        ObservableList<String> roleName = userSearchRole.getCheckModel().getCheckedItems();
+        if(!roleName.isEmpty()){
+           for (String name : roleName){
+               searchParams.put("roleType",name);
+           }
+        }
+        String departmentLabel = userSearchDepartment.getValue();
+        String departmentType = departmentLabel.toString();
+
+
+    }
+
 
     private UserAPIService userAPIService;
     Map<String,String> map = new HashMap<>();
+    Map<String, String> searchParams = new HashMap<>();
 
     public UserController(){}
 
@@ -173,8 +226,8 @@ public class UserController {
         ObservableList<UserListDTO> lstUsers = getDataFromDataSource();
         if(UserTableView != null){
             this.UserTableView.setItems(lstUsers);
+            setUpEditDeleteButton();
         }
-        setUpEditDeleteButton();
     }
     public void setUpEditDeleteButton() {
         Callback<TableColumn<UserListDTO, String>, TableCell<UserListDTO, String>> cellCallback = new Callback<TableColumn<UserListDTO, String>, TableCell<UserListDTO, String>>() {

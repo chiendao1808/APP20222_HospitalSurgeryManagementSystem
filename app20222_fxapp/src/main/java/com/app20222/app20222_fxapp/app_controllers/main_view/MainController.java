@@ -28,6 +28,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.controlsfx.control.CheckComboBox;
 
 import java.net.URL;
 import java.util.*;
@@ -354,6 +355,28 @@ public class MainController implements Initializable {
 
     @FXML
     private Button createUserBtn;
+    // tìm kiếm người dùng
+    @FXML
+    private TextField userSearchCode;
+
+    @FXML
+    private ComboBox<?> userSearchDepartment;
+
+    @FXML
+    private TextField userSearchEmail;
+
+    @FXML
+    private TextField userSearchName;
+
+    @FXML
+    private TextField userSearchPhone;
+
+    @FXML
+    private CheckComboBox<?> userSearchRole;
+
+    @FXML
+    private Button userSubmitSearch;
+
 
     // phòng phẫu thuật
     @FXML
