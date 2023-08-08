@@ -48,4 +48,5 @@ public enum FeatureEnum {
     private final String code;
     private final String parentCode;
     private final String name;
+
 }

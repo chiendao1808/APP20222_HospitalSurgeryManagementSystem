@@ -7,7 +7,9 @@ import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListNewDTO;
 import com.app20222.app20222_fxapp.dto.responses.users.RoleDTO;
 import com.app20222.app20222_fxapp.dto.responses.users.UserDetailsDTO;
 import com.app20222.app20222_fxapp.dto.responses.users.UserListDTO;
+import com.app20222.app20222_fxapp.enums.users.IdentityTypeEnum;
 import com.app20222.app20222_fxapp.exceptions.apiException.ApiResponseException;
+import com.app20222.app20222_fxapp.services.patient.PatientAPIService;
 import com.app20222.app20222_fxapp.services.users.UserAPIService;
 import com.app20222.app20222_fxapp.utils.DateUtils;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
@@ -28,6 +30,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.util.*;
@@ -99,12 +102,15 @@ public class UserController {
     public TableView<UserListDTO> getUserTableView() {
         return this.UserTableView;
     }
+    public void initializeUser(){
+        userAPIService = new UserAPIService();
+        initializeTable();
+    }
 
     public void initializeTable() {
         // Lấy danh sách bệnh nhân từ nguồn dữ liệu của bạn
         ObservableList<UserListDTO> userList = getDataFromDataSource();
         setupTableColumns();
-        setUpEditDeleteButton();
         setUpEditDeleteButton();
 
         if (UserTableView != null) {
@@ -119,6 +125,7 @@ public class UserController {
             Parent root = loader.load();
             ViewUserDeatailController viewUserDeatailController = loader.getController();
             viewUserDeatailController.disableAllFields();
+            viewUserDeatailController.initialize(null,null);
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Xem chi tiết người dùng");
             dialogStage.setScene(new Scene(root));
@@ -164,7 +171,10 @@ public class UserController {
 
     public void reloadTable() {
         ObservableList<UserListDTO> lstUsers = getDataFromDataSource();
-        this.UserTableView.setItems(lstUsers);
+        if(UserTableView != null){
+            this.UserTableView.setItems(lstUsers);
+        }
+        setUpEditDeleteButton();
     }
     public void setUpEditDeleteButton() {
         Callback<TableColumn<UserListDTO, String>, TableCell<UserListDTO, String>> cellCallback = new Callback<TableColumn<UserListDTO, String>, TableCell<UserListDTO, String>>() {
@@ -222,7 +232,7 @@ public void openCreateDialog() {
         Parent root = loader.load();
         AddUserController addUserController = loader.getController();
         addUserController.setCreateMode(true);
-//        addUserController.initialize(null, null);
+        addUserController.initialize(null, null);
         Stage dialogStage = new Stage();
         dialogStage.setTitle("Tạo mới người dùng");
         dialogStage.setScene(new Scene(root));
@@ -263,6 +273,7 @@ public void openCreateDialog() {
 
     public void handleEditUser(ActionEvent actionEvent) {
     }
+
 
 
 

@@ -45,7 +45,7 @@ public class AddMedicalRecordController implements Initializable {
 
 //    private ProgressIndicator progressIndicator;
 
-    private ComboBoxAPIService comboBoxAPIService;
+    private ComboBoxAPIService comboBoxAPIService ;
 
     private FileUploadAPIService fileUploadAPIService;
     private MedicalRecordAPIService medicalRecordAPIService;

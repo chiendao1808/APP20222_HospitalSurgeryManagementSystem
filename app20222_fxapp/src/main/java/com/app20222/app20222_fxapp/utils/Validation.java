@@ -1,5 +1,7 @@
 package com.app20222.app20222_fxapp.utils;
 
+import javafx.collections.ObservableList;
+
 import java.time.LocalDate;
 
 public class Validation {
@@ -26,7 +28,7 @@ public class Validation {
         return phoneNumber.matches(phoneRegex);
     }
     public static boolean isAllFieldsFilledUser(String identificationNumber, String name, String identityType,
-                                                   String department , String role , String code , LocalDate birthDate, String address, String phoneNumber, String email) {
+                                                String department , ObservableList role , String code , LocalDate birthDate, String address, String phoneNumber, String email) {
         return !identificationNumber.isEmpty() &&
                 !code.isEmpty() &&
                 !name.isEmpty() &&
