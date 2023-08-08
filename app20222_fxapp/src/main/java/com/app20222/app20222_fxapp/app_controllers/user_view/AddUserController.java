@@ -1,7 +1,11 @@
 package com.app20222.app20222_fxapp.app_controllers.user_view;
 
+import com.app20222.app20222_fxapp.enums.users.IdentityTypeEnum;
 import com.app20222.app20222_fxapp.services.patient.PatientAPIService;
+import com.app20222.app20222_fxapp.services.users.UserAPIService;
 import com.app20222.app20222_fxapp.utils.DateUtils;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -13,10 +17,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class AddUserController {
 
@@ -62,10 +63,12 @@ public class AddUserController {
     private boolean editMode = false;
     private boolean createMode = false;
     private Boolean reloadRequired = false;
+    private final Map<String,String> identityTypeMap = new HashMap<>();
 
     @FXML
     void handleEditPatient(ActionEvent event) {
     }
+    private UserAPIService userAPIService ;
 
 
     public void setCreateMode(boolean createMode) {
@@ -162,5 +165,48 @@ public Boolean submit() {
     return reloadRequired;
 }
 
+    public void setupIdentityTypes() {
+        identityTypeMap.put(IdentityTypeEnum.CITIZEN_ID_CARD.name(), IdentityTypeEnum.CITIZEN_ID_CARD.getType());
+        identityTypeMap.put(IdentityTypeEnum.ID_CARD.name(), IdentityTypeEnum.ID_CARD.getType());
+        identityTypeMap.put(IdentityTypeEnum.PASSPORT.name(), IdentityTypeEnum.PASSPORT.getType());
+        // Create an ObservableList to hold the labels for the identity types
+        ObservableList<String> identityTypeLabels = FXCollections.observableArrayList(identityTypeMap.values());
+
+        // Set the items in the ComboBox to display the identity type labels
+        identityTypeView.setItems(identityTypeLabels);
+
+        // Set a StringConverter to map the selected identityType to its corresponding value
+        identityTypeView.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(String label) {
+                return label; // Display the label in the ComboBox
+            }
+
+            @Override
+            public String fromString(String string) {
+                // Convert the label back to its corresponding value
+                IdentityTypeEnum type = IdentityTypeEnum.typeOf(string);
+                return type == null ? "" : type.name();
+            }
+        });
+    }
+    public void initialize(URL location, ResourceBundle resources) {
+        setupIdentityTypes();
+        setBirthDateView();
+        userAPIService = new UserAPIService();
+        if (createMode) {
+            editUser.setVisible(false); // Hide the button for create mode
+            Button okButton = (Button) createUserPane.lookupButton(ButtonType.OK);
+            okButton.setVisible(true);
+            Button cancelButton = (Button) createUserPane.lookupButton(ButtonType.CANCEL);
+            cancelButton.setVisible(true);
+        } else {
+            editUser.setVisible(true); // Show the button for view mode
+            Button okButton = (Button) createUserPane.lookupButton(ButtonType.OK);
+            okButton.setVisible(false);
+            Button cancelButton = (Button) createUserPane.lookupButton(ButtonType.CANCEL);
+            cancelButton.setVisible(false);
+        }
+    }
 }
 
