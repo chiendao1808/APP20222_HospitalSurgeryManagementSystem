@@ -135,7 +135,6 @@ public class PatientController {
     public void initializeTable() {
         // Lấy danh sách bệnh nhân từ nguồn dữ liệu của bạn
         ObservableList<PatientGetListNewDTO> patientList = getDataFromDataSource();
-        System.out.println("patientList" + patientList);
         setupTableColumns();
         setupEditDeleteButtons();
 
@@ -242,12 +241,10 @@ public class PatientController {
                                 // Handle edit button action
                                 viewButton.setOnAction(event -> {
                                     PatientGetListNewDTO patient = getTableView().getItems().get(getIndex());
-                                    System.out.println("Patient" + patient);
                                     Map<String, String> params = new HashMap<>();
                                     params.put("id", String.valueOf(patient.getId()));
                                     try {
                                         PatientDetailsDTO detailsPatientDTO = patientAPIService.getDetailsPatient(params);
-                                        System.out.println("detailsPatientDTO" + detailsPatientDTO);
                                         openEditDialog(detailsPatientDTO,params);
                                     } catch (ApiResponseException e) {
                                         System.out.println(e.getExceptionResponse());
@@ -375,7 +372,6 @@ public class PatientController {
          searchParams.put("idNumber", idNumber);
          searchParams.put("name", name);
          searchParams.put("phoneNumber", phone);
-         System.out.println(searchParams);
          // gọi lại api sau khi tìm kiếm
          reloadTable();
 

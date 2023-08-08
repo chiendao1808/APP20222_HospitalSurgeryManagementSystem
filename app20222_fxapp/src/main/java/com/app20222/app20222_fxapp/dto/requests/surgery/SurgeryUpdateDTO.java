@@ -33,6 +33,8 @@ public class SurgeryUpdateDTO {
     @NotNull
     private Integer type;
 
+    String result;
+
     List<SurgeryRoleDTO> lstAssignment = new ArrayList<>();
 
     @NotNull

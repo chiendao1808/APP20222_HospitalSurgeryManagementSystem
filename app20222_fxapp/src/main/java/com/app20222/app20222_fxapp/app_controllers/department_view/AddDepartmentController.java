@@ -128,7 +128,6 @@ public class AddDepartmentController implements Initializable {
     public void handleButtonAction(ButtonType buttonType) {
         if (buttonType.getButtonData() == ButtonType.OK.getButtonData() ) {
             reloadRequired = handleOkButton();
-            System.out.println(reloadRequired);
             if (reloadRequired) {
                 createDepartmentPane.getScene().getWindow().hide();
             }
@@ -164,7 +163,6 @@ public class AddDepartmentController implements Initializable {
                             .description(description)
                             .logoPath(logoPath)
                             .build();
-                    System.out.println("newDepartment" + newDepartment);
                     // API Call
                     try {
                         result = departmentAPIService.updateDepartment(newDepartment,params);

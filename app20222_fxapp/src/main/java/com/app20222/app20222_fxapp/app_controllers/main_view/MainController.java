@@ -297,7 +297,7 @@ public class MainController implements Initializable {
     private TextField surgerySearchName;
 
     @FXML
-    private ComboBox<CommonIdCodeName> surgerySearchPatientId;
+    private TextField surgerySearchPatientId;
 
     @FXML
     private ComboBox<Integer> surgerySearchStartedAtHour;

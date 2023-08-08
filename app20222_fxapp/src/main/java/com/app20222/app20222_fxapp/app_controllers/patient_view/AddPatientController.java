@@ -301,17 +301,6 @@ public class AddPatientController implements Initializable {
             boolean isPhoneNumberValid = isValidPhoneNumber(phoneNumber);
 
             if (isEmailValid && isPhoneNumberValid) {
-                // Hiển thị giá trị đã nhập
-                System.out.println("Mã số chứng thức: " + identificationNumber);
-                System.out.println("Loaị giấy tờ" + identityType);
-                System.out.println("Họ: " + lastName);
-                System.out.println("Tên: " + firstName);
-                System.out.println("Thẻ bảo hiểm y tế: " + healthInsuranceNumber);
-                System.out.println("Ngày sinh: " + birthDate);
-                System.out.println("Địa chỉ: " + address);
-                System.out.println("Số điện thoại: " + phoneNumber);
-                System.out.println("Email: " + email);
-                System.out.println("id: " + params);
                 // Gather the information from the input fields
                 if (editMode) {
                     PatientUpdateDTO newPatient = PatientUpdateDTO.builder()
