@@ -134,18 +134,20 @@ public class SurgeryServiceImpl implements SurgeryService {
             if (Objects.isNull(mailTemplate)) {
                 return;
             }
-            String content = mailTemplate.getRawContent();
-            content = content.replace("$SURGERY_NAME", newSurgery.getName());
-            content = content.replace("$SURGERY_CODE", newSurgery.getCode());
-            content = content.replace("$TIME", new SimpleDateFormat(DateUtils.FORMAT_DATE_HH_MM_DD_MM_YYYY).format(newSurgery.getStartedAt()));
-            content = content.replace("$SURGERY_ROOM", surgeryRoom.getName() + " - " + surgeryRoom.getAddress());
-            Mail mail = Mail.builder()
-                .subject(mailTemplate.getSubject())
-                .content(content)
-                .lstToAddress(lstEmailToSend)
-                .isHasAttachments(false)
-                .build();
-            mailService.sendMail(mail);
+            if (!lstEmailToSend.isEmpty()) {
+                String content = mailTemplate.getRawContent();
+                content = content.replace("$SURGERY_NAME", newSurgery.getName());
+                content = content.replace("$SURGERY_CODE", newSurgery.getCode());
+                content = content.replace("$TIME", new SimpleDateFormat(DateUtils.FORMAT_DATE_HH_MM_DD_MM_YYYY).format(newSurgery.getStartedAt()));
+                content = content.replace("$SURGERY_ROOM", surgeryRoom.getName() + " - " + surgeryRoom.getAddress());
+                Mail mail = Mail.builder()
+                    .subject(mailTemplate.getSubject())
+                    .content(content)
+                    .lstToAddress(lstEmailToSend)
+                    .isHasAttachments(false)
+                    .build();
+                mailService.sendMail(mail);
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -168,8 +170,11 @@ public class SurgeryServiceImpl implements SurgeryService {
         surgery.setModifiedAt(new Date());
         surgery = surgeryRepository.save(surgery);
         // Lấy ra danh sách các người dùng được phân công trong ca phẫu thuật hiện tại
-        Set<Long> lstOldUserIdInSurgery = userSurgeryRepository.findUserIdBySurgeryId(surgeryId);
+        List<UserSurgery> lstOldUsersSurgery = userSurgeryRepository.findAllBySurgeryId(surgeryId);
+        Set<Long> lstOldUserIdInSurgery = lstOldUsersSurgery.stream().map(UserSurgery::getUserId).collect(Collectors.toSet());
         // Xóa toàn bộ assignment theo surgery id
+        userSurgeryRepository.deleteAll(lstOldUsersSurgery);
+
         userSurgeryRepository.deleteAllBySurgeryId(surgeryId);
         // lưu assignment mới
         List<UserSurgery> lstUserSurgery = updateDTO.getLstAssignment().stream().map(
@@ -185,9 +190,8 @@ public class SurgeryServiceImpl implements SurgeryService {
             if (Objects.isNull(surgeryRoom)) {
                 return;
             }
-            MailTemplate mailTemplate = mailTemplateRepository
-                .findByCode(MailTemplateEnum.CHANGE_ASSIGNMENT_SURGERY_MAIL_TO_USER_TEMPLATE.getCode()).orElse(null);
-            if (Objects.nonNull(mailTemplate)) {
+            MailTemplate mailTemplate = mailTemplateRepository.findByCode(MailTemplateEnum.CHANGE_ASSIGNMENT_SURGERY_MAIL_TO_USER_TEMPLATE.getCode()).orElse(null);
+            if (Objects.nonNull(mailTemplate) && !lstEmailToSend.isEmpty()) {
                 String mailUpdateContent = mailTemplate.getRawContent();
                 mailUpdateContent = mailUpdateContent.replace("$SURGERY_NAME", surgery.getName());
                 mailUpdateContent = mailUpdateContent.replace("$SURGERY_CODE", surgery.getCode());
