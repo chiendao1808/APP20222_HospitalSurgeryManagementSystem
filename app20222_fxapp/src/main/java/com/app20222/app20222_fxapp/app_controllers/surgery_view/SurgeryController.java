@@ -91,7 +91,7 @@ public class SurgeryController {
     private TextField surgerySearchName;
 
     @FXML
-    private ComboBox<CommonIdCodeName> surgerySearchPatientId;
+    private TextField surgerySearchPatientId;
 
     @FXML
     private ComboBox<Integer> surgerySearchStartedAtHour;
@@ -118,14 +118,10 @@ public class SurgeryController {
     // param tìm kiếm
     private Map<String, String> searchParams = new HashMap<>();
     private final Map<String, String> status = new HashMap<>();
-    public SurgeryController() {
-    }
 
     public void initializeSurgery() {
         surgeryAPIService = new SurgeryAPIService();
         comboBoxAPIService = new ComboBoxAPIService();
-        setupPatientIdSearchListener();
-        setupPatientIdComboBoxListener();
         initializeTable();
         initSurgerySearch();
     }
@@ -199,7 +195,7 @@ public class SurgeryController {
                              TableColumn<SurgeryGetListDTO, Date> surgeryEstimatedEndAtColumn, TextField surgerySearchDiseaseGroup,
                              ComboBox<Integer> surgerySearchEstimatedEndAtHour, ComboBox<Integer> surgerySearchEstimatedEndAtMinute,
                              DatePicker surgerySearchEstimatedEndAtYear, TextField surgerySearchName,
-                             ComboBox<CommonIdCodeName> surgerySearchPatientId, ComboBox<Integer> surgerySearchStartedAtHour,
+                             TextField surgerySearchPatientId, ComboBox<Integer> surgerySearchStartedAtHour,
                              ComboBox<Integer> surgerySearchStartedAtMinute, ComboBox<String> surgerySearchStatus,
                              ComboBox<CommonIdCodeName> surgerySearchSurgeryRoomId, DatePicker surgerySearchStartAtYear,
                              TextField surgerySearchPatientIdSearch
@@ -360,67 +356,11 @@ public class SurgeryController {
     // Tìm kiếm
     // khởi tạo combobox bệnh nhân
     public void initSurgerySearch(){
-        setUpPatientId();
         setUpSurgeryRoom();
         setupStatus();
         setUpDate();
     }
-    public void setupPatientIdSearchListener() {
-        surgerySearchPatientIdSearch.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                filterPatientIdComboBox();
-            }
-        });
 
-        surgerySearchPatientIdSearch.setOnKeyReleased(event -> {
-            filterPatientIdComboBox();
-        });
-    }
-
-    public void filterPatientIdComboBox() {
-        String searchText = surgerySearchPatientIdSearch.getText().toLowerCase();
-        surgerySearchPatientId.getItems().clear();
-
-        if (searchText.isEmpty()) {
-            surgerySearchPatientId.getItems().addAll(getDataFromDataSourcePatient());
-        } else {
-            ObservableList<CommonIdCodeName> filteredItems = getDataFromDataSourcePatient()
-                    .filtered(item -> item.getName().toLowerCase().contains(searchText));
-            surgerySearchPatientId.getItems().addAll(filteredItems);
-        }
-    }
-
-    public void setupPatientIdComboBoxListener() {
-        surgerySearchPatientId.valueProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                surgerySearchPatientIdSearch.setText(newValue.getName() + " - " + newValue.getCode());
-            }
-        });
-    }
-
-    public void setUpPatientId(){
-        ObservableList<CommonIdCodeName> listPatientId = getDataFromDataSourcePatient();
-        ObservableList<CommonIdCodeName> observableList = FXCollections.observableArrayList(listPatientId);
-        surgerySearchPatientId.setConverter(new StringConverter<CommonIdCodeName>() {
-            @Override
-            public String toString(CommonIdCodeName item) {
-                if (item != null) {
-                    return item.getName() + " - " + item.getCode();
-                } else {
-                    return "";
-                }
-            }
-
-            @Override
-            public CommonIdCodeName fromString(String string) {
-                // Chuyển đổi ngược từ chuỗi (nếu cần)
-                return null;
-            }
-        });
-
-
-        surgerySearchPatientId.setItems(observableList);
-    }
 
     // Khởi tạo combobox phong phau thuat
     public void setUpSurgeryRoom(){
@@ -563,17 +503,6 @@ public class SurgeryController {
             }
         });
     }
-    // lấy list danh sách bệnh nhân combobox
-    private ObservableList<CommonIdCodeName> getDataFromDataSourcePatient() {
-        List<CommonIdCodeName> lstPatientId = new ArrayList<>();
-        try {
-            lstPatientId = comboBoxAPIService.getComboBoxPatients(new HashMap<>());
-        } catch (ApiResponseException exception) {
-            exception.printStackTrace();
-            System.out.println(exception.getExceptionResponse());
-        }
-        return FXCollections.observableArrayList(lstPatientId);
-    }
 
     // Lấy danh sách phòng
     private ObservableList<CommonIdCodeName> getDataFromDataSurgeryRoom() {
@@ -587,13 +516,14 @@ public class SurgeryController {
         return FXCollections.observableArrayList(lstSurgeryRoom);
     }
 
+
     @FXML
     public void onSurgerySubmitSearch(ActionEvent event) {
         String diseaseGroupName = surgerySearchDiseaseGroup.getText();
         String surgeryStatusLabel = surgerySearchStatus.getValue();
         String surgeryStatus = surgerySearchStatus.getConverter().fromString(surgeryStatusLabel);
         String surgeryName = surgerySearchName.getText();
-        CommonIdCodeName selectedPatient = surgerySearchPatientId.getValue();
+        String selectedPatient = surgerySearchPatientId.getText();
         CommonIdCodeName selectedSurgeryRoom = surgerySearchSurgeryRoomId.getValue();
         // Date
         // Get selected surgery start date, hour, and minute
@@ -607,8 +537,6 @@ public class SurgeryController {
         Integer selectedEstimatedEndHour = surgerySearchEstimatedEndAtHour.getSelectionModel().getSelectedItem();
         Integer selectedEstimatedEndMinute = surgerySearchEstimatedEndAtMinute.getSelectionModel().getSelectedItem();
         String estimatedEndAt = null;
-        System.out.println("status" + surgeryStatus);
-        System.out.println("diseaseGroupName" + diseaseGroupName);
         if(diseaseGroupName != null ){
             searchParams.put("diseaseGroupName", diseaseGroupName);
 
@@ -619,7 +547,7 @@ public class SurgeryController {
 
         searchParams.put("surgeryName", surgeryName);
         if (selectedPatient != null) {
-            searchParams.put("patientId", String.valueOf(selectedPatient.getId()));
+            searchParams.put("patientName", selectedPatient);
         }
         if (selectedSurgeryRoom != null) {
             searchParams.put("surgeryRoomId", String.valueOf(selectedSurgeryRoom.getId()));
@@ -644,7 +572,6 @@ public class SurgeryController {
             searchParams.put("startedAt", startedAt);
             searchParams.put("estimatedEndAt", estimatedEndAt);
         }
-        System.out.println("searchParams" + searchParams);
         reloadTable();
     }
 
@@ -656,13 +583,12 @@ public class SurgeryController {
 
     public void resetSearchParams() {
         // Clear the search fields
-        surgerySearchPatientIdSearch.setText("");
         surgerySearchDiseaseGroup.setText("");
         surgerySearchEstimatedEndAtHour.setValue(null);
         surgerySearchEstimatedEndAtMinute.setValue(null);
         surgerySearchEstimatedEndAtYear.setValue(null);
         surgerySearchName.setText("");
-        surgerySearchPatientId.setValue(null);
+        surgerySearchPatientId.setText("");
         surgerySearchStartedAtHour.setValue(null);
         surgerySearchStartedAtMinute.setValue(null);
         surgerySearchStatus.setValue(null);

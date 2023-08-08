@@ -1,4 +1,5 @@
 package com.app20222.app20222_fxapp.app_controllers.surgery_view;
+import com.app20222.app20222_fxapp.MainApplication;
 import com.app20222.app20222_fxapp.constants.apis.ApiConstants;
 import com.app20222.app20222_fxapp.dto.file_attach.FileAttachDTO;
 import com.app20222.app20222_fxapp.dto.responses.surgery.SurgeryAssignmentDTO;
@@ -10,12 +11,18 @@ import javafx.beans.property.SimpleLongProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 import org.apache.commons.io.FileUtils;
 
@@ -80,12 +87,16 @@ public class DetailSurgeryController implements Initializable {
     private TableColumn<FileAttachDTO, Long> surgeryDetailFileStt;
     @FXML
     private TableColumn<FileAttachDTO, String> surgeryDetailFileType;
+    @FXML
+    private Button editSurgeryBtn;
     private List<FileAttachDTO> lstFileAttach = new ArrayList<>();
     private  List<SurgeryAssignmentDTO> lstAssignment = new ArrayList<>();
+    private SurgeryDetailDTO surgeryDetailDTO;
     private static final String filePathSuffix = "http://" + ApiConstants.API_LOCAL_IP + ":" + ApiConstants.SERVER_PORT + ApiConstants.DEFAULT_API_PATH;
 
     public void setSurgeryDetail(SurgeryDetailDTO surgeryDetailDTO) {
         // Set values for the Text components
+        this.surgeryDetailDTO = surgeryDetailDTO;
         setTextField(diseaseGroupType, surgeryDetailDTO.getDiseaseGroupName());
         setTextField(surgeryDetailCode, surgeryDetailDTO.getCode());
         setTextField(surgeryDetailCreatedAt, formatDateOrEmpty(surgeryDetailDTO.getCreatedAt()));
@@ -222,6 +233,28 @@ public class DetailSurgeryController implements Initializable {
         return sdf.format(date);
     }
 
-
-
+    // Mở cập nhat ca phau thuat
+    @FXML
+    public void openUpdateDialog() {
+        detailSurgeryPane.getScene().getWindow().hide();
+        String fxmlPath = "views/surgery_view/create.fxml";
+        try {
+            FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource(fxmlPath));
+            Parent root = loader.load();
+            AddSurgeryController addSurgeryController = loader.getController();
+            addSurgeryController.setUpdateMode(true);
+            addSurgeryController.setSurgeryDetailDTO(surgeryDetailDTO);
+            addSurgeryController.initialize(null, null);
+            // Create a new stage for the dialog
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.initStyle(StageStyle.UTILITY);
+            dialogStage.setTitle("Cập nhật ca phẫu thuật");
+            dialogStage.setScene(new Scene(root));
+            dialogStage.setResizable(false);
+            dialogStage.showAndWait();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

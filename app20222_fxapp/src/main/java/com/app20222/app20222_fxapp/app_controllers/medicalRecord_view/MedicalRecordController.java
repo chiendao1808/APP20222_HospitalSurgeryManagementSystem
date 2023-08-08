@@ -130,7 +130,6 @@ public class MedicalRecordController {
     public void initializeTable() {
         // Lấy danh sách bệnh nhân từ nguồn dữ liệu của bạn
         ObservableList<MedicalRecordListDTO> medicalRecordList = getDataFromDataSource();
-        System.out.println("medicalRecordList" + medicalRecordList);
         setupTableColumns();
         setupEditDeleteButtons();
 
@@ -272,12 +271,10 @@ public class MedicalRecordController {
                                 // Handle detail button action
                                 viewButton.setOnAction(event -> {
                                     MedicalRecordListDTO medicalRecord = getTableView().getItems().get(getIndex());
-                                    System.out.println("medicalRecord" + medicalRecord);
                                     Map<String, String> params = new HashMap<>();
                                     params.put("id", String.valueOf(medicalRecord.getId()));
                                     try {
                                         MedicalRecordDetailsRes medicalRecordDetailsRes = medicalRecordAPIService.getDetailsMedicalRecord(params);
-                                        System.out.println("medicalRecordDetailsRes" + medicalRecordDetailsRes);
                                         openDetailDialog(medicalRecordDetailsRes);
                                     } catch (ApiResponseException e) {
                                         System.out.println(e.getExceptionResponse());
@@ -287,7 +284,6 @@ public class MedicalRecordController {
                                 // Handle edit button action
                                 updateButton.setOnAction(event -> {
                                     MedicalRecordListDTO medicalRecord = getTableView().getItems().get(getIndex());
-                                    System.out.println("medicalRecord" + medicalRecord);
                                     Map<String, String> params = new HashMap<>();
                                     params.put("id", String.valueOf(medicalRecord.getId()));
                                     try {
@@ -408,7 +404,6 @@ public class MedicalRecordController {
         // Sử dụng các giá trị được lấy từ các trường tìm kiếm
         searchParams.put("patientCode", code);
         searchParams.put("patientName", name);
-        System.out.println("searchParams" + searchParams);
         // gọi lại api sau khi tìm kiếm
         reloadTable();
     }

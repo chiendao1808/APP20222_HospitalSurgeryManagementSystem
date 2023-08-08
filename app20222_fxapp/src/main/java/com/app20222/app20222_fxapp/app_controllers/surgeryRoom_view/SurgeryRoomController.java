@@ -133,7 +133,6 @@ public class SurgeryRoomController {
                                 // Handle edit button action
                                 viewButton.setOnAction(event -> {
                                     SurgeryRoomListDTO surgeryRoom = getTableView().getItems().get(getIndex());
-//                                    System.out.println("Patient" + patient);
                                     Map<String, String> params = new HashMap<>();
                                     params.put("id", String.valueOf(surgeryRoom.getId()));
 //                                    try {

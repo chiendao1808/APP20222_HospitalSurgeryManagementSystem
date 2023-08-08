@@ -118,7 +118,6 @@ public class AddMedicalRecordController implements Initializable {
     // Khởi tạo bệnh nhân danh sách lựa chọn
     private void setUpMedicalRecordPatientId(){
         ObservableList<CommonIdCodeName> listPatientId = getDataFromDataSource();
-        System.out.println("listPatientId "+ listPatientId);
         ObservableList<CommonIdCodeName> observableList = FXCollections.observableArrayList(listPatientId);
         medicalRecordPatientId.setConverter(new StringConverter<CommonIdCodeName>() {
             @Override
@@ -196,11 +195,7 @@ public class AddMedicalRecordController implements Initializable {
         if(isAllFieldsFilled()){
             CommonIdCodeName patientId = medicalRecordPatientId.getValue();
             String summary = medicalRecordSummary.getText();
-            System.out.println("lstFileAttachId" + lstFileAttachId);
-            System.out.println("patientId: " + patientId.getId());
-            System.out.println("summary: " + summary);
             if(updateMode){
-                System.out.println("params: " + params);
                 MedicalRecordUpdateDTO newMedicalRecord = MedicalRecordUpdateDTO.builder()
                         .summary(summary)
                         .lstFileAttachId(lstFileAttachId)
@@ -255,18 +250,15 @@ public class AddMedicalRecordController implements Initializable {
 
                     // Kiểm tra phần mở rộng của tên tệp
                     String fileName = seletedFile.getName().toLowerCase();
-                    System.out.println(fileName);
                     if (fileName.endsWith(".jpg") || fileName.endsWith(".png") || fileName.endsWith(".gif")) {
                         // Đây là tệp hình ảnh
                         FileUploadResDTO response = fileUploadAPIService.uploadFileImage(seletedFile, headers);
-                        System.out.println("response" + response.getId());
                         if (response != null && response.getId() != null) {
                             lstFileAttachId.add(response.getId());
                         }
                     } else if (fileName.endsWith(".txt") || fileName.endsWith(".doc") || fileName.endsWith(".docx")) {
                         // Đây là tệp văn bản (doc hoặc docx)
                         FileUploadResDTO response = fileUploadAPIService.uploadFileDocument(seletedFile, headers);
-                        System.out.println("response" + response);
                         if (response != null && response.getId() != null) {
                             lstFileAttachId.add(response.getId());
                         }

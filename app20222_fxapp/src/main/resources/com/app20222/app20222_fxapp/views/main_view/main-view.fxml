@@ -65,7 +65,7 @@
                                           <FontAwesomeIconView fill="WHITE" size="1.8em" />
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="logoutBtn" layoutX="78.0" layoutY="600.0" mnemonicParsing="false" onAction="#logout" styleClass="signout" stylesheets="@main.css" text="Đăng xuất" textFill="WHITE">
+                                    <Button fx:id="logoutBtn" layoutX="26.0" layoutY="520.0" mnemonicParsing="false" onAction="#logout" styleClass="signout" stylesheets="@main.css" text="Đăng xuất" textFill="WHITE">
                                        <graphic>
                                           <FontAwesomeIconView fill="#f4f1f1" glyphName="SIGN_OUT" size="1.8em" />
                                        </graphic>
@@ -287,7 +287,7 @@
                                              <font>
                                                 <Font size="20.0" />
                                              </font></Text>
-                                          <TableView fx:id="patientTable" layoutX="10.0" layoutY="66.0" prefHeight="506.0" prefWidth="1166.0" stylesheets="@../patient_view/patient.css">
+                                          <TableView fx:id="patientTable" layoutX="10.0" layoutY="66.0" prefHeight="488.0" prefWidth="1166.0" stylesheets="@../patient_view/patient.css">
                                             <columns>
                                               <TableColumn fx:id="patientIdColumn" prefWidth="43.20001220703125" text="STT" />
                                                 <TableColumn fx:id="patientCodeColumn" prefWidth="140.00000762939453" text="Mã bệnh nhân" />
@@ -358,7 +358,7 @@
                                                    </font></Text>
                                              </children>
                                           </AnchorPane>
-                                          <TableView fx:id="medicalRecordTable" layoutX="10.0" layoutY="66.0" prefHeight="507.0" prefWidth="1179.0" stylesheets="@../medicalRecord_view/medicalRecord.css">
+                                          <TableView fx:id="medicalRecordTable" layoutX="10.0" layoutY="66.0" prefHeight="493.0" prefWidth="1179.0" stylesheets="@../medicalRecord_view/medicalRecord.css">
                                              <columns>
                                                 <TableColumn fx:id="medicalRecordStt" prefWidth="48.799983978271484" text="STT" />
                                                 <TableColumn fx:id="medicalRecordPatientName" prefWidth="305.60001373291016" text="Tên bệnh nhân" />
@@ -425,7 +425,7 @@
                                                 </Button>
                                              </children>
                                           </AnchorPane>
-                                          <TableView fx:id="UserTableView" layoutX="10.0" layoutY="60.0" prefHeight="443.0" prefWidth="1173.0" stylesheets="@../patient_view/patient.css">
+                                          <TableView fx:id="UserTableView" layoutX="10.0" layoutY="60.0" prefHeight="476.0" prefWidth="1174.0" stylesheets="@../patient_view/patient.css">
                                              <columns>
                                                 <TableColumn fx:id="UserSttColumn" prefWidth="48.799983978271484" text="STT" />
                                                 <TableColumn fx:id="UserNameColumn" minWidth="4.79998779296875" prefWidth="176.79998779296875" text="Tên người dùng" />
@@ -466,7 +466,6 @@
                                           <Text layoutX="27.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tên ca phẫu thuật" />
                                           <Text layoutX="334.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nhóm bệnh" />
                                           <Text layoutX="626.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bệnh nhân" />
-                                          <ComboBox fx:id="surgerySearchPatientId" layoutX="705.0" layoutY="58.0" prefHeight="34.0" prefWidth="180.0" styleClass="border" stylesheets="@main.css" />
                                           <Text layoutX="897.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Trạng thái" />
                                           <ComboBox fx:id="surgerySearchStatus" layoutX="976.0" layoutY="57.0" prefHeight="34.0" prefWidth="179.0" styleClass="border" stylesheets="@main.css" />
                                           <Text layoutX="28.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Phòng phẫu thuật" />
@@ -477,9 +476,9 @@
                                           <Text layoutX="751.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Thời gian kết thúc dự kiên" wrappingWidth="133.9698028564453" />
                                           <ComboBox fx:id="surgerySearchEstimatedEndAtHour" layoutX="897.0" layoutY="116.0" prefHeight="34.0" prefWidth="73.0" promptText="Giờ" styleClass="border" stylesheets="@main.css" />
                                           <ComboBox fx:id="surgerySearchEstimatedEndAtMinute" layoutX="971.0" layoutY="116.0" prefHeight="34.0" prefWidth="79.0" promptText="Phút" styleClass="border" stylesheets="@main.css" />
-                                          <DatePicker fx:id="surgerySearchStartAtYear" layoutX="617.0" layoutY="115.0" prefHeight="36.0" prefWidth="118.0" promptText="Ngày" />
-                                          <DatePicker fx:id="surgerySearchEstimatedEndAtYear" layoutX="1050.0" layoutY="115.0" prefHeight="36.0" prefWidth="118.0" promptText="Ngày" />
-                                          <TextField fx:id="surgerySearchPatientIdSearch" layoutX="708.0" layoutY="59.0" prefHeight="30.0" prefWidth="150.0" />
+                                          <DatePicker fx:id="surgerySearchStartAtYear" layoutX="617.0" layoutY="115.0" prefHeight="36.0" prefWidth="118.0" promptText="Năm" />
+                                          <DatePicker fx:id="surgerySearchEstimatedEndAtYear" layoutX="1050.0" layoutY="115.0" prefHeight="36.0" prefWidth="118.0" promptText="Năm" />
+                                          <TextField fx:id="surgerySearchPatientId" layoutX="703.0" layoutY="58.0" prefHeight="32.0" prefWidth="182.0" styleClass="border" stylesheets="@main.css" />
                                        </children>
                                        <styleClass>
                                           <String fx:value="white-color" />
@@ -497,7 +496,7 @@
                                             <content>
                                               <AnchorPane prefHeight="499.0" prefWidth="1170.0">
                                                    <children>
-                                                      <TableView fx:id="surgeryTable" layoutX="3.0" layoutY="5.0" prefHeight="494.0" prefWidth="1167.0" styleClass="edit-button" stylesheets="@../patient_view/patient.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+                                                      <TableView fx:id="surgeryTable" layoutX="3.0" layoutY="5.0" prefHeight="464.0" prefWidth="1167.0" styleClass="edit-button" stylesheets="@../patient_view/patient.css" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
                                                          <columns>
                                                             <TableColumn fx:id="surgerySttColumn" prefWidth="37.600006103515625" text="STT" />
                                                             <TableColumn fx:id="surgeryNameColumn" prefWidth="231.20003509521484" text="Tên ca phẫu thuật" />
@@ -509,7 +508,7 @@
                                                             <TableColumn fx:id="surgeryStartedAtColumn" prefWidth="119.99993896484375" text="Thời gian bắt đầu" />
                                                             <TableColumn fx:id="surgeryEstimatedEndAtColumn" prefWidth="119.99993896484375" text="Thời gian ước tính" />
                                                             <TableColumn fx:id="surgeryEndedAtColumn" prefWidth="119.99993896484375" text="Thời gian kết thúc" />
-                                                            <TableColumn fx:id="surgeryStatusColumn" minWidth="2.39996337890625" prefWidth="100.0" text="Trạng thái" />
+                                                            <TableColumn fx:id="surgeryStatusColumn" minWidth="2.39996337890625" prefWidth="140.0" text="Trạng thái" />
                                                             <TableColumn fx:id="surgeryResultColumn" prefWidth="115.999755859375" text="Kết quả" />
                                                             <TableColumn fx:id="surgeryActionColumn" prefWidth="139.2000732421875" text="Hành động" />
                                                          </columns>
@@ -621,7 +620,7 @@
                                              <font>
                                                 <Font size="20.0" />
                                              </font></Text>
-                                          <TableView fx:id="departmentTable" layoutX="10.0" layoutY="66.0" prefHeight="500.0" prefWidth="1178.0">
+                                          <TableView fx:id="departmentTable" layoutX="10.0" layoutY="66.0" prefHeight="479.0" prefWidth="1178.0">
                                              <columns>
                                                 <TableColumn fx:id="departmentStt" prefWidth="48.799983978271484" text="STT" />
                                                 <TableColumn fx:id="departmentName" minWidth="4.79998779296875" prefWidth="192.00003814697266" text="Tên khoa / bộ phận" />
