@@ -54,6 +54,7 @@ module com.app20222.app20222_fxapp {
     exports com.app20222.app20222_fxapp.dto.responses.surgeryRoom;
     exports com.app20222.app20222_fxapp.dto.responses.deparment;
     exports com.app20222.app20222_fxapp.dto.responses.medicalRecord;
+    exports com.app20222.app20222_fxapp.dto.responses.statistics;
     exports com.app20222.app20222_fxapp;
 
     // other dto exports

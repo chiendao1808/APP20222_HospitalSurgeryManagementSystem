@@ -76,7 +76,7 @@
                                           <FontAwesomeIconView fill="WHITE" size="1.8em" />
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="tabDashboard" layoutX="18.0" layoutY="293.0" mnemonicParsing="false" onAction="#switchTab" prefHeight="37.0" prefWidth="218.0" styleClass="nav-btn" stylesheets="@main.css" text="Báo cáo">
+                                    <Button fx:id="tabDashboard" layoutX="18.0" layoutY="293.0" mnemonicParsing="false" onAction="#switchTab" prefHeight="37.0" prefWidth="218.0" styleClass="nav-btn" stylesheets="@main.css" text="Báo cáo - thống kê">
                                        <graphic>
                                           <FontAwesomeIconView fill="WHITE" size="1.8em" />
                                        </graphic>
@@ -678,21 +678,19 @@
                                           <String fx:value="shadow" />
                                        </styleClass>
                                        <children>
-                                          <PieChart fx:id="PieChartMonth" layoutX="224.0" layoutY="14.0" prefHeight="143.0" prefWidth="191.0" />
-                                          <PieChart fx:id="PieChartQuarter" layoutX="579.0" layoutY="14.0" prefHeight="143.0" prefWidth="191.0" />
-                                          <PieChart fx:id="PieChatYear" layoutX="920.0" layoutY="14.0" prefHeight="143.0" prefWidth="191.0" />
-                                          <Text layoutX="293.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tháng này" />
-                                          <Text layoutX="655.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quý này" />
-                                          <Text layoutX="994.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Năm nay" />
-                                          <Label layoutX="23.0" layoutY="34.0" text="Tổng số ca đã thực hiện" />
+                                          <PieChart fx:id="pieChartMonth" layoutX="224.0" layoutY="14.0" prefHeight="143.0" prefWidth="191.0" />
+                                          <PieChart fx:id="pieChartQuarter" layoutX="579.0" layoutY="14.0" prefHeight="143.0" prefWidth="191.0" />
+                                          <PieChart fx:id="pieChatYear" layoutX="920.0" layoutY="14.0" prefHeight="143.0" prefWidth="191.0" />
+                                          <Text fx:id="numSurgeryCurrentMonth" layoutX="293.0" layoutY="178.0" strokeType="OUTSIDE"
+                                            strokeWidth="0.0" text="Tháng này"/>
+                                          <Text fx:id="numSurgeryCurrentQuarter" layoutX="655.0" layoutY="178.0" strokeType="OUTSIDE"
+                                            strokeWidth="0.0" text="Quý này"/>
+                                          <Text fx:id="numSurgeryCurrentYear" layoutX="994.0" layoutY="178.0" strokeType="OUTSIDE"
+                                            strokeWidth="0.0" text="Năm nay"/>
+                                          <Label layoutX="23.0" layoutY="34.0" text="Tổng số ca đã thực hiện"/>
                                           <Label fx:id="totalSurgery" layoutX="51.0" layoutY="62.0" prefHeight="54.0" prefWidth="86.0">
                                              <font>
-                                                <Font size="36.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="70.0" layoutY="128.0" text="ca">
-                                             <font>
-                                                <Font size="24.0" />
+                                                <Font size="36.0"/>
                                              </font>
                                           </Label>
                                        </children>

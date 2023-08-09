@@ -4,11 +4,11 @@ public class SQLStatistics {
 
     public static final String GET_PREVIEW_CURRENT_SURGERY_NUM =
         "SELECT\n" +
-            "       COUNT(id) FILTER (WHERE (end_at BETWEEN DATE_TRUNC('month', NOW()) AND NOW())) \n" +
+            "       COUNT(id) FILTER (WHERE (end_at BETWEEN DATE_TRUNC('month', NOW()) AND NOW() AT TIME ZONE 'Asia/Ho_Chi_Minh')) \n" +
             "           AS currentMonthNum,\n" +
-            "       COUNT(id) FILTER (WHERE (end_at BETWEEN DATE_TRUNC('quarter', NOW()) AND NOW())) \n" +
+            "       COUNT(id) FILTER (WHERE (end_at BETWEEN DATE_TRUNC('quarter', NOW()) AND NOW() AT TIME ZONE 'Asia/Ho_Chi_Minh')) \n" +
             "           AS currentQuarterNum,\n" +
-            "       COUNT(id) FILTER (WHERE (end_at BETWEEN DATE_TRUNC('month', now()) AND now())) \n" +
+            "       COUNT(id) FILTER (WHERE (end_at BETWEEN DATE_TRUNC('year', now()) AND now() AT TIME ZONE 'Asia/Ho_Chi_Minh')) \n" +
             "           AS currentYearNum\n" +
             "FROM {h-schema}surgery \n" +
             "WHERE \n" +
@@ -58,7 +58,8 @@ public class SQLStatistics {
             "     surgery.id IN (:lstViewableSurgeryId) AND \n" +
             "     surgery.end_at IS NOT NULL AND \n" +
             "     surgery.status = 2 AND \n" +
-            "     DATE(surgery.end_at) BETWEEN DATE(:startTime) AND DATE(:endTime)\n";
+            "     (:startTime = DATE('1970-01-01') OR DATE(surgery.end_at) >= :startTime) AND \n" +
+            "     (:endTime = DATE('1970-01-01') OR DATE(surgery.end_at) <= :endTime) \n";
 
     public static final String EXPORT_PREVIEW_SURGERY_QUERY =
         "SELECT  \n" +
