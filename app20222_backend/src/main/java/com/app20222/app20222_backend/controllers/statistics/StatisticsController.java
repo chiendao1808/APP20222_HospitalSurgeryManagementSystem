@@ -46,9 +46,9 @@ public class StatisticsController {
     @Operation(description = "Lấy danh sách thông tin các ca phẫu thuật theo mội khoảng thời gian nhất định ( phục vụ biểu đồ )")
     public List<IGetListSurgery> getPreviewSurgeryList(
         @DateTimeFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_SLASH)
-        @RequestParam(name = "startTime") Date startTime,
+        @RequestParam(name = "startTime", required = false, defaultValue = "01/01/1970") Date startTime,
         @DateTimeFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_SLASH)
-        @RequestParam(name = "endTime") Date endTime
+        @RequestParam(name = "endTime", required = false, defaultValue = "01/01/1970") Date endTime
     ) {
         return statisticsService.getPreviewSurgeryList(startTime, endTime);
     }
