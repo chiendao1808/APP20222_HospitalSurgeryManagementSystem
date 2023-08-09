@@ -297,7 +297,7 @@ public class SurgeryRoomController {
         });
     }
     @FXML
-    public void onSurgerySubmitSearch(ActionEvent event) {
+    public void onSurgeryRoomSubmitSearch(ActionEvent event) {
         String name = SurgeryRoomSearchName.getText();
         String code = SurgeryRoomSearchCode.getText();
         Boolean status = SurgeryRoomSearchStatus.getValue().getValue();

@@ -14,6 +14,8 @@ public class TabController {
     private AnchorPane surgeryRoom;
     private AnchorPane department;
     private AnchorPane userPane;
+    private AnchorPane dashboard;
+
     private Button tabPatient;
     private Button tabMedicalRecord;
     private Button tabDoctor;
@@ -21,6 +23,7 @@ public class TabController {
     private Button tabDepartment;
     private Button tabSurgery;
     private Button tabUser;
+    private Button tabDashboard;
 
     public TabController(
         AnchorPane patient,
@@ -30,19 +33,22 @@ public class TabController {
         AnchorPane surgeryRoom,
         AnchorPane department,
         AnchorPane userPane,
+        AnchorPane dashboard,
         Button tabPatient,
         Button tabMedicalRecord,
         Button tabDoctor,
         Button tabSurgeryRoom,
         Button tabDepartment,
         Button tabSurgery,
-        Button tabUser) {
+        Button tabUser,
+        Button tabDashboard) {
         this.patient = patient;
         this.medicalRecord = medicalRecord;
         this.doctors = doctors;
         this.surgery = surgery;
         this.surgeryRoom = surgeryRoom;
         this.department = department;
+        this.dashboard = dashboard;
         this.tabPatient = tabPatient;
         this.tabMedicalRecord = tabMedicalRecord;
         this.tabDoctor = tabDoctor;
@@ -51,6 +57,7 @@ public class TabController {
         this.tabSurgery = tabSurgery;
         this.tabUser = tabUser;
         this.userPane = userPane;
+        this.tabDashboard = tabDashboard;
     }
 
     public TabController() {
@@ -73,6 +80,8 @@ public class TabController {
             switchToTab(tabDepartment, department);
         } else if (selectedButton == tabUser) {
             switchToTab(tabUser, userPane);
+        } else if (selectedButton == tabDashboard) {
+            switchToTab(tabDashboard, dashboard);
         }
     }
 
@@ -85,6 +94,7 @@ public class TabController {
         surgeryRoom.setVisible(selectedPane == surgeryRoom);
         department.setVisible(selectedPane == department);
         userPane.setVisible(selectedPane == userPane);
+        dashboard.setVisible(selectedPane == dashboard);
         // Reset the background for all tabs
         tabPatient.setStyle("-fx-background-color: transparent");
         tabMedicalRecord.setStyle("-fx-background-color: transparent");
@@ -93,6 +103,7 @@ public class TabController {
         tabSurgeryRoom.setStyle("-fx-background-color: transparent");
         tabDepartment.setStyle("-fx-background-color: transparent");
         tabUser.setStyle("-fx-background-color: transparent");
+        tabDashboard.setStyle("-fx-background-color: transparent");
         if (selectedButton == tabUser) {
             selectedButton.setStyle("-fx-background-color: transparent");
         } else {

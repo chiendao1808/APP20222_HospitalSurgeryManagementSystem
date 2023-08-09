@@ -1,5 +1,6 @@
 package com.app20222.app20222_fxapp.app_controllers.main_view;
 
+import com.app20222.app20222_fxapp.app_controllers.dashboard_view.DashBoardController;
 import com.app20222.app20222_fxapp.app_controllers.department_view.DepartmentController;
 import com.app20222.app20222_fxapp.app_controllers.medicalRecord_view.MedicalRecordController;
 import com.app20222.app20222_fxapp.app_controllers.profile_view.ProfileController;
@@ -23,6 +24,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -83,6 +85,8 @@ public class MainController implements Initializable {
     private AnchorPane department;
     @FXML
     private AnchorPane userPane;
+    @FXML
+    private AnchorPane dashboard;
     // Tab
     @FXML
     private Button tabPatient;
@@ -98,6 +102,8 @@ public class MainController implements Initializable {
     private Button tabSurgery;
     @FXML
     private Button tabUser;
+    @FXML
+    private Button tabDashboard;
 
     // thông tin cá nhân
 
@@ -448,6 +454,59 @@ public class MainController implements Initializable {
     @FXML
     private Button departmentClearSearch;
 
+    // Dashboard
+    @FXML
+    private TableView<SurgeryGetListDTO> surgeryTableDashboard;
+
+    @FXML
+    private TableColumn<SurgeryGetListDTO, String> surgeryActionColumnDashboard;;
+    @FXML
+    private TableColumn<SurgeryGetListDTO, Long> surgerySttColumnDashboard;;
+    @FXML
+    private TableColumn<SurgeryGetListDTO, String> surgeryCodeColumnDashboard;;
+    @FXML
+    private TableColumn<SurgeryGetListDTO, String> surgeryNameColumnDashboard;;
+    @FXML
+    private TableColumn<SurgeryGetListDTO, String> surgeryPatientNameColumnDashboard;;
+    @FXML
+    private TableColumn<SurgeryGetListDTO, String> surgeryResultColumnDashboard;;
+    @FXML
+    private TableColumn<SurgeryGetListDTO, String> surgeryRoomColumnDashboard;;
+    @FXML
+    private TableColumn<SurgeryGetListDTO, String> surgeryStatusColumnDashboard;;
+    @FXML
+    private TableColumn<SurgeryGetListDTO, String> typeSurgeryColumnDashboard;;
+    @FXML
+    private TableColumn<SurgeryGetListDTO, String> surgeryDiseaseGroupNameColumnDashboard;;
+    @FXML
+    private TableColumn<SurgeryGetListDTO, Date> surgeryStartedAtColumnDashboard;;
+    @FXML
+    private TableColumn<SurgeryGetListDTO, Date> surgeryEndedAtColumnDashboard;;
+    @FXML
+    private TableColumn<SurgeryGetListDTO, Date> surgeryEstimatedEndAtColumnDashboard;;
+
+    @FXML
+    Label totalSurgery;
+    // chart
+    @FXML
+    private PieChart PieChartMonth;
+
+    @FXML
+    private PieChart PieChartQuarter;
+
+    @FXML
+    private PieChart PieChatYear;
+
+    // tìm kiếm
+    @FXML
+    private Button surgeryClearSearchDashboard;
+    @FXML
+    private DatePicker surgerySearchEstimatedEndAtYearDashboard;
+    @FXML
+    private DatePicker surgerySearchStartAtYearDashboard;
+    @FXML
+    private Button surgerySubmitSearchDashboard;
+
     private UserAPIService userAPIService;
 
 
@@ -461,6 +520,7 @@ public class MainController implements Initializable {
     private ProfileController profileController;
     private SurgeryRoomController surgeryRoomController;
     private DepartmentController departmentController;
+    private DashBoardController dashboardController;
 
     // Các hàm xử lý
     // Xử lý khi click icon thu nhỏ múc leftMenu
@@ -532,13 +592,14 @@ public class MainController implements Initializable {
             surgeryRoom,
             department,
             userPane,
+            dashboard,
             tabPatient,
             tabMedicalRecord,
             tabDoctor,
             tabSurgeryRoom,
             tabDepartment,
             tabSurgery,
-            tabUser);
+            tabUser,tabDashboard);
         tabController.switchTab(event);
         HashMap<Button, Runnable> buttonToInitializer = new HashMap<>();
         buttonToInitializer.put(tabPatient, this::initializePatientTab);
@@ -548,7 +609,7 @@ public class MainController implements Initializable {
         buttonToInitializer.put(tabSurgeryRoom, this::initializeSurgeryRoomTab);
         buttonToInitializer.put(tabDepartment, this::initializeDepartmentTab);
         buttonToInitializer.put(tabUser, this::initializeProfileTab);
-
+        buttonToInitializer.put(tabDashboard, this::initializeDashboardTab);
         Runnable initializer = buttonToInitializer.get(selectedButton);
         if (initializer != null) {
             initializer.run();
@@ -571,6 +632,9 @@ public class MainController implements Initializable {
             case "surgeryRoom":
                 surgeryRoomController.resetSearchParams();
                 break;
+            case "dashboard":
+                dashboardController.resetSearchParams();
+                break;
             default:
                 break;
         }
@@ -592,7 +656,10 @@ public class MainController implements Initializable {
             return "department";
         } else if (userPane.isVisible()) {
             return "userPane";
-        } else {
+        } else if (dashboard.isVisible()) {
+            return "dashboard";
+        }
+        else {
             return "Không có AnchorPane nào đang hiển thị.";
         }
     }
@@ -701,11 +768,21 @@ public class MainController implements Initializable {
         departmentController.initializeDepartment();
     }
 
+    // dashboard
+    private void initializeDashboardTab() {
+        dashboardController = new DashBoardController(surgeryTableDashboard,surgerySttColumnDashboard,surgeryCodeColumnDashboard,
+                surgeryNameColumnDashboard,surgeryPatientNameColumnDashboard, surgeryResultColumnDashboard,surgeryRoomColumnDashboard,
+                surgeryStatusColumnDashboard,typeSurgeryColumnDashboard,surgeryActionColumnDashboard,  surgeryDiseaseGroupNameColumnDashboard,
+                surgeryStartedAtColumnDashboard,surgeryEndedAtColumnDashboard,
+                surgeryEstimatedEndAtColumnDashboard,surgerySearchEstimatedEndAtYearDashboard,
+                surgerySearchStartAtYearDashboard, PieChartMonth,PieChartQuarter,PieChatYear,totalSurgery );
+        dashboardController.initializeSurgery();
+    }
+
     // Hàm khi tìm kiếm cho các màn
     @FXML
     private void onSubmitSearch(ActionEvent event) {
         Button selectedButton = (Button) event.getSource();
-        System.out.println("selectedButton2222 " + selectedButton);
         if (selectedButton == patientSubmitSearch) {
             patientController.onPatientSubmitSearch(event);
         } else if (selectedButton == departmentSubmitSearch) {
@@ -715,7 +792,9 @@ public class MainController implements Initializable {
         } else if (selectedButton == surgerySubmitSearch) {
             surgeryController.onSurgerySubmitSearch(event);
         }  else if (selectedButton == surgeryRoomSubmitSearch) {
-            surgeryRoomController.onSurgerySubmitSearch(event);
+            surgeryRoomController.onSurgeryRoomSubmitSearch(event);
+        } else if (selectedButton == surgerySubmitSearchDashboard) {
+            dashboardController.onDashBoardSubmitSearch(event);
         }
     }
 
@@ -734,6 +813,8 @@ public class MainController implements Initializable {
             surgeryController.clearParams(event);
         } else if (selectedButton == surgeryRoomClearSearch) {
             surgeryRoomController.clearParams(event);
+        } else if (selectedButton == surgeryClearSearchDashboard) {
+            dashboardController.clearParams(event);
         }
     }
 
