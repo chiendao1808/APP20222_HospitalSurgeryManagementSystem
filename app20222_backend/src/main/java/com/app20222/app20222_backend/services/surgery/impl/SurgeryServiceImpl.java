@@ -168,6 +168,9 @@ public class SurgeryServiceImpl implements SurgeryService {
         surgery.setDiseaseGroupId(createDiseaseGroupIfNotExists(updateDTO.getDiseaseGroup()));
         surgery.setModifiedBy(AuthUtils.getCurrentUserId());
         surgery.setModifiedAt(new Date());
+        if(Objects.equals(updateDTO.getStatus(), SurgeryStatusEnum.COMPLETED.getValue())){
+            surgery.setEndAt(new Date()); // nếu trạng thái là hoàn thành thì thêm thời gian kết thúc
+        }
         surgery = surgeryRepository.save(surgery);
         // Lấy ra danh sách các người dùng được phân công trong ca phẫu thuật hiện tại
         List<UserSurgery> lstOldUsersSurgery = userSurgeryRepository.findAllBySurgeryId(surgeryId);
