@@ -2,6 +2,7 @@
 
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import java.lang.String?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
@@ -71,6 +72,11 @@
                                        </graphic>
                                     </Button>
                                     <Button fx:id="tabDepartment" layoutX="16.0" layoutY="255.0" mnemonicParsing="false" onAction="#switchTab" prefHeight="37.0" prefWidth="218.0" styleClass="nav-btn" stylesheets="@main.css" text="Khoa/ Bộ phận">
+                                       <graphic>
+                                          <FontAwesomeIconView fill="WHITE" size="1.8em" />
+                                       </graphic>
+                                    </Button>
+                                    <Button fx:id="tabDashboard" layoutX="18.0" layoutY="293.0" mnemonicParsing="false" onAction="#switchTab" prefHeight="37.0" prefWidth="218.0" styleClass="nav-btn" stylesheets="@main.css" text="Báo cáo">
                                        <graphic>
                                           <FontAwesomeIconView fill="WHITE" size="1.8em" />
                                        </graphic>
@@ -655,6 +661,83 @@
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
+                                          </Button>
+                                       </children>
+                                       <styleClass>
+                                          <String fx:value="shadow" />
+                                          <String fx:value="white-color" />
+                                       </styleClass>
+                                    </AnchorPane>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane fx:id="dashboard" layoutX="10.0" layoutY="10.0" prefHeight="761.6" prefWidth="1163.2" visible="false">
+                                 <children>
+                                    <AnchorPane layoutX="6.0" layoutY="14.0" prefHeight="196.0" prefWidth="1186.0" stylesheets="@main.css" AnchorPane.topAnchor="0.0">
+                                       <styleClass>
+                                          <String fx:value="white-color" />
+                                          <String fx:value="shadow" />
+                                       </styleClass>
+                                       <children>
+                                          <PieChart fx:id="PieChartMonth" layoutX="224.0" layoutY="14.0" prefHeight="143.0" prefWidth="191.0" />
+                                          <PieChart fx:id="PieChartQuarter" layoutX="579.0" layoutY="14.0" prefHeight="143.0" prefWidth="191.0" />
+                                          <PieChart fx:id="PieChatYear" layoutX="920.0" layoutY="14.0" prefHeight="143.0" prefWidth="191.0" />
+                                          <Text layoutX="293.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tháng này" />
+                                          <Text layoutX="655.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Quý này" />
+                                          <Text layoutX="994.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Năm nay" />
+                                          <Label layoutX="23.0" layoutY="34.0" text="Tổng số ca đã thực hiện" />
+                                          <Label fx:id="totalSurgery" layoutX="51.0" layoutY="62.0" prefHeight="54.0" prefWidth="86.0">
+                                             <font>
+                                                <Font size="36.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="70.0" layoutY="128.0" text="ca">
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </AnchorPane>
+                                    <AnchorPane layoutX="8.0" layoutY="191.0" prefHeight="583.0" prefWidth="1124.0" stylesheets="@main.css" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="8.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="191.0">
+                                       <children>
+                                          <ScrollPane fx:id="surgeryTableView1" layoutY="80.0">
+                                             <content>
+                                                <AnchorPane prefHeight="450.0" prefWidth="1170.0">
+                                                   <children>
+                                                      <TableView fx:id="surgeryTableDashboard" layoutX="1.0" layoutY="24.0" prefHeight="441.0" prefWidth="1167.0" styleClass="edit-button" stylesheets="@../patient_view/patient.css" AnchorPane.bottomAnchor="-15.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="24.0">
+                                                         <columns>
+                                                            <TableColumn fx:id="surgerySttColumnDashboard" prefWidth="37.600006103515625" text="STT" />
+                                                            <TableColumn fx:id="surgeryNameColumnDashboard" prefWidth="231.20003509521484" text="Tên ca phẫu thuật" />
+                                                            <TableColumn fx:id="surgeryDiseaseGroupNameColumnDashboard" prefWidth="120.0" text="Nhóm bệnh" />
+                                                            <TableColumn fx:id="surgeryPatientNameColumnDashboard" prefWidth="184.00006103515625" text="Tên bệnh nhân" />
+                                                            <TableColumn fx:id="surgeryRoomColumnDashboard" minWidth="0.0" prefWidth="135.2000732421875" text="Phòng phẫu thuật" />
+                                                            <TableColumn fx:id="surgeryStartedAtColumnDashboard" prefWidth="119.99993896484375" text="Thời gian bắt đầu" />
+                                                            <TableColumn fx:id="surgeryEndedAtColumnDashboard" prefWidth="119.99993896484375" text="Thời gian ước tính" />
+                                                            <TableColumn fx:id="surgeryEstimatedEndAtColumnDashboard" prefWidth="119.99993896484375" text="Thời gian kết thúc" />
+                                                            <TableColumn fx:id="surgeryStatusColumnDashboard" minWidth="2.39996337890625" prefWidth="140.0" text="Trạng thái" />
+                                                            <TableColumn fx:id="surgeryResultColumnDashboard" prefWidth="115.999755859375" text="Kết quả" />
+                                                            <TableColumn fx:id="surgeryActionColumnDashboard" prefWidth="139.2000732421875" text="Hành động" />
+                                                         </columns>
+                                                      </TableView>
+                                                   </children>
+                                                </AnchorPane>
+                                             </content>
+                                          </ScrollPane>
+                                          <Label layoutX="476.0" layoutY="52.0" text="Danh sách ca phẫu thuật">
+                                             <font>
+                                                <Font size="20.0" />
+                                             </font>
+                                          </Label>
+                                          <DatePicker fx:id="surgerySearchStartAtYearDashboard" layoutX="23.0" layoutY="23.0" prefHeight="36.0" prefWidth="154.0" promptText="Thời gian bắt đầu" />
+                                          <DatePicker fx:id="surgerySearchEstimatedEndAtYearDashboard" layoutX="218.0" layoutY="23.0" prefHeight="36.0" prefWidth="202.0" promptText="Thời gian kết thúc " />
+                                          <Button fx:id="surgerySubmitSearchDashboard" layoutX="843.0" layoutY="21.0" mnemonicParsing="false" onAction="#onSubmitSearch" prefHeight="37.0" prefWidth="127.0" styleClass="buttonSearch" stylesheets="@main.css" text="Tìm kiếm" textFill="#fffcfc">
+                                             <graphic>
+                                                <FontAwesomeIconView fill="#36cc6f" glyphName="SEARCH" selectionFill="#36cc6f" size="1.8em" text="" />
+                                             </graphic>
+                                          </Button>
+                                          <Button fx:id="surgeryClearSearchDashboard" layoutX="1000.0" layoutY="22.0" mnemonicParsing="false" onAction="#onSubmitClear" prefHeight="38.0" prefWidth="140.0" styleClass="buttonSearch" stylesheets="@main.css" text="Clear tìm kiếm" textFill="#fffcfc">
+                                             <graphic>
+                                                <FontAwesomeIconView fill="#6e6a6a" glyphName="TRASH" selectionFill="#282626" size="1.8em" text="" />
+                                             </graphic>
                                           </Button>
                                        </children>
                                        <styleClass>
