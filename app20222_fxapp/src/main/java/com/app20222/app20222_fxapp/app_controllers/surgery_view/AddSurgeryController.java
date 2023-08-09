@@ -11,6 +11,8 @@ import com.app20222.app20222_fxapp.enums.surgery.SurgeryStatusEnum;
 import com.app20222.app20222_fxapp.exceptions.apiException.ApiResponseException;
 import com.app20222.app20222_fxapp.services.comboBox.ComboBoxAPIService;
 import com.app20222.app20222_fxapp.services.surgery.SurgeryAPIService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -521,7 +523,7 @@ public class AddSurgeryController implements Initializable {
     }
 
     @FXML
-    public void handleSubmit(){
+    public void handleSubmit() throws JsonProcessingException {
         if (validateForm()) {
             Boolean result = submitForm();
             if (result) {
@@ -536,7 +538,7 @@ public class AddSurgeryController implements Initializable {
     public void handleCancel(){
         createSurgeryPane.getScene().getWindow().hide();
     }
-    public boolean submitForm(){
+    public boolean submitForm() throws JsonProcessingException {
         Boolean result = false;
         // Get selected patient and surgery room
         CommonIdCodeName selectedPatient = createSurgeryPatientId.getSelectionModel().getSelectedItem();
@@ -600,8 +602,10 @@ public class AddSurgeryController implements Initializable {
                     .surgeryRoomId(selectedRoom.getId())
                     .status(Integer.valueOf(status))
                     .build();
+                System.out.println("pare" + new ObjectMapper().writeValueAsString(newSurgery));
                  Map<String, String> params = new HashMap<String, String>();
                 params.put("id", String.valueOf(surgeryDetailDTO.getId()));
+            System.out.println(params);
             // API Call
             try {
                 result = surgeryAPIService.updateSurgery(newSurgery,params);

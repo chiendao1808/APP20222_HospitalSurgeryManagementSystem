@@ -28,6 +28,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.controlsfx.control.CheckComboBox;
+import javafx.util.Pair;
 
 import java.net.URL;
 import java.util.*;
@@ -385,6 +387,20 @@ public class MainController implements Initializable {
     @FXML
     private Button createSurgeryRoom;
 
+    // Tìm kiếm phòng pt
+    @FXML
+    private TextField SurgeryRoomSearchCode;
+
+    @FXML
+    private TextField SurgeryRoomSearchName;
+
+    @FXML
+    private ComboBox<Pair<String, Boolean>> SurgeryRoomSearchStatus;
+    @FXML
+    private Button surgeryRoomSubmitSearch;
+    @FXML
+    private Button surgeryRoomClearSearch;
+
     // Khoa/ bộ phận
     @FXML
     private TableColumn<DepartmentListDTO, String> departmentAction;
@@ -552,6 +568,9 @@ public class MainController implements Initializable {
             case "surgery":
                 surgeryController.resetSearchParams();
                 break;
+            case "surgeryRoom":
+                surgeryRoomController.resetSearchParams();
+                break;
             default:
                 break;
         }
@@ -592,6 +611,8 @@ public class MainController implements Initializable {
             medicalRecordController.showModal(event);
         } else if (selectedButton == createDepartment) {
             departmentController.showModal(event);
+        } else if (selectedButton == createSurgeryRoom) {
+            surgeryRoomController.showModal(event);
         }
     }
 
@@ -666,7 +687,8 @@ public class MainController implements Initializable {
     private void initializeSurgeryRoomTab() {
         surgeryRoomController = new SurgeryRoomController(surgeryRoomTable, surgeryRoomStt,
             surgeryRoomName, surgeryRoomCode, surgeryRoomDescription,
-            surgeryRoomAddress, surgeryRoomCurrentAvailable, surgeryRoomOnServiceAt, surgeryRoomAction);
+            surgeryRoomAddress, surgeryRoomCurrentAvailable, surgeryRoomOnServiceAt, surgeryRoomAction,
+                SurgeryRoomSearchCode,SurgeryRoomSearchName,SurgeryRoomSearchStatus);
         surgeryRoomController.initializeSurgeryRoom();
     }
 
@@ -692,6 +714,8 @@ public class MainController implements Initializable {
             medicalRecordController.onDepartmentSubmitSearch(event);
         } else if (selectedButton == surgerySubmitSearch) {
             surgeryController.onSurgerySubmitSearch(event);
+        }  else if (selectedButton == surgeryRoomSubmitSearch) {
+            surgeryRoomController.onSurgerySubmitSearch(event);
         }
     }
 
@@ -708,6 +732,8 @@ public class MainController implements Initializable {
             medicalRecordController.clearParams(event);
         } else if (selectedButton == surgeryClearSearch) {
             surgeryController.clearParams(event);
+        } else if (selectedButton == surgeryRoomClearSearch) {
+            surgeryRoomController.clearParams(event);
         }
     }
 
