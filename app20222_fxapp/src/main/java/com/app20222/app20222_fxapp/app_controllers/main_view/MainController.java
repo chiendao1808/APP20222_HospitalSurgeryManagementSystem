@@ -361,6 +361,29 @@ public class MainController implements Initializable {
 
     @FXML
     private Button createUserBtn;
+    // tìm kiếm
+    @FXML
+    private TextField userSearchCode;
+
+    @FXML
+    private ComboBox<String> userSearchDepartment;
+
+    @FXML
+    private TextField userSearchEmail;
+
+    @FXML
+    private TextField userSearchName;
+
+    @FXML
+    private TextField userSearchPhone;
+
+    @FXML
+    private ComboBox<String> userSearchRole;
+
+    @FXML
+    private Button userSubmitSearch;
+    @FXML
+    private Button userClearSearch;
 
     // phòng phẫu thuật
     @FXML
@@ -656,6 +679,9 @@ public class MainController implements Initializable {
             case "dashboard":
                 dashboardController.resetSearchParams();
                 break;
+            case "doctors":
+                userController.resetSearchParams();
+                break;
             default:
                 break;
         }
@@ -743,8 +769,10 @@ public class MainController implements Initializable {
     private void initializeUserTab() {
         userController = new UserController(UserTableView, UserActionColumn, UserAddressColumn, UserDateColumn,
             UserDepartmentColumn, UserEmailColumn, UserIdentificationNumColumn,
-            UserNameColumn, UserPhoneColumn, UserSttColumn, UserIdentityTypeColumn);
-        userController.initializeTable();
+            UserNameColumn, UserPhoneColumn, UserSttColumn, UserIdentityTypeColumn,userSearchCode,
+                userSearchDepartment,userSearchEmail,userSearchName,userSearchPhone,userSearchRole,
+                userSubmitSearch,userClearSearch);
+        userController.initializeUser();
     }
 
     // Hồ sơ bệnh án
@@ -815,6 +843,8 @@ public class MainController implements Initializable {
             surgeryRoomController.onSurgeryRoomSubmitSearch(event);
         } else if (selectedButton == surgerySubmitSearchDashboard) {
             dashboardController.onDashBoardSubmitSearch(event);
+        } else if (selectedButton == userSubmitSearch) {
+            userController.onDashBoardSubmitSearch(event);
         }
     }
 
@@ -835,7 +865,14 @@ public class MainController implements Initializable {
             surgeryRoomController.clearParams(event);
         } else if (selectedButton == surgeryClearSearchDashboard) {
             dashboardController.clearParams(event);
+        } else if (selectedButton == userClearSearch) {
+            userController.clearParams(event);
         }
     }
 
+    // Xuất file báo cáo
+    @FXML
+    public void handleClickExport(ActionEvent event) {
+        dashboardController.handleClickExport(event);
+    }
 }

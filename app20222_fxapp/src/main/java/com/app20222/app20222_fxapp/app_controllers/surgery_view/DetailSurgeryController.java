@@ -253,6 +253,7 @@ public class DetailSurgeryController implements Initializable {
             dialogStage.setScene(new Scene(root));
             dialogStage.setResizable(false);
             dialogStage.showAndWait();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

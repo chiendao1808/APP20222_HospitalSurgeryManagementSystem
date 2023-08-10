@@ -1,17 +1,14 @@
 package com.app20222.app20222_fxapp.app_controllers.user_view;
 
 import com.app20222.app20222_fxapp.MainApplication;
-import com.app20222.app20222_fxapp.app_controllers.patient_view.AddPatientController;
-import com.app20222.app20222_fxapp.dto.responses.patient.PatientDetailsDTO;
-import com.app20222.app20222_fxapp.dto.responses.patient.PatientGetListNewDTO;
+import com.app20222.app20222_fxapp.dto.common.CommonIdCodeName;
 import com.app20222.app20222_fxapp.dto.responses.users.RoleDTO;
 import com.app20222.app20222_fxapp.dto.responses.users.UserDetailsDTO;
 import com.app20222.app20222_fxapp.dto.responses.users.UserListDTO;
-import com.app20222.app20222_fxapp.enums.users.IdentityTypeEnum;
+import com.app20222.app20222_fxapp.enums.users.RoleEnum;
 import com.app20222.app20222_fxapp.exceptions.apiException.ApiResponseException;
-import com.app20222.app20222_fxapp.services.patient.PatientAPIService;
+import com.app20222.app20222_fxapp.services.comboBox.ComboBoxAPIService;
 import com.app20222.app20222_fxapp.services.users.UserAPIService;
-import com.app20222.app20222_fxapp.utils.DateUtils;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.SimpleLongProperty;
@@ -22,11 +19,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.SnapshotResult;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -72,19 +65,49 @@ public class UserController {
 
     @FXML
     private Button createUserBtn;
+    // Tìm kiếm
+    @FXML
+    private TextField userSearchCode;
+
+    @FXML
+    private ComboBox<String> userSearchDepartment;
+
+    @FXML
+    private TextField userSearchEmail;
+
+    @FXML
+    private TextField userSearchName;
+
+    @FXML
+    private TextField userSearchPhone;
+
+    @FXML
+    private ComboBox<String> userSearchRole;
+
+    @FXML
+    private Button userSubmitSearch;
+    @FXML
+    private Button userClearSearch;
 
     private UserAPIService userAPIService;
+    private ComboBoxAPIService comboBoxAPIService ;
     Map<String,String> map = new HashMap<>();
+    private Map<String, String> searchParams = new HashMap<>();
+    private final Map<String,String> roleTypeMap = new HashMap<>();
 
     public UserController(){}
 
     public UserController(TableView<UserListDTO> userTableView, TableColumn<UserListDTO, String> userActionColumn,
-        TableColumn<UserListDTO, String> userAddressColumn,
-        TableColumn<UserListDTO, String> userDateColumn,
-        TableColumn<UserListDTO, String> userDepartmentColumn, TableColumn<UserListDTO, String> userEmailColumn,
-        TableColumn<UserListDTO, String> userIdentificationNumColumn, TableColumn<UserListDTO, String> userNameColumn,
-        TableColumn<UserListDTO, String> userPhoneColumn , TableColumn<UserListDTO,Long> userSttColumn,
-                          TableColumn<UserListDTO,String> userIdentityTypeColumn ) {
+                          TableColumn<UserListDTO, String> userAddressColumn,
+                          TableColumn<UserListDTO, String> userDateColumn,
+                          TableColumn<UserListDTO, String> userDepartmentColumn, TableColumn<UserListDTO, String> userEmailColumn,
+                          TableColumn<UserListDTO, String> userIdentificationNumColumn, TableColumn<UserListDTO, String> userNameColumn,
+                          TableColumn<UserListDTO, String> userPhoneColumn , TableColumn<UserListDTO,Long> userSttColumn,
+                          TableColumn<UserListDTO,String> userIdentityTypeColumn,
+                          TextField userSearchCode, ComboBox<String> userSearchDepartment,
+                          TextField userSearchEmail, TextField userSearchName,
+                          TextField userSearchPhone, ComboBox<String> userSearchRole,
+                          Button userSubmitSearch, Button userClearSearch) {
         this.UserTableView = userTableView;
         this.UserActionColumn = userActionColumn;
         this.UserAddressColumn = userAddressColumn;
@@ -96,15 +119,23 @@ public class UserController {
         this.UserPhoneColumn = userPhoneColumn;
         this.UserSttColumn = userSttColumn;
         this.UserIdentityTypeColumn = userIdentityTypeColumn;
-        userAPIService = new UserAPIService();
+        this.userSearchCode = userSearchCode;
+        this.userSearchDepartment = userSearchDepartment;
+        this.userSearchEmail = userSearchEmail;
+        this.userSearchName = userSearchName;
+        this.userSearchPhone = userSearchPhone;
+        this.userSearchRole = userSearchRole;
     }
 
     public TableView<UserListDTO> getUserTableView() {
         return this.UserTableView;
     }
+
     public void initializeUser(){
         userAPIService = new UserAPIService();
+        comboBoxAPIService = new ComboBoxAPIService();
         initializeTable();
+        initSearchUser();
     }
 
     public void initializeTable() {
@@ -261,8 +292,7 @@ public void openCreateDialog() {
         // Fetch lstUsers from API
         List<UserListDTO> lstUsers = new ArrayList<>();
         try {
-            Map<String, String> params = new HashMap<>();
-            lstUsers = userAPIService.getListUsers(params);
+            lstUsers = userAPIService.getListUsers(searchParams);
         } catch (ApiResponseException exception) {
             exception.printStackTrace();
             System.out.println(exception.getExceptionResponse());
@@ -271,10 +301,126 @@ public void openCreateDialog() {
         return FXCollections.observableArrayList(lstUsers);
     }
 
-    public void handleEditUser(ActionEvent actionEvent) {
+    // Khởi tạo các thành phần tìm kiếm
+    public void initSearchUser(){
+        setUpDepartment();
+        setupRoleType();
+    }
+    // list Role
+    public ObservableList<CommonIdCodeName> getDataDepartment(){
+        List<CommonIdCodeName> listDepartment = new ArrayList<>();
+        try {
+            Map<String,String> map = new HashMap<>();
+            listDepartment = comboBoxAPIService.getComboBoxDepartments(map);
+        }catch (ApiResponseException e){
+            e.getStackTrace();
+            System.out.println(e.getExceptionResponse());
+        }
+        return FXCollections.observableArrayList(listDepartment);
+    }
+    public void setupRoleType(){
+        roleTypeMap.put(RoleEnum.DEPARTMENT_ADMIN.name() ,RoleEnum.DEPARTMENT_ADMIN.getRoleName());
+        roleTypeMap.put(RoleEnum.SUPER_ADMIN.name(),RoleEnum.SUPER_ADMIN.getRoleName());
+        roleTypeMap.put(RoleEnum.HOSPITAL_ADMIN.name(), RoleEnum.HOSPITAL_ADMIN.getRoleName());
+        roleTypeMap.put(RoleEnum.HOSPITAL_MANAGER.name(), RoleEnum.HOSPITAL_MANAGER.getRoleName());
+        roleTypeMap.put(RoleEnum.DEPARTMENT_MANAGER.name(), RoleEnum.DEPARTMENT_MANAGER.getRoleName());
+        roleTypeMap.put(RoleEnum.DOCTOR.name(), RoleEnum.DOCTOR.getRoleName());
+        roleTypeMap.put(RoleEnum.NURSE.name(), RoleEnum.NURSE.getRoleName());
+        roleTypeMap.put(RoleEnum.STAFF.name(), RoleEnum.STAFF.getRoleName());
+        ObservableList<String> roleTypeLabels = FXCollections.observableArrayList(roleTypeMap.values());
+
+        userSearchRole.setItems(roleTypeLabels);
+
+        userSearchRole.setConverter(new StringConverter<>() {
+            @Override
+            public String toString(String label) {
+                return label; // Display the label in the ComboBox
+            }
+
+            @Override
+            public String fromString(String string) {
+                // Convert the label back to its corresponding value (name of the enum)
+                for (Map.Entry<String, String> entry : roleTypeMap.entrySet()) {
+                    if (entry.getValue().equals(string)) {
+                        return entry.getKey();
+                    }
+                }
+                return "";
+            }
+        });
+
+        userSearchRole.valueProperty().addListener((observable, oldValue, newValue) -> {
+            String roleId = RoleEnum.valueOf(newValue).getId().toString();
+            // Now you have the selected role ID (roleId)
+            // You can use it for further processing if needed
+            // For example, you can store it in your searchParams map
+            searchParams.put("roleId", roleId);
+        });
+
+    }
+    // Khởi tạo ist khoa/ bộ phận
+    public void setUpDepartment(){
+        ObservableList<CommonIdCodeName> listDepartment = getDataDepartment();
+        System.out.println("List department " + listDepartment);
+        ObservableList<String> names = FXCollections.observableArrayList();
+        for(CommonIdCodeName cic : listDepartment){
+            names.add(cic.getName());
+        }
+        userSearchDepartment.setConverter(new StringConverter<String>() {
+            @Override
+            public String toString(String item) {
+                return item ;
+            }
+
+            @Override
+            public String fromString(String s) {
+                return null;
+            }
+        });
+        userSearchDepartment.setItems(names);
+    }
+
+    public Long getIdDepartmentFromName(String department){
+        ObservableList<CommonIdCodeName> listDepartment = getDataDepartment();
+        for(CommonIdCodeName cic : listDepartment){
+            if(cic.getName().equals(department)){
+                return cic.getId();
+            }
+        }
+        return null;
     }
 
 
+    @FXML
+    public void onDashBoardSubmitSearch(ActionEvent event) {
+        String userName = userSearchName.getText();
+        String userCode = userSearchCode.getText();
+        String userEmail = userSearchEmail.getText();
+        String userPhone = userSearchPhone.getText();
+        String departmentLabel = userSearchDepartment.getValue();
+        Long department = getIdDepartmentFromName(departmentLabel);
+        searchParams.put("name", userName);
+        searchParams.put("code", userCode);
+        searchParams.put("email", userEmail);
+        searchParams.put("phone", userPhone);
+        searchParams.put("department", String.valueOf(department));
+        reloadTable();
+    }
 
+    @FXML
+    public void clearParams(ActionEvent event) {
+        resetSearchParams();
+        searchParams.clear(); // Clear the search parameters
+        reloadTable();
+    }
+
+    public void resetSearchParams() {
+        userSearchEmail.setText("");
+        userSearchCode.setText("");
+        userSearchName.setText("");
+        userSearchPhone.setText("");
+        userSearchDepartment.setValue(null);
+        userSearchRole.setValue(null);
 
     }
+}

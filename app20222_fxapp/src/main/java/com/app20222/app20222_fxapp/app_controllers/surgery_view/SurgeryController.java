@@ -248,7 +248,6 @@ public class SurgeryController {
             int index = param.getTableView().getItems().indexOf(param.getValue());
             return new SimpleLongProperty(index + 1).asObject();
         });
-        surgeryCodeColumn.setCellValueFactory(new PropertyValueFactory<>("code"));
         surgeryNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         surgeryDiseaseGroupNameColumn.setCellValueFactory(new PropertyValueFactory<>("diseaseGroupName"));
         surgeryPatientNameColumn.setCellValueFactory(new PropertyValueFactory<>("patientName"));
@@ -258,7 +257,6 @@ public class SurgeryController {
         surgeryResultColumn.setCellValueFactory(new PropertyValueFactory<>("result"));
         surgeryRoomColumn.setCellValueFactory(new PropertyValueFactory<>("surgeryRoom"));
         surgeryStatusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
-        typeSurgeryColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
 
     }
 

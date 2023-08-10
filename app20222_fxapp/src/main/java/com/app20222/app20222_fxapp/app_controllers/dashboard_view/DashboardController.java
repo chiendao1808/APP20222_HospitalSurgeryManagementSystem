@@ -127,7 +127,6 @@ public class DashboardController {
         ObservableList<SurgeryGetListDTO> surgeryList = getDataFromDataSource();
         if (surgeryTable != null) {
             this.surgeryTable.setItems(surgeryList);
-            setupEditDeleteButtons();
         }
         totalSurgery.setText(surgeryTable.getItems().size() + "  ca");
     }
@@ -149,7 +148,6 @@ public class DashboardController {
         // Lấy danh sách bệnh nhân từ nguồn dữ liệu của bạn
         ObservableList<SurgeryGetListDTO> surgeryList = getDataFromDataSource();
         setupTableColumns();
-        setupEditDeleteButtons();
 
         if (surgeryList != null) {
             this.surgeryTable.setItems(surgeryList);
@@ -262,61 +260,6 @@ public class DashboardController {
 
     }
 
-    public void setupEditDeleteButtons() {
-        Callback<TableColumn<SurgeryGetListDTO, String>, TableCell<SurgeryGetListDTO, String>> cellFactory =
-            new Callback<>() {
-                @Override
-                public TableCell<SurgeryGetListDTO, String> call(TableColumn<SurgeryGetListDTO, String> param) {
-                    final TableCell<SurgeryGetListDTO, String> cell = new TableCell<SurgeryGetListDTO, String>() {
-                        private final Button viewButton = new Button();
-
-                        {
-                            FontAwesomeIconView viewIcon = new FontAwesomeIconView(FontAwesomeIcon.UPLOAD);
-                            viewIcon.setStyle(
-                                " -fx-cursor: hand ;"
-                                    + "-glyph-size:24px;"
-                                    + "-fx-fill:#00E676;"
-                            );
-                            viewButton.setGraphic(viewIcon);
-                            viewButton.getStyleClass().add("edit-button");
-
-                            // Handle edit button action
-                            viewButton.setOnAction(event -> {
-                                SurgeryGetListDTO surgery = getTableView().getItems().get(getIndex());
-                                Map<String, String> params = new HashMap<>();
-                                try {
-                                    params.put("startTime", surgerySearchStartDate.getConverter().toString(surgerySearchStartDate.getValue()));
-                                    params.put("endTime", surgerySearchEndDate.getConverter().toString(surgerySearchEndDate.getValue()));
-                                    String resCSV = dashboardAPIService.exportListSurgery(params);
-                                    String saveLocation = FileAttachConstants.DEFAULT_DOWNLOAD_FOLDER; // mặc định lưu vào /download
-                                    String savedFilePath = String.format(saveLocation + "/exportSurgeryOut_%s.csv",
-                                        new SimpleDateFormat(DateUtils.FORMAT_DATE_YYYY_MMDD_HHMMSS).format(new Date()));
-                                    handleExportCSV(resCSV, savedFilePath);
-                                } catch (ApiResponseException e) {
-                                    System.out.println(e.getExceptionResponse());
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            });
-                            setGraphic(viewButton);
-                        }
-
-                        @Override
-                        protected void updateItem(String item, boolean empty) {
-                            super.updateItem(item, empty);
-                            if (empty) {
-                                setGraphic(null);
-                            } else {
-                                setGraphic(viewButton);
-                            }
-                        }
-                    };
-                    return cell;
-                }
-            };
-
-        surgeryActionColumn.setCellFactory(cellFactory);
-    }
 
     // Tìm kiếm
     // khởi tạo combobox bệnh nhân
@@ -465,6 +408,23 @@ public class DashboardController {
         pieChartQuarter.setData(pieChartDataQuarter);
         pieChatYear.setData(pieChartDataYear);
 
+    }
+    @FXML
+    public void handleClickExport(ActionEvent event) {
+        Map<String, String> params = new HashMap<>();
+        try {
+            params.put("startTime", surgerySearchStartDate.getConverter().toString(surgerySearchStartDate.getValue()));
+            params.put("endTime", surgerySearchEndDate.getConverter().toString(surgerySearchEndDate.getValue()));
+            String resCSV = dashboardAPIService.exportListSurgery(params);
+            String saveLocation = FileAttachConstants.DEFAULT_DOWNLOAD_FOLDER; // mặc định lưu vào /download
+            String savedFilePath = String.format(saveLocation + "/exportSurgeryOut_%s.csv",
+                    new SimpleDateFormat(DateUtils.FORMAT_DATE_YYYY_MMDD_HHMMSS).format(new Date()));
+            handleExportCSV(resCSV, savedFilePath);
+        } catch (ApiResponseException e) {
+            System.out.println(e.getExceptionResponse());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
