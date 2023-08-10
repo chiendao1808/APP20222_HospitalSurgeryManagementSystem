@@ -17,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.util.Callback;
@@ -409,6 +410,7 @@ public class DashboardController {
         pieChatYear.setData(pieChartDataYear);
 
     }
+
     @FXML
     public void handleClickExport(ActionEvent event) {
         Map<String, String> params = new HashMap<>();
@@ -418,7 +420,7 @@ public class DashboardController {
             String resCSV = dashboardAPIService.exportListSurgery(params);
             String saveLocation = FileAttachConstants.DEFAULT_DOWNLOAD_FOLDER; // mặc định lưu vào /download
             String savedFilePath = String.format(saveLocation + "/exportSurgeryOut_%s.csv",
-                    new SimpleDateFormat(DateUtils.FORMAT_DATE_YYYY_MMDD_HHMMSS).format(new Date()));
+                new SimpleDateFormat(DateUtils.FORMAT_DATE_YYYY_MMDD_HHMMSS).format(new Date()));
             handleExportCSV(resCSV, savedFilePath);
         } catch (ApiResponseException e) {
             System.out.println(e.getExceptionResponse());
@@ -431,14 +433,20 @@ public class DashboardController {
      * Xử lý xuất file csv encode UTF8 ( cần savefile pane)
      */
     public void handleExportCSV(String csvString, String saveLocation) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Xuất file");
+        alert.setHeaderText("");
         try {
             File csvFile = new File(saveLocation);
             FileOutputStream fos = new FileOutputStream(csvFile);
             fos.write(csvString.getBytes(StandardCharsets.UTF_8));
             fos.close();
+            alert.setContentText(String.format("Xuất file thành công! File được lưu tại: %s", saveLocation));
         } catch (Exception e) {
+            alert.setContentText("Xuất file thất bại! Vui lòng thử lại");
             e.printStackTrace();
         }
+        alert.showAndWait();
     }
 
 

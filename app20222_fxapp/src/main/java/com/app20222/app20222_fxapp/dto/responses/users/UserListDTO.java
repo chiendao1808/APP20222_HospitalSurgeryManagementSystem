@@ -36,4 +36,7 @@ public class UserListDTO {
     String email;
 
     String department;
+
+    @JsonFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YY_HH_MM_SS, timezone = DateUtils.TIME_ZONE)
+    Date lastModifiedAt;
 }

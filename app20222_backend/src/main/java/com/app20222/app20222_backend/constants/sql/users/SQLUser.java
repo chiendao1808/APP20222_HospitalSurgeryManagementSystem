@@ -3,11 +3,11 @@ package com.app20222.app20222_backend.constants.sql.users;
 public class SQLUser {
 
     public static final String GET_LIST_USER =
-        "SELECT \n" +
+        "SELECT DISTINCT \n" +
                 "    users.id AS id,\n" +
                 "    users.code AS code, \n" +
                 "    CONCAT_WS(' ', users.last_name, users.first_name) AS name, \n" +
-                "    users.identification_number AS identificationNum,\n" +
+                "    users.identification_number AS identificationNum, \n" +
                 "    CASE \n" +
                 "           WHEN users.identity_type = 0 THEN 'Chứng minh thư nhân dân' \n" +
                 "           WHEN users.identity_type = 1 THEN 'Căn cước công dân' \n" +
@@ -19,16 +19,17 @@ public class SQLUser {
                 "     users.phone_number AS phoneNumber, \n" +
                 "     users.address AS address, \n" +
                 "     users.email AS email, \n" +
-                "     department.name AS department \n" +
+                "     department.name AS department, \n" +
+                "     COALESCE(users.modified_at, users.created_at) AS lastModifiedAt \n" +
                 "FROM {h-schema}users \n" +
                 "     LEFT JOIN {h-schema}department ON users.department_id = department.id \n" +
+                "     JOIN {h-schema}users_roles AS uRole ON (:roleId = -1 OR (users.id = uRole.user_id AND uRole.role_id = :roleId)) \n" +
                 "WHERE \n" +
-                "      (:code = '' OR users.code ilike ('%' || :code || '%')) AND  \n" +
+                "      (:code = '' OR users.code ILIKE ('%' || :code || '%')) AND  \n" +
                 "      (:name = '' OR CONCAT_WS(' ', users.last_name, users.first_name) ILIKE ('%' || :name || '%')) AND \n" +
-                "      (:email = '' OR users.code ilike ('%' || :email || '%')) AND \n" +
-                "      (:phone = '' OR users.code ilike ('%' || :phone || '%')) AND \n" +
-                "      (users.department_id IN (:lstDepartmentId)) \n" +
-                "ORDER BY COALESCE(users.modified_at, users.created_at) DESC ";
+                "      (:email = '' OR users.email ILIKE ('%' || :email || '%')) AND \n" +
+                "      (:phone = '' OR users.phone_number ILIKE ('%' || :phone || '%')) AND \n" +
+                "      (users.department_id IN (:lstDepartmentId)) \n";
 
         public static final String GET_DETAIL_USER =
             "SELECT \n" +

@@ -16,10 +16,10 @@ import lombok.NoArgsConstructor;
 public class UserRole {
 
     @Id
-    @Column(name = "user_id")
+    @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @Column(name = "role_id")
+    @Column(name = "role_id", nullable = false)
     private Long roleId;
 
 }

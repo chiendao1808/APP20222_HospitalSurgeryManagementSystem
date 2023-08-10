@@ -30,4 +30,7 @@ public interface IGetListUser {
 
     String getDepartment();
 
+    @JsonFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YY_HH_MM_SS, timezone = DateUtils.TIME_ZONE)
+    Date getLastModifiedAt();
+
 }
