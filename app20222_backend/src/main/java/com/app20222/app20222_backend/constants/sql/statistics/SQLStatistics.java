@@ -89,7 +89,8 @@ public class SQLStatistics {
             "     surgery.id IN (:lstViewableSurgeryId) AND \n" +
             "     surgery.end_at IS NOT NULL AND \n" +
             "     surgery.status = 2 AND \n" +
-            "     DATE(surgery.end_at) BETWEEN DATE(:startTime) AND DATE(:endTime)\n";
+            "     (:startTime = DATE('1970-01-01') OR DATE(surgery.end_at) >= :startTime) AND \n" +
+            "     (:endTime = DATE('1970-01-01') OR DATE(surgery.end_at) <= :endTime) \n";
 
 
 }

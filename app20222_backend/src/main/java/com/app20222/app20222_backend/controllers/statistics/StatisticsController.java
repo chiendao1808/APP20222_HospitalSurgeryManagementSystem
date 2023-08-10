@@ -58,9 +58,9 @@ public class StatisticsController {
     @Operation(description = "Xuất dữ liệu danh sách ca phẫu thuật")
     public ResponseEntity<InputStreamResource> exportPreviewSurgery(
         @DateTimeFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_SLASH)
-        @RequestParam(name = "startTime") Date startTime,
+        @RequestParam(name = "startTime", required = false, defaultValue = "01/01/1970") Date startTime,
         @DateTimeFormat(pattern = DateUtils.FORMAT_DATE_DD_MM_YYYY_SLASH)
-        @RequestParam(name = "endTime") Date endTime
+        @RequestParam(name = "endTime", required = false, defaultValue = "01/01/1970") Date endTime
     ) throws SQLException {
         return ExcelFileUtils.getResponseCSVStream(statisticsService.exportPreviewSurgery(startTime, endTime));
     }

@@ -56,5 +56,24 @@ public class DashboardAPIService {
         return numberSurgeryPreview;
     }
 
+    /**
+     * API Call exportListSurgery
+     */
+    public String exportListSurgery(Map<String, String> params) throws ApiResponseException {
+        String csvRes;
+        String uri = ApiUtils.buildURI(
+            APIDetails.STATISTICS_EXPORT_PREVIEW_SURGERY.getRequestPath() + APIDetails.STATISTICS_EXPORT_PREVIEW_SURGERY.getDetailPath(), params);
+        HttpResponse<String> response = HttpUtils
+            .doRequest(uri, APIDetails.STATISTICS_EXPORT_PREVIEW_SURGERY.getMethod(), null, new HashMap<>());
+        // api call successfully (status = 200)
+        if (HttpUtils.isCallSuccessfully(response)) {
+            csvRes = response.body();
+        } else {
+            ExceptionResponse exceptionResponse = HttpUtils.handleResponse(response, new TypeReference<>() {});
+            throw new ApiResponseException(exceptionResponse);
+        }
+        return csvRes;
+    }
+
 
 }

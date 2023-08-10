@@ -1,5 +1,7 @@
 package com.app20222.app20222_fxapp.utils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
@@ -79,5 +81,17 @@ public class DateUtils {
      */
     public static LocalDateTime asLocalDateTime(Date date) {
         return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.of(TIME_ZONE)).toLocalDateTime();
+    }
+
+    /**
+     * Parse date from string with a specified format
+     */
+    public static Date parseDate(String dateString, String format) {
+        try{
+            return new SimpleDateFormat(format).parse(dateString);
+        } catch (ParseException e){
+            e.printStackTrace();
+            return null;
+        }
     }
 }
