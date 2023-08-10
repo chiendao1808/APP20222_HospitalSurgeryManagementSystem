@@ -330,7 +330,7 @@ CREATE TABLE IF NOT EXISTS "app20222_db"."users_roles"
 (
     user_id int8 not null,
     role_id int8 not null,
-    primary key (user_id, role_id)
+    primary key (user_id)
 );
 COMMENT ON COLUMN "app20222_db"."users_roles"."user_id" IS 'Id của người dùng';
 COMMENT ON COLUMN "app20222_db"."users_roles"."role_id" IS 'Id của vai trò';

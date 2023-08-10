@@ -32,6 +32,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -78,7 +79,9 @@ public class UserServiceImpl implements UserService {
         // Lấy danh sách viewable department id
         Set<Long> lstViewableDepartmentId = permissionService.getLstViewableDepartmentId();
         lstViewableDepartmentId.add(departmentId);
-        return userRepository.getListUser(code, name, email, phone, lstViewableDepartmentId);
+        List<IGetListUser> lstResult = userRepository.getListUser(code, name, email, phone, lstViewableDepartmentId, roleId);
+        lstResult.sort(Comparator.comparing(IGetListUser::getLastModifiedAt).reversed());
+        return lstResult;
     }
 
     @Override
@@ -119,9 +122,10 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
 
         // Cập nhật user role;
-        userRoleRepository.deleteAllByUserId(id);
-        List<UserRole> lstUserRole = updateDTO.getLstRoleId().stream().map(roleId -> new UserRole(id, roleId)).collect(Collectors.toList());
-        userRoleRepository.saveAll(lstUserRole);
+        List<UserRole> lstCurrentUsersRoles = userRoleRepository.findAllByUserId(id);
+        userRoleRepository.deleteAll(lstCurrentUsersRoles);
+        List<UserRole> lstNewUserRole = updateDTO.getLstRoleId().stream().map(roleId -> new UserRole(id, roleId)).collect(Collectors.toList());
+        userRoleRepository.saveAll(lstNewUserRole);
     }
 
     @Override
