@@ -256,7 +256,7 @@
                                     </AnchorPane>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="patient" layoutY="6.0" prefHeight="743.2" prefWidth="1159.0" stylesheets="@../patient_view/patient.css" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <AnchorPane fx:id="patient" layoutY="6.0" prefHeight="743.2" prefWidth="1159.0" stylesheets="@../patient_view/patient.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <AnchorPane layoutX="8.0" prefHeight="174.0" prefWidth="1192.0" stylesheets="@main.css" AnchorPane.topAnchor="0.0">
                                        <children>
@@ -394,7 +394,7 @@
                                     </AnchorPane>
                                  </children>
                               </AnchorPane>
-                              <AnchorPane fx:id="doctors" layoutX="20.0" layoutY="26.0" prefHeight="751.2" prefWidth="1152.8" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <AnchorPane fx:id="doctors" layoutX="20.0" layoutY="26.0" prefHeight="751.2" prefWidth="1152.8" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
                                     <AnchorPane layoutX="6.0" layoutY="14.0" prefHeight="170.0" prefWidth="1188.0" stylesheets="@main.css" AnchorPane.topAnchor="0.0">
                                        <styleClass>
