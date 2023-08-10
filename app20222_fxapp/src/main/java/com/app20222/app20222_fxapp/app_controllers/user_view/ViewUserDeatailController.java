@@ -80,6 +80,7 @@ public class ViewUserDeatailController {
         identityTypeView.setDisable(false);
         nameView.setDisable(false);
         codeNumberView.setDisable(false);
+        emailView.setDisable(false);
         birthDateView.setDisable(false);
         addressView.setDisable(false);
         phoneNumberView.setDisable(false);

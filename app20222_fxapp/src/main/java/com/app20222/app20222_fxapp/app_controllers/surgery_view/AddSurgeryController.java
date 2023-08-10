@@ -528,9 +528,8 @@ public class AddSurgeryController implements Initializable {
             Boolean result = submitForm();
             if (result) {
                 createSurgeryPane.getScene().getWindow().hide();
-                if (surgeryController != null) {
-                    surgeryController.reloadTable();
-                }
+                surgeryController.reloadTable();
+
             }
         }
     }
