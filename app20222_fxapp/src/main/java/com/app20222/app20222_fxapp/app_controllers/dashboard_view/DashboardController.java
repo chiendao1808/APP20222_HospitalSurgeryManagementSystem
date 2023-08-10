@@ -1,11 +1,13 @@
 package com.app20222.app20222_fxapp.app_controllers.dashboard_view;
 
+import com.app20222.app20222_fxapp.constants.fileAttach.FileAttachConstants;
 import com.app20222.app20222_fxapp.dto.responses.statistics.NumberSurgeryPreviewDTO;
 import com.app20222.app20222_fxapp.dto.responses.surgery.SurgeryDetailDTO;
 import com.app20222.app20222_fxapp.dto.responses.surgery.SurgeryGetListDTO;
 import com.app20222.app20222_fxapp.exceptions.apiException.ApiResponseException;
 import com.app20222.app20222_fxapp.services.dashboard.DashboardAPIService;
 import com.app20222.app20222_fxapp.services.surgery.SurgeryAPIService;
+import com.app20222.app20222_fxapp.utils.DateUtils;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.SimpleLongProperty;
@@ -20,6 +22,10 @@ import javafx.scene.text.Text;
 import javafx.util.Callback;
 import javafx.util.StringConverter;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -126,7 +132,7 @@ public class DashboardController {
         totalSurgery.setText(surgeryTable.getItems().size() + "  ca");
     }
 
-    public void initNumSurgeryChart(){
+    public void initNumSurgeryChart() {
         // Init số ca phẫu thuật các biểu đồ
         try {
             NumberSurgeryPreviewDTO numberSurgeryPreview = dashboardAPIService.previewNumberSurgery();
@@ -278,12 +284,18 @@ public class DashboardController {
                             viewButton.setOnAction(event -> {
                                 SurgeryGetListDTO surgery = getTableView().getItems().get(getIndex());
                                 Map<String, String> params = new HashMap<>();
-                                params.put("id", String.valueOf(surgery.getId()));
                                 try {
-                                    SurgeryDetailDTO surgeryDetailDTO = surgeryAPIService.getDetailsSurgery(params);
-                                    System.out.println(surgeryDetailDTO);
+                                    params.put("startTime", surgerySearchStartDate.getConverter().toString(surgerySearchStartDate.getValue()));
+                                    params.put("endTime", surgerySearchEndDate.getConverter().toString(surgerySearchEndDate.getValue()));
+                                    String resCSV = dashboardAPIService.exportListSurgery(params);
+                                    String saveLocation = FileAttachConstants.DEFAULT_DOWNLOAD_FOLDER; // mặc định lưu vào /download
+                                    String savedFilePath = String.format(saveLocation + "/exportSurgeryOut_%s.csv",
+                                        new SimpleDateFormat(DateUtils.FORMAT_DATE_YYYY_MMDD_HHMMSS).format(new Date()));
+                                    handleExportCSV(resCSV, savedFilePath);
                                 } catch (ApiResponseException e) {
                                     System.out.println(e.getExceptionResponse());
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
                             });
                             setGraphic(viewButton);
@@ -310,6 +322,15 @@ public class DashboardController {
     // khởi tạo combobox bệnh nhân
     public void initSurgerySearch() {
         setUpDate();
+        //Init default start date
+        surgerySearchStartDate.setValue(DateUtils.asLocalDate(DateUtils.parseDate("01/01/1970", DateUtils.FORMAT_DATE_DD_MM_YYYY_SLASH)));
+        String startDateDefaultStr = surgerySearchStartDate.getConverter().toString(surgerySearchStartDate.getValue());
+        surgerySearchStartDate.getEditor().setText(startDateDefaultStr);
+
+        //Init default end date
+        surgerySearchEndDate.setValue(DateUtils.asLocalDate(new Date()));
+        String endDateDefaultStr = surgerySearchEndDate.getConverter().toString(surgerySearchEndDate.getValue());
+        surgerySearchEndDate.getEditor().setText(endDateDefaultStr);
     }
 
     // setUpDate
@@ -444,6 +465,20 @@ public class DashboardController {
         pieChartQuarter.setData(pieChartDataQuarter);
         pieChatYear.setData(pieChartDataYear);
 
+    }
+
+    /**
+     * Xử lý xuất file csv encode UTF8 ( cần savefile pane)
+     */
+    public void handleExportCSV(String csvString, String saveLocation) {
+        try {
+            File csvFile = new File(saveLocation);
+            FileOutputStream fos = new FileOutputStream(csvFile);
+            fos.write(csvString.getBytes(StandardCharsets.UTF_8));
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
