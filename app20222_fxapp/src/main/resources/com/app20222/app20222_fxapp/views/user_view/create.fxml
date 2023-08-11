@@ -10,6 +10,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import org.controlsfx.control.CheckComboBox?>
 
 <DialogPane fx:id="createUserPane" prefWidth="400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.app20222.app20222_fxapp.app_controllers.user_view.AddUserController">
     <content>
@@ -50,10 +51,10 @@
                 <TextField fx:id="emailView" GridPane.columnIndex="1" GridPane.rowIndex="8" />
                 <ComboBox fx:id="identityTypeView" prefHeight="26.0" prefWidth="259.0" promptText="Chọn loại giấy tờ" GridPane.columnIndex="1" />
                 <DatePicker fx:id="birthDateView" promptText="Lựa chọn" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <ComboBox fx:id="RoleListIdView" prefHeight="26.0" prefWidth="291.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
             <Label text="Danh sách quyền" GridPane.rowIndex="9" />
-            <TextField fx:id="DepartmentIdView" GridPane.columnIndex="1" GridPane.rowIndex="10" />
             <Label text="Mã phòng ban" GridPane.rowIndex="10" />
+            <CheckComboBox fx:id="RoleListIdView" prefHeight="26.0" prefWidth="267.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <ComboBox fx:id="DepartmentIdView" prefHeight="26.0" prefWidth="270.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
             </children>
         </GridPane>
     </content>

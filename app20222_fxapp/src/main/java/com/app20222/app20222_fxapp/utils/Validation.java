@@ -40,4 +40,19 @@ public class Validation {
                 !phoneNumber.isEmpty() &&
                 !email.isEmpty();
     }
+    public static boolean isAllFieldsFilledAddUser(String identificationNumber, String firstName,String lastName , String identityType,
+                                                   String department , ObservableList<String> role , String code , LocalDate birthDate,
+                                                   String address, String phoneNumber, String email) {
+        return !identificationNumber.isEmpty() &&
+                !code.isEmpty() &&
+                !firstName.isEmpty() &&
+                !lastName.isEmpty() &&
+                identityType != null &&
+                !department.isEmpty() &&
+                role != null &&
+                birthDate != null &&
+                !address.isEmpty() &&
+                !phoneNumber.isEmpty() &&
+                !email.isEmpty();
+    }
 }
