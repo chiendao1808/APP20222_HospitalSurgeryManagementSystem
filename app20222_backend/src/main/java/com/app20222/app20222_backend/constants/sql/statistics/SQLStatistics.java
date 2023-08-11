@@ -4,11 +4,11 @@ public class SQLStatistics {
 
     public static final String GET_PREVIEW_CURRENT_SURGERY_NUM =
         "SELECT\n" +
-            "       COUNT(id) FILTER (WHERE (end_at BETWEEN DATE_TRUNC('month', NOW()) AND NOW() AT TIME ZONE 'Asia/Ho_Chi_Minh')) \n" +
+            "       COUNT(id) FILTER (WHERE (end_at BETWEEN DATE_TRUNC('month', NOW() AT TIME ZONE 'Asia/Ho_Chi_Minh') AND NOW() AT TIME ZONE 'Asia/Ho_Chi_Minh')) \n" +
             "           AS currentMonthNum,\n" +
-            "       COUNT(id) FILTER (WHERE (end_at BETWEEN DATE_TRUNC('quarter', NOW()) AND NOW() AT TIME ZONE 'Asia/Ho_Chi_Minh')) \n" +
+            "       COUNT(id) FILTER (WHERE (end_at BETWEEN DATE_TRUNC('quarter', NOW() AT TIME ZONE 'Asia/Ho_Chi_Minh') AND NOW() AT TIME ZONE 'Asia/Ho_Chi_Minh')) \n" +
             "           AS currentQuarterNum,\n" +
-            "       COUNT(id) FILTER (WHERE (end_at BETWEEN DATE_TRUNC('year', now()) AND now() AT TIME ZONE 'Asia/Ho_Chi_Minh')) \n" +
+            "       COUNT(id) FILTER (WHERE (end_at BETWEEN DATE_TRUNC('year', NOW() AT TIME ZONE 'Asia/Ho_Chi_Minh') AND NOW() AT TIME ZONE 'Asia/Ho_Chi_Minh')) \n" +
             "           AS currentYearNum\n" +
             "FROM {h-schema}surgery \n" +
             "WHERE \n" +
