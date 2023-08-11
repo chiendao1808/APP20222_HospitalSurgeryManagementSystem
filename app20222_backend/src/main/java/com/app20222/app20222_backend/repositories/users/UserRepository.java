@@ -22,7 +22,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
 
     @Query(nativeQuery = true, value = SQLUser.GET_LIST_USER)
-    List<IGetListUser> getListUser(String code, String name, String email, String phone, Set<Long> lstDepartmentId, Long roleId);
+    List<IGetListUser> getListUser(Long currentUserId, String code, String name, String email, String phone, Set<Long> lstDepartmentId, Long roleId);
 
     @Query(value = "SELECT user.id FROM User user WHERE user.departmentId = :departmentId")
     Set<Long> findAllByDepartmentId(Long departmentId);

@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
         // Lấy danh sách viewable department id
         Set<Long> lstViewableDepartmentId = permissionService.getLstViewableDepartmentId();
         lstViewableDepartmentId.add(departmentId);
-        List<IGetListUser> lstResult = userRepository.getListUser(code, name, email, phone, lstViewableDepartmentId, roleId);
+        List<IGetListUser> lstResult = userRepository.getListUser(AuthUtils.getCurrentUserId(), code, name, email, phone, lstViewableDepartmentId, roleId);
         lstResult.sort(Comparator.comparing(IGetListUser::getLastModifiedAt).reversed());
         return lstResult;
     }
