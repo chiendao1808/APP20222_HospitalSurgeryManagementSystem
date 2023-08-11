@@ -215,7 +215,7 @@ public class UserController {
                     userDetailsDTO.getAddress(),
                     userDetailsDTO.getPhoneNumber(),
                     userDetailsDTO.getEmail(),
-                    userDetailsDTO.getRoles().stream().map(RoleDTO::getDisplayedName).collect(Collectors.joining(",")),
+                    userDetailsDTO.getRoles(),
                     userDetailsDTO.getDepartment()
             );
             dialogStage.setOnHidden(e->{

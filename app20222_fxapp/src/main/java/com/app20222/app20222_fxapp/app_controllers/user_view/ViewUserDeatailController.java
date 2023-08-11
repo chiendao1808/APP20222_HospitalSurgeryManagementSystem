@@ -210,7 +210,7 @@ public class ViewUserDeatailController {
 
     public void setText(String identificationNumber, String identifyType, String name, String codeNumber,
                         Date birthDate, String address, String phoneNumber, String email,
-                        String roles, String department ) {
+                        List<RoleDTO> roles, String department ) {
         if (identificationNumber != null) {
             identificationNumberView.setText(identificationNumber);
         }
@@ -237,7 +237,36 @@ public class ViewUserDeatailController {
             emailView.setText(email);
         }
         if (roles != null) {
-            roleListIdView.getCheckModel().getCheckedItems();
+            for(RoleDTO roleDTO : roles){
+                if(roleDTO.getRoleCode().equals("ROLE_SUPER_ADMIN")){
+                    roleListIdView.getCheckModel().check("SUPER_ADMIN");
+                }
+                if(roleDTO.getRoleCode().equals("ROLE_HOSPITAL_ADMIN")){
+                    roleListIdView.getCheckModel().check("HOSPITAL_ADMIN");
+                }
+                if(roleDTO.getRoleCode().equals("ROLE_HOSPITAL_MANAGER")){
+                    roleListIdView.getCheckModel().check("HOSPITAL_MANAGER");
+                }
+                if(roleDTO.getRoleCode().equals("ROLE_DEPARTMENT_ADMIN")){
+                    roleListIdView.getCheckModel().check("DEPARTMENT_ADMIN");
+                }
+                if(roleDTO.getRoleCode().equals("ROLE_DEPARTMENT_MANAGER")){
+                    roleListIdView.getCheckModel().check("DEPARTMENT_MANAGER");
+                }
+                if(roleDTO.getRoleCode().equals("ROLE_DEPARTMENT_MANAGER")){
+                    roleListIdView.getCheckModel().check("DEPARTMENT_MANAGER");
+                }
+                if(roleDTO.getRoleCode().equals("ROLE_DOCTOR")){
+                    roleListIdView.getCheckModel().check("DOCTOR");
+                }
+                if(roleDTO.getRoleCode().equals("ROLE_NURSE")){
+                    roleListIdView.getCheckModel().check("NURSE");
+                }
+                if(roleDTO.getRoleCode().equals("ROLE_STAFF")){
+                    roleListIdView.getCheckModel().check("STAFF");
+                }
+                
+            }
         }
         if (department != null) {
             departmentIdView.setValue(department);
