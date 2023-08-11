@@ -92,6 +92,7 @@ public class DetailSurgeryController implements Initializable {
     private List<FileAttachDTO> lstFileAttach = new ArrayList<>();
     private  List<SurgeryAssignmentDTO> lstAssignment = new ArrayList<>();
     private SurgeryDetailDTO surgeryDetailDTO;
+    private SurgeryController surgeryController;
     private static final String filePathSuffix = "http://" + ApiConstants.API_LOCAL_IP + ":" + ApiConstants.SERVER_PORT + ApiConstants.DEFAULT_API_PATH;
 
     public void setSurgeryDetail(SurgeryDetailDTO surgeryDetailDTO) {
@@ -121,6 +122,12 @@ public class DetailSurgeryController implements Initializable {
         ObservableList<FileAttachDTO> observableFileList = FXCollections.observableArrayList(lstFileAttach);
         this.surgeryDetailLstFileTable.setItems(observableFileList);
     }
+
+    // Khởi tạo SurgeryController (dùng cho gọi lại api danh sách)
+    public void setSurgeryController(SurgeryController surgeryController) {
+        this.surgeryController = surgeryController;
+    }
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -242,6 +249,7 @@ public class DetailSurgeryController implements Initializable {
             FXMLLoader loader = new FXMLLoader(MainApplication.class.getResource(fxmlPath));
             Parent root = loader.load();
             AddSurgeryController addSurgeryController = loader.getController();
+            addSurgeryController.setSurgeryController(surgeryController);
             addSurgeryController.setUpdateMode(true);
             addSurgeryController.setSurgeryDetailDTO(surgeryDetailDTO);
             addSurgeryController.initialize(null, null);

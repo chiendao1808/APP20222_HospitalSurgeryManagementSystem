@@ -61,7 +61,7 @@ public class SurgeryRoomController {
     private TextField SurgeryRoomSearchName;
 
     @FXML
-    private ComboBox<Pair<String, Boolean>> SurgeryRoomSearchStatus;
+    private ComboBox<StatusOption> SurgeryRoomSearchStatus;
     private SurgeryRoomAPIService surgeryRoomAPIService;
     private Map<String, String> searchParams = new HashMap<>();
     public SurgeryRoomController(TableView<SurgeryRoomListDTO> surgeryRoomTable, TableColumn<SurgeryRoomListDTO, Long> surgeryRoomStt,
@@ -73,7 +73,7 @@ public class SurgeryRoomController {
                                  TableColumn<SurgeryRoomListDTO, Date> surgeryRoomOnServiceAt,
                                  TableColumn<SurgeryRoomListDTO, String> surgeryRoomAction,
                                  TextField SurgeryRoomSearchCode, TextField SurgeryRoomSearchName,
-                                 ComboBox<Pair<String, Boolean>> SurgeryRoomSearchStatus) {
+                                 ComboBox<StatusOption> SurgeryRoomSearchStatus) {
         this.surgeryRoomStt = surgeryRoomStt;
         this.surgeryRoomTable = surgeryRoomTable;
         this.surgeryRoomName = surgeryRoomName;
@@ -275,39 +275,45 @@ public class SurgeryRoomController {
     public void initSurgeryRoomSearch(){
         setUpCurrentAvailable();
     }
-    public void setUpCurrentAvailable(){
-        SurgeryRoomSearchStatus.getItems().addAll(
-                new Pair<>("Còn trống", true),
-                new Pair<>("Đang sử dụng", false)
-        );
+    public void setUpCurrentAvailable() {
+        List<StatusOption> statusOptions = new ArrayList<>();
+        statusOptions.add(new StatusOption("Còn trống", true));
+        statusOptions.add(new StatusOption("Đang sử dụng", false));
 
-        SurgeryRoomSearchStatus.setConverter(new StringConverter<Pair<String, Boolean>>() {
+        ObservableList<StatusOption> observableStatusOptions = FXCollections.observableArrayList(statusOptions);
+        SurgeryRoomSearchStatus.setItems(observableStatusOptions);
+
+        SurgeryRoomSearchStatus.setConverter(new StringConverter<StatusOption>() {
             @Override
-            public String toString(Pair<String, Boolean> object) {
-                return object.getKey();
+            public String toString(StatusOption object) {
+                return object.getLabel();
             }
 
             @Override
-            public Pair<String, Boolean> fromString(String string) {
-                return SurgeryRoomSearchStatus.getItems().stream()
-                        .filter(item -> item.getKey().equals(string))
+            public StatusOption fromString(String string) {
+                return observableStatusOptions.stream()
+                        .filter(item -> item.getLabel().equals(string))
                         .findFirst()
                         .orElse(null);
             }
         });
     }
+
     @FXML
     public void onSurgeryRoomSubmitSearch(ActionEvent event) {
         String name = SurgeryRoomSearchName.getText();
         String code = SurgeryRoomSearchCode.getText();
-        Boolean status = SurgeryRoomSearchStatus.getValue().getValue();
+        StatusOption selectedStatusOption = SurgeryRoomSearchStatus.getValue();
+        String status = String.valueOf("Còn trống".equals(selectedStatusOption != null ? selectedStatusOption.getLabel() : ""));
         if(name != null) {
             searchParams.put("name", name);
         }
         if(code != null) {
             searchParams.put("code", code);
         }
-        searchParams.put("current_available", String.valueOf(status));
+        if(selectedStatusOption != null) {
+            searchParams.put("current_available", status);
+        }
         reloadTable();
     }
 

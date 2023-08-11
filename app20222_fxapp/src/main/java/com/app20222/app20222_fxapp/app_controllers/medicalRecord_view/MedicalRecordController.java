@@ -389,11 +389,11 @@ public class MedicalRecordController {
         String startDate = startDateOptional.map(date -> date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).orElse("01/01/1970");
         Optional<LocalDate> endDateOptional = Optional.ofNullable(medicalRecordSearchEndAt.getValue());
         String endDate = endDateOptional.map(date -> date.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))).orElse("01/01/1970");
-        if(startDate != null){
+        if(startDate != null && endDate == null){
             searchParams.put("startDate", startDate);
             searchParams.put("endDate", null );
         }
-        else if(endDate != null){
+        else if(endDate != null && startDate == null){
             searchParams.put("startDate", null);
             searchParams.put("endDate", endDate );
         } else {

@@ -4,6 +4,7 @@ import com.app20222.app20222_fxapp.app_controllers.dashboard_view.DashboardContr
 import com.app20222.app20222_fxapp.app_controllers.department_view.DepartmentController;
 import com.app20222.app20222_fxapp.app_controllers.medicalRecord_view.MedicalRecordController;
 import com.app20222.app20222_fxapp.app_controllers.profile_view.ProfileController;
+import com.app20222.app20222_fxapp.app_controllers.surgeryRoom_view.StatusOption;
 import com.app20222.app20222_fxapp.app_controllers.surgeryRoom_view.SurgeryRoomController;
 import com.app20222.app20222_fxapp.app_controllers.user_view.UserController;
 import com.app20222.app20222_fxapp.app_controllers.patient_view.PatientController;
@@ -423,7 +424,7 @@ public class MainController implements Initializable {
     private TextField SurgeryRoomSearchName;
 
     @FXML
-    private ComboBox<Pair<String, Boolean>> SurgeryRoomSearchStatus;
+    private ComboBox<StatusOption> SurgeryRoomSearchStatus;
     @FXML
     private Button surgeryRoomSubmitSearch;
     @FXML

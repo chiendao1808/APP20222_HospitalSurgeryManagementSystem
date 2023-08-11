@@ -135,25 +135,17 @@ public class DepartmentController {
                     @Override
                     public TableCell<DepartmentListDTO, String> call(TableColumn<DepartmentListDTO, String> param) {
                         final TableCell<DepartmentListDTO, String> cell = new TableCell<DepartmentListDTO, String>() {
-                            private final Button deleteButton = new Button();
                             private final Button updateButton = new Button();
                             {
-                                FontAwesomeIconView deleteIcon = new FontAwesomeIconView(FontAwesomeIcon.TRASH);
                                 FontAwesomeIconView updateIcon = new FontAwesomeIconView(FontAwesomeIcon.PENCIL_SQUARE);
 
-                                deleteIcon.setStyle(
-                                        " -fx-cursor: hand ;"
-                                                + "-glyph-size:24px;"
-                                                + "-fx-fill:#00E676;"
-                                );
+
                                 updateIcon.setStyle(
                                         " -fx-cursor: hand ;"
                                                 + "-glyph-size:24px;"
                                                 + "-fx-fill:#00E676;"
                                 );
-                                deleteButton.setGraphic(deleteIcon);
                                 updateButton.setGraphic(updateIcon);
-                                deleteButton.getStyleClass().add("delete-button");
                                 updateButton.getStyleClass().add("edit-button");
 
                                 // Handle edit button action
@@ -164,7 +156,7 @@ public class DepartmentController {
                                     openEditDialog(department,params);
                                 });
 
-                                setGraphic(new HBox(updateButton,deleteButton));
+                                setGraphic(new HBox(updateButton));
                             }
 
                             @Override
@@ -173,7 +165,7 @@ public class DepartmentController {
                                 if (empty) {
                                     setGraphic(null);
                                 } else {
-                                    setGraphic(new HBox(updateButton,deleteButton));
+                                    setGraphic(new HBox(updateButton));
 
                                 }
                             }
