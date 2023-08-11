@@ -119,7 +119,7 @@ public class DashboardController {
         initSurgerySearch();
         // Get số ca phẫu thuật đã thực hiện
         currentNumberOfSurgery = surgeryTable.getItems().size();
-        totalSurgery.setText(currentNumberOfSurgery + "  ca");
+        totalSurgery.setText(currentNumberOfSurgery + " ca");
         // init số ca phẫu thuật theo các mốc
         initNumSurgeryChart();
         initializePieCharts();
@@ -409,21 +409,26 @@ public class DashboardController {
         } catch (ApiResponseException e) {
             e.printStackTrace();
         }
-        // Create sample data for PieCharts
+        // Pie chart month
         ObservableList<PieChart.Data> pieChartDataMonth = FXCollections
-            .observableArrayList(lstByMonth.stream().map(item -> new PieChart.Data(item.getDiseaseGroupName(),
-                ((double) item.getNumOfSurgery() / numSurgeryThisMonth) * 100)).collect(
-                Collectors.toList()));
+            .observableArrayList(lstByMonth.stream().map(item -> {
+                double percentage = ((double) item.getNumOfSurgery() / numSurgeryThisMonth) * 100;
+                return new PieChart.Data(item.getDiseaseGroupName(), percentage);
+            }).collect(Collectors.toList()));
 
+        // Pie chart quarter
         ObservableList<PieChart.Data> pieChartDataQuarter = FXCollections
-            .observableArrayList(lstByQuarter.stream().map(item -> new PieChart.Data(item.getDiseaseGroupName(),
-                ((double) item.getNumOfSurgery() / numSurgeryThisQuarter) * 100)).collect(
-                Collectors.toList()));
+            .observableArrayList(lstByQuarter.stream().map(item -> {
+                double percentage = ((double) item.getNumOfSurgery() / numSurgeryThisQuarter) * 100;
+                return new PieChart.Data(item.getDiseaseGroupName(), percentage);
+            }).collect(Collectors.toList()));
 
+        // Pie chart year
         ObservableList<PieChart.Data> pieChartDataYear = FXCollections
-            .observableArrayList(lstByYear.stream().map(item -> new PieChart.Data(item.getDiseaseGroupName(),
-                ((double) item.getNumOfSurgery() / numSurgeryThisYear) * 100)).collect(
-                Collectors.toList()));
+            .observableArrayList(lstByYear.stream().map(item -> {
+                double percentage = ((double) item.getNumOfSurgery() / numSurgeryThisYear) * 100;
+                return new PieChart.Data(item.getDiseaseGroupName(), percentage);
+            }).collect(Collectors.toList()));
 
         // Set the data to PieChart components
         pieChartMonth.setData(pieChartDataMonth);

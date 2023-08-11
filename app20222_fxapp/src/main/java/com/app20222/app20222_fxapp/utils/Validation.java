@@ -44,7 +44,6 @@ public class Validation {
                                                    String department , ObservableList<String> role , String code , LocalDate birthDate,
                                                    String address, String phoneNumber, String email) {
         return !identificationNumber.isEmpty() &&
-                !code.isEmpty() &&
                 !firstName.isEmpty() &&
                 !lastName.isEmpty() &&
                 identityType != null &&
