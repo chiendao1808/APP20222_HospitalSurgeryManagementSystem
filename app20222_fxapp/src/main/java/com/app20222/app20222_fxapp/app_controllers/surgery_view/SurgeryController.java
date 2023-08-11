@@ -317,11 +317,11 @@ public class SurgeryController {
             Parent root = loader.load();
             DetailSurgeryController detailSurgeryController = loader.getController();
             detailSurgeryController.setSurgeryDetail(surgeryDetailDTO);
+            detailSurgeryController.setSurgeryController(this);
             Stage dialogStage = new Stage();
             dialogStage.setTitle("Chi tiết ca phẫu thuật");
             dialogStage.setScene(new Scene(root));
             dialogStage.show();
-
         } catch (Exception e) {
             e.printStackTrace();
         }

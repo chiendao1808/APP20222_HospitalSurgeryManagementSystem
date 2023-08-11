@@ -529,7 +529,6 @@ public class AddSurgeryController implements Initializable {
             if (result) {
                 createSurgeryPane.getScene().getWindow().hide();
                 surgeryController.reloadTable();
-
             }
         }
     }
