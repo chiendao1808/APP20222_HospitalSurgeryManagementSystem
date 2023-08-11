@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.app20222.app20222_fxapp.dto.responses.exception.ExceptionResponse;
+import com.app20222.app20222_fxapp.dto.responses.statistics.NumberOfSurgeryDiseaseGroupDTO;
 import com.app20222.app20222_fxapp.dto.responses.statistics.NumberSurgeryPreviewDTO;
 import com.app20222.app20222_fxapp.dto.responses.surgery.SurgeryGetListDTO;
 import com.app20222.app20222_fxapp.enums.apis.APIDetails;
@@ -73,6 +74,25 @@ public class DashboardAPIService {
             throw new ApiResponseException(exceptionResponse);
         }
         return csvRes;
+    }
+
+    /**
+     * API Call getNoOfSurgeryGroupByDisease
+     */
+    public List<NumberOfSurgeryDiseaseGroupDTO> getNoOfSurgeryGroupByDisease(Map<String, String> params) throws ApiResponseException {
+        List<NumberOfSurgeryDiseaseGroupDTO> numberSurgery;
+        String uri = ApiUtils.buildURI(
+            APIDetails.STATISTICS_GET_NO_SURGERY_GROUP_BY_DISEASE.getRequestPath() + APIDetails.STATISTICS_GET_NO_SURGERY_GROUP_BY_DISEASE.getDetailPath(), params);
+        HttpResponse<String> response = HttpUtils
+            .doRequest(uri, APIDetails.STATISTICS_GET_NO_SURGERY_GROUP_BY_DISEASE.getMethod(), null, new HashMap<>());
+        // api call successfully (status = 200)
+        if (HttpUtils.isCallSuccessfully(response)) {
+            numberSurgery = HttpUtils.handleResponse(response, new TypeReference<>() {});
+        } else {
+            ExceptionResponse exceptionResponse = HttpUtils.handleResponse(response, new TypeReference<>() {});
+            throw new ApiResponseException(exceptionResponse);
+        }
+        return numberSurgery;
     }
 
 

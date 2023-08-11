@@ -23,7 +23,8 @@ public class SQLMedicalRecord {
             "       (:idNumber = '' OR patient.identification_number = :idNumber) AND \n" +
             "       (:email = '' OR patient.email ILIKE '%' || :email || '%') AND \n" +
             "       (:startDate = DATE('1970-01-01') OR :startDate >= DATE(medRecord.created_at)) AND \n" +
-            "       (:endDate = DATE('1970-01-01') OR :endDate <= DATE(medRecord.created_at)) ";
+            "       (:endDate = DATE('1970-01-01') OR :endDate <= DATE(medRecord.created_at)) \n" +
+            "ORDER BY COALESCE(medRecord.modified_at, medRecord.created_at) DESC";
 
 
     public static final String GET_DETAIL_MEDICAL_RECORD =

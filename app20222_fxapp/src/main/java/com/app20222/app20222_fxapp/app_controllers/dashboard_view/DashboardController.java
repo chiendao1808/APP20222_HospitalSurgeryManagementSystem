@@ -1,15 +1,14 @@
 package com.app20222.app20222_fxapp.app_controllers.dashboard_view;
 
 import com.app20222.app20222_fxapp.constants.fileAttach.FileAttachConstants;
+import com.app20222.app20222_fxapp.dto.responses.statistics.NumberOfSurgeryDiseaseGroupDTO;
 import com.app20222.app20222_fxapp.dto.responses.statistics.NumberSurgeryPreviewDTO;
-import com.app20222.app20222_fxapp.dto.responses.surgery.SurgeryDetailDTO;
 import com.app20222.app20222_fxapp.dto.responses.surgery.SurgeryGetListDTO;
+import com.app20222.app20222_fxapp.enums.commons.TimeIntervalEnum;
 import com.app20222.app20222_fxapp.exceptions.apiException.ApiResponseException;
 import com.app20222.app20222_fxapp.services.dashboard.DashboardAPIService;
 import com.app20222.app20222_fxapp.services.surgery.SurgeryAPIService;
 import com.app20222.app20222_fxapp.utils.DateUtils;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
-import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,11 +19,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
-import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
@@ -33,6 +30,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class DashboardController {
 
@@ -103,6 +101,14 @@ public class DashboardController {
 
     private DashboardAPIService dashboardAPIService;
 
+    private Integer currentNumberOfSurgery = 0;
+
+    private Integer numSurgeryThisMonth = 0;
+
+    private Integer numSurgeryThisQuarter = 0;
+
+    private Integer numSurgeryThisYear = 0;
+
     // param tìm kiếm
     private Map<String, String> searchParams = new HashMap<>();
 
@@ -111,11 +117,12 @@ public class DashboardController {
         dashboardAPIService = new DashboardAPIService();
         initializeTable();
         initSurgerySearch();
-        initializePieCharts();
         // Get số ca phẫu thuật đã thực hiện
-        totalSurgery.setText(surgeryTable.getItems().size() + "  ca");
+        currentNumberOfSurgery = surgeryTable.getItems().size();
+        totalSurgery.setText(currentNumberOfSurgery + "  ca");
         // init số ca phẫu thuật theo các mốc
         initNumSurgeryChart();
+        initializePieCharts();
 
     }
 
@@ -129,7 +136,10 @@ public class DashboardController {
         if (surgeryTable != null) {
             this.surgeryTable.setItems(surgeryList);
         }
-        totalSurgery.setText(surgeryTable.getItems().size() + "  ca");
+        currentNumberOfSurgery = surgeryTable.getItems().size();
+        totalSurgery.setText(currentNumberOfSurgery + "  ca");
+        initNumSurgeryChart();
+        initializePieCharts();
     }
 
     public void initNumSurgeryChart() {
@@ -139,6 +149,9 @@ public class DashboardController {
             numSurgeryCurrentMonth.setText("Tháng này: " + numberSurgeryPreview.getCurrentMonthNum() + " ca");
             numSurgeryCurrentQuarter.setText("Quý này: " + numberSurgeryPreview.getCurrentQuarterNum() + " ca");
             numSurgeryCurrentYear.setText("Năm nay: " + numberSurgeryPreview.getCurrentYearNum() + " ca");
+            numSurgeryThisMonth = numberSurgeryPreview.getCurrentMonthNum();
+            numSurgeryThisQuarter = numberSurgeryPreview.getCurrentQuarterNum();
+            numSurgeryThisYear = numberSurgeryPreview.getCurrentYearNum();
         } catch (ApiResponseException exception) {
             exception.printStackTrace();
             System.out.println(exception);
@@ -384,25 +397,33 @@ public class DashboardController {
 
     // chart
     public void initializePieCharts() {
+        // Get Data from server
+        List<NumberOfSurgeryDiseaseGroupDTO> lstByMonth = new ArrayList<>();
+        List<NumberOfSurgeryDiseaseGroupDTO> lstByQuarter = new ArrayList<>();
+        List<NumberOfSurgeryDiseaseGroupDTO> lstByYear = new ArrayList<>();
+        try {
+            lstByMonth = dashboardAPIService.getNoOfSurgeryGroupByDisease(Collections.singletonMap("interval", TimeIntervalEnum.MONTH.name()));
+            lstByQuarter = dashboardAPIService
+                .getNoOfSurgeryGroupByDisease(Collections.singletonMap("interval", TimeIntervalEnum.QUARTER.name()));
+            lstByYear = dashboardAPIService.getNoOfSurgeryGroupByDisease(Collections.singletonMap("interval", TimeIntervalEnum.YEAR.name()));
+        } catch (ApiResponseException e) {
+            e.printStackTrace();
+        }
         // Create sample data for PieCharts
-        ObservableList<PieChart.Data> pieChartDataMonth = FXCollections.observableArrayList(
-            new PieChart.Data("Category A", 30),
-            new PieChart.Data("Category B", 40),
-            new PieChart.Data("Category C", 20),
-            new PieChart.Data("Category D", 10)
-        );
+        ObservableList<PieChart.Data> pieChartDataMonth = FXCollections
+            .observableArrayList(lstByMonth.stream().map(item -> new PieChart.Data(item.getDiseaseGroupName(),
+                ((double) item.getNumOfSurgery() / numSurgeryThisMonth) * 100)).collect(
+                Collectors.toList()));
 
-        ObservableList<PieChart.Data> pieChartDataQuarter = FXCollections.observableArrayList(
-            new PieChart.Data("Category X", 15),
-            new PieChart.Data("Category Y", 25),
-            new PieChart.Data("Category Z", 60)
-        );
+        ObservableList<PieChart.Data> pieChartDataQuarter = FXCollections
+            .observableArrayList(lstByQuarter.stream().map(item -> new PieChart.Data(item.getDiseaseGroupName(),
+                ((double) item.getNumOfSurgery() / numSurgeryThisQuarter) * 100)).collect(
+                Collectors.toList()));
 
-        ObservableList<PieChart.Data> pieChartDataYear = FXCollections.observableArrayList(
-            new PieChart.Data("Category P", 50),
-            new PieChart.Data("Category Q", 30),
-            new PieChart.Data("Category R", 20)
-        );
+        ObservableList<PieChart.Data> pieChartDataYear = FXCollections
+            .observableArrayList(lstByYear.stream().map(item -> new PieChart.Data(item.getDiseaseGroupName(),
+                ((double) item.getNumOfSurgery() / numSurgeryThisYear) * 100)).collect(
+                Collectors.toList()));
 
         // Set the data to PieChart components
         pieChartMonth.setData(pieChartDataMonth);

@@ -17,9 +17,11 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Service;
 import com.app20222.app20222_backend.constants.sql.statistics.SQLStatistics;
 import com.app20222.app20222_backend.dtos.statistics.IMonthSurgeryStatistics;
+import com.app20222.app20222_backend.dtos.statistics.INumberOfSurgeryByDiseaseGroup;
 import com.app20222.app20222_backend.dtos.statistics.INumberSurgeryPreviewDTO;
 import com.app20222.app20222_backend.dtos.statistics.MonthlySurgeryStatistics;
 import com.app20222.app20222_backend.dtos.surgery.IGetListSurgery;
+import com.app20222.app20222_backend.enums.commons.TimeIntervalEnum;
 import com.app20222.app20222_backend.repositories.statistics.StatisticsRepository;
 import com.app20222.app20222_backend.services.permission.PermissionService;
 import com.app20222.app20222_backend.services.statistics.StatisticsService;
@@ -45,6 +47,12 @@ public class StatisticServiceImpl implements StatisticsService {
     public INumberSurgeryPreviewDTO getPreviewCurrentNumberSurgery() {
         Set<Long> lstViewableSurgeryId = permissionService.getLstViewableSurgeryId();
         return statisticsRepository.getPreviewCurrentNumberSurgery(lstViewableSurgeryId);
+    }
+
+    @Override
+    public List<INumberOfSurgeryByDiseaseGroup> getNumOfSurgeryByDiseaseGroup(TimeIntervalEnum timeInterval) {
+        Set<Long> lstViewableSurgeryId = permissionService.getLstViewableSurgeryId();
+        return statisticsRepository.getListNumberOfSurgeryByDiseaseGroupAndInterval(lstViewableSurgeryId, timeInterval.getName());
     }
 
     @Override
