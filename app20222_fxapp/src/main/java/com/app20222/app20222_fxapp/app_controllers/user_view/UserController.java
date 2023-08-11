@@ -292,7 +292,6 @@ public void openCreateDialog() {
         Parent root = loader.load();
         AddUserController addUserController = loader.getController();
         addUserController.setCreateMode(true);
-        addUserController.initialize(null, null);
         Stage dialogStage = new Stage();
         dialogStage.setTitle("Tạo mới người dùng");
         dialogStage.setScene(new Scene(root));
