@@ -332,7 +332,7 @@ public class MainController implements Initializable {
     private TableColumn<UserListDTO, String> UserAddressColumn;
 
     @FXML
-    private TableColumn<UserListDTO, String> UserDateColumn;
+    private TableColumn<UserListDTO, Date> UserDateColumn;
 
     @FXML
     private TableColumn<UserListDTO, String> UserDepartmentColumn;

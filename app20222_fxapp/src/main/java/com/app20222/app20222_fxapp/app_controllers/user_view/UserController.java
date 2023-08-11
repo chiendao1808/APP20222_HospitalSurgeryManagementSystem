@@ -26,6 +26,7 @@ import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -39,7 +40,7 @@ public class UserController {
     private TableColumn<UserListDTO, String> UserAddressColumn;
 
     @FXML
-    private TableColumn<UserListDTO, String> UserDateColumn;
+    private TableColumn<UserListDTO, Date> UserDateColumn;
 
     @FXML
     private TableColumn<UserListDTO, String> UserDepartmentColumn;
@@ -126,7 +127,7 @@ public class UserController {
 
     public UserController(TableView<UserListDTO> userTableView, TableColumn<UserListDTO, String> userActionColumn,
                           TableColumn<UserListDTO, String> userAddressColumn,
-                          TableColumn<UserListDTO, String> userDateColumn,
+                          TableColumn<UserListDTO, Date> userDateColumn,
                           TableColumn<UserListDTO, String> userDepartmentColumn, TableColumn<UserListDTO, String> userEmailColumn,
                           TableColumn<UserListDTO, String> userIdentificationNumColumn, TableColumn<UserListDTO, String> userNameColumn,
                           TableColumn<UserListDTO, String> userPhoneColumn , TableColumn<UserListDTO,Long> userSttColumn,
@@ -166,7 +167,11 @@ public class UserController {
         initializeTable();
         initSearchUser();
     }
-
+    // fomat date về string
+    private String formatDate(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return sdf.format(date);
+    }
     public void initializeTable() {
         // Lấy danh sách bệnh nhân từ nguồn dữ liệu của bạn
         ObservableList<UserListDTO> userList = getDataFromDataSource();
@@ -175,6 +180,17 @@ public class UserController {
 
         if (UserTableView != null) {
             this.UserTableView.setItems(userList);
+            UserDateColumn.setCellFactory(column -> new TableCell<>() {
+                @Override
+                protected void updateItem(Date date, boolean empty) {
+                    super.updateItem(date, empty);
+                    if (empty || date == null) {
+                        setText(null);
+                    } else {
+                        setText(formatDate(date));
+                    }
+                }
+            });
         }
     }
 
