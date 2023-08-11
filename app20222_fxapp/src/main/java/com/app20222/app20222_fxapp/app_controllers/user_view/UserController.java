@@ -87,7 +87,34 @@ public class UserController {
     @FXML
     private Button userSubmitSearch;
     @FXML
-    private Button userClearSearch;
+    private Button userClearSearch ;
+    @FXML
+    void onUserClearSearch(ActionEvent event) {
+
+    }
+
+
+    @FXML
+    public void onUserSubmitSearch(ActionEvent event) {
+        String code = userSearchCode.getText();
+        String email = userSearchEmail.getText();
+        String phone = userSearchPhone.getText();
+        String name = userSearchName.getText();
+        String roleLabel = userSearchRole.getValue();
+        String departmentLabel = userSearchDepartment.getValue();
+        assert RoleEnum.typeOf(roleLabel) != null;
+        Long roleId = RoleEnum.typeOf(roleLabel).getId();
+        Long departmentId = getIdDepartmentFromName(departmentLabel);
+        searchParams.put("code",code);
+        searchParams.put("name",name);
+        searchParams.put("email",email);
+        searchParams.put("phone",phone);
+        searchParams.put("departmentId", String.valueOf(departmentId));
+        searchParams.put("roleId", String.valueOf(roleId));
+        reloadTable();
+
+    }
+
 
     private UserAPIService userAPIService;
     private ComboBoxAPIService comboBoxAPIService ;
@@ -95,7 +122,7 @@ public class UserController {
     private Map<String, String> searchParams = new HashMap<>();
     private final Map<String,String> roleTypeMap = new HashMap<>();
 
-    public UserController(){}
+    public UserController( ){}
 
     public UserController(TableView<UserListDTO> userTableView, TableColumn<UserListDTO, String> userActionColumn,
                           TableColumn<UserListDTO, String> userAddressColumn,
@@ -125,6 +152,8 @@ public class UserController {
         this.userSearchName = userSearchName;
         this.userSearchPhone = userSearchPhone;
         this.userSearchRole = userSearchRole;
+        this.userSubmitSearch = userSubmitSearch ;
+        this.userClearSearch = userClearSearch;
     }
 
     public TableView<UserListDTO> getUserTableView() {
