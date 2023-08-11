@@ -25,6 +25,7 @@ public class SQLUser {
                 "     LEFT JOIN {h-schema}department ON users.department_id = department.id \n" +
                 "     JOIN {h-schema}users_roles AS uRole ON (:roleId = -1 OR (users.id = uRole.user_id AND uRole.role_id = :roleId)) \n" +
                 "WHERE \n" +
+                "      (:currentUserId = -1 OR users.id <> :currentUserId) AND \n" +
                 "      (:code = '' OR users.code ILIKE ('%' || :code || '%')) AND  \n" +
                 "      (:name = '' OR CONCAT_WS(' ', users.last_name, users.first_name) ILIKE ('%' || :name || '%')) AND \n" +
                 "      (:email = '' OR users.email ILIKE ('%' || :email || '%')) AND \n" +

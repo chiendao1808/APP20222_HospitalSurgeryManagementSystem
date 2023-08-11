@@ -328,10 +328,12 @@ VALUES ('ROLE_SUPER_ADMIN', 'SUPER_ADMIN', 'Admin tổng', true),
 DROP TABLE IF EXISTS "app20222_db"."users_roles";
 CREATE TABLE IF NOT EXISTS "app20222_db"."users_roles"
 (
+    row_id bigserial not null unique,
     user_id int8 not null,
     role_id int8 not null,
-    primary key (user_id)
+    primary key (row_id)
 );
+COMMENT ON TABLE "app20222_db"."users_roles" IS 'Bảng map người dùng và vai trò';
 COMMENT ON COLUMN "app20222_db"."users_roles"."user_id" IS 'Id của người dùng';
 COMMENT ON COLUMN "app20222_db"."users_roles"."role_id" IS 'Id của vai trò';
 INSERT INTO "app20222_db"."users_roles" (user_id, role_id)
