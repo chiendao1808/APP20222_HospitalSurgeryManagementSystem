@@ -63,6 +63,7 @@ public enum APIDetails {
 
     // Statistics
     STATISTICS_PREVIEW_NUMBER_SURGERY("STATISTICS_PREVIEW_NUMBER_SURGERY", "/statistics", "/preview-number-surgery", "GET"),
+    STATISTICS_GET_NO_SURGERY_GROUP_BY_DISEASE("STATISTICS_GET_NO_SURGERY_GROUP_BY_DISEASE", "/statistics", "/get-no-surgery-by-disease-group", "GET"),
     STATISTICS_PREVIEW_STATISTICS_MONTHLY("STATISTICS_PREVIEW_STATISTICS_MONTHLY", "/statistics", "/preview-statistics-monthly", "GET"),
     STATISTICS_PREVIEW_LIST_SURGERY("STATISTICS_PREVIEW_LIST_SURGERY", "/statistics", "/preview-list-surgery", "GET"),
     STATISTICS_EXPORT_PREVIEW_SURGERY("STATISTICS_EXPORT_PREVIEW_SURGERY", "/statistics", "/export-preview-surgery", "GET"),

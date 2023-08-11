@@ -16,6 +16,20 @@ public class SQLStatistics {
             "      end_at IS NOT NULL AND \n" +
             "      status = 2 ";
 
+    public static final String GET_DATA_NUM_OF_SURGERY_BY_DISEASE_GROUP_AND_INTERVAL =
+        "SELECT \n" +
+            "      diseases.id AS diseaseGroupId, \n" +
+            "      diseases.name AS diseaseGroupName, \n" +
+            "      COUNT(surgery.id) AS numOfSurgery " +
+            "FROM {h-schema}surgery \n" +
+            "LEFT JOIN {h-schema}disease_group diseases ON surgery.disease_group_id = diseases.id \n" +
+            "WHERE \n" +
+            "      surgery.id IN (:lstViewableSurgeryId) AND \n" +
+            "      surgery.end_at IS NOT NULL AND \n" +
+            "      surgery.status = 2 AND \n" +
+            "      surgery.end_at BETWEEN DATE_TRUNC(:intervalType, NOW()) AND NOW() AT TIME ZONE 'Asia/Ho_Chi_Minh' \n" +
+            "GROUP BY diseases.id, diseases.name ";
+
     public static final String GET_PREVIEW_SURGERY_NUM_MONTHLY_IN_A_YEAR =
         "SELECT\n" +
             "       EXTRACT(MONTH FROM end_at) AS month,\n" +

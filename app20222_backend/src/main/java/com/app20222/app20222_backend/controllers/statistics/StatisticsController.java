@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import com.app20222.app20222_backend.dtos.statistics.INumberOfSurgeryByDiseaseGroup;
 import com.app20222.app20222_backend.dtos.statistics.INumberSurgeryPreviewDTO;
 import com.app20222.app20222_backend.dtos.statistics.MonthlySurgeryStatistics;
 import com.app20222.app20222_backend.dtos.surgery.IGetListSurgery;
+import com.app20222.app20222_backend.enums.commons.TimeIntervalEnum;
 import com.app20222.app20222_backend.services.statistics.StatisticsService;
 import com.app20222.app20222_backend.utils.DateUtils;
 import com.app20222.app20222_backend.utils.excelFile.ExcelFileUtils;
@@ -32,6 +34,12 @@ public class StatisticsController {
     @Operation(description = "Lấy số ca phẫu thuật được thực hiện theo các mốc : tháng này, quý này, năm nay")
     public INumberSurgeryPreviewDTO getPreviewCurrentNumberSurgery() {
         return statisticsService.getPreviewCurrentNumberSurgery();
+    }
+
+    @GetMapping("/get-no-surgery-by-disease-group")
+    @Operation(description = "Thống kê dữ liệu ca phẫu thuật đã thực hiện theo nhóm bệnh (phục vụ PieChart)")
+    public List<INumberOfSurgeryByDiseaseGroup> getNumOfSurgeryByDiseaseGroup(@RequestParam(name = "interval")TimeIntervalEnum timeInterval){
+        return statisticsService.getNumOfSurgeryByDiseaseGroup(timeInterval);
     }
 
 
