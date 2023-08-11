@@ -280,7 +280,6 @@ public Boolean submit() {
             String firstName = firstNameView.getText();
             String lastName = lastNameView.getText();
             String identityTypeLabel = identityTypeView.getValue();
-            String codeNumber = CodeNumberView.getText();
             LocalDate birthDateRaw = birthDateView.getValue();
             String address = addressView.getText();
             String phoneNumber = phoneNumberView.getText();
@@ -295,7 +294,6 @@ public Boolean submit() {
             System.out.println("Loaị giấy tờ" + identityType);
             System.out.println("Tên: " + firstName);
             System.out.println("Họ:" + lastName);
-            System.out.println("Mã nhân viên : " + codeNumber);
             System.out.println("Ngày sinh: " + birthDate);
             System.out.println("Địa chỉ: " + address);
             System.out.println("Số điện thoại: " + phoneNumber);
@@ -319,7 +317,7 @@ public Boolean submit() {
                         .email(email)
                         .departmentId((getIdDepartmentFromName(department)))
                         .address(address)
-                        .code(codeNumber)
+                        .code("")
                         .lstRoleId(getRoleIdFromRoleName(roleListLabel)).build();
                 // API Call
                 try {

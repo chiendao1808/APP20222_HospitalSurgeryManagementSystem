@@ -85,9 +85,9 @@ public class User extends BaseEntity implements Serializable {
      */
     public String getFullName(){
        String fullName = "";
-       if(Objects.nonNull(this.lastName))
+       if(Objects.nonNull(this.lastName) && !this.lastName.isEmpty())
            fullName += this.lastName + " ";
-       if(Objects.nonNull(this.firstName))
+       if(Objects.nonNull(this.firstName) && !this.lastName.isEmpty())
            fullName += this.firstName;
        return fullName;
     }

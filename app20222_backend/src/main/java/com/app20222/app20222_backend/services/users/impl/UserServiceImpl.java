@@ -178,7 +178,7 @@ public class UserServiceImpl implements UserService {
     private void generateUsernamePassword(User user) {
         StringBuilder usernameBuilder = new StringBuilder();
         String fullName = user.getFullName();
-        String[] fullNameArr = fullName.split(" ");
+        String[] fullNameArr = fullName.trim().split(" ");
         if (fullNameArr.length > 0) {
             usernameBuilder.append(StringUtils.convertVietnameseToEng(fullNameArr[fullNameArr.length - 1]).toLowerCase());
             for (int index = 0; index < fullNameArr.length - 1; index++) {
