@@ -51,7 +51,7 @@
                                           <FontAwesomeIconView fill="WHITE" glyphName="FOLDER" selectionFill="#7e2828" size="1.8em" text="" />
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="tabSurgery" layoutX="16.0" layoutY="176.0" mnemonicParsing="false" onAction="#switchTab" prefHeight="37.0" prefWidth="218.0" styleClass="nav-btn" stylesheets="@main.css" text="Ca phẩu thuật">
+                                    <Button fx:id="tabSurgery" layoutX="16.0" layoutY="176.0" mnemonicParsing="false" onAction="#switchTab" prefHeight="37.0" prefWidth="218.0" styleClass="nav-btn" stylesheets="@main.css" text="Ca phẫu thuật">
                                        <graphic>
                                           <FontAwesomeIconView fill="#fafafa" size="1.8em" />
                                        </graphic>
